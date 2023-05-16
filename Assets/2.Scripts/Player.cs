@@ -16,4 +16,12 @@ public class Player : MonoBehaviour
     {
         GameTree.Instance.gameManager.player = this;
     }
+
+    void OnEnable()
+    {
+        isDie = false;
+        isJump = false;
+        isDamage = false;
+        isLvUp = false;
+    }
 }

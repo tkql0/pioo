@@ -56,7 +56,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 44bdfaa7457c4aa45b79c29ad1d70aac, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -76,7 +76,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 4
   m_Sprite: {fileID: -9095717837082945937, guid: 207ee8102dd4143d288186ef0be518ee, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -100,6 +100,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0fb46ede784b85340a44a092420521ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  inputVec: {x: 0, y: 0}
+  move_Maxspeed: 0
+  Map: {fileID: 434199003347398403, guid: 5c1d097ad402dd04ea222efb62deebc2, type: 3}
 --- !u!114 &-1961519854315109115
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -112,10 +115,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a9446c267f128f40b0246c0b9cea516, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Die: 0
-  Jump: 0
-  Damage: 0
-  LvUp: 0
+  isDie: 0
+  isJump: 0
+  isDamage: 0
+  isLvUp: 0
   melee_damage: 5
   ranged_damage: 5
 --- !u!50 &389919711361785913
@@ -130,10 +133,10 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDrag: 0
+  m_Mass: 2
+  m_LinearDrag: 1
   m_AngularDrag: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 0
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1

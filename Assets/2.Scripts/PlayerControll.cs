@@ -4,16 +4,14 @@ using UnityEngine;
 
 public class PlayerControll : MonoBehaviour
 {
-    public void GameStart()
-    {
-        if (GameTree.Instance.uiManager.GameStart_Panel.activeSelf == true)
-        {
-            GameObject Player = gameObject;
+    public Vector2 inputVec;
 
-            Instantiate(Player, new Vector3(0, 0, 0), Quaternion.identity);
-            GameTree.Instance.uiManager.GameStart_Panel.SetActive(false);
-        }
-    }
+    Rigidbody2D rigid;
+    SpriteRenderer sprite;
+
+    public float move_Maxspeed;
+
+    public GameObject Map;
 
     void Awake()
     {
@@ -29,7 +27,8 @@ public class PlayerControll : MonoBehaviour
             Time.timeScale = 0;
         }
 
-        Player_Input();
+        if(GameTree.Instance.gameManager.player.isDie == false)
+            Player_Input();
     }
 
     private void FixedUpdate()
@@ -37,7 +36,6 @@ public class PlayerControll : MonoBehaviour
         if (GameTree.Instance.gameManager.player.isDie == false
             && GameTree.Instance.gameManager.player.isJump == false)
         {
-            rigid.gravityScale = 0.2f;
             rigid.AddForce(inputVec.normalized, ForceMode2D.Impulse);
 
             if (rigid.velocity.x > move_Maxspeed)
@@ -61,38 +59,47 @@ public class PlayerControll : MonoBehaviour
     void OnEnable()
     {
         move_Maxspeed = 10;
-        GameTree.Instance.gameManager.player.isDie = false;
-        GameTree.Instance.gameManager.player.isJump = false;
-        GameTree.Instance.gameManager.player.isDamage = false;
-        GameTree.Instance.gameManager.player.isLvUp = false;
+        GameTree.Instance.gameManager.GameStart = false;
     }
 
-    public Vector2 inputVec;
+    public void GameStart()
+    {
+        if (GameTree.Instance.uiManager.GameStart_Panel.activeSelf == false)
+        {
+            return;
+        }
 
-    Rigidbody2D rigid;
-    SpriteRenderer sprite;
+        GameObject Player = gameObject;
 
-    public float move_Maxspeed;
+        Instantiate(Player, new Vector3(0, 1, 0), Quaternion.identity);
+        for (int i = -1; i <= 1; i++)
+        {
+            Instantiate(Map, new Vector3(Player.transform.position.x + (i * 20), 0, 0), Quaternion.identity);
+        }
+        GameTree.Instance.uiManager.GameStart_Panel.SetActive(false);
+        GameTree.Instance.gameManager.GameStart = true;
+    }
+
+    int jump_count = 0;
 
     void Player_Input()
     {
-        if (GameTree.Instance.gameManager.player.isDie == false
-            && GameTree.Instance.gameManager.player.isJump == false)
+        if (GameTree.Instance.gameManager.player.isJump == false)
         {
             inputVec.x = Input.GetAxisRaw("Horizontal");
             inputVec.y = Input.GetAxisRaw("Vertical");
-
+            rigid.gravityScale = 1f;
+            jump_count = 0;
+            if(Input.GetKey(KeyCode.LeftShift))
+                move_Maxspeed = 20;
+            else
+                move_Maxspeed = 10;
         }
-
-        if (GameTree.Instance.gameManager.player.isJump == true)
+        else if (GameTree.Instance.gameManager.player.isJump == true && jump_count == 0)
         {
-            rigid.gravityScale = 5f;
-
-            if (GameTree.Instance.gameManager.player.isJump == false)
-            {
-                rigid.AddForce(Vector2.up * rigid.velocity.y, ForceMode2D.Impulse);
-                GameTree.Instance.gameManager.player.isJump = true;
-            }
+            rigid.gravityScale = 3f;
+            rigid.AddForce(Vector2.up * rigid.velocity.y, ForceMode2D.Impulse);
+            jump_count = 1;
         }
     }
 }

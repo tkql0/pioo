@@ -13,7 +13,7 @@ public class MapControll : MonoBehaviour
 
     private void Update()
     {
-        if (GameTree.Instance.gameManager.player != null)
+        if (GameTree.Instance.gameManager.playerControll != null)
         {
             switch(myObj.tag)
             {
@@ -29,7 +29,7 @@ public class MapControll : MonoBehaviour
 
     void PosDisX(float dis)
     {
-        Vector3 playerPos = GameTree.Instance.gameManager.player.transform.position;
+        Vector3 playerPos = GameTree.Instance.gameManager.playerControll.transform.position;
         Vector3 myPos = myObj.transform.position;
 
         float DirX = playerPos.x - myPos.x;
@@ -46,11 +46,11 @@ public class MapControll : MonoBehaviour
 
     public void PosDisY()
     {
-        Vector3 playerPos = GameTree.Instance.gameManager.player.transform.position;
+        Vector3 playerPos = GameTree.Instance.gameManager.playerControll.transform.position;
         Vector3 myPos = myObj.transform.position;
 
         float DirY = playerPos.y - myPos.y;
 
-        GameTree.Instance.gameManager.player.isJump = DirY >= 0 ? true : false;
+        GameTree.Instance.gameManager.playerControll.isJump = DirY >= 0 ? true : false;
     }
 }

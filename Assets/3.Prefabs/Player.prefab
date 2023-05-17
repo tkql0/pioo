@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 1046526402050633328}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -56,7 +56,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 44bdfaa7457c4aa45b79c29ad1d70aac, type: 2}
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -77,7 +77,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 4
-  m_Sprite: {fileID: -9095717837082945937, guid: 207ee8102dd4143d288186ef0be518ee, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 1f3420e9f7420411a8aac27743b35e29, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -100,9 +100,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0fb46ede784b85340a44a092420521ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inputVec: {x: 0, y: 0}
+  isDie: 0
+  isJump: 0
+  isDamage: 0
+  isLvUp: 0
+  melee_damage: 5
+  ranged_damage: 5
   move_Maxspeed: 0
-  Map: {fileID: 434199003347398403, guid: 5c1d097ad402dd04ea222efb62deebc2, type: 3}
 --- !u!114 &-1961519854315109115
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -115,12 +119,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a9446c267f128f40b0246c0b9cea516, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isDie: 0
-  isJump: 0
-  isDamage: 0
-  isLvUp: 0
-  melee_damage: 5
-  ranged_damage: 5
+  inputVec: {x: 0, y: 0}
+  Map: {fileID: 434199003347398403, guid: 5c1d097ad402dd04ea222efb62deebc2, type: 3}
 --- !u!50 &389919711361785913
 Rigidbody2D:
   serializedVersion: 4
@@ -149,7 +149,7 @@ CapsuleCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5583603722423035446}
-  m_Enabled: 0
+  m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 1

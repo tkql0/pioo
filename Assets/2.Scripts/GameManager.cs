@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class GameManager
 {
-    public Player player;
+    public PlayerControll playerControll;
+    public CameraControll cameraControll;
 
     public bool GameStart;
 }

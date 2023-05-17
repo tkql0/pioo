@@ -1040,8 +1040,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 5689510600825090191, guid: 41407f756b00ccb48bc05d574476bf3d, type: 3}
-        m_TargetAssemblyTypeName: PlayerControll, Assembly-CSharp
+      - m_Target: {fileID: -1961519854315109115, guid: 41407f756b00ccb48bc05d574476bf3d, type: 3}
+        m_TargetAssemblyTypeName: Player, Assembly-CSharp
         m_MethodName: GameStart
         m_Mode: 1
         m_Arguments:

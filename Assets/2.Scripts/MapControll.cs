@@ -54,3 +54,4 @@ public class MapControll : MonoBehaviour
         GameTree.Instance.gameManager.playerControll.isJump = DirY >= 0 ? true : false;
     }
 }
+// 맵마다 정해진 수만큼의 오브젝트만 랜덤 생성되게 하는게 좋으려나

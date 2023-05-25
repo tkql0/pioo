@@ -11,9 +11,7 @@ public enum Obj
 
 public class ObjectManager
 {
-    public GameObject enemy_prefab;
-    public GameObject enemy_exp_prefab;
-    public GameObject fish_exp_prefab;
+    public ObjectControll objectControll;
 
     public GameObject[] enemy;
     public GameObject[] enemy_exp;

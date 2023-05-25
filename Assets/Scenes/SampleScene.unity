@@ -635,7 +635,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 929075183}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a02e00cb1f663c144a5d9ac8c4f1cc7e, type: 3}
+  m_Script: {fileID: 11500000, guid: 4ad1237c0480fb54b84347e9317c9fcd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Map: {fileID: 434199003347398403, guid: 5c1d097ad402dd04ea222efb62deebc2, type: 3}
@@ -1170,7 +1170,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 929075186}
-        m_TargetAssemblyTypeName: ObjectSpawn, Assembly-CSharp
+        m_TargetAssemblyTypeName: ObjectControll, Assembly-CSharp
         m_MethodName: GameStart
         m_Mode: 1
         m_Arguments:

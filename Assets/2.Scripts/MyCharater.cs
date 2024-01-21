@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Pool;
 
 public class MyCharater : AttackAbleCharacter
 {
@@ -48,10 +49,7 @@ public class MyCharater : AttackAbleCharacter
 
     private void OnTriggerStay2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("Experience"))
-        {
-            //collision.
-        }
+        
     }
 }
 

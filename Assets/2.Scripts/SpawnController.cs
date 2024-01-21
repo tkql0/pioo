@@ -5,9 +5,15 @@ using UnityEngine.Pool;
 
 public class SpawnController : MonoBehaviour
 {
+    private void Start()
+    {
+        SpawnMyPlayer();
+    }
+
     public void SpawnMyPlayer()
     {
-
+        var playerSpawn = GameTree.Instance.objectPool.GetPool("102");
+        playerSpawn.transform.position = this.transform.position;
     }
 
     void SpawnExpFish()

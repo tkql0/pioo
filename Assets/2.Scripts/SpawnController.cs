@@ -3,17 +3,21 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Pool;
 
-public class SpawnController : MonoBehaviour
+public class SpawnController
 {
-    private void Start()
+    private void OnEnable()
     {
-        SpawnMyPlayer();
+        
+    }
+    public void OnDisable()
+    {
+
+
     }
 
     public void SpawnMyPlayer()
     {
-        var playerSpawn = GameTree.Instance.objectPool.GetPool("102");
-        playerSpawn.transform.position = this.transform.position;
+        
     }
 
     void SpawnExpFish()

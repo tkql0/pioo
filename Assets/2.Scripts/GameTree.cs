@@ -9,7 +9,7 @@ public class GameTree : MonoSingleTon<GameTree>
     static public MapManager MAP { get; private set; }
     static public UIManager UI { get; private set; }
 
-    public ObjectPool objectPool;
+    //public ObjectPool objectPool;
 
     private void Awake()
     {
@@ -17,21 +17,23 @@ public class GameTree : MonoSingleTon<GameTree>
         MAP = new();
         UI = new();
 
-        GAME.obhectController = gameObject.AddComponent<ObjectController>();
-        GAME.spawnController = gameObject.AddComponent<SpawnController>();
+        //GAME.objectController = gameObject.AddComponent<ObjectController>();
+        //GAME.spawnController = gameObject.AddComponent<SpawnController>();
 
         //Init();
     }
 
     private void OnEnable()
     {
-        GAME.Init();
-        MAP.Init();
-        UI.Init();
+        GAME.OnEnable();
+        MAP.OnEnable();
+        UI.OnEnable();
     }
 
     private void OnDisable()
     {
-
+        GAME.OnDisable();
+        MAP.OnDisable();
+        UI.OnDisable();
     }
 }

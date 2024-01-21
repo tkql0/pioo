@@ -2,15 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ObjectController : MonoBehaviour
+public class ObjectController
 {
     //public MyCharater myCharacter;
 
     Dictionary<long, EnemyCharater> enemyList;
     Dictionary<long, AttackUnableCharacter> FishList;
 
-    private void Awake()
+    private void OnEnable()
     {
+
+    }
+    public void OnDisable()
+    {
+
 
     }
 

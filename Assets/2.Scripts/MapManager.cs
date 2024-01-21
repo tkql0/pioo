@@ -10,4 +10,14 @@ public class MapManager
     {
 
     }
+
+    public void OnEnable()
+    {
+
+    }
+    public void OnDisable()
+    {
+
+
+    }
 }

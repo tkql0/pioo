@@ -8,4 +8,14 @@ public class UIManager
     {
         
     }
+
+    public void OnEnable()
+    {
+
+    }
+    public void OnDisable()
+    {
+
+
+    }
 }

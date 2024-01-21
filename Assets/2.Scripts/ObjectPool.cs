@@ -1,103 +1,137 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.Pool;
-using KeyType = System.String;
+//using System.Collections;
+//using System.Collections.Generic;
+//using UnityEngine;
+//using KeyType = System.String;
 
-public class ObjectPool : MonoBehaviour
-{
-    [System.Serializable]
-    public class PoolObjectData
-    {
-        public int initialSize = 4;
-        public int maxSize = 20;
+//[System.Serializable]
+//public class objectPoolData
+//{
+//    public int initialSize = 4;
+//    public int maxSize = 20;
 
-        public GameObject objectBase;
-        public KeyType key;
-    }
-    [SerializeField]
-    private PoolObjectData[] objectInfos = null;
+//    public GameObject objectBase;
+//    public KeyType key;
+//}
 
-    private string key;
+//public class ObjectPool : MonoBehaviour
+//{
+//    private string key;
 
-    Dictionary<KeyType, IObjectPool<GameObject>> ojbectPoolDic = new Dictionary<KeyType, IObjectPool<GameObject>>();
+//    public ObjectPool Clone()
+//    {
+//        GameObject cloneObject = Instantiate(gameObject);
+//        if (!cloneObject.TryGetComponent(out ObjectPool pool))
+//            pool = cloneObject.AddComponent<ObjectPool>();
+//        cloneObject.SetActive(false);
 
-    Dictionary<KeyType, GameObject> saveObjectDic = new Dictionary<KeyType, GameObject>();
+//        return pool;
+//    }
+//    public void Activate()
+//    {
+//        gameObject.SetActive(true);
+//    }
 
-    private IObjectPool<GameObject> objectPool;
-    private void Awake()
-    {
-        Init();
-    }
+//    public void DestroyPool()
+//    {
+//        gameObject.SetActive(false);
+//    }
+//}
 
-    void Init()
-    {
-        for (int i = 0; i < objectInfos.Length; i++)
-        {
-            objectPool = new ObjectPool<GameObject>(CreatePool, OnGetPool, OnReleasePool, OnDestroyPool,
-                true, objectInfos[i].initialSize, objectInfos[i].maxSize);
+//public class ObjectPoolManager : MonoBehaviour
+//{
+//    [SerializeField]
+//    List<objectPoolData> objectPoolDataList = new List<objectPoolData>(4);
 
-            if (saveObjectDic.ContainsKey(objectInfos[i].key))
-            {
-                Debug.LogFormat("{0} 이미 등록된 오브젝트입니다.", objectInfos[i].key);
-                return;
-            }
-            saveObjectDic.Add(objectInfos[i].key, objectInfos[i].objectBase);
-            ojbectPoolDic.Add(objectInfos[i].key, objectPool);
+//    Dictionary<KeyType, ObjectPool> baseDict;
+//    Dictionary<KeyType, objectPoolData> dataaDict;
+//    Dictionary<KeyType, Stack<ObjectPool>> poolDict;
 
-            for (int j = 0; j < objectInfos[i].maxSize; j++)
-            {
-                key = objectInfos[i].key;
-                ObjectPoolData poolData = CreatePool().GetComponent<ObjectPoolData>();
-                poolData.objectPool.Release(poolData.gameObject);
-            }
-        }
+//    private void Start()
+//    {
+//        Init();
+//    }
 
-    }
+//    private void Init()
+//    {
+//        int len = objectPoolDataList.Count;
+//        if (len == 0) return;
 
-    private GameObject CreatePool()
-    {
-        GameObject _poolData = Instantiate(saveObjectDic[key]);
-        _poolData.GetComponent<ObjectPoolData>().objectPool = ojbectPoolDic[key];
-        return _poolData;
-    }
+//        baseDict = new Dictionary<KeyType, ObjectPool>(len);
+//        dataaDict = new Dictionary<KeyType, objectPoolData>(len);
+//        poolDict = new Dictionary<KeyType, Stack<ObjectPool>>(len);
 
-    private void OnGetPool(GameObject _poolData)
-    {
-        _poolData.SetActive(true);
-    }
+//        foreach (var data in objectPoolDataList)
+//        {
+//            Register(data);
+//        }
+//    }
+//    private void Register(PoolObjectData data)
+//    {
+//        if (_poolDict.ContainsKey(data.key))
+//        {
+//            return;
+//        }
 
-    private void OnReleasePool(GameObject _poolData)
-    {
-        _poolData.SetActive(false);
-    }
+//        GameObject sample = Instantiate(data.prefab);
+//        if (!sample.TryGetComponent(out PoolObject po))
+//        {
+//            po = sample.AddComponent<PoolObject>();
+//            po.key = data.key;
+//        }
+//        sample.SetActive(false);
 
-    private void OnDestroyPool(GameObject _poolData)
-    {
-        Destroy(_poolData);
-    }
+//        Stack<PoolObject> pool = new Stack<PoolObject>(data.maxObjectCount);
+//        for (int i = 0; i < data.initialObjectCount; i++)
+//        {
+//            PoolObject clone = po.Clone();
+//            pool.Push(clone);
+//        }
 
-    public GameObject GetPool(KeyType _key)
-    {
-        key = _key;
+//        _sampleDict.Add(data.key, po);
+//        _dataDict.Add(data.key, data);
+//        _poolDict.Add(data.key, pool);
+//    }
 
-        if (saveObjectDic.ContainsKey(_key) == false)
-        {
-            Debug.LogFormat("{0} 오브젝트풀에 등록되지 않은 오브젝트입니다.", _key);
-            return null;
-        }
+//    public PoolObject Spawn(KeyType key)
+//    {
+//        if (!_poolDict.TryGetValue(key, out var pool))
+//        {
+//            return null;
+//        }
 
-        return ojbectPoolDic[_key].Get();
-    }
-}
+//        PoolObject po;
 
-public class ObjectPoolData : MonoBehaviour
-{
-    public IObjectPool<GameObject> objectPool;
+//        if (pool.Count > 0)
+//        {
+//            po = pool.Pop();
+//        }
+//        else
+//        {
+//            po = _sampleDict[key].Clone();
+//        }
 
-    public void DestroyPool()
-    {
-        objectPool.Release(gameObject);
-    }
-}
+//        po.Activate();
 
+//        return po;
+//    }
+
+//    public void Despawn(PoolObject po)
+//    {
+//        if (!_poolDict.TryGetValue(po.key, out var pool))
+//        {
+//            return;
+//        }
+
+//        KeyType key = po.key;
+
+//        if (pool.Count < _dataDict[key].maxObjectCount)
+//        {
+//            pool.Push(po);
+//            po.Deactivate();
+//        }
+//        else
+//        {
+//            Destroy(po.gameObject);
+//        }
+//    }
+//}

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class GameManager
 {
-    public ObjectController obhectController;
+    public ObjectController objectController;
     public SpawnController spawnController;
 
     public void Init()
@@ -12,13 +12,13 @@ public class GameManager
         
     }
 
-    void OnEnable()
+    public void OnEnable()
     {
 
 
     }
 
-    void OnDisable()
+    public void OnDisable()
     {
 
 

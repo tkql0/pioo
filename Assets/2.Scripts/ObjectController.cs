@@ -5,9 +5,9 @@ using UnityEngine;
 public class ObjectController
 {
     //public MyCharater myCharacter;
-
-    Dictionary<long, EnemyCharater> enemyList;
-    Dictionary<long, AttackUnableCharacter> FishList;
+    public Dictionary<int, GameObject> playerList;
+    public Dictionary<long, EnemyCharater> enemyList;
+    public Dictionary<long, AttackUnableCharacter> FishList;
 
     private void OnEnable()
     {

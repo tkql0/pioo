@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AttackUnableCharacter : ObjectController
+public class AttackUnableCharacter : MonoBehaviour
 {
     [SerializeField]
     Rigidbody2D rigid;

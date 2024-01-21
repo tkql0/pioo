@@ -9,16 +9,11 @@ public class GameTree : MonoSingleTon<GameTree>
     static public MapManager MAP { get; private set; }
     static public UIManager UI { get; private set; }
 
-    //public ObjectPool objectPool;
-
     private void Awake()
     {
         GAME = new();
         MAP = new();
         UI = new();
-
-        //GAME.objectController = gameObject.AddComponent<ObjectController>();
-        //GAME.spawnController = gameObject.AddComponent<SpawnController>();
 
         //Init();
     }

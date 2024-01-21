@@ -14,7 +14,8 @@ public class GameManager
 
     public void OnEnable()
     {
-
+        objectController = new ObjectController();
+        spawnController = new SpawnController();
 
     }
 

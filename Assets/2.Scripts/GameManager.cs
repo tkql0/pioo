@@ -4,9 +4,23 @@ using UnityEngine;
 
 public class GameManager
 {
-    public PlayerControll playerControll;
-    public EnemyControll enemyControll;
-    public CameraControll cameraControll;
+    public ObjectController obhectController;
+    public SpawnController spawnController;
 
-    public bool GameStart;
+    public void Init()
+    {
+        
+    }
+
+    void OnEnable()
+    {
+
+
+    }
+
+    void OnDisable()
+    {
+
+
+    }
 }

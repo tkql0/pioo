@@ -5,28 +5,29 @@ using UnityEngine;
 public class CameraControll : MonoBehaviour
 {
     Vector3 CamPos = new Vector3(0, 0, -10);
-    public GameObject player;
+    GameObject player;
 
     [SerializeField]
     Vector2 center;
     [SerializeField]
     Vector2 mapSize;
 
-    public float speed;
+    float speed;
 
     float height;
 
     private void Start()
     {
-        GameTree.Instance.gameManager.cameraControll = this;
+        GameTree.MAP.cameraControll = this;
+        speed = GameTree.GAME.obhectController.myCharacter.move_Maxspeed;
 
         height = Camera.main.orthographicSize;
     }
 
     private void FixedUpdate()
     {
-        if (GameTree.Instance.gameManager.GameStart != true)
-            return;
+        //if (GameTree.GAME.GameStart != true)
+        //    return;
         LimitCamArea();
     }
 

@@ -7,6 +7,8 @@ TagManager:
   - SeaLevel
   - Map
   - Enemy
+  - Enemy_exp
+  - Fish_exp
   layers:
   - Default
   - TransparentFX

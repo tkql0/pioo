@@ -1,18 +1,20 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Pool;
 
 public class MyCharater : AttackableCharacter
 {
+    public int key = 0;
+
     public Vector2 inputVec;
-    public float move_Maxspeed = 20f;
+    public float moveMaxspeed = 20f;
 
     [SerializeField]
     Rigidbody2D rigid;
     [SerializeField]
     SpriteRenderer sprite;
-    void Awake()
+
+    void OnEnable()
     {
         rigid = GetComponent<Rigidbody2D>();
         sprite = GetComponent<SpriteRenderer>();
@@ -27,15 +29,15 @@ public class MyCharater : AttackableCharacter
             rigid.gravityScale = 0.2f;
             rigid.AddForce(inputVec.normalized, ForceMode2D.Impulse);
 
-            if (rigid.velocity.x > move_Maxspeed)
-                rigid.velocity = new Vector2(move_Maxspeed, rigid.velocity.y);
-            else if (rigid.velocity.x < move_Maxspeed * (-1))
-                rigid.velocity = new Vector2(move_Maxspeed * (-1), rigid.velocity.y);
+            if (rigid.velocity.x > moveMaxspeed)
+                rigid.velocity = new Vector2(moveMaxspeed, rigid.velocity.y);
+            else if (rigid.velocity.x < moveMaxspeed * (-1))
+                rigid.velocity = new Vector2(moveMaxspeed * (-1), rigid.velocity.y);
 
-            if (rigid.velocity.y > move_Maxspeed)
-                rigid.velocity = new Vector2(rigid.velocity.x, move_Maxspeed);
-            else if (rigid.velocity.y < move_Maxspeed * (-1))
-                rigid.velocity = new Vector2(rigid.velocity.x, move_Maxspeed * (-1));
+            if (rigid.velocity.y > moveMaxspeed)
+                rigid.velocity = new Vector2(rigid.velocity.x, moveMaxspeed);
+            else if (rigid.velocity.y < moveMaxspeed * (-1))
+                rigid.velocity = new Vector2(rigid.velocity.x, moveMaxspeed * (-1));
     }
 
     void ObjectMove(Rigidbody2D rigid, SpriteRenderer sprite)

@@ -12,14 +12,14 @@ public class CameraControll : MonoBehaviour
     [SerializeField]
     Vector2 mapSize;
 
-    float speed;
+    //public float speed;
 
     float height;
 
-    private void Start()
+    private void OnEnable()
     {
         GameTree.MAP.cameraControll = this;
-        //speed = GameTree.GAME.obhectController.myCharacter.move_Maxspeed;
+        //speed = GameTree.GAME.objectController.myCharater.moveMaxspeed;
 
         height = Camera.main.orthographicSize;
     }

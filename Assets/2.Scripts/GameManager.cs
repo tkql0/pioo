@@ -7,6 +7,10 @@ public class GameManager
     public ObjectController objectController;
     public SpawnController spawnController;
 
+    public bool gmaeStrat = false;
+
+    public int players = 0;
+
     public void Init()
     {
         objectController = new ObjectController();

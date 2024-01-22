@@ -4,14 +4,13 @@ using UnityEngine;
 
 public class SpawnController
 {
-    public bool gmaeStrat = false;
     public void OnEnable()
     {
-        gmaeStrat = true;
+        GameTree.GAME.gmaeStrat = true;
     }
 
     public void OnDisable()
     {
-        gmaeStrat = false;
+        GameTree.GAME.gmaeStrat = false;
     }
 }

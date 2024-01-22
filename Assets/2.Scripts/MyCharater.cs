@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class MyCharater : AttackableCharacter
 {
+    ObjectController objectController = new ObjectController();
+
     public int key = 0;
 
     public Vector2 inputVec;
@@ -16,6 +18,7 @@ public class MyCharater : AttackableCharacter
 
     void OnEnable()
     {
+        //objectController.myCharater = this;
         rigid = GetComponent<Rigidbody2D>();
         sprite = GetComponent<SpriteRenderer>();
     }

@@ -4,10 +4,9 @@ using UnityEngine;
 
 public class ObjectController
 {
-    //public Dictionary<int, GameObject> playerList = new Dictionary<int, GameObject>();
     public Dictionary<int, GameObject> playerList = new Dictionary<int, GameObject>();
-    //public MyCharater myCharater = new MyCharater();
-    //public GameObject myCharater = new GameObject();
+    //public MyCharater myCharater;
+    //public GameObject myCharater;
     public Dictionary<long, GameObject> enemyList = new Dictionary<long, GameObject>();
     public Dictionary<long, GameObject> FishList = new Dictionary<long, GameObject>();
 

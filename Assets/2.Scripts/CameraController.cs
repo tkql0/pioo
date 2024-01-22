@@ -2,11 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CameraController : MonoBehaviour
+public class CameraControll : MonoBehaviour
 {
     Vector3 CamPos = new Vector3(0, 0, -10);
-    //public GameObject player;
-    //public float speed;
+    public GameObject player;
+    public float speed;
 
     [SerializeField]
     Vector2 center;
@@ -24,8 +24,8 @@ public class CameraController : MonoBehaviour
 
         height = Camera.main.orthographicSize;
 
-        //player = GameTree.GAME.objectController.playerList[0].GetComponent<MyCharater>().gameObject;
-        //speed = player.GetComponent<MyCharater>().moveMaxspeed;
+        player = GameTree.GAME.objectController.playerList[0].GetComponent<MyCharater>().gameObject;
+        speed = player.GetComponent<MyCharater>().moveMaxspeed;
     }
 
     private void FixedUpdate()
@@ -35,8 +35,8 @@ public class CameraController : MonoBehaviour
 
     void LimitCamArea()
     {
-        //transform.position = Vector3.Lerp(transform.position,
-        //    player.transform.position + CamPos, Time.fixedDeltaTime * speed);
+        transform.position = Vector3.Lerp(transform.position,
+            player.transform.position + CamPos, Time.fixedDeltaTime * speed);
         float ly = mapSize.y - height;
         float clampY = Mathf.Clamp(transform.position.y, -ly + center.y, ly + center.y);
 

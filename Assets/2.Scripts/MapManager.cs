@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class MapManager
 {
-    public CameraControll cameraControll;
 
     public void Init()
     {

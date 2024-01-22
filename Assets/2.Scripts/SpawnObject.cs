@@ -1,24 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using KeyType = System.String;
-
 
 public class SpawnObject : MonoBehaviour
 {
-    [System.Serializable]
-    public class SpawnData
-    {
-        public GameObject objectBase;
-        public KeyType key;
-    }
-
-    [SerializeField]
-    List<SpawnData> objecSpawntList = new List<SpawnData>(4);
-
-    public Dictionary<KeyType, GameObject> ObjectdataDic = new Dictionary<KeyType, GameObject>(); // 오브젝트 정보
-    //public Dictionary<KeyType, Stack<GameObject>> cloneObjectDic = new Dictionary<KeyType, Stack<GameObject>>(); // 넣고 뺄 오브젝트
-
     int maxSize = 0;
     int playerSpawnConut = 0;
     long enemySpawnConut = 0;
@@ -26,13 +11,13 @@ public class SpawnObject : MonoBehaviour
 
     private string key;
 
-    public void Start()
+    public void OnEnable()
     {
-        if(GameTree.GAME.gmaeStrat)
-        {
-            // 게임이 시작 될때 생성이 아니라 맵이 생성되거나 이동 됬을 때 생성으로?
-            Init();
-        }
+        //if(GameTree.GAME.gameStrat)
+        //{
+        //     //게임이 시작 될때 생성이 아니라 맵이 생성되거나 이동 됬을 때 생성으로?
+        //    Init();
+        //}
     }
 
     public void OnDisable()
@@ -42,36 +27,22 @@ public class SpawnObject : MonoBehaviour
 
     public void Init()
     {
-        int len = objecSpawntList.Count;
-
-        if (len == 0)
-            return;
-
-        for (int i = 0; i < objecSpawntList.Count; i++)
-        {
-            ObjectdataDic.Add(objecSpawntList[i].key, objecSpawntList[i].objectBase);
-        }
-
         SpawnMyPlayer();
-        SpawnExpFish();
         SpawnMonster();
+        SpawnExpFish();
     }
 
-    public void SpawnMyPlayer()
+    void SpawnMyPlayer()
     {
-        key = "101";
         maxSize = GameTree.GAME.objectController.playersCount;
-        //maxSize = 5;
-
-        //objectConut = GameTree.GAME.objectController.playerList.Count;
 
         for (int i = 0; i < maxSize; i++)
         {
-            GameObject objectData = Instantiate(ObjectdataDic[key], this.transform);
-            //GameTree.GAME.objectController.myCharater = objectData;
-            objectData.GetComponent<MyCharater>().key = playerSpawnConut;
+            GameObject playersObject = Resources.Load<GameObject>("Prefabs/Player");
+            Instantiate(playersObject);
+            playersObject.GetComponent<MyCharater>().key = playerSpawnConut;
 
-            GameTree.GAME.objectController.playerList.Add(playerSpawnConut, objectData);
+            GameTree.GAME.objectController.playerList.Add(playerSpawnConut, playersObject);
             playerSpawnConut++;
         }
     }
@@ -79,15 +50,13 @@ public class SpawnObject : MonoBehaviour
     void SpawnMonster()
     {
         maxSize = Random.Range(1, 21);
-        key = "102";
-
-        //objectConut = GameTree.GAME.objectController.playerList.Count;
 
         for (int i = 0; i < maxSize; i++)
         {
-            GameObject objectData = Instantiate(ObjectdataDic[key], this.transform);
+            GameObject EnemysObject = Resources.Load<GameObject>("Prefabs/Enemy");
+            Instantiate(EnemysObject);
 
-            GameTree.GAME.objectController.enemyList.Add(enemySpawnConut, objectData);
+            GameTree.GAME.objectController.enemyList.Add(enemySpawnConut, EnemysObject);
             enemySpawnConut++;
         }
     }
@@ -95,15 +64,13 @@ public class SpawnObject : MonoBehaviour
     void SpawnExpFish()
     {
         maxSize = Random.Range(1, 21);
-        key = "103";
-
-        //objectConut = GameTree.GAME.objectController.playerList.Count;
 
         for (int i = 0; i < maxSize; i++)
         {
-            GameObject objectData = Instantiate(ObjectdataDic[key], this.transform);
+            GameObject FishsObject = Resources.Load<GameObject>("Prefabs/Fish");
+            Instantiate(FishsObject);
 
-            GameTree.GAME.objectController.FishList.Add(fishSpawnConut, objectData);
+            GameTree.GAME.objectController.FishList.Add(fishSpawnConut, FishsObject);
             fishSpawnConut++;
         }
     }

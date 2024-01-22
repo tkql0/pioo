@@ -4,10 +4,9 @@ using UnityEngine;
 
 public class ObjectController
 {
-    //public MyCharater myCharacter;
-    public Dictionary<int, GameObject> playerList;
-    public Dictionary<long, EnemyCharater> enemyList;
-    public Dictionary<long, AttackUnableCharacter> FishList;
+    public Dictionary<int, GameObject> playerList = new Dictionary<int, GameObject>();
+    public Dictionary<long, GameObject> enemyList = new Dictionary<long, GameObject>();
+    public Dictionary<long, GameObject> FishList = new Dictionary<long, GameObject>();
 
     private void OnEnable()
     {
@@ -19,7 +18,7 @@ public class ObjectController
 
     }
 
-    virtual public void ObjectMove(Rigidbody2D rigid, SpriteRenderer sprite)
+    public void ObjectMove(Rigidbody2D rigid, SpriteRenderer sprite)
     {
         int nextMove = Random.Range(-1, 2);
         if (nextMove != 0)

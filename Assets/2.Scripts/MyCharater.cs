@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Pool;
 
-public class MyCharater : AttackAbleCharacter
+public class MyCharater : AttackableCharacter
 {
     public Vector2 inputVec;
     public float move_Maxspeed = 20f;
@@ -38,7 +38,7 @@ public class MyCharater : AttackAbleCharacter
                 rigid.velocity = new Vector2(rigid.velocity.x, move_Maxspeed * (-1));
     }
 
-    public override void ObjectMove(Rigidbody2D rigid, SpriteRenderer sprite)
+    void ObjectMove(Rigidbody2D rigid, SpriteRenderer sprite)
     {
         inputVec.x = Input.GetAxisRaw("Horizontal");
         inputVec.y = Input.GetAxisRaw("Vertical");

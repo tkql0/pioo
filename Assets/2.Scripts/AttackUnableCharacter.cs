@@ -24,7 +24,7 @@ public class AttackUnableCharacter : MonoBehaviour
 
     IEnumerator MoveDelay()
     {
-        ObjectMove(rigid, sprite);
+        GameTree.GAME.objectController.ObjectMove(rigid, sprite);
         float next_MoveTime = Random.Range(1, 6f);
         yield return new WaitForSeconds(next_MoveTime);
         StartCoroutine(MoveDelay());

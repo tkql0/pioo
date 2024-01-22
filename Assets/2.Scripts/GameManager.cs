@@ -9,14 +9,15 @@ public class GameManager
 
     public void Init()
     {
-        
+        objectController = new ObjectController();
+        spawnController = new SpawnController();
+
+        spawnController.OnEnable();
     }
 
     public void OnEnable()
     {
-        objectController = new ObjectController();
-        spawnController = new SpawnController();
-
+        Init();
     }
 
     public void OnDisable()

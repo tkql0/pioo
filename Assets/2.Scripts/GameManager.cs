@@ -7,7 +7,7 @@ public class GameManager
     public ObjectController objectController;
     public SpawnController spawnController;
 
-    public bool gmaeStrat = false;
+    public bool gameStrat = false;
 
     public int players = 0;
 

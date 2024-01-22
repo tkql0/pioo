@@ -6,11 +6,16 @@ public class SpawnController
 {
     public void OnEnable()
     {
-        GameTree.GAME.gmaeStrat = true;
+        GameTree.GAME.gameStrat = true;
+
+        GameObject testObject = new GameObject("ObjectGroup");
+        SpawnObject spawnObject = testObject.AddComponent<SpawnObject>();
+
+        spawnObject.Init();
     }
 
     public void OnDisable()
     {
-        GameTree.GAME.gmaeStrat = false;
+        GameTree.GAME.gameStrat = false;
     }
 }

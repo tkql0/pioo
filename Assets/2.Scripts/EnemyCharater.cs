@@ -8,6 +8,7 @@ public class EnemyCharater : AttackableCharacter
     Rigidbody2D rigid;
     [SerializeField]
     SpriteRenderer sprite;
+
     void Awake()
     {
         rigid = GetComponent<Rigidbody2D>();

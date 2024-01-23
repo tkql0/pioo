@@ -4,12 +4,13 @@ using UnityEngine;
 
 public class SpawnController
 {
+    public GameObject spawnGroupObject;
     public void OnEnable()
     {
         GameTree.GAME.gameStrat = true;
 
-        GameObject testObject = new GameObject("ObjectGroup");
-        SpawnObject spawnObject = testObject.AddComponent<SpawnObject>();
+        spawnGroupObject = new GameObject("ObjectGroup");
+        SpawnObject spawnObject = spawnGroupObject.AddComponent<SpawnObject>();
 
         spawnObject.Init();
     }

@@ -5,12 +5,9 @@ using UnityEngine;
 public class ObjectController
 {
     public Dictionary<int, GameObject> playerList = new Dictionary<int, GameObject>();
-    //public MyCharater myCharater;
-    //public GameObject myCharater;
     public Dictionary<long, GameObject> enemyList = new Dictionary<long, GameObject>();
-    public Dictionary<long, GameObject> FishList = new Dictionary<long, GameObject>();
-
-    public int playersCount = 1;
+    public Dictionary<long, GameObject> fishList = new Dictionary<long, GameObject>();
+    public Dictionary<int, GameObject> mapLish = new Dictionary<int, GameObject>();
 
     private void OnEnable()
     {

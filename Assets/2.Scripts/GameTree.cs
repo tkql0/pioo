@@ -14,8 +14,6 @@ public class GameTree : MonoSingleTon<GameTree>
         GAME = new();
         MAP = new();
         UI = new();
-
-        //Init();
     }
 
     private void OnEnable()

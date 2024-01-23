@@ -4,15 +4,20 @@ using UnityEngine;
 
 public class MapManager
 {
+    public MapController mapController;
+    public CameraController cameraController;
 
     public void Init()
     {
+        mapController = new MapController();
+        cameraController = new CameraController();
 
+        //cameraController.OnEnable();
     }
 
     public void OnEnable()
     {
-
+        //Init();
     }
     public void OnDisable()
     {

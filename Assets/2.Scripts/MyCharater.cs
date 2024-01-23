@@ -22,7 +22,10 @@ public class MyCharater : AttackableCharacter
 
     private void Update()
     {
-        ObjectMove(rigid, sprite);
+        //if (!Input.anyKey)
+        //    return;
+
+        ObjectMove();
     }
     private void FixedUpdate()
     {
@@ -40,7 +43,7 @@ public class MyCharater : AttackableCharacter
                 rigid.velocity = new Vector2(rigid.velocity.x, moveMaxspeed * (-1));
     }
 
-    void ObjectMove(Rigidbody2D rigid, SpriteRenderer sprite)
+    void ObjectMove()
     {
         inputVec.x = Input.GetAxisRaw("Horizontal");
         inputVec.y = Input.GetAxisRaw("Vertical");

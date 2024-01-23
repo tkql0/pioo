@@ -2,44 +2,33 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CameraController : MonoBehaviour
+public class CameraController
 {
-    Vector3 CamPos = new Vector3(0, 0, -10);
-    //public GameObject player;
-    //public float speed;
+    //Camera maincamera = Camera.main;
+    //Camera[] Target;
 
-    [SerializeField]
-    Vector2 center;
-    [SerializeField]
-    Vector2 mapSize;
-
-    float height;
-
-    private void OnEnable()
+    public void OnEnable()
     {
-        //GameTree.MAP.cameraControll = this;
+        //maincamera.enabled = false;
+        //for(int i = 0; i < GameTree.GAME.objectController.playerList.Count; i++)
+        //{
+        //    Target[i] = GameTree.GAME.objectController.playerList[i].GetComponentInChildren<Camera>();
+        //}
+        //Target[0].enabled = true;
 
-        //player = GameTree.GAME.objectController.myCharater;
-        //speed = player.GetComponent<MyCharater>().moveMaxspeed;
+        //GameObject FoiiowObject = new GameObject("Camera");
 
-        height = Camera.main.orthographicSize;
+        //testObject.AddComponent<Camera>();
+        //FollowCamera followCamera = testObject.AddComponent<FollowCamera>();
 
-        //player = GameTree.GAME.objectController.playerList[0].GetComponent<MyCharater>().gameObject;
-        //speed = player.GetComponent<MyCharater>().moveMaxspeed;
+        //followCamera.testCam();
+        //maincamera.enabled = false;
     }
 
-    private void FixedUpdate()
+    public void OnDisable()
     {
-        LimitCamArea();
+
+
     }
 
-    void LimitCamArea()
-    {
-        //transform.position = Vector3.Lerp(transform.position,
-        //    player.transform.position + CamPos, Time.fixedDeltaTime * speed);
-        float ly = mapSize.y - height;
-        float clampY = Mathf.Clamp(transform.position.y, -ly + center.y, ly + center.y);
-
-        transform.position = new Vector3(transform.position.x, clampY, -10f);
-    }
 }

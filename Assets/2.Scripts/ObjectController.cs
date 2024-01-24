@@ -1,32 +1,63 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
+using Random = UnityEngine.Random;
 
 public class ObjectController
 {
-    public Dictionary<int, GameObject> playerList = new Dictionary<int, GameObject>();
-    public Dictionary<long, GameObject> enemyList = new Dictionary<long, GameObject>();
-    public Dictionary<long, GameObject> fishList = new Dictionary<long, GameObject>();
-    public Dictionary<int, GameObject> mapLish = new Dictionary<int, GameObject>();
+    public Dictionary<int, MyCharater> playerList = new Dictionary<int, MyCharater>();
+    public Dictionary<int, Map> mapList = new Dictionary<int, Map>();
+    public Dictionary<long, EnemyCharater> enemyList = new Dictionary<long, EnemyCharater>();
+    public Dictionary<long, FishCharacter> fishList = new Dictionary<long, FishCharacter>();
 
-    private void OnEnable()
+    public void OnEnable()
     {
+        Init();
+
 
     }
+
     public void OnDisable()
     {
 
 
     }
 
-    public void ObjectMove(Rigidbody2D rigid, SpriteRenderer sprite)
-    {
-        int nextMove = Random.Range(-1, 2);
-        if (nextMove != 0)
-            sprite.flipX = nextMove < 0;
+    //public Action<long> OnDead_Evevt = null;
+    public Action<long> OnMove_Evevt = null;
 
-        float speed = Random.Range(0.1f, 5);
-        rigid.velocity = new Vector2(nextMove * speed, rigid.velocity.y);
+    public void Init()
+    {
+        for (long i = 0; i < fishList.Count; i++)
+        {
+            FishMoveCommand(i);
+        }
+
+        for (long i = 0; i < enemyList.Count; i++)
+        {
+            EnemyMoveCommand(i);
+        }
+    }
+
+    public void EnemyMoveCommand(long InCharacterld)
+    {
+        if (enemyList.TryGetValue(InCharacterld, out var outCharacter) == false)
+            return;
+
+        outCharacter.Move();
+
+        OnMove_Evevt?.Invoke(InCharacterld);
+    }
+
+    public void FishMoveCommand(long InCharacterld)
+    {
+        if (fishList.TryGetValue(InCharacterld, out var outCharacter) == false)
+            return;
+
+        outCharacter.Move();
+
+        OnMove_Evevt?.Invoke(InCharacterld);
     }
 
     //void DistanceFromPlayer()

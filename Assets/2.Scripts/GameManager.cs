@@ -17,6 +17,7 @@ public class GameManager
         spawnController = new SpawnController();
 
         spawnController.OnEnable();
+        objectController.OnEnable();
     }
 
     public void OnEnable()

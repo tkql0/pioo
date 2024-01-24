@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AttackUnableCharacter : MonoBehaviour
+public class FishCharacter : MonoBehaviour
 {
     [SerializeField]
     Rigidbody2D rigid;
@@ -19,14 +19,26 @@ public class AttackUnableCharacter : MonoBehaviour
 
     private void Start()
     {
+
+    }
+
+    public void Move()
+    {
+        int nextMove = Random.Range(-1, 2);
+        if (nextMove != 0)
+            sprite.flipX = nextMove < 0;
+
+        float speed = Random.Range(0.5f, 5f);
+        rigid.velocity = new Vector2(nextMove * speed, rigid.velocity.y);
+
         StartCoroutine(MoveDelay());
     }
 
-    IEnumerator MoveDelay()
+    public IEnumerator MoveDelay()
     {
-        GameTree.GAME.objectController.ObjectMove(rigid, sprite);
-        float next_MoveTime = Random.Range(1, 6f);
+        float next_MoveTime = Random.Range(1, 3f);
+        //var wfs = new WaitForSeconds(next_MoveTime);
         yield return new WaitForSeconds(next_MoveTime);
-        StartCoroutine(MoveDelay());
+        Move();
     }
 }

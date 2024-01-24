@@ -4,15 +4,32 @@ using UnityEngine;
 
 public class SpawnObject : MonoBehaviour
 {
-    int maxSize = 0;
-    int playerSpawnConut = 0;
-    long enemySpawnConut = 0;
-    long fishSpawnConut = 0;
-    int mapSpawnConut = 0;
+    public int maxSize                  = 0;
 
-    ObjectController objectController = GameTree.GAME.objectController;
+    private int playerSpawnConut        = 0;
+    private int mapSpawnConut           = 0;
+    private long enemySpawnConut        = 0;
+    private long fishSpawnConut         = 0;
 
-    GameObject spawnGroupObject = GameTree.GAME.spawnController.spawnGroupObject;
+    private int maxPlayers              = 1;
+
+    private const int POSITION_X_MIN    = -10;
+    private const int POSITION_X_MAX    = 11;
+
+    private const int POSITION_Y_MIN    = -3;
+    private const int POSITION_Y_MAX    = -20;
+
+    private const int LeftMapSpawn      = -1;
+    private const int RightMapSpawn     = 2;
+
+    private const string prefabPlayer   = "Prefabs/Player";
+    private const string prefabMap      = "Prefabs/Map";
+    private const string prefabEnemy    = "Prefabs/Enemy";
+    private const string prefabFish     = "Prefabs/Fish";
+
+    private ObjectController objectController = GameTree.GAME.objectController;
+
+    private GameObject spawnGroupObject = GameTree.GAME.spawnController.spawnGroupObject;
 
     public void OnEnable()
     {
@@ -26,81 +43,91 @@ public class SpawnObject : MonoBehaviour
 
     public void Init()
     {
+        //maxPlayers = 1;
+
         // 시작시 오브젝트 생성
         SpawnMyPlayer();
-        SpawnMonster();
-        SpawnExpFish();
-        SpawnMap();
-    }
 
-    void SpawnMyPlayer()
-    {
-        maxSize = 1;
-
-        for (int i = 0; i < maxSize; i++)
+        for (int i = 0; i < objectController.playerList.Count; i++)
         {
-            GameObject playersObject = Resources.Load<GameObject>("Prefabs/Player");
-            GameObject playersObjects =  Instantiate(playersObject, spawnGroupObject.transform);
-            playersObjects.GetComponent<MyCharater>().key = playerSpawnConut;
+            Vector3 targetPosition = objectController.playerList[i].transform.position;
 
-            objectController.playerList.Add(playerSpawnConut, playersObjects);
-            playerSpawnConut++;
+            SpawnMap(targetPosition);
+            SpawnMonster(targetPosition);
+            SpawnExpFish(targetPosition);
+        }
 
-            //for (int j = -1; j < 2; j++)
-            //{
-            //    GameObject MapsObject = Resources.Load<GameObject>("Prefabs/Map");
-            //    GameObject MapsObjects = Instantiate(MapsObject, new Vector3(playersObjects.transform.position.x + (j * 20), 0, 0), Quaternion.identity);
-            //    objectController.mapLish.Add(mapSpawnConut, MapsObjects);
-            //    mapSpawnConut++;
-            //}
+        for (int i = 0; i < objectController.mapList.Count; i++)
+        {
+            Vector3 targetPosition = objectController.mapList[i].transform.position;
+
+            SpawnMonster(targetPosition);
+            SpawnExpFish(targetPosition);
         }
     }
 
-    void SpawnMonster()
+    private void SpawnMyPlayer()
     {
-        int randomPositionX = Random.Range(-20, 20);
-
-        maxSize = Random.Range(1, 21);
+        maxSize = maxPlayers;
 
         for (int i = 0; i < maxSize; i++)
         {
-            GameObject EnemysObject = Resources.Load<GameObject>("Prefabs/Enemy");
-            GameObject EnemysObjects = Instantiate(EnemysObject, spawnGroupObject.transform);
+            GameObject playersObject = Resources.Load<GameObject>(prefabPlayer);
+            GameObject playersObjects =  Instantiate(playersObject, spawnGroupObject.transform);
+            playersObjects.GetComponent<MyCharater>().key = playerSpawnConut;
 
-            objectController.enemyList.Add(enemySpawnConut, EnemysObjects);
+            objectController.playerList.Add(playerSpawnConut, playersObjects.GetComponent<MyCharater>());
+            playerSpawnConut++;
+        }
+    }
+
+    private void SpawnMap(Vector3 spawnCenter)
+    {
+        for (int i = 0; i < objectController.playerList.Count; i++)
+        {
+            for (int j = LeftMapSpawn; j < RightMapSpawn; j++)
+            {
+                GameObject MapsObject = Resources.Load<GameObject>(prefabMap);
+                GameObject MapsObjects = Instantiate(MapsObject,
+                    new Vector3(spawnCenter.x + (j * 20), 0, 0), Quaternion.identity);
+                objectController.mapList.Add(mapSpawnConut, MapsObjects.GetComponent<Map>());
+                mapSpawnConut++;
+            }
+        }
+    }
+
+    public void SpawnMonster(Vector3 spawnCenter)
+    {
+        maxSize = Random.Range(1, 5);
+
+        for (int i = 0; i < maxSize; i++)
+        {
+            int randomPositionX = Random.Range(POSITION_X_MIN, POSITION_X_MAX);
+
+            GameObject EnemysObject = Resources.Load<GameObject>(prefabEnemy);
+            GameObject EnemysObjects = Instantiate(EnemysObject,
+                new Vector3(spawnCenter.x + randomPositionX, 0, 0), Quaternion.identity, spawnGroupObject.transform);
+
+            objectController.enemyList.Add(enemySpawnConut, EnemysObjects.GetComponent<EnemyCharater>());
             enemySpawnConut++;
         }
     }
 
-    void SpawnExpFish()
+    public void SpawnExpFish(Vector3 spawnCenter)
     {
-        int randomPositionX = Random.Range(-69, 70);
-        int randomPositionY = Random.Range(-25, -5);
-
-        maxSize = Random.Range(1, 21);
+        maxSize = Random.Range(1, 15);
 
         for (int i = 0; i < maxSize; i++)
         {
-            GameObject FishsObject = Resources.Load<GameObject>("Prefabs/Fish");
-            GameObject FishsObjects = Instantiate(FishsObject, spawnGroupObject.transform);
+            int randomPositionX = Random.Range(POSITION_X_MIN, POSITION_X_MAX);
+            int randomPositionY = Random.Range(POSITION_Y_MAX, POSITION_Y_MIN);
 
-            objectController.fishList.Add(fishSpawnConut, FishsObjects);
+            GameObject FishsObject = Resources.Load<GameObject>(prefabFish);
+            GameObject FishsObjects = Instantiate(FishsObject,
+                new Vector3(spawnCenter.x + randomPositionX, spawnCenter.y + randomPositionY, 0), Quaternion.identity, spawnGroupObject.transform);
+
+            objectController.fishList.Add(fishSpawnConut, FishsObjects.GetComponent<FishCharacter>());
             fishSpawnConut++;
-        }
-    }
-
-    void SpawnMap()
-    {
-        for (int i = 0; i < objectController.playerList.Count; i++)
-        {
-            for (int j = -1; j < 2; j++)
-            {
-                GameObject MapsObject = Resources.Load<GameObject>("Prefabs/Map");
-                GameObject MapsObjects = Instantiate(MapsObject,
-                    new Vector3(objectController.playerList[i].transform.position.x + (j * 20), 0, 0), Quaternion.identity);
-                objectController.mapLish.Add(mapSpawnConut, MapsObjects);
-                mapSpawnConut++;
-            }
         }
     }
 
@@ -109,10 +136,12 @@ public class SpawnObject : MonoBehaviour
         // 오브젝트가 플레이어에 의해 사라졌을 때 작동할 함수
     }
 
-    IEnumerator reSpawnTime()
+    IEnumerator reSpawnTime(float Time)
     {
-        
-        yield return new WaitForSeconds(30.0f);
+        var wfs = new WaitForSeconds(Time);
+
+
+        yield return wfs;
 
     }
 }

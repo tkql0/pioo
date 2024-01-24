@@ -12,12 +12,13 @@ public class MapManager
         mapController = new MapController();
         cameraController = new CameraController();
 
-        //cameraController.OnEnable();
+        cameraController.OnEnable();
+        mapController.OnEnable();
     }
 
     public void OnEnable()
     {
-        //Init();
+        Init();
     }
     public void OnDisable()
     {

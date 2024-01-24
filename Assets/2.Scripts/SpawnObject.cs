@@ -4,14 +4,14 @@ using UnityEngine;
 
 public class SpawnObject : MonoBehaviour
 {
-    public int maxSize                  = 0;
+    public int      maxSize             = 0;
 
-    private int playerSpawnConut        = 0;
-    private int mapSpawnConut           = 0;
-    private long enemySpawnConut        = 0;
-    private long fishSpawnConut         = 0;
+    private int     playerSpawnConut    = 0;
+    private int     mapSpawnConut       = 0;
+    private long    enemySpawnConut     = 0;
+    private long    fishSpawnConut      = 0;
 
-    private int maxPlayers              = 1;
+    private int     maxPlayers          = 1;
 
     private const int POSITION_X_MIN    = -10;
     private const int POSITION_X_MAX    = 11;
@@ -27,9 +27,10 @@ public class SpawnObject : MonoBehaviour
     private const string prefabEnemy    = "Prefabs/Enemy";
     private const string prefabFish     = "Prefabs/Fish";
 
-    private ObjectController objectController = GameTree.GAME.objectController;
+    private ObjectController    objectController    = GameTree.GAME.objectController;
+    //private MapController       mapController       = GameTree.MAP.mapController;
 
-    private GameObject spawnGroupObject = GameTree.GAME.spawnController.spawnGroupObject;
+    private GameObject          spawnGroupObject    = GameTree.GAME.spawnController.spawnGroupObject;
 
     public void OnEnable()
     {
@@ -83,16 +84,13 @@ public class SpawnObject : MonoBehaviour
 
     private void SpawnMap(Vector3 spawnCenter)
     {
-        for (int i = 0; i < objectController.playerList.Count; i++)
+        for (int i = LeftMapSpawn; i < RightMapSpawn; i++)
         {
-            for (int j = LeftMapSpawn; j < RightMapSpawn; j++)
-            {
-                GameObject MapsObject = Resources.Load<GameObject>(prefabMap);
-                GameObject MapsObjects = Instantiate(MapsObject,
-                    new Vector3(spawnCenter.x + (j * 20), 0, 0), Quaternion.identity);
-                objectController.mapList.Add(mapSpawnConut, MapsObjects.GetComponent<Map>());
-                mapSpawnConut++;
-            }
+            GameObject MapsObject = Resources.Load<GameObject>(prefabMap);
+            GameObject MapsObjects = Instantiate(MapsObject,
+                new Vector3(spawnCenter.x + (i * 20), 0, 0), Quaternion.identity);
+            objectController.mapList.Add(mapSpawnConut, MapsObjects.GetComponent<Map>());
+            mapSpawnConut++;
         }
     }
 

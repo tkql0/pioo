@@ -4,25 +4,22 @@ using UnityEngine;
 
 public class CameraController
 {
-    //Camera maincamera = Camera.main;
-    //Camera[] Target;
+    private Camera maincamera = Camera.main;
+
+    private ObjectController objectController = GameTree.GAME.objectController;
 
     public void OnEnable()
     {
-        //maincamera.enabled = false;
-        //for(int i = 0; i < GameTree.GAME.objectController.playerList.Count; i++)
-        //{
-        //    Target[i] = GameTree.GAME.objectController.playerList[i].GetComponentInChildren<Camera>();
-        //}
-        //Target[0].enabled = true;
+        int myPlayerNumber = 0;
 
-        //GameObject FoiiowObject = new GameObject("Camera");
+        maincamera.enabled = false;
 
-        //testObject.AddComponent<Camera>();
-        //FollowCamera followCamera = testObject.AddComponent<FollowCamera>();
+        GameObject FoiiowObject = new GameObject("Camera");
+        FoiiowObject.transform.SetParent(objectController.playerList[myPlayerNumber].gameObject.transform);
 
-        //followCamera.testCam();
-        //maincamera.enabled = false;
+        FoiiowObject.AddComponent<Camera>();
+        FollowCamera followCamera = FoiiowObject.AddComponent<FollowCamera>();
+        followCamera.Init();
     }
 
     public void OnDisable()
@@ -30,5 +27,4 @@ public class CameraController
 
 
     }
-
 }

@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
-using Random = UnityEngine.Random;
 
 public class ObjectController
 {
@@ -24,8 +23,8 @@ public class ObjectController
 
     }
 
-    //public Action<long> OnDead_Evevt = null;
-    public Action<long> OnMove_Evevt = null;
+    //public Action<long> OnDead_Event = null;
+    public Action<long> OnMove_Event = null;
 
     public void Init()
     {
@@ -47,7 +46,7 @@ public class ObjectController
 
         outCharacter.Move();
 
-        OnMove_Evevt?.Invoke(InCharacterld);
+        OnMove_Event?.Invoke(InCharacterld);
     }
 
     public void FishMoveCommand(long InCharacterld)
@@ -57,7 +56,7 @@ public class ObjectController
 
         outCharacter.Move();
 
-        OnMove_Evevt?.Invoke(InCharacterld);
+        OnMove_Event?.Invoke(InCharacterld);
     }
 
     //void DistanceFromPlayer()

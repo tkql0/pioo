@@ -7,14 +7,18 @@ public class ObjectController
 {
     public Dictionary<int, MyCharater> playerList = new Dictionary<int, MyCharater>();
     public Dictionary<int, Map> mapList = new Dictionary<int, Map>();
-    public Dictionary<long, EnemyCharater> enemyList = new Dictionary<long, EnemyCharater>();
-    public Dictionary<long, FishCharacter> fishList = new Dictionary<long, FishCharacter>();
+    // public Dictionary<long, EnemyCharater> enemyList = new Dictionary<long, EnemyCharater>();
+    public Dictionary<long, GameObject> enemyList = new Dictionary<long, GameObject>();
+    //public Dictionary<long, FishCharacter> fishList = new Dictionary<long, FishCharacter>();
+    public Dictionary<long, GameObject> fishList = new Dictionary<long, GameObject>();
 
     public void OnEnable()
     {
+        //playerList = new Dictionary<int, MyCharater>();
+        //enemyList = new Dictionary<long, EnemyCharater>();
+        //fishList = new Dictionary<long, FishCharacter>();
+
         Init();
-
-
     }
 
     public void OnDisable()
@@ -23,41 +27,38 @@ public class ObjectController
 
     }
 
-    //public Action<long> OnDead_Event = null;
-    public Action<long> OnMove_Event = null;
-
     public void Init()
     {
-        for (long i = 0; i < fishList.Count; i++)
-        {
-            FishMoveCommand(i);
-        }
+        //playerList = new Dictionary<int, MyCharater>();
+        //enemyList = new Dictionary<long, EnemyCharater>();
+        //fishList = new Dictionary<long, FishCharacter>();
 
-        for (long i = 0; i < enemyList.Count; i++)
-        {
-            EnemyMoveCommand(i);
-        }
+        //for (long i = 0; i < fishList.Count; i++)
+        //{
+        //    FishCommand(i);
+        //}
+
+        //for (long i = 0; i < enemyList.Count; i++)
+        //{
+        //    EnemyCommand(i);
+        //}
     }
 
-    public void EnemyMoveCommand(long InCharacterld)
-    {
-        if (enemyList.TryGetValue(InCharacterld, out var outCharacter) == false)
-            return;
+    //public void EnemyCommand(long InCharacterld)
+    //{
+    //    if (enemyList.TryGetValue(InCharacterld, out var outCharacter) == false)
+    //        return;
 
-        outCharacter.Move();
+    //    outCharacter.Move();
+    //}
 
-        OnMove_Event?.Invoke(InCharacterld);
-    }
+    //public void FishCommand(long InCharacterld)
+    //{
+    //    if (fishList.TryGetValue(InCharacterld, out var outCharacter) == false)
+    //        return;
 
-    public void FishMoveCommand(long InCharacterld)
-    {
-        if (fishList.TryGetValue(InCharacterld, out var outCharacter) == false)
-            return;
-
-        outCharacter.Move();
-
-        OnMove_Event?.Invoke(InCharacterld);
-    }
+    //    outCharacter.Move();
+    //}
 
     //void DistanceFromPlayer()
     //{

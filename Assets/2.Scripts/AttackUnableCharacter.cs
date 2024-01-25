@@ -17,28 +17,29 @@ public class FishCharacter : MonoBehaviour
         sprite = GetComponent<SpriteRenderer>();
     }
 
-    private void Start()
+    private void OnEnable()
     {
-
+        StartCoroutine(MoveDelay());
     }
 
     public void Move()
     {
+        if (!gameObject.activeSelf)
+            return;
         int nextMove = Random.Range(-1, 2);
         if (nextMove != 0)
             sprite.flipX = nextMove < 0;
 
         float speed = Random.Range(0.5f, 5f);
         rigid.velocity = new Vector2(nextMove * speed, rigid.velocity.y);
-
-        StartCoroutine(MoveDelay());
     }
 
     public IEnumerator MoveDelay()
     {
+        Move();
         float next_MoveTime = Random.Range(1, 3f);
         //var wfs = new WaitForSeconds(next_MoveTime);
         yield return new WaitForSeconds(next_MoveTime);
-        Move();
+        StartCoroutine(MoveDelay());
     }
 }

@@ -5,6 +5,7 @@ using UnityEngine;
 public class SpawnController
 {
     public GameObject spawnGroupObject;
+
     public void OnEnable()
     {
         spawnGroupObject = new GameObject("ObjectGroup");

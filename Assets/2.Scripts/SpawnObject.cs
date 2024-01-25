@@ -4,33 +4,35 @@ using UnityEngine;
 
 public class SpawnObject : MonoBehaviour
 {
-    public int      maxSize             = 0;
+    public int maxSize;
+    public int maxPlayers;
 
-    private int     playerSpawnConut    = 0;
-    private int     mapSpawnConut       = 0;
-    private long    enemySpawnConut     = 0;
-    private long    fishSpawnConut      = 0;
+    public int enemyMaxSize;
 
-    private int     maxPlayers          = 1;
+    private int _playerSpawnConut;
+    private int _mapSpawnConut;
+    private long _enemySpawnConut;
+    private long _fishSpawnConut;
 
-    private const int POSITION_X_MIN    = -10;
-    private const int POSITION_X_MAX    = 11;
+    private const int Position_X_Min = -10;
+    private const int Position_X_Max = 11;
 
-    private const int POSITION_Y_MIN    = -3;
-    private const int POSITION_Y_MAX    = -20;
+    private const int Position_Y_Min = -3;
+    private const int Position_Y_Max = -20;
 
-    private const int LeftMapSpawn      = -1;
-    private const int RightMapSpawn     = 2;
+    private const int Left_MapSpawn = -1;
+    private const int Right_MapSpawn = 2;
 
-    private const string prefabPlayer   = "Prefabs/Player";
-    private const string prefabMap      = "Prefabs/Map";
-    private const string prefabEnemy    = "Prefabs/Enemy";
-    private const string prefabFish     = "Prefabs/Fish";
+    private const string Prefab_Player = "Prefabs/Player";
+    private const string Prefab_Map = "Prefabs/Map";
+    private const string Prefab_Enemy = "Prefabs/Enemy";
+    private const string Prefab_Fish = "Prefabs/Fish";
 
-    private ObjectController    objectController    = GameTree.GAME.objectController;
-    //private MapController       mapController       = GameTree.MAP.mapController;
+    private ObjectController _objectController;
+    private MapController _mapController;
 
-    private GameObject          spawnGroupObject    = GameTree.GAME.spawnController.spawnGroupObject;
+    private GameObject _spawnGroupObject;
+
 
     public void OnEnable()
     {
@@ -44,26 +46,40 @@ public class SpawnObject : MonoBehaviour
 
     public void Init()
     {
-        //maxPlayers = 1;
+        maxSize = 0;
+        maxPlayers = 1;
+        enemyMaxSize = 5;
+
+        _fishSpawnConut = 0;
+        _enemySpawnConut = 0;
+        _mapSpawnConut = 0;
+        _playerSpawnConut = 0;
+
+        _spawnGroupObject = GameTree.GAME.spawnController.spawnGroupObject;
+        _objectController = GameTree.GAME.objectController;
+        _mapController = GameTree.MAP.mapController;
 
         // 시작시 오브젝트 생성
         SpawnMyPlayer();
 
-        for (int i = 0; i < objectController.playerList.Count; i++)
+        for (int i = 0; i < _objectController.playerList.Count; i++)
         {
-            Vector3 targetPosition = objectController.playerList[i].transform.position;
+            Vector3 targetPosition = _objectController.playerList[i].transform.position;
 
+            //SpawnMonster(targetPosition);
+            //SpawnExpFish(targetPosition);
             SpawnMap(targetPosition);
-            SpawnMonster(targetPosition);
-            SpawnExpFish(targetPosition);
         }
 
-        for (int i = 0; i < objectController.mapList.Count; i++)
+        for (int i = 0; i < _objectController.mapList.Count; i++)
         {
-            Vector3 targetPosition = objectController.mapList[i].transform.position;
+            //Vector3 targetPosition = _objectController.mapList[i].transform.position;
 
-            SpawnMonster(targetPosition);
-            SpawnExpFish(targetPosition);
+            SpawnMonsterPool();
+            SpawnExpFishPool();
+
+
+            Spawn(_objectController.mapList[i].gameObject);
         }
     }
 
@@ -73,69 +89,127 @@ public class SpawnObject : MonoBehaviour
 
         for (int i = 0; i < maxSize; i++)
         {
-            GameObject playersObject = Resources.Load<GameObject>(prefabPlayer);
-            GameObject playersObjects =  Instantiate(playersObject, spawnGroupObject.transform);
-            playersObjects.GetComponent<MyCharater>().key = playerSpawnConut;
+            GameObject playersObject = Resources.Load<GameObject>(Prefab_Player);
+            GameObject playersObjects =  Instantiate(playersObject, _spawnGroupObject.transform);
+            //playersObjects.GetComponent<MyCharater>().key = _playerSpawnConut;
 
-            objectController.playerList.Add(playerSpawnConut, playersObjects.GetComponent<MyCharater>());
-            playerSpawnConut++;
+            _objectController.playerList.Add(_playerSpawnConut, playersObjects.GetComponent<MyCharater>());
+            _playerSpawnConut++;
         }
     }
 
     private void SpawnMap(Vector3 spawnCenter)
     {
-        for (int i = LeftMapSpawn; i < RightMapSpawn; i++)
+        for (int i = Left_MapSpawn; i < Right_MapSpawn; i++)
         {
-            GameObject MapsObject = Resources.Load<GameObject>(prefabMap);
+            GameObject MapsObject = Resources.Load<GameObject>(Prefab_Map);
             GameObject MapsObjects = Instantiate(MapsObject,
                 new Vector3(spawnCenter.x + (i * 20), 0, 0), Quaternion.identity);
-            objectController.mapList.Add(mapSpawnConut, MapsObjects.GetComponent<Map>());
-            mapSpawnConut++;
+            _objectController.mapList.Add(_mapSpawnConut, MapsObjects.GetComponent<Map>());
+            _mapSpawnConut++;
         }
     }
 
-    public void SpawnMonster(Vector3 spawnCenter)
+    public void SpawnMonsterPool()
     {
-        maxSize = Random.Range(1, 5);
+        //maxSize = Random.Range(1, 5);
+
+        for (int i = 0; i < enemyMaxSize; i++)
+        {
+            //int randomPositionX = Random.Range(Position_X_Min, Position_X_Max);
+
+            GameObject EnemysObject = Resources.Load<GameObject>(Prefab_Enemy);
+            GameObject EnemysObjects = Instantiate(EnemysObject, _spawnGroupObject.transform);
+
+            //_objectController.enemyList.Add(_enemySpawnConut, EnemysObjects.GetComponent<EnemyCharater>());
+            _objectController.enemyList.Add(_enemySpawnConut, EnemysObjects);
+            _enemySpawnConut++;
+            EnemysObjects.SetActive(false);
+        }
+    }
+
+    public void SpawnExpFishPool()
+    {
+        //maxSize = Random.Range(1, 15);
+        maxSize = 15;
 
         for (int i = 0; i < maxSize; i++)
         {
-            int randomPositionX = Random.Range(POSITION_X_MIN, POSITION_X_MAX);
+            //int randomPositionX = Random.Range(Position_X_Min, Position_X_Max);
+            //int randomPositionY = Random.Range(Position_Y_Max, Position_Y_Min);
 
-            GameObject EnemysObject = Resources.Load<GameObject>(prefabEnemy);
-            GameObject EnemysObjects = Instantiate(EnemysObject,
-                new Vector3(spawnCenter.x + randomPositionX, 0, 0), Quaternion.identity, spawnGroupObject.transform);
+            GameObject FishsObject = Resources.Load<GameObject>(Prefab_Fish);
+            GameObject FishsObjects = Instantiate(FishsObject, _spawnGroupObject.transform);
 
-            objectController.enemyList.Add(enemySpawnConut, EnemysObjects.GetComponent<EnemyCharater>());
-            enemySpawnConut++;
+            //_objectController.fishList.Add(_fishSpawnConut, FishsObjects.GetComponent<FishCharacter>());
+            _objectController.fishList.Add(_fishSpawnConut, FishsObjects);
+            _fishSpawnConut++;
+            FishsObjects.SetActive(false);
         }
     }
 
-    public void SpawnExpFish(Vector3 spawnCenter)
+    public void Spawn(GameObject spawnCenter)
     {
-        maxSize = Random.Range(1, 15);
+        int enemyCount = Random.Range(1, 6);
+        int fishCount = Random.Range(1, 15);
 
-        for (int i = 0; i < maxSize; i++)
+        //_mapController.enemyMaxSize = enemyCount;
+
+        for (int i = 0; i < enemyCount; i++)
         {
-            int randomPositionX = Random.Range(POSITION_X_MIN, POSITION_X_MAX);
-            int randomPositionY = Random.Range(POSITION_Y_MAX, POSITION_Y_MIN);
+            SpawnEnemy(spawnCenter);
+        }
 
-            GameObject FishsObject = Resources.Load<GameObject>(prefabFish);
-            GameObject FishsObjects = Instantiate(FishsObject,
-                new Vector3(spawnCenter.x + randomPositionX, spawnCenter.y + randomPositionY, 0), Quaternion.identity, spawnGroupObject.transform);
-
-            objectController.fishList.Add(fishSpawnConut, FishsObjects.GetComponent<FishCharacter>());
-            fishSpawnConut++;
+        for (int i = 0; i < fishCount; i++)
+        {
+            SpawnFish(spawnCenter);
         }
     }
 
-    void ReSpawn()
+    GameObject SpawnEnemy(GameObject spawnObject)
     {
-        // 오브젝트가 플레이어에 의해 사라졌을 때 작동할 함수
+        int randomPositionX = Random.Range(Position_X_Min, Position_X_Max);
+
+        for (int i = 0; i < _objectController.enemyList.Count; i++)
+        {
+            if (!_objectController.enemyList[i].activeSelf)
+            {
+                _objectController.enemyList[i].SetActive(true);
+
+                _objectController.enemyList[i].transform.position
+                    = new Vector3(randomPositionX + spawnObject.transform.position.x, 0, 0);
+
+                return _objectController.enemyList[i];
+            }
+        }
+        return null;
     }
 
-    IEnumerator reSpawnTime(float Time)
+    GameObject SpawnFish(GameObject spawnObject)
     {
+        int randomPositionX = Random.Range(Position_X_Min, Position_X_Max);
+        int randomPositionY = Random.Range(Position_Y_Min, Position_Y_Max);
+
+        for (int i = 0; i < _objectController.fishList.Count; i++)
+        {
+            if (!_objectController.fishList[i].activeSelf)
+            {
+                _objectController.fishList[i].SetActive(true);
+
+                _objectController.fishList[i].transform.position
+                    = new Vector3(randomPositionX + spawnObject.transform.position.x, randomPositionY, 0);
+
+                return _objectController.fishList[i];
+            }
+        }
+        return null;
+    }
+
+    IEnumerator ReSpawn(float Time)
+    {
+        
+        int randomPositionX = Random.Range(Position_X_Min, Position_X_Max);
+
         var wfs = new WaitForSeconds(Time);
 
 

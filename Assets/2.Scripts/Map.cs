@@ -4,16 +4,28 @@ using UnityEngine;
 
 public class Map : MonoBehaviour
 {
-    private ObjectController objectController;
+    private ObjectController _objectController;
+    SpawnController _spawnController;
+    MapController _mapController;
+
+    private void Update()
+    {
+        if (!Input.anyKey)
+            return;
+        mapRelocation();
+    }
 
     public void Init()
     {
-        objectController = GameTree.GAME.objectController;
+        _objectController = GameTree.GAME.objectController;
+        _spawnController = GameTree.GAME.spawnController;
+        _mapController = GameTree.GAME.mapController;
+        
     }
 
     public void OnEnable()
     {
-
+        //mapRelocation();
     }
 
     public void OnDisable()
@@ -24,23 +36,31 @@ public class Map : MonoBehaviour
 
     public void mapRelocation()
     {
-        //for (int i = 0; i < objectController.playerList.Count; i++)
-        //{
-        //    Vector3 targetPosition = objectController.playerList[i].transform.position;
-        //        Vector3 myPosition = this.transform.position;
+        Vector3 targetPosition;
+        Vector3 myPosition;
 
-        //        float DistanceX = targetPosition.x - myPosition.x;
-        //        float differenceX = Mathf.Abs(DistanceX);
+        for (int i = 0; i < _objectController.playerList.Count; i++)
+        {
+            targetPosition = _objectController.playerList[i].transform.position;
 
-        //        DistanceX = DistanceX > 0 ? 1 : -1;
+            for (int j = 0; j < _mapController.mapList.Count; j++)
+            {
+                if (i == _mapController.mapList.Count % 3)
+                {
+                    myPosition = _mapController.mapList[j].transform.position;
 
-        //        if (differenceX > 60.0f)
-        //        {
-        //            transform.Translate(Vector3.right * DistanceX * 120);
-        //            return;
-        //        }
-        //        else
-        //            return;
-        //}
+                    float DistanceX = targetPosition.x - myPosition.x;
+                    float differenceX = Mathf.Abs(DistanceX);
+
+                    DistanceX = DistanceX > 0 ? 1 : -1;
+
+                    if (differenceX > 30.0f)
+                    {
+                        _mapController.mapList[j].transform.Translate(Vector3.right * DistanceX * 60);
+                        _spawnController.Spawn(_mapController.mapList[j].gameObject);
+                    }
+                }
+            }
+        }
     }
 }

@@ -5,8 +5,8 @@ using System;
 
 public class ObjectController
 {
-    public Dictionary<int, MyCharater> playerList = new Dictionary<int, MyCharater>();
-    public Dictionary<int, Map> mapList = new Dictionary<int, Map>();
+    //public Dictionary<int, MyCharater> playerList = new Dictionary<int, MyCharater>();
+    public Dictionary<int, GameObject> playerList = new Dictionary<int, GameObject>();
     // public Dictionary<long, EnemyCharater> enemyList = new Dictionary<long, EnemyCharater>();
     public Dictionary<long, GameObject> enemyList = new Dictionary<long, GameObject>();
     //public Dictionary<long, FishCharacter> fishList = new Dictionary<long, FishCharacter>();

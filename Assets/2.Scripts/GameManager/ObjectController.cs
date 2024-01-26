@@ -37,17 +37,15 @@ public class ObjectController
         //}
     }
 
-    public void EnemyCommand(long InCharacterld)
-    {
-        if (enemyDataList.TryGetValue(InCharacterld, out var outCharacter) == false)
-            return;
-    }
+    //private void EnemyCommand(long InCharacterld)
+    //{
+    //    if (enemyDataList.TryGetValue(InCharacterld, out var outCharacter) == false)
+    //        return;
+    //}
 
-    public void FishCommand(long InCharacterld)
-    {
-        if (fishList.TryGetValue(InCharacterld, out var outCharacter) == false)
-            return;
-
-        
-    }
+    //private void FishCommand(long InCharacterld)
+    //{
+    //    if (fishList.TryGetValue(InCharacterld, out var outCharacter) == false)
+    //        return;
+    //}
 }

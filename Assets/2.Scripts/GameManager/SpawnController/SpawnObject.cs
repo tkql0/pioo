@@ -7,8 +7,6 @@ public class SpawnObject : MonoBehaviour
     public int maxSize;
     public int maxPlayers;
 
-    //public int enemyMaxSize;
-
     private int _playerSpawnConut;
     private int _mapSpawnConut;
     private long _enemySpawnConut;
@@ -24,20 +22,7 @@ public class SpawnObject : MonoBehaviour
 
     private ObjectController _objectController;
     private MapController _mapController;
-    SpawnController _spawnController;
-
-    //private GameObject _spawnGroupObject;
-
-
-    public void OnEnable()
-    {
-        
-    }
-
-    public void OnDisable()
-    {
-
-    }
+    private SpawnController _spawnController;
 
     public void Init()
     {
@@ -53,6 +38,21 @@ public class SpawnObject : MonoBehaviour
         _objectController = GameTree.GAME.objectController;
         _mapController = GameTree.GAME.mapController;
 
+        StartSpawn();
+    }
+
+    public void OnEnable()
+    {
+        
+    }
+
+    public void OnDisable()
+    {
+
+    }
+
+    private void StartSpawn()
+    {
         SpawnMyPlayer();
 
         for (int i = 0; i < _objectController.playerList.Count; i++)
@@ -65,13 +65,13 @@ public class SpawnObject : MonoBehaviour
         for (int i = 0; i < _mapController.mapList.Count; i++)
         {
             SpawnMonsterPool();
-            SpawnExpFishPool();
+            SpawnFishPool();
 
             _mapController.mapList[i].key = i / 3;
         }
     }
 
-    public void SpawnMyPlayer()
+    private void SpawnMyPlayer()
     {
         maxSize = maxPlayers;
 
@@ -86,7 +86,7 @@ public class SpawnObject : MonoBehaviour
         }
     }
 
-    public void SpawnMap(Vector3 spawnCenter)
+    private void SpawnMap(Vector3 spawnCenter)
     {
         for (int i = Left_MapSpawn; i < Right_MapSpawn; i++)
         {
@@ -99,7 +99,7 @@ public class SpawnObject : MonoBehaviour
         }
     }
 
-    public void SpawnMonsterPool()
+    private void SpawnMonsterPool()
     {
         maxSize = 15;
 
@@ -115,7 +115,7 @@ public class SpawnObject : MonoBehaviour
         }
     }
 
-    public void SpawnExpFishPool()
+    private void SpawnFishPool()
     {
         maxSize = 45;
 

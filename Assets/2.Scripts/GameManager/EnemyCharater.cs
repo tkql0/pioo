@@ -50,8 +50,3 @@ public class EnemyCharater : AttackableCharacter
         StartCoroutine(MoveDelay());
     }
 }
-
-public class EnemyData : EnemyCharater
-{
-
-}

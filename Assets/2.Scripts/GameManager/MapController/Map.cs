@@ -4,24 +4,23 @@ using UnityEngine;
 
 public class Map : MonoBehaviour
 {
+    public int key;
+
+    private int enemyMaxSize;
+    private int fishMaxSize;
+
+    private int enemyReSpawnSize;
+    private int fishReSpawnSize;
+
+    private int enemyReSpawnMaxSize;
+    private int fishReSpawnMaxSize;
+
     private ObjectController _objectController;
     private SpawnController _spawnController;
 
-    public int enemyMaxSize;
-    public int fishMaxSize;
-
-    public int enemyReSpawnSize;
-    public int fishReSpawnSize;
-
-    public int enemyReSpawnMaxSize;
-    public int fishReSpawnMaxSize;
-
-    public int key;
 
     private void Update()
     {
-        //if (!Input.anyKey)
-        //    return;
         MapRelocation();
     }
 
@@ -48,16 +47,15 @@ public class Map : MonoBehaviour
 
     public void OnEnable()
     {
-        //MapMonsterSpawn();
+        
     }
 
     public void OnDisable()
     {
 
-
     }
 
-    void MapMonsterSpawn()
+    private void MapMonsterSpawn()
     {
         enemyMaxSize = Random.Range(1, 6);
         fishMaxSize = Random.Range(1, 15);
@@ -65,7 +63,7 @@ public class Map : MonoBehaviour
         _spawnController.Spawn(gameObject, enemyMaxSize, fishMaxSize, key);
     }
 
-    public void MapRelocation()
+    private void MapRelocation()
     {
         Vector3 targetPosition;
         Vector3 myPosition;
@@ -83,15 +81,17 @@ public class Map : MonoBehaviour
             _spawnController.DeSpawn(key, targetPosition);
 
             transform.Translate(Vector3.right * DistanceX * 60);
+
             fishReSpawnSize = 0;
             enemyReSpawnSize = 0;
             enemyReSpawnMaxSize = 0;
             fishReSpawnMaxSize = 0;
+
             MapMonsterSpawn();
         }
     }
 
-    IEnumerator ReSpawn(float ReSpawnTime)
+    private IEnumerator ReSpawn(float ReSpawnTime)
     {
         yield return new WaitForSeconds(ReSpawnTime);
 
@@ -102,14 +102,16 @@ public class Map : MonoBehaviour
 
         for (int i = 0; i < enemyMaxSize; i++)
         {
-            if (key == _objectController.enemyDataList[i].key && _objectController.enemyList[i].activeSelf)
+            if (key == _objectController.enemyDataList[i].key 
+                && _objectController.enemyList[i].activeSelf)
             {
                 enemyReSpawnSize++;
             }
         }
         for (int i = 0; i < fishMaxSize; i++)
         {
-            if (key == _objectController.fishDataList[i].key && _objectController.fishList[i].activeSelf)
+            if (key == _objectController.fishDataList[i].key 
+                && _objectController.fishList[i].activeSelf)
             {
                 fishReSpawnSize++;
             }

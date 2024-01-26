@@ -6,7 +6,7 @@ public class SpawnController
 {
     public GameObject spawnGroupObject;
 
-    ObjectController _objectController;
+    private ObjectController _objectController;
 
     private const int Position_X_Min = -10;
     private const int Position_X_Max = 11;
@@ -14,7 +14,11 @@ public class SpawnController
     private const int Position_Y_Min = -3;
     private const int Position_Y_Max = -20;
 
-    void Init()
+    private const float DeSpawn_Distance = 22.5f;
+
+    private const string Object_ObjectGroup = "ObjectGroup";
+
+    public void Init()
     {
         _objectController = GameTree.GAME.objectController;
     }
@@ -23,7 +27,7 @@ public class SpawnController
     {
         Init();
 
-        spawnGroupObject = new GameObject("ObjectGroup");
+        spawnGroupObject = new GameObject(Object_ObjectGroup);
         SpawnObject spawnObject = spawnGroupObject.AddComponent<SpawnObject>();
 
         spawnObject.Init();
@@ -33,6 +37,7 @@ public class SpawnController
     {
 
     }
+
     public void Spawn(GameObject spawnCenter, int enemyCount, int fishCount, int key)
     {
         for (int i = 0; i < enemyCount; i++)
@@ -52,7 +57,7 @@ public class SpawnController
         DistanceFishDeSpawn(key, target);
     }
 
-    GameObject SpawnEnemy(GameObject spawnObject, int key)
+    private GameObject SpawnEnemy(GameObject spawnObject, int key)
     {
         int randomPositionX = Random.Range(Position_X_Min, Position_X_Max);
 
@@ -73,7 +78,7 @@ public class SpawnController
         return null;
     }
 
-    GameObject SpawnFish(GameObject spawnObject)
+    private GameObject SpawnFish(GameObject spawnObject)
     {
         int randomPositionX = Random.Range(Position_X_Min, Position_X_Max);
         int randomPositionY = Random.Range(Position_Y_Min, Position_Y_Max);
@@ -93,7 +98,7 @@ public class SpawnController
         return null;
     }
 
-    void DistanceEnemyDeSpawn(int key, Vector3 target)
+    private void DistanceEnemyDeSpawn(int key, Vector3 target)
     {
         Vector3 myPosition;
 
@@ -107,12 +112,12 @@ public class SpawnController
             float DistanceX = target.x - myPosition.x;
             float differenceX = Mathf.Abs(DistanceX);
 
-            if (differenceX > 22.5f)
+            if (differenceX > DeSpawn_Distance)
                 _objectController.enemyList[i].SetActive(false);
         }
     }
 
-    void DistanceFishDeSpawn(int key, Vector3 target)
+    private void DistanceFishDeSpawn(int key, Vector3 target)
     {
         Vector3 myPosition;
 
@@ -126,7 +131,7 @@ public class SpawnController
             float DistanceX = target.x - myPosition.x;
             float differenceX = Mathf.Abs(DistanceX);
 
-            if (differenceX > 22.5f)
+            if (differenceX > DeSpawn_Distance)
                 _objectController.fishList[i].SetActive(false);
         }
     }

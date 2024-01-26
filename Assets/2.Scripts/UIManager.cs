@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class UIManager
 {
-    public CameraController cameraController;
+    private CameraController cameraController;
 
     public void Init()
     {

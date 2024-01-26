@@ -26,7 +26,7 @@ public class MapController
 
     }
 
-    public void MapData(int InCharacterld)
+    private void MapData(int InCharacterld)
     {
         if (mapList.TryGetValue(InCharacterld, out var outCharacter) == false)
             return;

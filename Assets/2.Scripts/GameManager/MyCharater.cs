@@ -94,8 +94,3 @@ public class MyCharater : AttackableCharacter
             collision.gameObject.SetActive(false);
     }
 }
-
-public class PlayerData : MyCharater
-{
-
-}

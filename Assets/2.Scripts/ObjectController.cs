@@ -8,7 +8,8 @@ public class ObjectController
     public Dictionary<int, GameObject> playerList = new Dictionary<int, GameObject>();
     public Dictionary<long, GameObject> enemyList = new Dictionary<long, GameObject>();
     public Dictionary<long, GameObject> fishList = new Dictionary<long, GameObject>();
-    //public Dictionary<int, MyCharater> playerList = new Dictionary<int, MyCharater>();
+
+    public Dictionary<int, MyCharater> playerDataList = new Dictionary<int, MyCharater>();
     public Dictionary<long, EnemyCharater> enemyDataList = new Dictionary<long, EnemyCharater>();
     public Dictionary<long, FishCharacter> fishDataList = new Dictionary<long, FishCharacter>();
 
@@ -49,16 +50,4 @@ public class ObjectController
 
         
     }
-
-    //void DistanceFromPlayer()
-    //{
-    //    Vector3 playerPos = myCharacter.transform.position;
-    //    Vector3 myPos = transform.position;
-
-    //    float DirX = playerPos.x - myPos.x;
-    //    float diffX = Mathf.Abs(DirX);
-
-    //    if (diffX > 70.0f)
-    //        gameObject.SetActive(false);
-    //}
 }

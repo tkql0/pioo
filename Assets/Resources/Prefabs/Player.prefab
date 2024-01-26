@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 389919711361785913}
   - component: {fileID: 1046526402050633328}
   - component: {fileID: -4081893782594086431}
+  - component: {fileID: 5942437967893040124}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -145,3 +146,22 @@ MonoBehaviour:
   moveMaxspeed: 20
   rigid: {fileID: 0}
   sprite: {fileID: 0}
+--- !u!253 &5942437967893040124
+BuoyancyEffector2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5583603722423035446}
+  m_Enabled: 0
+  m_UseColliderMask: 1
+  m_ColliderMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_SurfaceLevel: 0
+  m_Density: 2
+  m_LinearDrag: 5
+  m_AngularDrag: 5
+  m_FlowAngle: 0
+  m_FlowMagnitude: 0
+  m_FlowVariation: 0

@@ -43,7 +43,6 @@ public class SpawnObject : MonoBehaviour
     {
         maxSize = 0;
         maxPlayers = 1;
-        //enemyMaxSize = 5;
 
         _fishSpawnConut = 0;
         _enemySpawnConut = 0;
@@ -81,7 +80,7 @@ public class SpawnObject : MonoBehaviour
             GameObject playersObject = Resources.Load<GameObject>(Prefab_Player);
             GameObject playersObjects =  Instantiate(playersObject, _spawnController.spawnGroupObject.transform);
 
-            //_objectController.playerList.Add(_playerSpawnConut, playersObjects.GetComponent<MyCharater>());
+            _objectController.playerDataList.Add(_playerSpawnConut, playersObjects.GetComponent<MyCharater>());
             _objectController.playerList.Add(_playerSpawnConut, playersObjects);
             _playerSpawnConut++;
         }

@@ -49,28 +49,6 @@ public class EnemyCharater : AttackableCharacter
 
         StartCoroutine(MoveDelay());
     }
-
-    //public void Move()
-    //{
-    //    if (!gameObject.activeSelf)
-    //        return;
-    //    int nextMove = Random.Range(-1, 2);
-    //    if (nextMove != 0)
-    //        sprite.flipX = nextMove < 0;
-
-    //    float speed = Random.Range(0.1f, 5);
-    //    rigid.velocity = new Vector2(nextMove * speed, rigid.velocity.y);
-
-    //    StartCoroutine(MoveDelay());
-    //}
-
-    //public IEnumerator MoveDelay()
-    //{
-    //    float next_MoveTime = Random.Range(1, 6f);
-    //    yield return new WaitForSeconds(next_MoveTime);
-
-    //    Move();
-    //}
 }
 
 public class EnemyData : EnemyCharater

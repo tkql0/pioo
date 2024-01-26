@@ -11,6 +11,8 @@ public class FishCharacter : MonoBehaviour
 
     public int Experience = 0;
 
+    public int key;
+
     void Awake()
     {
         rigid = GetComponent<Rigidbody2D>();
@@ -19,6 +21,8 @@ public class FishCharacter : MonoBehaviour
 
     private void OnEnable()
     {
+        key = 0;
+
         StartCoroutine(MoveDelay());
     }
 

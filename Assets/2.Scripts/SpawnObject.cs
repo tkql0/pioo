@@ -54,27 +54,21 @@ public class SpawnObject : MonoBehaviour
         _objectController = GameTree.GAME.objectController;
         _mapController = GameTree.GAME.mapController;
 
-        // 시작시 오브젝트 생성
         SpawnMyPlayer();
 
         for (int i = 0; i < _objectController.playerList.Count; i++)
         {
             Vector3 targetPosition = _objectController.playerList[i].transform.position;
 
-            //SpawnMonster(targetPosition);
-            //SpawnExpFish(targetPosition);
             SpawnMap(targetPosition);
         }
 
         for (int i = 0; i < _mapController.mapList.Count; i++)
         {
-            //Vector3 targetPosition = _objectController.mapList[i].transform.position;
-
             SpawnMonsterPool();
             SpawnExpFishPool();
 
-
-            _spawnController.Spawn(_mapController.mapList[i].gameObject);
+            _mapController.mapList[i].key = i / 3;
         }
     }
 
@@ -101,23 +95,21 @@ public class SpawnObject : MonoBehaviour
             GameObject MapsObjects = Instantiate(MapsObject,
                 new Vector3(spawnCenter.x + (i * 20), 0, 0), Quaternion.identity);
             _mapController.mapList.Add(_mapSpawnConut, MapsObjects.GetComponent<Map>());
-            //_objectController.mapList.Add(_mapSpawnConut, MapsObjects);
+            //_mapController.mapList.Add(_mapSpawnConut, MapsObjects);
             _mapSpawnConut++;
         }
     }
 
     public void SpawnMonsterPool()
     {
-        maxSize = 5;
+        maxSize = 15;
 
         for (int i = 0; i < maxSize; i++)
         {
-            //int randomPositionX = Random.Range(Position_X_Min, Position_X_Max);
-
             GameObject EnemysObject = Resources.Load<GameObject>(Prefab_Enemy);
             GameObject EnemysObjects = Instantiate(EnemysObject, _spawnController.spawnGroupObject.transform);
 
-            //_objectController.enemyList.Add(_enemySpawnConut, EnemysObjects.GetComponent<EnemyCharater>());
+            _objectController.enemyDataList.Add(_enemySpawnConut, EnemysObjects.GetComponent<EnemyCharater>());
             _objectController.enemyList.Add(_enemySpawnConut, EnemysObjects);
             _enemySpawnConut++;
             EnemysObjects.SetActive(false);
@@ -126,27 +118,17 @@ public class SpawnObject : MonoBehaviour
 
     public void SpawnExpFishPool()
     {
-        maxSize = 15;
+        maxSize = 45;
 
         for (int i = 0; i < maxSize; i++)
         {
-            //int randomPositionX = Random.Range(Position_X_Min, Position_X_Max);
-            //int randomPositionY = Random.Range(Position_Y_Max, Position_Y_Min);
-
             GameObject FishsObject = Resources.Load<GameObject>(Prefab_Fish);
             GameObject FishsObjects = Instantiate(FishsObject, _spawnController.spawnGroupObject.transform);
 
-            //_objectController.fishList.Add(_fishSpawnConut, FishsObjects.GetComponent<FishCharacter>());
+            _objectController.fishDataList.Add(_fishSpawnConut, FishsObjects.GetComponent<FishCharacter>());
             _objectController.fishList.Add(_fishSpawnConut, FishsObjects);
             _fishSpawnConut++;
             FishsObjects.SetActive(false);
         }
-    }
-
-    IEnumerator ReSpawn(float Time)
-    {
-
-        yield return new WaitForSeconds(Time);
-
     }
 }

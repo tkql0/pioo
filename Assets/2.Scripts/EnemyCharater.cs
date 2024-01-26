@@ -9,6 +9,8 @@ public class EnemyCharater : AttackableCharacter
     [SerializeField]
     SpriteRenderer sprite;
 
+    public int key;
+
     void Awake()
     {
         rigid = GetComponent<Rigidbody2D>();
@@ -22,6 +24,8 @@ public class EnemyCharater : AttackableCharacter
 
     private void OnEnable()
     {
+        key = 0;
+
         StartCoroutine(MoveDelay());
     }
 
@@ -41,11 +45,32 @@ public class EnemyCharater : AttackableCharacter
     {
         Move();
         float next_MoveTime = Random.Range(1, 6f);
-        //var wfs = new WaitForSeconds(next_MoveTime);
         yield return new WaitForSeconds(next_MoveTime);
 
         StartCoroutine(MoveDelay());
     }
+
+    //public void Move()
+    //{
+    //    if (!gameObject.activeSelf)
+    //        return;
+    //    int nextMove = Random.Range(-1, 2);
+    //    if (nextMove != 0)
+    //        sprite.flipX = nextMove < 0;
+
+    //    float speed = Random.Range(0.1f, 5);
+    //    rigid.velocity = new Vector2(nextMove * speed, rigid.velocity.y);
+
+    //    StartCoroutine(MoveDelay());
+    //}
+
+    //public IEnumerator MoveDelay()
+    //{
+    //    float next_MoveTime = Random.Range(1, 6f);
+    //    yield return new WaitForSeconds(next_MoveTime);
+
+    //    Move();
+    //}
 }
 
 public class EnemyData : EnemyCharater

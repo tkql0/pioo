@@ -14,11 +14,11 @@ public class CameraController
 
         maincamera.enabled = false;
 
-        GameObject FoiiowObject = new GameObject("Camera");
-        FoiiowObject.transform.SetParent(objectController.playerList[myPlayerNumber].gameObject.transform);
+        GameObject followObject = new GameObject("Camera");
+        followObject.transform.SetParent(objectController.playerList[myPlayerNumber].gameObject.transform);
 
-        FoiiowObject.AddComponent<Camera>();
-        FollowCamera followCamera = FoiiowObject.AddComponent<FollowCamera>();
+        followObject.AddComponent<Camera>();
+        FollowCamera followCamera = followObject.AddComponent<FollowCamera>();
         followCamera.Init();
     }
 

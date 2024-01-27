@@ -67,7 +67,7 @@ public class SpawnObject : MonoBehaviour
             SpawnMonsterPool();
             SpawnFishPool();
 
-            _mapController.mapList[i].key = i / 3;
+            _mapController.mapList[i].key = i;
         }
     }
 
@@ -80,7 +80,7 @@ public class SpawnObject : MonoBehaviour
             GameObject playersObject = Resources.Load<GameObject>(Prefab_Player);
             GameObject playersObjects =  Instantiate(playersObject, _spawnController.spawnGroupObject.transform);
 
-            _objectController.playerDataList.Add(_playerSpawnConut, playersObjects.GetComponent<MyCharater>());
+            _objectController.playerDataList.Add(_playerSpawnConut, playersObjects.GetComponent<Player>());
             _objectController.playerList.Add(_playerSpawnConut, playersObjects);
             _playerSpawnConut++;
         }
@@ -130,4 +130,33 @@ public class SpawnObject : MonoBehaviour
             FishsObjects.SetActive(false);
         }
     }
+}
+
+public class WaponData : MonoBehaviour
+{
+    //Rigidbody2D rigid;
+
+    //void Awake()
+    //{
+    //    rigid = GetComponent<Rigidbody2D>();
+    //}
+
+    //void Update()
+    //{
+    //    //if (!photonView.IsMine)
+    //    //    return;
+
+    //    transform.right = GetComponent<Rigidbody2D>().velocity;
+    //    lance_gravity();
+    //}
+
+    //void lance_gravity()
+    //{
+    //    Vector3 myPos = transform.position;
+    //    Vector3 SeaLevelPos = GameManager.Instance.SeaLevel.transform.position;
+
+    //    float DirY = myPos.y - SeaLevelPos.y;
+    //    rigid.drag = DirY <= 0 ? 3 : 1;
+    //    // 몬스터의 공격이 해수면보다 아래인가? 맞다면 가속 1로 변경
+    //}
 }

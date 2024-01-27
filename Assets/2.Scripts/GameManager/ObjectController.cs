@@ -9,7 +9,7 @@ public class ObjectController
     public Dictionary<long, GameObject> enemyList = new Dictionary<long, GameObject>();
     public Dictionary<long, GameObject> fishList = new Dictionary<long, GameObject>();
 
-    public Dictionary<int, MyCharater> playerDataList = new Dictionary<int, MyCharater>();
+    public Dictionary<int, Player> playerDataList = new Dictionary<int, Player>();
     public Dictionary<long, EnemyCharater> enemyDataList = new Dictionary<long, EnemyCharater>();
     public Dictionary<long, FishCharacter> fishDataList = new Dictionary<long, FishCharacter>();
 

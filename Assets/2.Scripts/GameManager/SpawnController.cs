@@ -47,14 +47,14 @@ public class SpawnController
 
         for (int i = 0; i < fishCount; i++)
         {
-            SpawnFish(spawnCenter);
+            SpawnFish(spawnCenter, key);
         }
     }
 
-    public void DeSpawn(int key, Vector3 target)
+    public void DeSpawn(Vector3 target)
     {
-        DistanceEnemyDeSpawn(key, target);
-        DistanceFishDeSpawn(key, target);
+        DistanceEnemyDeSpawn(target);
+        DistanceFishDeSpawn(target);
     }
 
     private GameObject SpawnEnemy(GameObject spawnObject, int key)
@@ -78,7 +78,7 @@ public class SpawnController
         return null;
     }
 
-    private GameObject SpawnFish(GameObject spawnObject)
+    private GameObject SpawnFish(GameObject spawnObject, int key)
     {
         int randomPositionX = Random.Range(Position_X_Min, Position_X_Max);
         int randomPositionY = Random.Range(Position_Y_Min, Position_Y_Max);
@@ -92,20 +92,22 @@ public class SpawnController
                 _objectController.fishList[i].transform.position
                     = new Vector3(randomPositionX + spawnObject.transform.position.x, randomPositionY, 0);
 
+                _objectController.fishDataList[i].key = key;
+
                 return _objectController.fishList[i];
             }
         }
         return null;
     }
 
-    private void DistanceEnemyDeSpawn(int key, Vector3 target)
+    private void DistanceEnemyDeSpawn(Vector3 target)
     {
         Vector3 myPosition;
 
         for (int i = 0; i < _objectController.enemyList.Count; i++)
         {
-            if (key != _objectController.enemyDataList[i].key)
-                return;
+            //if (key != _objectController.enemyDataList[i].key)
+                //return;
 
             myPosition = _objectController.enemyList[i].transform.position;
 
@@ -113,18 +115,21 @@ public class SpawnController
             float differenceX = Mathf.Abs(DistanceX);
 
             if (differenceX > DeSpawn_Distance)
+            {
+                _objectController.enemyDataList[i].key = 99;
                 _objectController.enemyList[i].SetActive(false);
+            }
         }
     }
 
-    private void DistanceFishDeSpawn(int key, Vector3 target)
+    private void DistanceFishDeSpawn(Vector3 target)
     {
         Vector3 myPosition;
 
         for (int i = 0; i < _objectController.fishList.Count; i++)
         {
-            if (key != _objectController.fishDataList[i].key)
-                return;
+            //if (key != _objectController.fishDataList[i].key)
+                //return;
 
             myPosition = _objectController.fishList[i].transform.position;
 
@@ -132,7 +137,10 @@ public class SpawnController
             float differenceX = Mathf.Abs(DistanceX);
 
             if (differenceX > DeSpawn_Distance)
+            {
+                _objectController.fishDataList[i].key = 99;
                 _objectController.fishList[i].SetActive(false);
+            }
         }
     }
 }

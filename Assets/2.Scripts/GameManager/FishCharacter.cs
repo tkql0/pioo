@@ -21,7 +21,7 @@ public class FishCharacter : MonoBehaviour
 
     private void OnEnable()
     {
-        key = 0;
+        key = 99;
 
         StartCoroutine(MoveDelay());
     }

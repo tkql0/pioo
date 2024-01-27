@@ -2,8 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MyCharater : AttackableCharacter
+public class Player : AttackableCharacter
 {
+    public GameObject player;
+
     public int key = 0;
 
     public Vector2 inputVec;

@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 2887581168828488389}
   - component: {fileID: 1951120627910890028}
   - component: {fileID: 6331058131846764321}
-  - component: {fileID: 3106507732433462620}
+  - component: {fileID: 2737579273709714765}
   m_Layer: 0
   m_Name: Fish
   m_TagString: Fish_exp
@@ -124,7 +124,7 @@ CapsuleCollider2D:
   m_Offset: {x: 0, y: 0}
   m_Size: {x: 0.3, y: 0.3}
   m_Direction: 0
---- !u!114 &3106507732433462620
+--- !u!114 &2737579273709714765
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -133,8 +133,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 6515369471602294542}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 60240298cc62b2543bae21735f525ac8, type: 3}
+  m_Script: {fileID: 11500000, guid: 00d05ca71c3e76548b44bb9e5908cefe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   rigid: {fileID: 0}
   sprite: {fileID: 0}
+  Experience: 0
+  key: 0

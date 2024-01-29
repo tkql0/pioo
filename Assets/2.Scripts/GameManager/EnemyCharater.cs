@@ -130,7 +130,8 @@ public partial class EnemyCharater
     {
         GameObject player = collision.gameObject;
 
-        if (collision.gameObject.CompareTag("Player") && isDie == false)
+        if ((collision.gameObject.CompareTag("Player") ||
+            collision.gameObject.CompareTag("Player_Attack")) && isDie == false)
         {
             Hit_Tracking(player);
 

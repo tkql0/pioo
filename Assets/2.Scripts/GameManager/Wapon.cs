@@ -20,6 +20,11 @@ public class Wapon : MonoBehaviour
 
     void Update()
     {
+        if (key == 1 && transform.position.y < 0)
+        {
+            gameObject.SetActive(false);
+        }
+
         transform.right = rigid.velocity;
 
         lance_gravity();

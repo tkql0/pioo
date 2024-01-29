@@ -11,7 +11,11 @@ public partial class Player : AttackableCharacter
 
     private Vector2 inputVec;
     public float moveMaxspeed;
-    float time;
+    //float time;
+
+    RaycastHit2D[] inTarget;
+    [SerializeField]
+    float scanRange = 10;
 
     private Vector3 gravityPoint;
 
@@ -24,7 +28,7 @@ public partial class Player : AttackableCharacter
 
     private bool isMove;
     private bool isJump;
-    private bool isDie;
+    public bool isDie;
     bool isLv_up;
     bool isDamage;
     bool mouse_click;
@@ -59,7 +63,7 @@ public partial class Player : AttackableCharacter
         }
 
         //LookAtMouse();
-        PlayerAttack();
+        //PlayerAttack();
         Value_Update();
         PlayerMove();
 
@@ -70,6 +74,8 @@ public partial class Player : AttackableCharacter
         }
         HpTxt.text = (int)curHealth + " / " + maxHealth;
         BpTxt.text = (int)curBreath + " / " + maxBreath;
+
+        Search();
     }
     private void FixedUpdate()
     {
@@ -118,11 +124,19 @@ public partial class Player : AttackableCharacter
                 isMove = true;
                 isJump = false;
                 rigid.gravityScale = 0.2f;
+
+                if (curBreath > 0.0f)
+                    curBreath -= Time.deltaTime;
+                else
+                    curHealth -= Time.deltaTime;
             }
             else if (!isMove && Input.GetKey(KeyCode.Space))
             {
                 isMove = false;
                 rigid.gravityScale = 4f;
+                curBreath = maxBreath;
+                if (curHealth < maxHealth)
+                    curHealth += Time.deltaTime;
 
                 if (!isJump)
                 {
@@ -133,32 +147,36 @@ public partial class Player : AttackableCharacter
             else if (!isMove && !Input.GetKey(KeyCode.Space))
             {
                 rigid.gravityScale = 7f;
+                curBreath = maxBreath;
+                if (curHealth < maxHealth)
+                    curHealth += Time.deltaTime;
             }
         }
     }
 
     private void PlayerAttack()
-    {
-        if (Input.GetMouseButtonDown(0) && mouse_click == false)
-        {
-            mouse_click = true;
-            time = 10f;
-        }
+    { }
+    //{
+    //    if (Input.GetMouseButtonDown(0) && mouse_click == false)
+    //    {
+    //        mouse_click = true;
+    //        time = 10f;
+    //    }
 
-        else if (Input.GetMouseButton(0))
-        {
-            time += Time.deltaTime;
-        }
+    //    else if (Input.GetMouseButton(0))
+    //    {
+    //        time += Time.deltaTime;
+    //    }
 
-        else if (Input.GetMouseButtonUp(0) && isJump == true && mouse_click == true)
-        {
-            mouse_click = false;
-            GameObject Attack = GameTree.GAME.spawnController.SpawnPlayerWapon(gameObject);
-            Attack.transform.position = transform.transform.position;
-            Attack.transform.rotation = transform.transform.rotation;
-            Attack.GetComponent<Rigidbody2D>().velocity = Attack.transform.up * time;
-        }
-    }
+    //    else if (Input.GetMouseButtonUp(0) && isJump == true && mouse_click == true)
+    //    {
+    //        mouse_click = false;
+    //        GameObject Attack = GameTree.GAME.spawnController.SpawnPlayerWapon(gameObject);
+    //        Attack.transform.position = transform.transform.position;
+    //        Attack.transform.rotation = transform.transform.rotation;
+    //        Attack.GetComponent<Rigidbody2D>().velocity = Attack.transform.up * time;
+    //    }
+    //}
     //void LookAtMouse()
     //{
     //    Vector2 mousePos = cam.ScreenToWorldPoint(Input.mousePosition);
@@ -182,6 +200,51 @@ public partial class Player : AttackableCharacter
                 StartCoroutine(OnDamage());
             }
         }
+    }
+    void Search()
+    {
+        inTarget = Physics2D.CircleCastAll(transform.position, scanRange, Vector2.zero, 0, targetMask);
+
+        Transform target = GetNearest();
+
+        if (!target)
+            return;
+
+        if (Input.GetMouseButtonDown(0))
+            Attack(target);
+    }
+
+    void Attack(Transform target)
+    {
+        Vector3 targetPos = target.position;
+        Vector3 dir = targetPos - transform.position;
+        dir = dir.normalized;
+
+        GameObject Attack = GameTree.GAME.spawnController.SpawnPlayerWapon(gameObject);
+        Attack.transform.position = transform.transform.position;
+        Attack.transform.rotation = transform.transform.rotation;
+        Attack.GetComponent<Rigidbody2D>().velocity = dir * 10f;
+    }
+
+    Transform GetNearest()
+    {
+        Transform target = null;
+        float diff = 20;
+
+        foreach (RaycastHit2D targets in inTarget)
+        {
+            Vector3 myPos = transform.position;
+            Vector3 targetPos = targets.transform.position;
+
+            float curdiff = Vector3.Distance(myPos, targetPos);
+
+            if (curdiff < diff)
+            {
+                diff = curdiff;
+                target = targets.transform;
+            }
+        }
+        return target;
     }
 }
 

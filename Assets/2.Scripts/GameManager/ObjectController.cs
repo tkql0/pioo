@@ -5,13 +5,11 @@ using System;
 
 public class ObjectController
 {
-    public Dictionary<int, GameObject> playerList = new Dictionary<int, GameObject>();
-    public Dictionary<long, GameObject> enemyList = new Dictionary<long, GameObject>();
-    public Dictionary<long, GameObject> fishList = new Dictionary<long, GameObject>();
-
     public Dictionary<int, Player> playerDataList = new Dictionary<int, Player>();
     public Dictionary<long, EnemyCharater> enemyDataList = new Dictionary<long, EnemyCharater>();
     public Dictionary<long, FishCharacter> fishDataList = new Dictionary<long, FishCharacter>();
+    public Dictionary<long, Wapon> playerWaponDataList = new Dictionary<long, Wapon>();
+    public Dictionary<long, Wapon> enemyWaponDataList = new Dictionary<long, Wapon>();
 
     public void OnEnable()
     {

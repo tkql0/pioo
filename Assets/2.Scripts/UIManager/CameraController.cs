@@ -4,27 +4,22 @@ using UnityEngine;
 
 public class CameraController
 {
-    private Camera maincamera = Camera.main;
+    public Camera mainCam = Camera.main;
 
-    private ObjectController objectController = GameTree.GAME.objectController;
+    private ObjectController _objectController = GameTree.GAME.objectController;
 
     public void OnEnable()
     {
         int myPlayerNumber = 0;
 
-        maincamera.enabled = false;
+        mainCam.enabled = false;
 
-        GameObject followObject = new GameObject("Camera");
-        followObject.transform.SetParent(objectController.playerList[myPlayerNumber].gameObject.transform);
+        GameObject follewObject = new GameObject("Camera");
+        follewObject.transform.SetParent(_objectController.playerDataList[myPlayerNumber].player.transform);
 
-        followObject.AddComponent<Camera>();
-        FollowCamera followCamera = followObject.AddComponent<FollowCamera>();
+        follewObject.AddComponent<Camera>();
+        FollowCamera followCamera = follewObject.AddComponent<FollowCamera>();
+
         followCamera.Init();
-    }
-
-    public void OnDisable()
-    {
-
-
     }
 }

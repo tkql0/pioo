@@ -9,6 +9,8 @@ TagManager:
   - Enemy
   - Enemy_exp
   - Fish_exp
+  - Enemy_Attack
+  - Player_Attack
   layers:
   - Default
   - TransparentFX
@@ -16,9 +18,9 @@ TagManager:
   - 
   - Water
   - UI
-  - 
-  - 
-  - 
+  - Player
+  - Enemy
+  - Fish
   - 
   - 
   - 

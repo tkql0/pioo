@@ -4,9 +4,11 @@ using UnityEngine;
 
 public class Map : MonoBehaviour
 {
+    public GameObject map;
+
     public int key;
 
-    private float reSpawnTime;
+    private const float reSpawnTime =  20f;
 
     public int enemyMaxSize;
     public int fishMaxSize;
@@ -22,10 +24,6 @@ public class Map : MonoBehaviour
 
     public void Init()
     {
-        reSpawnTime = 10f;
-
-        key = 0;
-
         _objectController = GameTree.GAME.objectController;
         _spawnController = GameTree.GAME.spawnController;
 
@@ -34,6 +32,8 @@ public class Map : MonoBehaviour
 
     public void OnEnable()
     {
+        map = gameObject;
+
         enemyMaxSize = Random.Range(1, 6);
         fishMaxSize = Random.Range(1, 15);
     }
@@ -55,7 +55,7 @@ public class Map : MonoBehaviour
         Vector3 targetPosition;
         Vector3 myPosition;
 
-        targetPosition = _objectController.playerList[key / 3].transform.position;
+        targetPosition = _objectController.playerDataList[key / 3].player.transform.position;
         myPosition = transform.position;
 
         float DistanceX = targetPosition.x - myPosition.x;
@@ -90,18 +90,18 @@ public class Map : MonoBehaviour
         int enemyReSpawnSize = 0;
         int fishReSpawnSize = 0;
 
-        for (int i = 0; i < _objectController.enemyList.Count; i++)
+        for (int i = 0; i < _objectController.enemyDataList.Count; i++)
         {
             if (key == _objectController.enemyDataList[i].key
-                && _objectController.enemyList[i].activeSelf)
+                && _objectController.enemyDataList[i].Enemy.activeSelf)
             {
                 enemyReSpawnSize++;
             }
         }
-        for (int i = 0; i < _objectController.fishList.Count; i++)
+        for (int i = 0; i < _objectController.fishDataList.Count; i++)
         {
             if (key == _objectController.fishDataList[i].key
-                && _objectController.fishList[i].activeSelf)
+                && _objectController.fishDataList[i].Fish.activeSelf)
             {
                 fishReSpawnSize++;
             }

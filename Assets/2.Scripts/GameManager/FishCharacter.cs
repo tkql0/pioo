@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class FishCharacter : MonoBehaviour
 {
+    public GameObject Fish;
+
     [SerializeField]
     Rigidbody2D rigid;
     [SerializeField]
@@ -21,6 +23,7 @@ public class FishCharacter : MonoBehaviour
 
     private void OnEnable()
     {
+        Fish = gameObject;
         key = 99;
 
         StartCoroutine(MoveDelay());
@@ -42,7 +45,6 @@ public class FishCharacter : MonoBehaviour
     {
         Move();
         float next_MoveTime = Random.Range(1, 3f);
-        //var wfs = new WaitForSeconds(next_MoveTime);
         yield return new WaitForSeconds(next_MoveTime);
         StartCoroutine(MoveDelay());
     }

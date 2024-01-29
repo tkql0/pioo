@@ -11,6 +11,8 @@ public class SpawnObject : MonoBehaviour
     private int _mapSpawnConut;
     private long _enemySpawnConut;
     private long _fishSpawnConut;
+    private long _playerWaponSpawnConut;
+    private long _enemyWaponSpawnConut;
 
     private const int Left_MapSpawn = -1;
     private const int Right_MapSpawn = 2;
@@ -19,6 +21,8 @@ public class SpawnObject : MonoBehaviour
     private const string Prefab_Map = "Prefabs/Map";
     private const string Prefab_Enemy = "Prefabs/Enemy";
     private const string Prefab_Fish = "Prefabs/Fish";
+    private const string Prefab_EnemyWapon = "Prefabs/EnemyAttack";
+    private const string Prefab_PlayerWapon = "Prefabs/PlayerAttack";
 
     private ObjectController _objectController;
     private MapController _mapController;
@@ -27,12 +31,15 @@ public class SpawnObject : MonoBehaviour
     public void Init()
     {
         maxSize = 0;
+        //maxPlayers = GameTree.UI.player;
         maxPlayers = 1;
 
         _fishSpawnConut = 0;
         _enemySpawnConut = 0;
         _mapSpawnConut = 0;
         _playerSpawnConut = 0;
+        _playerWaponSpawnConut = 0;
+        _enemyWaponSpawnConut = 0;
 
         _spawnController = GameTree.GAME.spawnController;
         _objectController = GameTree.GAME.objectController;
@@ -55,11 +62,13 @@ public class SpawnObject : MonoBehaviour
     {
         SpawnMyPlayer();
 
-        for (int i = 0; i < _objectController.playerList.Count; i++)
+        for (int i = 0; i < _objectController.playerDataList.Count; i++)
         {
-            Vector3 targetPosition = _objectController.playerList[i].transform.position;
+            Vector3 targetPosition = _objectController.playerDataList[i].player.transform.position;
 
             SpawnMap(targetPosition);
+            SpawnPlayerAttackPool();
+            SpawnEnemyAttackPool();
         }
 
         for (int i = 0; i < _mapController.mapList.Count; i++)
@@ -81,7 +90,6 @@ public class SpawnObject : MonoBehaviour
             GameObject playersObjects =  Instantiate(playersObject, _spawnController.spawnGroupObject.transform);
 
             _objectController.playerDataList.Add(_playerSpawnConut, playersObjects.GetComponent<Player>());
-            _objectController.playerList.Add(_playerSpawnConut, playersObjects);
             _playerSpawnConut++;
         }
     }
@@ -94,7 +102,6 @@ public class SpawnObject : MonoBehaviour
             GameObject MapsObjects = Instantiate(MapsObject,
                 new Vector3(spawnCenter.x + (i * 20), 0, 0), Quaternion.identity);
             _mapController.mapList.Add(_mapSpawnConut, MapsObjects.GetComponent<Map>());
-            //_mapController.mapList.Add(_mapSpawnConut, MapsObjects);
             _mapSpawnConut++;
         }
     }
@@ -109,7 +116,6 @@ public class SpawnObject : MonoBehaviour
             GameObject EnemysObjects = Instantiate(EnemysObject, _spawnController.spawnGroupObject.transform);
 
             _objectController.enemyDataList.Add(_enemySpawnConut, EnemysObjects.GetComponent<EnemyCharater>());
-            _objectController.enemyList.Add(_enemySpawnConut, EnemysObjects);
             _enemySpawnConut++;
             EnemysObjects.SetActive(false);
         }
@@ -125,38 +131,42 @@ public class SpawnObject : MonoBehaviour
             GameObject FishsObjects = Instantiate(FishsObject, _spawnController.spawnGroupObject.transform);
 
             _objectController.fishDataList.Add(_fishSpawnConut, FishsObjects.GetComponent<FishCharacter>());
-            _objectController.fishList.Add(_fishSpawnConut, FishsObjects);
             _fishSpawnConut++;
             FishsObjects.SetActive(false);
         }
     }
-}
 
-public class WaponData : MonoBehaviour
-{
-    //Rigidbody2D rigid;
+    private void SpawnPlayerAttackPool()
+    {
+        maxSize = 40;
 
-    //void Awake()
-    //{
-    //    rigid = GetComponent<Rigidbody2D>();
-    //}
+        for (int i = 0; i < maxSize; i++)
+        {
+            GameObject PlayerAttackObject = Resources.Load<GameObject>(Prefab_PlayerWapon);
+            GameObject PlayersAttackObject = Instantiate(PlayerAttackObject,
+                _spawnController.spawnGroupObject.transform);
 
-    //void Update()
-    //{
-    //    //if (!photonView.IsMine)
-    //    //    return;
+            _objectController.playerWaponDataList.Add(_playerWaponSpawnConut,
+                PlayersAttackObject.GetComponent<Wapon>());
+            _playerWaponSpawnConut++;
+            PlayersAttackObject.SetActive(false);
+        }
+    }
 
-    //    transform.right = GetComponent<Rigidbody2D>().velocity;
-    //    lance_gravity();
-    //}
+    private void SpawnEnemyAttackPool()
+    {
+        maxSize = 40;
 
-    //void lance_gravity()
-    //{
-    //    Vector3 myPos = transform.position;
-    //    Vector3 SeaLevelPos = GameManager.Instance.SeaLevel.transform.position;
+        for (int i = 0; i < maxSize; i++)
+        {
+            GameObject EnemyAttackObject = Resources.Load<GameObject>(Prefab_EnemyWapon);
+            GameObject EnemysAttackObject = Instantiate(EnemyAttackObject,
+                _spawnController.spawnGroupObject.transform);
 
-    //    float DirY = myPos.y - SeaLevelPos.y;
-    //    rigid.drag = DirY <= 0 ? 3 : 1;
-    //    // 몬스터의 공격이 해수면보다 아래인가? 맞다면 가속 1로 변경
-    //}
+            _objectController.enemyWaponDataList.Add(_enemyWaponSpawnConut,
+                EnemysAttackObject.GetComponent<Wapon>());
+            _enemyWaponSpawnConut++;
+            EnemysAttackObject.SetActive(false);
+        }
+    }
 }

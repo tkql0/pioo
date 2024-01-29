@@ -6,6 +6,8 @@ public class UIManager
 {
     private CameraController cameraController;
 
+    //public int player;
+
     public void Init()
     {
         cameraController = new CameraController();

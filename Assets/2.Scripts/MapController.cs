@@ -10,7 +10,7 @@ public class MapController
     {
         for(int i = 0; i < mapList.Count; i++)
         {
-            MapData(i);
+            GetMapData(i);
         }
     }
 
@@ -25,7 +25,7 @@ public class MapController
 
     }
 
-    private void MapData(int InCharacterld)
+    private void GetMapData(int InCharacterld)
     {
         if (mapList.TryGetValue(InCharacterld, out var outCharacter) == false)
             return;

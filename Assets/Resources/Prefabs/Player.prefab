@@ -922,9 +922,9 @@ MonoBehaviour:
   player: {fileID: 0}
   key: 0
   moveMaxspeed: 20
-  scanRange: 10
   rigid: {fileID: 0}
   sprite: {fileID: 0}
+  cam: {fileID: 0}
   isDie: 0
   Lv_point: 0
   maxHealth: 10

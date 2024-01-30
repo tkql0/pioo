@@ -6,7 +6,7 @@ public class UIManager
 {
     public void Init()
     {
-        
+        //UI ui = getComponent<UI>();
     }
 
     public void OnEnable()

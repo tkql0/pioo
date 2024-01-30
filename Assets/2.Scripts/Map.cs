@@ -55,7 +55,7 @@ public class Map : MonoBehaviour
         Vector3 targetPosition;
         Vector3 myPosition;
 
-        targetPosition = _objectController.playerDataList[key / 3].player.transform.position;
+        targetPosition = _objectController.player.transform.position;
         myPosition = transform.position;
 
         float DistanceX = targetPosition.x - myPosition.x;

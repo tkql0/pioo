@@ -5,9 +5,9 @@ using UnityEngine;
 public class SpawnObject : MonoBehaviour
 {
     public int maxSize;
-    public int maxPlayers;
+    //public int maxPlayers;
 
-    private int _playerSpawnConut;
+    //private int _playerSpawnConut;
     private int _mapSpawnConut;
     private long _enemySpawnConut;
     private long _fishSpawnConut;
@@ -28,12 +28,12 @@ public class SpawnObject : MonoBehaviour
     {
         maxSize = 0;
         //maxPlayers = GameTree.UI.player;
-        maxPlayers = 1;
+        //maxPlayers = 1;
 
         _fishSpawnConut = 0;
         _enemySpawnConut = 0;
         _mapSpawnConut = 0;
-        _playerSpawnConut = 0;
+        //_playerSpawnConut = 0;
         _playerWaponSpawnConut = 0;
         _enemyWaponSpawnConut = 0;
 
@@ -54,15 +54,11 @@ public class SpawnObject : MonoBehaviour
     {
         SpawnMyPlayer();
 
-        for (int i = 0; i < GameTree.GAME.objectController.playerDataList.Count; i++)
-        {
-            Vector3 targetPosition = GameTree.GAME.objectController.
-                playerDataList[i].player.transform.position;
+            Vector3 targetPosition = GameTree.GAME.objectController.player.transform.position;
 
             SpawnMap(targetPosition);
             SpawnPlayerAttackPool();
             SpawnEnemyAttackPool();
-        }
 
         for (int i = 0; i < GameTree.GAME.mapController.mapList.Count; i++)
         {
@@ -75,18 +71,11 @@ public class SpawnObject : MonoBehaviour
 
     private void SpawnMyPlayer()
     {
-        maxSize = maxPlayers;
-
-        for (int i = 0; i < maxSize; i++)
-        {
             GameObject playersObject = Resources.Load<GameObject>(Prefab_Player);
             GameObject playersObjects =  Instantiate(playersObject,
                 GameTree.GAME.spawnController.spawnGroupObject.transform);
 
-            GameTree.GAME.objectController.playerDataList.Add(_playerSpawnConut,
-                playersObjects.GetComponent<Player>());
-            _playerSpawnConut++;
-        }
+            GameTree.GAME.objectController.player = playersObjects.GetComponent<Player>();
     }
 
     private void SpawnMap(Vector3 spawnCenter)

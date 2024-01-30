@@ -12,9 +12,7 @@ public partial class EnemyCharater : AttackableCharacter
     [SerializeField]
     private GameObject Danger;
 
-    [SerializeField]
     private Rigidbody2D rigid;
-    [SerializeField]
     private SpriteRenderer sprite;
 
     private RaycastHit2D[] inTarget;
@@ -33,9 +31,6 @@ public partial class EnemyCharater : AttackableCharacter
 
     private bool isDie;
     private bool isDamage;
-
-
-
 
     private void Awake()
     {
@@ -74,7 +69,9 @@ public partial class EnemyCharater : AttackableCharacter
     {
         if (!gameObject.activeSelf)
             return;
+
         int nextMove = Random.Range(-1, 2);
+
         if (nextMove != 0)
             sprite.flipX = nextMove < 0;
 
@@ -97,10 +94,6 @@ public partial class EnemyCharater : AttackableCharacter
 
         StartCoroutine(MoveDelay());
     }
-}
-
-public partial class EnemyCharater
-{
     private void Hit_Tracking(GameObject target)
     {
         if (isDamage == true)
@@ -124,12 +117,12 @@ public partial class EnemyCharater
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        GameObject player = collision.gameObject;
-
-        if ((collision.gameObject.CompareTag("Player") ||
-            collision.gameObject.CompareTag("Player_Attack")) && isDie == false)
+        if ((collision.gameObject.CompareTag(Player) ||
+            collision.gameObject.CompareTag(Player_Attack)) && isDie == false)
         {
-            Hit_Tracking(player);
+            GameObject _player = collision.gameObject;
+
+            Hit_Tracking(_player);
 
             if (!isDamage)
             {
@@ -195,14 +188,14 @@ public partial class EnemyCharater
     {
         Transform target = null;
         float diff = 15;
-        
+
         foreach (RaycastHit2D targets in inTarget)
         {
             Vector3 myPos = transform.position;
             Vector3 targetPos = targets.transform.position;
 
             float curdiff = Vector3.Distance(myPos, targetPos);
-            
+
             if (curdiff < diff)
             {
                 diff = curdiff;

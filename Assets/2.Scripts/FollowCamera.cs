@@ -4,29 +4,29 @@ using UnityEngine;
 
 public class FollowCamera : MonoBehaviour
 {
-    Vector3 CamPos;
+    private Vector3 CamPos;
     [SerializeField]
-    GameObject player;
+    private GameObject player;
 
     [SerializeField]
-    Vector2 center;
+    private Vector2 center;
     [SerializeField]
-    Vector2 mapSize;
+    private Vector2 mapSize;
 
-    float speed;
+    private float speed;
 
-    float height;
+    private float height;
 
     private void Start()
     {
-        if (GameTree.GAME.objectController.playerDataList.Count == 0)
+        if (!GameTree.GAME.objectController.player)
             return;
 
-        CamPos = new Vector3(0, 0, -15);
-        speed = GameTree.GAME.objectController.playerDataList[0].moveMaxspeed;
-        player = GameTree.GAME.objectController.playerDataList[0].gameObject;
+        CamPos = new Vector3(0, 0, -40f);
+        speed = GameTree.GAME.objectController.player.moveMaxspeed;
+        player = GameTree.GAME.objectController.player.gameObject;
 
-        GameTree.GAME.objectController.playerDataList[0].cam = Camera.main;
+        GameTree.GAME.objectController.player.cam = Camera.main;
 
         height = Camera.main.orthographicSize;
     }
@@ -36,13 +36,13 @@ public class FollowCamera : MonoBehaviour
         LimitCamArea();
     }
 
-    void LimitCamArea()
+    private void LimitCamArea()
     {
         transform.position = Vector3.Lerp(transform.position,
             player.transform.position + CamPos, Time.fixedDeltaTime * speed);
         float ly = mapSize.y - height;
         float clampY = Mathf.Clamp(transform.position.y, -ly + center.y, ly + center.y);
 
-        transform.position = new Vector3(transform.position.x, clampY, -40f);
+        transform.position = new Vector3(transform.position.x, clampY, CamPos.z);
     }
 }

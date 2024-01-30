@@ -10,6 +10,12 @@ public class AttackableCharacter : MonoBehaviour
 
     public float Rate_Of_Fire;
     public float CoolDown_Time;
+
+    public const string Fish = "Fish_exp";
+    public const string Player = "Player";
+    public const string Enemy_Attack = "Enemy_Attack";
+    public const string Player_Attack = "Player_Attack";
+
     private void Update()
     {
         

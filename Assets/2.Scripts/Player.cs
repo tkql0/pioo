@@ -29,6 +29,35 @@ public partial class Player : AttackableCharacter
     bool isDamage;
     bool mouse_click;
 
+    [SerializeField]
+    private float maxHealth;
+    private float curHealth;
+
+    [SerializeField]
+    private float maxBreath;
+    private float curBreath;
+
+    [SerializeField]
+    private float maxExperience;
+    private float curExperience;
+
+    private int PlayerLv = 1;
+    [SerializeField]
+    private Text ExpTxt;
+    [SerializeField]
+    private Text HpTxt;
+    [SerializeField]
+    private Text BpTxt;
+    [SerializeField]
+    private Slider healthSlider;
+    [SerializeField]
+    private Slider breathSlider;
+    [SerializeField]
+    private Slider expSlider;
+
+    private const string Horizontal = "Horizontal";
+    private const string Vertical = "Vertical";
+
     public void OnEnable()
     {
         player = gameObject;
@@ -105,8 +134,8 @@ public partial class Player : AttackableCharacter
     {
         if (isDie == false)
         {
-            inputVec.x = Input.GetAxisRaw("Horizontal");
-            inputVec.y = Input.GetAxisRaw("Vertical");
+            inputVec.x = Input.GetAxisRaw(Horizontal);
+            inputVec.y = Input.GetAxisRaw(Vertical);
 
             if (inputVec.x != 0)
                 sprite.flipX = inputVec.x > 0;
@@ -178,14 +207,14 @@ public partial class Player : AttackableCharacter
 
 private void OnTriggerStay2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("Fish_exp"))
+        if (collision.gameObject.CompareTag(Fish))
         {
             curExperience += 5;
             collision.gameObject.SetActive(false);
         }
         if (!isDamage)
         {
-            if (collision.gameObject.CompareTag("Enemy_Attack"))
+            if (collision.gameObject.CompareTag(Enemy_Attack))
             {
                 collision.gameObject.SetActive(false);
                 curHealth = curHealth - 5;
@@ -193,36 +222,6 @@ private void OnTriggerStay2D(Collider2D collision)
             }
         }
     }
-}
-
-public partial class Player
-{
-    [SerializeField]
-    private float maxHealth;
-    private float curHealth;
-
-    [SerializeField]
-    private float maxBreath;
-    private float curBreath;
-
-    [SerializeField]
-    private float maxExperience;
-    private float curExperience;
-
-    private int PlayerLv = 1;
-    [SerializeField]
-    private Text ExpTxt;
-    [SerializeField]
-    private Text HpTxt;
-    [SerializeField]
-    private Text BpTxt;
-    [SerializeField]
-    private Slider healthSlider;
-    [SerializeField]
-    private Slider breathSlider;
-    [SerializeField]
-    private Slider expSlider;
-
     private void Lv_Up()
     {
         curExperience = 0;

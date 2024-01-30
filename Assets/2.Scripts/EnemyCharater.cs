@@ -8,43 +8,54 @@ public partial class EnemyCharater : AttackableCharacter
     public GameObject Enemy;
 
     [SerializeField]
-    GameObject enemySearch;
+    private GameObject enemySearch;
     [SerializeField]
-    GameObject Danger;
+    private GameObject Danger;
 
     [SerializeField]
-    Rigidbody2D rigid;
+    private Rigidbody2D rigid;
     [SerializeField]
-    SpriteRenderer sprite;
+    private SpriteRenderer sprite;
+
+    private RaycastHit2D[] inTarget;
 
     [SerializeField]
-    Slider health_Slider;
+    private Slider health_Slider;
 
     public int key;
 
     [SerializeField]
-    float max_health;
+    private float max_health;
+    private float cur_health;
+
     [SerializeField]
-    float cur_health;
+    private float scanRange = 2;
 
-    bool isDie;
-    bool isDamage;
-
-    RaycastHit2D[] inTarget;
-    [SerializeField]
-    float scanRange = 2;
+    private bool isDie;
+    private bool isDamage;
 
 
 
-    void Awake()
+
+    private void Awake()
     {
         rigid = GetComponent<Rigidbody2D>();
         sprite = GetComponent<SpriteRenderer>();
+
+        key = 99;
+        Enemy = gameObject;
+        isDie = false;
+        isDamage = false;
+        sprite.color = Color.white;
+
+        cur_health = max_health;
+        health_Slider.maxValue = max_health;
+        health_Slider.value = max_health;
     }
 
-    private void Start()
+    private void OnEnable()
     {
-
+        StartCoroutine(MoveDelay());
     }
 
     private void Update()
@@ -59,22 +70,7 @@ public partial class EnemyCharater : AttackableCharacter
         Search(enemySearch);
     }
 
-    private void OnEnable()
-    {
-        key = 99;
-        Enemy = gameObject;
-        isDie = false;
-        isDamage = false;
-        sprite.color = Color.white;
-
-        cur_health = max_health;
-        health_Slider.maxValue = max_health;
-        health_Slider.value = max_health;
-
-        StartCoroutine(MoveDelay());
-    }
-
-    public void Move()
+    private void Move()
     {
         if (!gameObject.activeSelf)
             return;
@@ -93,7 +89,7 @@ public partial class EnemyCharater : AttackableCharacter
         rigid.velocity = new Vector2(nextMove * speed, rigid.velocity.y);
     }
 
-    public IEnumerator MoveDelay()
+    private IEnumerator MoveDelay()
     {
         Move();
         float next_MoveTime = Random.Range(1, 6f);
@@ -105,7 +101,7 @@ public partial class EnemyCharater : AttackableCharacter
 
 public partial class EnemyCharater
 {
-    void Hit_Tracking(GameObject target)
+    private void Hit_Tracking(GameObject target)
     {
         if (isDamage == true)
         {
@@ -138,23 +134,12 @@ public partial class EnemyCharater
             if (!isDamage)
             {
                 cur_health = cur_health - playerDamage;
-                StartCoroutine(OnDamage());
+                StartCoroutine(OnDamage(sprite, isDamage));
             }
         }
     }
 
-    IEnumerator OnDamage()
-    {
-        isDamage = true;
-        sprite.color = Color.red;
-
-        yield return new WaitForSeconds(0.5f);
-
-        isDamage = false;
-        sprite.color = Color.white;
-    }
-
-    void Enemy_Die()
+    private void Enemy_Die()
     {
         if (health_Slider.value <= 0)
         {
@@ -167,7 +152,7 @@ public partial class EnemyCharater
             isDie = false;
     }
 
-    void Search(GameObject enemySearch)
+    private void Search(GameObject enemySearch)
     {
         Rate_Of_Fire = 3f;
 
@@ -193,7 +178,7 @@ public partial class EnemyCharater
             Danger.SetActive(false);
     }
 
-    void Attack(Vector3 target)
+    private void Attack(Vector3 target)
     {
         Vector3 targetPos = target;
         Vector3 dir = targetPos - transform.position;
@@ -206,7 +191,7 @@ public partial class EnemyCharater
         // 생성할 때 키를 주고 rotation 방향으로 발사하는 걸로 바꾸고싶어
     }
 
-    Transform GetNearest()
+    private Transform GetNearest()
     {
         Transform target = null;
         float diff = 15;

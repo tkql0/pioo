@@ -24,9 +24,14 @@ public class AttackableCharacter : MonoBehaviour
         CoolDown_Time = 0f;
     }
 
-    private void EnemyCommand(long InCharacterld)
+    public IEnumerator OnDamage(SpriteRenderer sprite, bool isDamage)
     {
-        if (GameTree.GAME.objectController.enemyDataList.TryGetValue(InCharacterld, out var outCharacter) == false)
-            return;
+        isDamage = true;
+        sprite.color = Color.red;
+
+        yield return new WaitForSeconds(0.5f);
+
+        isDamage = false;
+        sprite.color = Color.white;
     }
 }

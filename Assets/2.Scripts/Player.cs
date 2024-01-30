@@ -189,7 +189,7 @@ private void OnTriggerStay2D(Collider2D collision)
             {
                 collision.gameObject.SetActive(false);
                 curHealth = curHealth - 5;
-                StartCoroutine(OnDamage());
+                StartCoroutine(OnDamage(sprite, isDamage));
             }
         }
     }
@@ -197,51 +197,38 @@ private void OnTriggerStay2D(Collider2D collision)
 
 public partial class Player
 {
-    public int Lv_point = 0;
     [SerializeField]
-    float maxHealth;
-    public float curHealth;
+    private float maxHealth;
+    private float curHealth;
 
     [SerializeField]
-    float maxBreath;
-    float curBreath;
+    private float maxBreath;
+    private float curBreath;
 
     [SerializeField]
-    float maxExperience;
-    float curExperience;
+    private float maxExperience;
+    private float curExperience;
 
-    int PlayerLv = 1;
+    private int PlayerLv = 1;
     [SerializeField]
-    Text ExpTxt;
+    private Text ExpTxt;
     [SerializeField]
-    Text HpTxt;
+    private Text HpTxt;
     [SerializeField]
-    Text BpTxt;
+    private Text BpTxt;
     [SerializeField]
-    Slider healthSlider;
+    private Slider healthSlider;
     [SerializeField]
-    Slider breathSlider;
+    private Slider breathSlider;
     [SerializeField]
-    Slider expSlider;
+    private Slider expSlider;
 
-    void Lv_Up()
+    private void Lv_Up()
     {
         curExperience = 0;
         PlayerLv++;
         ExpTxt.text = "Lv. " + PlayerLv;
-        Lv_point += 1;
         isLv_up = false;
         maxHealth += 2;
-    }
-
-    IEnumerator OnDamage()
-    {
-        isDamage = true;
-        sprite.color = Color.red;
-
-        yield return new WaitForSeconds(0.5f);
-
-        isDamage = false;
-        sprite.color = Color.white;
     }
 }

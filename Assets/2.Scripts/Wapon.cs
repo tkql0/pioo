@@ -9,16 +9,16 @@ public class Wapon : MonoBehaviour
     public int key;
 
     [SerializeField]
-    Rigidbody2D rigid;
+    private Rigidbody2D rigid;
 
-    void OnEnable()
+    private void OnEnable()
     {
         wapon = gameObject;
 
         rigid = GetComponent<Rigidbody2D>();
     }
 
-    void Update()
+    private void Update()
     {
         if (key == 1 && transform.position.y < 0)
         {
@@ -30,7 +30,7 @@ public class Wapon : MonoBehaviour
         lance_gravity();
     }
 
-    void lance_gravity()
+    private void lance_gravity()
     {
         Vector3 myPos = transform.position;
         Vector3 gravityPoint = new Vector3(0, 0, 0);

@@ -6,7 +6,7 @@ public class AttackableCharacter : MonoBehaviour
 {
     public LayerMask targetMask;
 
-    public int playerDamage = 5;
+    public int Damage = 5;
 
     public float Rate_Of_Fire;
     public float CoolDown_Time;
@@ -20,10 +20,7 @@ public class AttackableCharacter : MonoBehaviour
     {
         
     }
-    private void FixedUpdate()
-    {
-        
-    }
+
     private void OnEnable()
     {
         Rate_Of_Fire = 5f;

@@ -11,8 +11,6 @@ public class FishCharacter : MonoBehaviour
     [SerializeField]
     SpriteRenderer sprite;
 
-    public int Experience = 0;
-
     public int key;
 
     void Awake()

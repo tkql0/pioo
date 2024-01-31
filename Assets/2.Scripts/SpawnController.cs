@@ -160,7 +160,7 @@ public class SpawnController
             if (!GameTree.GAME.objectController.enemyWaponDataList[i].wapon.activeSelf)
             {
                 GameTree.GAME.objectController.enemyWaponDataList[i].wapon.SetActive(true);
-                GameTree.GAME.objectController.playerWaponDataList[i].key = 2;
+                GameTree.GAME.objectController.enemyWaponDataList[i].key = 2;
 
                 GameTree.GAME.objectController.enemyWaponDataList[i].transform.position
                     = new Vector3(spawnObject.transform.position.x, spawnObject.transform.position.y, 0);

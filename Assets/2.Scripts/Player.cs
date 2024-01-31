@@ -25,35 +25,20 @@ public partial class Player : AttackableCharacter
     private bool isMove;
     private bool isJump;
     public bool isDie;
-    bool isLv_up;
-    bool isDamage;
-    bool mouse_click;
+    public bool isLv_up;
+    private bool isDamage;
+    private bool mouse_click;
 
-    [SerializeField]
-    private float maxHealth;
-    private float curHealth;
+    public float maxHealth;
+    public float curHealth;
 
-    [SerializeField]
-    private float maxBreath;
-    private float curBreath;
+    public float maxBreath;
+    public float curBreath;
 
-    [SerializeField]
-    private float maxExperience;
-    private float curExperience;
+    public float maxExperience;
+    public float curExperience;
 
-    private int PlayerLv = 1;
-    [SerializeField]
-    private Text ExpTxt;
-    [SerializeField]
-    private Text HpTxt;
-    [SerializeField]
-    private Text BpTxt;
-    [SerializeField]
-    private Slider healthSlider;
-    [SerializeField]
-    private Slider breathSlider;
-    [SerializeField]
-    private Slider expSlider;
+    public int PlayerLv = 1;
 
     private const string Horizontal = "Horizontal";
     private const string Vertical = "Vertical";
@@ -69,10 +54,6 @@ public partial class Player : AttackableCharacter
         curHealth = maxHealth;
         curBreath = maxBreath;
 
-        healthSlider.value = maxHealth;
-        breathSlider.value = maxBreath;
-        expSlider.value = 0;
-
         moveMaxspeed = 20f;
         isDie = false;
         isMove = false;
@@ -81,25 +62,8 @@ public partial class Player : AttackableCharacter
 
     private void Update()
     {
-        if (healthSlider.value <= 0)
-        {
-            isDie = true;
-            Time.timeScale = 0;
-        }
-
         LookAtMouse();
-        Value_Update();
         PlayerMove();
-
-        if (expSlider.value == 100 && isLv_up == false)
-        {
-            isLv_up = true;
-            Lv_Up();
-        }
-        HpTxt.text = (int)curHealth + " / " + maxHealth;
-        BpTxt.text = (int)curBreath + " / " + maxBreath;
-
-        //Search();
     }
     private void FixedUpdate()
     {
@@ -118,16 +82,6 @@ public partial class Player : AttackableCharacter
             else if (rigid.velocity.y < moveMaxspeed * (-1))
                 rigid.velocity = new Vector2(rigid.velocity.x, moveMaxspeed * (-1));
         }
-    }
-    void Value_Update()
-    {
-        healthSlider.maxValue = maxHealth;
-        breathSlider.maxValue = maxBreath;
-        expSlider.maxValue = maxExperience;
-
-        healthSlider.value = curHealth;
-        breathSlider.value = curBreath;
-        expSlider.value = curExperience;
     }
 
     private void PlayerMove()
@@ -217,17 +171,9 @@ private void OnTriggerStay2D(Collider2D collision)
             if (collision.gameObject.CompareTag(Enemy_Attack))
             {
                 collision.gameObject.SetActive(false);
-                curHealth = curHealth - 5;
+                curHealth = curHealth - Damage;
                 StartCoroutine(OnDamage(sprite, isDamage));
             }
         }
-    }
-    private void Lv_Up()
-    {
-        curExperience = 0;
-        PlayerLv++;
-        ExpTxt.text = "Lv. " + PlayerLv;
-        isLv_up = false;
-        maxHealth += 2;
     }
 }

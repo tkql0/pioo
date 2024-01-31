@@ -29,17 +29,19 @@ public class ObjectController
         //    FishCommand(i);
         //}
 
-        //for (long i = 0; i < enemyList.Count; i++)
+        //for (long i = 0; i < enemyDataList.Count; i++)
         //{
         //    EnemyCommand(i);
         //}
     }
 
-    //private void EnemyCommand(long InCharacterld)
-    //{
-    //    if (enemyDataList.TryGetValue(InCharacterld, out var outCharacter) == false)
-    //        return;
-    //}
+    private void EnemyCommand(long InCharacterld)
+    {
+        if (enemyDataList.TryGetValue(InCharacterld, out var outCharacter) == false)
+            return;
+
+        
+    }
 
     //private void FishCommand(long InCharacterld)
     //{

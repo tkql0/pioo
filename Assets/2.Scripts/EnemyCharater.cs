@@ -39,6 +39,12 @@ public partial class EnemyCharater : AttackableCharacter
 
         key = 99;
         Enemy = gameObject;
+    }
+
+    private void OnEnable()
+    {
+        StartCoroutine(MoveDelay());
+
         isDie = false;
         isDamage = false;
         sprite.color = Color.white;
@@ -46,11 +52,6 @@ public partial class EnemyCharater : AttackableCharacter
         cur_health = max_health;
         health_Slider.maxValue = max_health;
         health_Slider.value = max_health;
-    }
-
-    private void OnEnable()
-    {
-        StartCoroutine(MoveDelay());
     }
 
     private void Update()
@@ -96,23 +97,21 @@ public partial class EnemyCharater : AttackableCharacter
     }
     private void Hit_Tracking(GameObject target)
     {
-        if (isDamage == true)
-        {
-            Vector3 playerPos = target.transform.position;
-            Vector3 myPos = transform.position;
+        Vector3 playerPos = target.transform.position;
+        Vector3 myPos = transform.position;
 
-            float DirX = playerPos.x - myPos.x;
+        float DirX = playerPos.x - myPos.x;
 
-            if (DirX != 0)
-                sprite.flipX = DirX < 0;
+        if (DirX != 0)
+            sprite.flipX = DirX < 0;
 
-            if (sprite.flipX == true)
-                enemySearch.transform.position = new Vector3(transform.position.x - 2,
-                    enemySearch.transform.position.y, enemySearch.transform.position.z);
-            else
-                enemySearch.transform.position = new Vector3(transform.position.x + 2,
-                    enemySearch.transform.position.y, enemySearch.transform.position.z);
-        }
+        if (sprite.flipX == true)
+            enemySearch.transform.position = new Vector3(transform.position.x - 2,
+                enemySearch.transform.position.y, enemySearch.transform.position.z);
+        else
+            enemySearch.transform.position = new Vector3(transform.position.x + 2,
+                enemySearch.transform.position.y, enemySearch.transform.position.z);
+
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -126,7 +125,7 @@ public partial class EnemyCharater : AttackableCharacter
 
             if (!isDamage)
             {
-                cur_health = cur_health - playerDamage;
+                cur_health = cur_health - Damage;
                 StartCoroutine(OnDamage(sprite, isDamage));
             }
         }

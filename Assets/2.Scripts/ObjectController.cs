@@ -10,10 +10,14 @@ public class ObjectController
     public Dictionary<long, FishCharacter> fishDataList = new Dictionary<long, FishCharacter>();
     public Dictionary<long, Wapon> playerWaponDataList = new Dictionary<long, Wapon>();
     public Dictionary<long, Wapon> enemyWaponDataList = new Dictionary<long, Wapon>();
+    public Dictionary<int, Map> mapDataList = new Dictionary<int, Map>();
 
     public void OnEnable()
     {
-        //Init();
+        for (int i = 0; i < mapDataList.Count; i++)
+        {
+            MapSpawn(i);
+        }
     }
 
     public void OnDisable()
@@ -35,13 +39,24 @@ public class ObjectController
         //}
     }
 
-    private void EnemyCommand(long InCharacterld)
+    private void MapSpawn(int InCharacterld)
     {
-        if (enemyDataList.TryGetValue(InCharacterld, out var outCharacter) == false)
+        if (mapDataList.TryGetValue(InCharacterld, out var outCharacter) == false)
             return;
 
-        
+        if (outCharacter.gameObject.activeSelf)
+        {
+            outCharacter.MapMonsterSpawn(outCharacter.enemyMaxSize, outCharacter.fishMaxSize);
+        }
     }
+
+    //private void EnemyCommand(long InCharacterld)
+    //{
+    //    if (enemyDataList.TryGetValue(InCharacterld, out var outCharacter) == false)
+    //        return;
+
+
+    //}
 
     //private void FishCommand(long InCharacterld)
     //{

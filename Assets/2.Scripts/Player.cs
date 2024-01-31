@@ -1,9 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
-public partial class Player : AttackableCharacter
+public class Player : AttackableCharacter
 {
     public GameObject player;
 
@@ -11,14 +10,9 @@ public partial class Player : AttackableCharacter
 
     private Vector2 inputVec;
     public float moveMaxspeed;
-    float time;
+    private float time;
 
     private Vector3 gravityPoint;
-
-    [SerializeField]
-    private Rigidbody2D rigid;
-    [SerializeField]
-    private SpriteRenderer sprite;
 
     public Camera cam;
 
@@ -108,7 +102,7 @@ public partial class Player : AttackableCharacter
                 else
                     curHealth -= Time.deltaTime;
             }
-            else if (!isMove && Input.GetKey(KeyCode.Space))
+            else if (!isMove && Input.GetKey(KeyCode.LeftShift))
             {
                 isMove = false;
                 rigid.gravityScale = 4f;
@@ -122,7 +116,7 @@ public partial class Player : AttackableCharacter
                     isJump = true;
                 }
             }
-            else if (!isMove && !Input.GetKey(KeyCode.Space))
+            else if (!isMove && !Input.GetKey(KeyCode.LeftShift))
             {
                 rigid.gravityScale = 7f;
                 curBreath = maxBreath;
@@ -150,7 +144,7 @@ public partial class Player : AttackableCharacter
             Attack.GetComponent<Rigidbody2D>().velocity = dir * time;
         }
     }
-    void LookAtMouse()
+    private void LookAtMouse()
     {
         Vector2 mousePos = cam.ScreenToWorldPoint(Input.mousePosition);
         Vector2 dir = new Vector2(mousePos.x - transform.position.x, mousePos.y - transform.position.y);
@@ -159,7 +153,7 @@ public partial class Player : AttackableCharacter
         PlayerAttack(dir);
     }
 
-private void OnTriggerStay2D(Collider2D collision)
+    private void OnTriggerStay2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag(Fish))
         {

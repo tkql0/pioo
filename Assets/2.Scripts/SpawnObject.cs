@@ -5,9 +5,6 @@ using UnityEngine;
 public class SpawnObject : MonoBehaviour
 {
     public int maxSize;
-    //public int maxPlayers;
-
-    //private int _playerSpawnConut;
     private int _mapSpawnConut;
     private long _enemySpawnConut;
     private long _fishSpawnConut;
@@ -27,13 +24,9 @@ public class SpawnObject : MonoBehaviour
     public void Init()
     {
         maxSize = 0;
-        //maxPlayers = GameTree.UI.player;
-        //maxPlayers = 1;
-
         _fishSpawnConut = 0;
         _enemySpawnConut = 0;
         _mapSpawnConut = 0;
-        //_playerSpawnConut = 0;
         _playerWaponSpawnConut = 0;
         _enemyWaponSpawnConut = 0;
 
@@ -60,12 +53,12 @@ public class SpawnObject : MonoBehaviour
             SpawnPlayerAttackPool();
             SpawnEnemyAttackPool();
 
-        for (int i = 0; i < GameTree.GAME.mapController.mapList.Count; i++)
+        for (int i = 0; i < GameTree.GAME.objectController.mapDataList.Count; i++)
         {
             SpawnMonsterPool();
             SpawnFishPool();
 
-            GameTree.GAME.mapController.mapList[i].key = i;
+            GameTree.GAME.objectController.mapDataList[i].key = i;
         }
     }
 
@@ -85,7 +78,7 @@ public class SpawnObject : MonoBehaviour
             GameObject MapsObject = Resources.Load<GameObject>(Prefab_Map);
             GameObject MapsObjects = Instantiate(MapsObject,
                 new Vector3(spawnCenter.x + (i * 20), 0, 0), Quaternion.identity);
-            GameTree.GAME.mapController.mapList.Add(_mapSpawnConut, MapsObjects.GetComponent<Map>());
+            GameTree.GAME.objectController.mapDataList.Add(_mapSpawnConut, MapsObjects.GetComponent<Map>());
             _mapSpawnConut++;
         }
     }

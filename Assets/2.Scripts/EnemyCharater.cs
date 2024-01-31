@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public partial class EnemyCharater : AttackableCharacter
+public class EnemyCharater : AttackableCharacter
 {
     public GameObject Enemy;
 
@@ -11,9 +11,6 @@ public partial class EnemyCharater : AttackableCharacter
     private GameObject enemySearch;
     [SerializeField]
     private GameObject Danger;
-
-    private Rigidbody2D rigid;
-    private SpriteRenderer sprite;
 
     private RaycastHit2D[] inTarget;
 
@@ -180,7 +177,6 @@ public partial class EnemyCharater : AttackableCharacter
         Attack.transform.position = transform.position;
         Attack.transform.rotation = transform.rotation;
         Attack.GetComponent<Rigidbody2D>().velocity = dir * 10;
-        // 생성할 때 키를 주고 rotation 방향으로 발사하는 걸로 바꾸고싶어
     }
 
     private Transform GetNearest()

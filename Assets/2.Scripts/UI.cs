@@ -6,12 +6,10 @@ using UnityEngine.UI;
 public class UI : MonoBehaviour
 {
     [SerializeField]
-    GameObject GameStart_Panel;
-    [SerializeField]
-    GameObject GameOver_Panel;
+    private GameObject GameStart_Panel;
 
     [SerializeField]
-    GameObject Stop_Button;
+    private GameObject Stop_Button;
 
     public Text experienceTxt;
     public Text healthTxt;
@@ -21,7 +19,7 @@ public class UI : MonoBehaviour
     public Slider breathSlider;
     public Slider experienceSlider;
 
-    //public RectTransform stats_ui;
+    public RectTransform menu_ui;
 
     public bool Click_count = false;
 
@@ -80,13 +78,13 @@ public class UI : MonoBehaviour
     {
         if (Click_count == false)
         {
-            //enter();
+            enter();
             Click_count = true;
             Time.timeScale = 0;
         }
         else
         {
-            //exit();
+            exit();
             Click_count = false;
             Time.timeScale = 1;
         }
@@ -100,13 +98,13 @@ public class UI : MonoBehaviour
         GameTree.GAME.objectController.player.maxHealth += 2;
     }
 
-    //void enter()
-    //{
-    //    stats_ui.anchoredPosition = Vector2.zero;
-    //}
+    void enter()
+    {
+        menu_ui.anchoredPosition = Vector2.zero;
+    }
 
-    //void exit()
-    //{
-    //    stats_ui.anchoredPosition = Vector2.up * 2000;
-    //}
+    void exit()
+    {
+        menu_ui.anchoredPosition = Vector2.up * 2000;
+    }
 }

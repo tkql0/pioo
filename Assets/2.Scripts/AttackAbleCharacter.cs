@@ -6,6 +6,9 @@ public class AttackableCharacter : MonoBehaviour
 {
     public LayerMask targetMask;
 
+    public Rigidbody2D rigid;
+    public SpriteRenderer sprite;
+
     public int Damage = 5;
 
     public float Rate_Of_Fire;

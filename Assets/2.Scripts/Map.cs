@@ -87,7 +87,7 @@ public class Map : MonoBehaviour
         for (int i = 0; i < GameManager.OBJECT.enemyDataList.Count; i++)
         {
             if (key == GameManager.OBJECT.enemyDataList[i].key
-                && GameManager.OBJECT.enemyDataList[i].Enemy.activeSelf)
+                && GameManager.OBJECT.enemyDataList[i].enemy.activeSelf)
             {
                 enemyReSpawnSize++;
             }
@@ -107,3 +107,8 @@ public class Map : MonoBehaviour
         return (enemyReSpawnMaxSize, fishReSpawnMaxSize);
     }
 }
+// 한 맵에서 랜덤한 수의 몬스터를 잡으면 맵 하늘에 현상금 포스터가 붙고
+// 랜덤한 시간이 지나면 보스 몬스터 생성
+// 바위오브젝트도 만들어서 랜덤한 수의 맵을 만들거나 랜덤맵 몇개 만들어서
+// 만들어 놓은 맵 하나 생성되게?
+// 일정한 맵이면 배열로 해도 되려나

@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Wapon : MonoBehaviour
+public class Weapon : MonoBehaviour
 {
-    public GameObject wapon;
+    public GameObject weapon;
 
     public int key;
 
@@ -13,7 +13,7 @@ public class Wapon : MonoBehaviour
 
     private void OnEnable()
     {
-        wapon = gameObject;
+        weapon = gameObject;
 
         rigid = GetComponent<Rigidbody2D>();
     }
@@ -53,5 +53,10 @@ public class Wapon : MonoBehaviour
         }
         if (collision.gameObject.CompareTag("Player") && key == 2)
             gameObject.SetActive(false);
+    }
+
+    public void SetActiveObject(bool InIsActive)
+    {
+        weapon?.SetActive(InIsActive);
     }
 }

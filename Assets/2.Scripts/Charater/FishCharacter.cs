@@ -27,6 +27,11 @@ public class FishCharacter : MonoBehaviour
         StartCoroutine(MoveDelay());
     }
 
+    private void OnDestroy()
+    {
+        key = 99;
+    }
+
     public void Move()
     {
         if (!gameObject.activeSelf)

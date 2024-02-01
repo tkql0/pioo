@@ -59,16 +59,16 @@ public class SpawnController
 
         for (int i = 0; i < GameManager.OBJECT.enemyDataList.Count; i++)
         {
-            if (!GameManager.OBJECT.enemyDataList[i].Enemy.activeSelf)
+            if (!GameManager.OBJECT.enemyDataList[i].enemy.activeSelf)
             {
-                GameManager.OBJECT.enemyDataList[i].Enemy.SetActive(true);
+                GameManager.OBJECT.SetActiveCharacter(i, true);
 
                 GameManager.OBJECT.enemyDataList[i].transform.position
                     = new Vector3(randomPositionX + spawnObject.transform.position.x, 0, 0);
 
                 GameManager.OBJECT.enemyDataList[i].key = key;
 
-                return GameManager.OBJECT.enemyDataList[i].Enemy;
+                return GameManager.OBJECT.enemyDataList[i].enemy;
             }
         }
         return null;
@@ -102,15 +102,14 @@ public class SpawnController
 
         for (int i = 0; i < GameManager.OBJECT.enemyDataList.Count; i++)
         {
-            myPosition = GameManager.OBJECT.enemyDataList[i].Enemy.transform.position;
+            myPosition = GameManager.OBJECT.enemyDataList[i].enemy.transform.position;
 
             float DistanceX = target.x - myPosition.x;
             float differenceX = Mathf.Abs(DistanceX);
 
             if (differenceX > DeSpawn_Distance)
             {
-                GameManager.OBJECT.enemyDataList[i].key = 99;
-                GameManager.OBJECT.enemyDataList[i].Enemy.SetActive(false);
+                GameManager.OBJECT.SetActiveCharacter(i, false);
             }
         }
     }
@@ -128,7 +127,6 @@ public class SpawnController
 
             if (differenceX > DeSpawn_Distance)
             {
-                GameManager.OBJECT.fishDataList[i].key = 99;
                 GameManager.OBJECT.fishDataList[i].Fish.SetActive(false);
             }
         }
@@ -138,15 +136,15 @@ public class SpawnController
     {
         for (int i = 0; i < GameManager.OBJECT.playerWaponDataList.Count; i++)
         {
-            if (!GameManager.OBJECT.playerWaponDataList[i].wapon.activeSelf)
+            if (!GameManager.OBJECT.playerWaponDataList[i].weapon.activeSelf)
             {
-                GameManager.OBJECT.playerWaponDataList[i].wapon.SetActive(true);
+                GameManager.OBJECT.playerWaponDataList[i].weapon.SetActive(true);
                 GameManager.OBJECT.playerWaponDataList[i].key = 1;
 
                 GameManager.OBJECT.playerWaponDataList[i].transform.position
                     = new Vector3(spawnObject.transform.position.x, spawnObject.transform.position.y, 0);
 
-                return GameManager.OBJECT.playerWaponDataList[i].wapon;
+                return GameManager.OBJECT.playerWaponDataList[i].weapon;
             }
         }
         return null;
@@ -156,15 +154,15 @@ public class SpawnController
     {
         for (int i = 0; i < GameManager.OBJECT.enemyWaponDataList.Count; i++)
         {
-            if (!GameManager.OBJECT.enemyWaponDataList[i].wapon.activeSelf)
+            if (!GameManager.OBJECT.enemyWaponDataList[i].weapon.activeSelf)
             {
-                GameManager.OBJECT.enemyWaponDataList[i].wapon.SetActive(true);
+                GameManager.OBJECT.enemyWaponDataList[i].weapon.SetActive(true);
                 GameManager.OBJECT.enemyWaponDataList[i].key = 2;
 
                 GameManager.OBJECT.enemyWaponDataList[i].transform.position
                     = new Vector3(spawnObject.transform.position.x, spawnObject.transform.position.y, 0);
 
-                return GameManager.OBJECT.enemyWaponDataList[i].wapon;
+                return GameManager.OBJECT.enemyWaponDataList[i].weapon;
             }
         }
         return null;

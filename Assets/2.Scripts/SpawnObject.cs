@@ -47,11 +47,11 @@ public class SpawnObject : MonoBehaviour
     {
         SpawnMyPlayer();
 
-            Vector3 targetPosition = GameManager.OBJECT.player.transform.position;
+        Vector3 targetPosition = GameManager.OBJECT.player.transform.position;
 
-            SpawnMap(targetPosition);
-            SpawnPlayerAttackPool();
-            SpawnEnemyAttackPool();
+        SpawnMap(targetPosition);
+        SpawnPlayerAttackPool();
+        SpawnEnemyAttackPool();
 
         for (int i = 0; i < GameManager.OBJECT.mapDataList.Count; i++)
         {
@@ -64,9 +64,9 @@ public class SpawnObject : MonoBehaviour
 
     private void SpawnMyPlayer()
     {
-            GameObject playersObject = Resources.Load<GameObject>(Prefab_Player);
-            GameObject playersObjects =  Instantiate(playersObject,
-                GameManager.SPAWN.spawnGroupObject.transform);
+        GameObject playersObject = Resources.Load<GameObject>(Prefab_Player);
+        GameObject playersObjects = Instantiate(playersObject,
+            GameManager.SPAWN.spawnGroupObject.transform);
 
         GameManager.OBJECT.player = playersObjects.GetComponent<Player>();
     }
@@ -119,7 +119,7 @@ public class SpawnObject : MonoBehaviour
 
     private void SpawnPlayerAttackPool()
     {
-        maxSize = 40;
+        maxSize = 20;
 
         for (int i = 0; i < maxSize; i++)
         {
@@ -128,7 +128,7 @@ public class SpawnObject : MonoBehaviour
                 GameManager.SPAWN.spawnGroupObject.transform);
 
             GameManager.OBJECT.playerWaponDataList.Add(_playerWaponSpawnConut,
-                PlayersAttackObject.GetComponent<Wapon>());
+                PlayersAttackObject.GetComponent<Weapon>());
             _playerWaponSpawnConut++;
             PlayersAttackObject.SetActive(false);
         }
@@ -136,7 +136,7 @@ public class SpawnObject : MonoBehaviour
 
     private void SpawnEnemyAttackPool()
     {
-        maxSize = 40;
+        maxSize = 20;
 
         for (int i = 0; i < maxSize; i++)
         {
@@ -145,7 +145,7 @@ public class SpawnObject : MonoBehaviour
                 GameManager.SPAWN.spawnGroupObject.transform);
 
             GameManager.OBJECT.enemyWaponDataList.Add(_enemyWaponSpawnConut,
-                EnemysAttackObject.GetComponent<Wapon>());
+                EnemysAttackObject.GetComponent<Weapon>());
             _enemyWaponSpawnConut++;
             EnemysAttackObject.SetActive(false);
         }

@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class EnemyCharater : AttackableCharacter
 {
-    public GameObject Enemy;
+    public GameObject enemy;
 
     [SerializeField]
     private GameObject enemySearch;
@@ -35,7 +35,7 @@ public class EnemyCharater : AttackableCharacter
         sprite = GetComponent<SpriteRenderer>();
 
         key = 99;
-        Enemy = gameObject;
+        enemy = gameObject;
     }
 
     private void OnEnable()
@@ -49,6 +49,11 @@ public class EnemyCharater : AttackableCharacter
         cur_health = max_health;
         health_Slider.maxValue = max_health;
         health_Slider.value = max_health;
+    }
+
+    private void OnDestroy()
+    {
+        key = 99;
     }
 
     private void Update()
@@ -201,5 +206,10 @@ public class EnemyCharater : AttackableCharacter
             }
         }
         return target;
+    }
+
+    public void SetActiveObject(bool InIsActive)
+    {
+        enemy?.SetActive(InIsActive);
     }
 }

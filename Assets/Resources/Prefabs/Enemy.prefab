@@ -638,18 +638,17 @@ MonoBehaviour:
   targetMask:
     serializedVersion: 2
     m_Bits: 64
-  playerDamage: 5
+  rigid: {fileID: 0}
+  sprite: {fileID: 0}
+  Damage: 5
   Rate_Of_Fire: 0
   CoolDown_Time: 0
   Enemy: {fileID: 0}
   enemySearch: {fileID: 3090974467343328569}
   Danger: {fileID: 2752018058316488110}
-  rigid: {fileID: 0}
-  sprite: {fileID: 0}
   health_Slider: {fileID: 7431387396427753443}
   key: 0
   max_health: 20
-  cur_health: 20
   scanRange: 2
 --- !u!1001 &165861333883718943
 PrefabInstance:
@@ -662,8 +661,48 @@ PrefabInstance:
       propertyPath: m_Name
       value: Danger
       objectReference: {fileID: 0}
+    - target: {fileID: 2629086057504084145, guid: 2bd4dada2316dce44a375261cc470710, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3213308788114004330, guid: 2bd4dada2316dce44a375261cc470710, type: 3}
+      propertyPath: m_Size.x
+      value: 0.48
+      objectReference: {fileID: 0}
+    - target: {fileID: 3213308788114004330, guid: 2bd4dada2316dce44a375261cc470710, type: 3}
+      propertyPath: m_Size.y
+      value: 0.48
+      objectReference: {fileID: 0}
+    - target: {fileID: 3213308788114004330, guid: 2bd4dada2316dce44a375261cc470710, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 03cb0f9b9d35a14499ccade97f1b3da1, type: 3}
+    - target: {fileID: 3213308788114004330, guid: 2bd4dada2316dce44a375261cc470710, type: 3}
+      propertyPath: m_Color.b
+      value: 0.29810432
+      objectReference: {fileID: 0}
+    - target: {fileID: 3213308788114004330, guid: 2bd4dada2316dce44a375261cc470710, type: 3}
+      propertyPath: m_Color.g
+      value: 0.29810432
+      objectReference: {fileID: 0}
+    - target: {fileID: 3213308788114004330, guid: 2bd4dada2316dce44a375261cc470710, type: 3}
+      propertyPath: m_Color.r
+      value: 0.7264151
+      objectReference: {fileID: 0}
+    - target: {fileID: 3213308788114004330, guid: 2bd4dada2316dce44a375261cc470710, type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4928518930801253170, guid: 2bd4dada2316dce44a375261cc470710, type: 3}
       propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4928518930801253170, guid: 2bd4dada2316dce44a375261cc470710, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4928518930801253170, guid: 2bd4dada2316dce44a375261cc470710, type: 3}
+      propertyPath: m_LocalScale.y
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4928518930801253170, guid: 2bd4dada2316dce44a375261cc470710, type: 3}
@@ -672,7 +711,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4928518930801253170, guid: 2bd4dada2316dce44a375261cc470710, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 1.08
       objectReference: {fileID: 0}
     - target: {fileID: 4928518930801253170, guid: 2bd4dada2316dce44a375261cc470710, type: 3}
       propertyPath: m_LocalPosition.z

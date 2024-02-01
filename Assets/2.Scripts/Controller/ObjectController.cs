@@ -8,8 +8,8 @@ public class ObjectController
     public Player player;
     public Dictionary<long, EnemyCharater> enemyDataList = new Dictionary<long, EnemyCharater>();
     public Dictionary<long, FishCharacter> fishDataList = new Dictionary<long, FishCharacter>();
-    public Dictionary<long, Wapon> playerWaponDataList = new Dictionary<long, Wapon>();
-    public Dictionary<long, Wapon> enemyWaponDataList = new Dictionary<long, Wapon>();
+    public Dictionary<long, Weapon> playerWaponDataList = new Dictionary<long, Weapon>();
+    public Dictionary<long, Weapon> enemyWaponDataList = new Dictionary<long, Weapon>();
     public Dictionary<int, Map> mapDataList = new Dictionary<int, Map>();
 
     public void OnEnable()
@@ -27,15 +27,7 @@ public class ObjectController
 
     public void Init()
     {
-        //for (long i = 0; i < fishList.Count; i++)
-        //{
-        //    FishCommand(i);
-        //}
-
-        //for (long i = 0; i < enemyDataList.Count; i++)
-        //{
-        //    EnemyCommand(i);
-        //}
+            
     }
 
     private void MapSpawn(int InCharacterld)
@@ -49,17 +41,19 @@ public class ObjectController
         }
     }
 
-    //private void EnemyCommand(long InCharacterld)
-    //{
-    //    if (enemyDataList.TryGetValue(InCharacterld, out var outCharacter) == false)
-    //        return;
+    public void SetActiveCharacter(int InIndex, bool InIsActive)
+    {
+        if (enemyDataList.TryGetValue(InIndex, out var outData) == false)
+            return;
 
+        outData.SetActiveObject(InIsActive);
+    }
 
-    //}
+    public void SetActiveWeapon(int InIndex, bool InIsActive)
+    {
+        if (enemyDataList.TryGetValue(InIndex, out var outData) == false)
+            return;
 
-    //private void FishCommand(long InCharacterld)
-    //{
-    //    if (fishList.TryGetValue(InCharacterld, out var outCharacter) == false)
-    //        return;
-    //}
+        outData.SetActiveObject(InIsActive);
+    }
 }

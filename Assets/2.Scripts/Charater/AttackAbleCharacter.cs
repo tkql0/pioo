@@ -30,14 +30,12 @@ public class AttackableCharacter : MonoBehaviour
         CoolDown_Time = 0f;
     }
 
-    public IEnumerator OnDamage(SpriteRenderer sprite, bool isDamage)
+    public IEnumerator OnDamage(SpriteRenderer sprite)
     {
-        isDamage = true;
         sprite.color = Color.red;
 
         yield return new WaitForSeconds(0.5f);
 
-        isDamage = false;
         sprite.color = Color.white;
     }
 }

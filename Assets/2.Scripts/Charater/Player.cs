@@ -52,6 +52,7 @@ public class Player : AttackableCharacter
         isDie = false;
         isMove = false;
         isJump = false;
+        isDamage = false;
     }
 
     private void Update()
@@ -140,7 +141,7 @@ public class Player : AttackableCharacter
         else if (Input.GetMouseButtonUp(0) && isJump == true && mouse_click == true)
         {
             mouse_click = false;
-            GameObject Attack = GameTree.GAME.spawnController.SpawnPlayerWapon(gameObject);
+            GameObject Attack = GameManager.SPAWN.SpawnPlayerWapon(gameObject);
             Attack.GetComponent<Rigidbody2D>().velocity = dir * time;
         }
     }
@@ -164,9 +165,12 @@ public class Player : AttackableCharacter
         {
             if (collision.gameObject.CompareTag(Enemy_Attack))
             {
+                isDamage = true;
                 collision.gameObject.SetActive(false);
                 curHealth = curHealth - Damage;
-                StartCoroutine(OnDamage(sprite, isDamage));
+                StartCoroutine(OnDamage(sprite));
+
+                isDamage = false;
             }
         }
     }

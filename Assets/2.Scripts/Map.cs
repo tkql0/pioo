@@ -41,7 +41,7 @@ public class Map : MonoBehaviour
         Vector3 targetPosition;
         Vector3 myPosition;
 
-        targetPosition = GameTree.GAME.objectController.player.transform.position;
+        targetPosition = GameManager.OBJECT.player.transform.position;
         myPosition = transform.position;
 
         float DistanceX = targetPosition.x - myPosition.x;
@@ -51,7 +51,7 @@ public class Map : MonoBehaviour
 
         if (differenceX > 30.0f)
         {
-            GameTree.GAME.spawnController.DeSpawn(targetPosition);
+            GameManager.SPAWN.DeSpawn(targetPosition);
 
             transform.Translate(Vector3.right * DistanceX * 60);
 
@@ -64,7 +64,7 @@ public class Map : MonoBehaviour
 
     public void MapMonsterSpawn(int enemySize, int fishSize)
     {
-        GameTree.GAME.spawnController.Spawn(gameObject, enemySize, fishSize, key);
+        GameManager.SPAWN.Spawn(gameObject, enemySize, fishSize, key);
 
         StartCoroutine(ReSpawn(reSpawnTime, enemySize, fishSize));
     }
@@ -73,7 +73,7 @@ public class Map : MonoBehaviour
     {
         yield return new WaitForSeconds(ReSpawnTime);
 
-        GameTree.GAME.spawnController.Spawn(gameObject, ReSpawnSize(enemySize,
+        GameManager.SPAWN.Spawn(gameObject, ReSpawnSize(enemySize,
             fishSize).Item1, ReSpawnSize(enemySize, fishSize).Item2, key);
 
         StartCoroutine(ReSpawn(ReSpawnTime, enemySize, fishSize));
@@ -84,18 +84,18 @@ public class Map : MonoBehaviour
         int enemyReSpawnSize = 0;
         int fishReSpawnSize = 0;
 
-        for (int i = 0; i < GameTree.GAME.objectController.enemyDataList.Count; i++)
+        for (int i = 0; i < GameManager.OBJECT.enemyDataList.Count; i++)
         {
-            if (key == GameTree.GAME.objectController.enemyDataList[i].key
-                && GameTree.GAME.objectController.enemyDataList[i].Enemy.activeSelf)
+            if (key == GameManager.OBJECT.enemyDataList[i].key
+                && GameManager.OBJECT.enemyDataList[i].Enemy.activeSelf)
             {
                 enemyReSpawnSize++;
             }
         }
-        for (int i = 0; i < GameTree.GAME.objectController.fishDataList.Count; i++)
+        for (int i = 0; i < GameManager.OBJECT.fishDataList.Count; i++)
         {
-            if (key == GameTree.GAME.objectController.fishDataList[i].key
-                && GameTree.GAME.objectController.fishDataList[i].Fish.activeSelf)
+            if (key == GameManager.OBJECT.fishDataList[i].key
+                && GameManager.OBJECT.fishDataList[i].Fish.activeSelf)
             {
                 fishReSpawnSize++;
             }

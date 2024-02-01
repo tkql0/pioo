@@ -2,23 +2,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameManager
+public class GameManager : MonoSingleTon<GameManager>
 {
-    public ObjectController objectController;
-    public SpawnController spawnController;
+    static public ObjectController OBJECT { get; private set; }
+    static public SpawnController SPAWN { get; private set; }
 
-    public void Init()
+    private void Awake()
     {
-        objectController = new ObjectController();
-        spawnController = new SpawnController();
-
-        spawnController.OnEnable();
-        objectController.OnEnable();
+        OBJECT = new();
+        SPAWN = new();
     }
 
     public void OnEnable()
     {
-        Init();
+        SPAWN.OnEnable();
+        OBJECT.OnEnable();
     }
 
     public void OnDisable()

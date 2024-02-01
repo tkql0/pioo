@@ -47,18 +47,18 @@ public class SpawnObject : MonoBehaviour
     {
         SpawnMyPlayer();
 
-            Vector3 targetPosition = GameTree.GAME.objectController.player.transform.position;
+            Vector3 targetPosition = GameManager.OBJECT.player.transform.position;
 
             SpawnMap(targetPosition);
             SpawnPlayerAttackPool();
             SpawnEnemyAttackPool();
 
-        for (int i = 0; i < GameTree.GAME.objectController.mapDataList.Count; i++)
+        for (int i = 0; i < GameManager.OBJECT.mapDataList.Count; i++)
         {
             SpawnMonsterPool();
             SpawnFishPool();
 
-            GameTree.GAME.objectController.mapDataList[i].key = i;
+            GameManager.OBJECT.mapDataList[i].key = i;
         }
     }
 
@@ -66,9 +66,9 @@ public class SpawnObject : MonoBehaviour
     {
             GameObject playersObject = Resources.Load<GameObject>(Prefab_Player);
             GameObject playersObjects =  Instantiate(playersObject,
-                GameTree.GAME.spawnController.spawnGroupObject.transform);
+                GameManager.SPAWN.spawnGroupObject.transform);
 
-            GameTree.GAME.objectController.player = playersObjects.GetComponent<Player>();
+        GameManager.OBJECT.player = playersObjects.GetComponent<Player>();
     }
 
     private void SpawnMap(Vector3 spawnCenter)
@@ -78,7 +78,7 @@ public class SpawnObject : MonoBehaviour
             GameObject MapsObject = Resources.Load<GameObject>(Prefab_Map);
             GameObject MapsObjects = Instantiate(MapsObject,
                 new Vector3(spawnCenter.x + (i * 20), 0, 0), Quaternion.identity);
-            GameTree.GAME.objectController.mapDataList.Add(_mapSpawnConut, MapsObjects.GetComponent<Map>());
+            GameManager.OBJECT.mapDataList.Add(_mapSpawnConut, MapsObjects.GetComponent<Map>());
             _mapSpawnConut++;
         }
     }
@@ -91,9 +91,9 @@ public class SpawnObject : MonoBehaviour
         {
             GameObject EnemysObject = Resources.Load<GameObject>(Prefab_Enemy);
             GameObject EnemysObjects = Instantiate(EnemysObject,
-                GameTree.GAME.spawnController.spawnGroupObject.transform);
+                GameManager.SPAWN.spawnGroupObject.transform);
 
-            GameTree.GAME.objectController.enemyDataList.Add(_enemySpawnConut,
+            GameManager.OBJECT.enemyDataList.Add(_enemySpawnConut,
                 EnemysObjects.GetComponent<EnemyCharater>());
             _enemySpawnConut++;
             EnemysObjects.SetActive(false);
@@ -108,9 +108,9 @@ public class SpawnObject : MonoBehaviour
         {
             GameObject FishsObject = Resources.Load<GameObject>(Prefab_Fish);
             GameObject FishsObjects = Instantiate(FishsObject,
-                GameTree.GAME.spawnController.spawnGroupObject.transform);
+                GameManager.SPAWN.spawnGroupObject.transform);
 
-            GameTree.GAME.objectController.fishDataList.Add(_fishSpawnConut,
+            GameManager.OBJECT.fishDataList.Add(_fishSpawnConut,
                 FishsObjects.GetComponent<FishCharacter>());
             _fishSpawnConut++;
             FishsObjects.SetActive(false);
@@ -125,9 +125,9 @@ public class SpawnObject : MonoBehaviour
         {
             GameObject PlayerAttackObject = Resources.Load<GameObject>(Prefab_PlayerWapon);
             GameObject PlayersAttackObject = Instantiate(PlayerAttackObject,
-                GameTree.GAME.spawnController.spawnGroupObject.transform);
+                GameManager.SPAWN.spawnGroupObject.transform);
 
-            GameTree.GAME.objectController.playerWaponDataList.Add(_playerWaponSpawnConut,
+            GameManager.OBJECT.playerWaponDataList.Add(_playerWaponSpawnConut,
                 PlayersAttackObject.GetComponent<Wapon>());
             _playerWaponSpawnConut++;
             PlayersAttackObject.SetActive(false);
@@ -142,9 +142,9 @@ public class SpawnObject : MonoBehaviour
         {
             GameObject EnemyAttackObject = Resources.Load<GameObject>(Prefab_EnemyWapon);
             GameObject EnemysAttackObject = Instantiate(EnemyAttackObject,
-                GameTree.GAME.spawnController.spawnGroupObject.transform);
+                GameManager.SPAWN.spawnGroupObject.transform);
 
-            GameTree.GAME.objectController.enemyWaponDataList.Add(_enemyWaponSpawnConut,
+            GameManager.OBJECT.enemyWaponDataList.Add(_enemyWaponSpawnConut,
                 EnemysAttackObject.GetComponent<Wapon>());
             _enemyWaponSpawnConut++;
             EnemysAttackObject.SetActive(false);

@@ -122,8 +122,11 @@ public class EnemyCharater : AttackableCharacter
 
             if (!isDamage)
             {
+                isDamage = true;
                 cur_health = cur_health - Damage;
-                StartCoroutine(OnDamage(sprite, isDamage));
+                StartCoroutine(OnDamage(sprite));
+
+                isDamage = false;
             }
         }
     }
@@ -173,7 +176,7 @@ public class EnemyCharater : AttackableCharacter
         Vector3 dir = targetPos - transform.position;
         dir = dir.normalized;
 
-        GameObject Attack = GameTree.GAME.spawnController.SpawnEnemyWapon(gameObject);
+        GameObject Attack = GameManager.SPAWN.SpawnEnemyWapon(gameObject);
         Attack.transform.position = transform.position;
         Attack.transform.rotation = transform.rotation;
         Attack.GetComponent<Rigidbody2D>().velocity = dir * 10;

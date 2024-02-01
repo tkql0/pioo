@@ -23,7 +23,6 @@ public class ObjectController
     public void OnDisable()
     {
 
-
     }
 
     public void Init()

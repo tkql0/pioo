@@ -37,31 +37,31 @@ public class UI : MonoBehaviour
 
         if (healthSlider.value <= 0)
         {
-            GameTree.GAME.objectController.player.isDie = true;
+            GameManager.OBJECT.player.isDie = true;
             Time.timeScale = 0;
         }
 
-        if (experienceSlider.value == 100 && GameTree.GAME.objectController.player.isLv_up == false)
+        if (experienceSlider.value == 100 && GameManager.OBJECT.player.isLv_up == false)
         {
-            GameTree.GAME.objectController.player.isLv_up = true;
+            GameManager.OBJECT.player.isLv_up = true;
             Lv_Up();
         }
-        healthTxt.text = (int)GameTree.GAME.objectController.player.curHealth + " / " + GameTree.GAME.objectController.player.maxHealth;
-        breathTxt.text = (int)GameTree.GAME.objectController.player.curBreath + " / " + GameTree.GAME.objectController.player.maxBreath;
+        healthTxt.text = (int)GameManager.OBJECT.player.curHealth + " / " + GameManager.OBJECT.player.maxHealth;
+        breathTxt.text = (int)GameManager.OBJECT.player.curBreath + " / " + GameManager.OBJECT.player.maxBreath;
 
-        healthSlider.maxValue = GameTree.GAME.objectController.player.maxHealth;
-        breathSlider.maxValue = GameTree.GAME.objectController.player.maxBreath;
-        experienceSlider.maxValue = GameTree.GAME.objectController.player.maxExperience;
+        healthSlider.maxValue = GameManager.OBJECT.player.maxHealth;
+        breathSlider.maxValue = GameManager.OBJECT.player.maxBreath;
+        experienceSlider.maxValue = GameManager.OBJECT.player.maxExperience;
 
-        healthSlider.value = GameTree.GAME.objectController.player.curHealth;
-        breathSlider.value = GameTree.GAME.objectController.player.curBreath;
-        experienceSlider.value = GameTree.GAME.objectController.player.curExperience;
+        healthSlider.value = GameManager.OBJECT.player.curHealth;
+        breathSlider.value = GameManager.OBJECT.player.curBreath;
+        experienceSlider.value = GameManager.OBJECT.player.curExperience;
     }
 
     private void OnEnable()
     {
-        healthSlider.value = GameTree.GAME.objectController.player.maxHealth;
-        breathSlider.value = GameTree.GAME.objectController.player.maxBreath;
+        healthSlider.value = GameManager.OBJECT.player.maxHealth;
+        breathSlider.value = GameManager.OBJECT.player.maxBreath;
         experienceSlider.value = 0;
     }
 
@@ -91,11 +91,11 @@ public class UI : MonoBehaviour
     }
     private void Lv_Up()
     {
-        GameTree.GAME.objectController.player.curExperience = 0;
-        GameTree.GAME.objectController.player.PlayerLv++;
-        experienceTxt.text = "Lv. " + GameTree.GAME.objectController.player.PlayerLv;
-        GameTree.GAME.objectController.player.isLv_up = false;
-        GameTree.GAME.objectController.player.maxHealth += 2;
+        GameManager.OBJECT.player.curExperience = 0;
+        GameManager.OBJECT.player.PlayerLv++;
+        experienceTxt.text = "Lv. " + GameManager.OBJECT.player.PlayerLv;
+        GameManager.OBJECT.player.isLv_up = false;
+        GameManager.OBJECT.player.maxHealth += 2;
     }
 
     void enter()

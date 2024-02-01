@@ -22,8 +22,7 @@ public class SpawnController
 
     public void OnEnable()
     {
-        Init();
-
+        //spawnGroupObject = GameObject.FindObjectOfType<SpawnObject>().gameObject;
         spawnGroupObject = new GameObject(Object_ObjectGroup);
         SpawnObject spawnObject = spawnGroupObject.AddComponent<SpawnObject>();
 
@@ -58,18 +57,18 @@ public class SpawnController
     {
         int randomPositionX = Random.Range(Position_X_Min, Position_X_Max);
 
-        for (int i = 0; i < GameTree.GAME.objectController.enemyDataList.Count; i++)
+        for (int i = 0; i < GameManager.OBJECT.enemyDataList.Count; i++)
         {
-            if (!GameTree.GAME.objectController.enemyDataList[i].Enemy.activeSelf)
+            if (!GameManager.OBJECT.enemyDataList[i].Enemy.activeSelf)
             {
-                GameTree.GAME.objectController.enemyDataList[i].Enemy.SetActive(true);
+                GameManager.OBJECT.enemyDataList[i].Enemy.SetActive(true);
 
-                GameTree.GAME.objectController.enemyDataList[i].transform.position
+                GameManager.OBJECT.enemyDataList[i].transform.position
                     = new Vector3(randomPositionX + spawnObject.transform.position.x, 0, 0);
 
-                GameTree.GAME.objectController.enemyDataList[i].key = key;
+                GameManager.OBJECT.enemyDataList[i].key = key;
 
-                return GameTree.GAME.objectController.enemyDataList[i].Enemy;
+                return GameManager.OBJECT.enemyDataList[i].Enemy;
             }
         }
         return null;
@@ -80,18 +79,18 @@ public class SpawnController
         int randomPositionX = Random.Range(Position_X_Min, Position_X_Max);
         int randomPositionY = Random.Range(Position_Y_Min, Position_Y_Max);
 
-        for (int i = 0; i < GameTree.GAME.objectController.fishDataList.Count; i++)
+        for (int i = 0; i < GameManager.OBJECT.fishDataList.Count; i++)
         {
-            if (!GameTree.GAME.objectController.fishDataList[i].Fish.activeSelf)
+            if (!GameManager.OBJECT.fishDataList[i].Fish.activeSelf)
             {
-                GameTree.GAME.objectController.fishDataList[i].Fish.SetActive(true);
+                GameManager.OBJECT.fishDataList[i].Fish.SetActive(true);
 
-                GameTree.GAME.objectController.fishDataList[i].transform.position
+                GameManager.OBJECT.fishDataList[i].transform.position
                     = new Vector3(randomPositionX + spawnObject.transform.position.x, randomPositionY, 0);
 
-                GameTree.GAME.objectController.fishDataList[i].key = key;
+                GameManager.OBJECT.fishDataList[i].key = key;
 
-                return GameTree.GAME.objectController.fishDataList[i].Fish;
+                return GameManager.OBJECT.fishDataList[i].Fish;
             }
         }
         return null;
@@ -101,17 +100,17 @@ public class SpawnController
     {
         Vector3 myPosition;
 
-        for (int i = 0; i < GameTree.GAME.objectController.enemyDataList.Count; i++)
+        for (int i = 0; i < GameManager.OBJECT.enemyDataList.Count; i++)
         {
-            myPosition = GameTree.GAME.objectController.enemyDataList[i].Enemy.transform.position;
+            myPosition = GameManager.OBJECT.enemyDataList[i].Enemy.transform.position;
 
             float DistanceX = target.x - myPosition.x;
             float differenceX = Mathf.Abs(DistanceX);
 
             if (differenceX > DeSpawn_Distance)
             {
-                GameTree.GAME.objectController.enemyDataList[i].key = 99;
-                GameTree.GAME.objectController.enemyDataList[i].Enemy.SetActive(false);
+                GameManager.OBJECT.enemyDataList[i].key = 99;
+                GameManager.OBJECT.enemyDataList[i].Enemy.SetActive(false);
             }
         }
     }
@@ -120,34 +119,34 @@ public class SpawnController
     {
         Vector3 myPosition;
 
-        for (int i = 0; i < GameTree.GAME.objectController.fishDataList.Count; i++)
+        for (int i = 0; i < GameManager.OBJECT.fishDataList.Count; i++)
         {
-            myPosition = GameTree.GAME.objectController.fishDataList[i].Fish.transform.position;
+            myPosition = GameManager.OBJECT.fishDataList[i].Fish.transform.position;
 
             float DistanceX = target.x - myPosition.x;
             float differenceX = Mathf.Abs(DistanceX);
 
             if (differenceX > DeSpawn_Distance)
             {
-                GameTree.GAME.objectController.fishDataList[i].key = 99;
-                GameTree.GAME.objectController.fishDataList[i].Fish.SetActive(false);
+                GameManager.OBJECT.fishDataList[i].key = 99;
+                GameManager.OBJECT.fishDataList[i].Fish.SetActive(false);
             }
         }
     }
 
     public GameObject SpawnPlayerWapon(GameObject spawnObject)
     {
-        for (int i = 0; i < GameTree.GAME.objectController.playerWaponDataList.Count; i++)
+        for (int i = 0; i < GameManager.OBJECT.playerWaponDataList.Count; i++)
         {
-            if (!GameTree.GAME.objectController.playerWaponDataList[i].wapon.activeSelf)
+            if (!GameManager.OBJECT.playerWaponDataList[i].wapon.activeSelf)
             {
-                GameTree.GAME.objectController.playerWaponDataList[i].wapon.SetActive(true);
-                GameTree.GAME.objectController.playerWaponDataList[i].key = 1;
+                GameManager.OBJECT.playerWaponDataList[i].wapon.SetActive(true);
+                GameManager.OBJECT.playerWaponDataList[i].key = 1;
 
-                GameTree.GAME.objectController.playerWaponDataList[i].transform.position
+                GameManager.OBJECT.playerWaponDataList[i].transform.position
                     = new Vector3(spawnObject.transform.position.x, spawnObject.transform.position.y, 0);
 
-                return GameTree.GAME.objectController.playerWaponDataList[i].wapon;
+                return GameManager.OBJECT.playerWaponDataList[i].wapon;
             }
         }
         return null;
@@ -155,17 +154,17 @@ public class SpawnController
 
     public GameObject SpawnEnemyWapon(GameObject spawnObject)
     {
-        for (int i = 0; i < GameTree.GAME.objectController.enemyWaponDataList.Count; i++)
+        for (int i = 0; i < GameManager.OBJECT.enemyWaponDataList.Count; i++)
         {
-            if (!GameTree.GAME.objectController.enemyWaponDataList[i].wapon.activeSelf)
+            if (!GameManager.OBJECT.enemyWaponDataList[i].wapon.activeSelf)
             {
-                GameTree.GAME.objectController.enemyWaponDataList[i].wapon.SetActive(true);
-                GameTree.GAME.objectController.enemyWaponDataList[i].key = 2;
+                GameManager.OBJECT.enemyWaponDataList[i].wapon.SetActive(true);
+                GameManager.OBJECT.enemyWaponDataList[i].key = 2;
 
-                GameTree.GAME.objectController.enemyWaponDataList[i].transform.position
+                GameManager.OBJECT.enemyWaponDataList[i].transform.position
                     = new Vector3(spawnObject.transform.position.x, spawnObject.transform.position.y, 0);
 
-                return GameTree.GAME.objectController.enemyWaponDataList[i].wapon;
+                return GameManager.OBJECT.enemyWaponDataList[i].wapon;
             }
         }
         return null;

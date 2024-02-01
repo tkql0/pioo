@@ -501,7 +501,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _center: {x: 0, y: 0}
-  _mapSize: {x: 0, y: 0}
+  _mapSize: {x: 0, y: 20}
 --- !u!1 &609114061
 GameObject:
   m_ObjectHideFlags: 0

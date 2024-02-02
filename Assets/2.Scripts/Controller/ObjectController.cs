@@ -24,7 +24,7 @@ public class ObjectController
 
     public void OnEnable()
     {
-        //characterList.Add(Type.Player, new Player());
+        //characterList.Add(Type.Player, Player);
         //characterList.Add(Type.Enemy, new EnemyCharater());
 
         //characterList[Type.Player].OnDamage();

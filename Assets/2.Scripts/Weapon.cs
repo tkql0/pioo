@@ -50,7 +50,10 @@ public class Weapon : MonoBehaviour
 
     private void OnTriggerStay2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag(Enemy) || collision.gameObject.CompareTag(Player))
+        if (collision.gameObject.CompareTag(Enemy) && key == 1)
+            gameObject.SetActive(false);
+
+        if (collision.gameObject.CompareTag(Player) && key == 2)
             gameObject.SetActive(false);
     }
 }

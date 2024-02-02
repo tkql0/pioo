@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SpawnController
 {
-    public GameObject spawnGroupObject;
+    public SpawnObject spawnGroupObject;
     private const int Position_X_Min = -20;
     private const int Position_X_Max = 21;
 
@@ -13,8 +13,6 @@ public class SpawnController
 
     private const float DeSpawn_Distance = 45f;
 
-    private const string Object_ObjectGroup = "ObjectGroup";
-
     public void Init()
     {
         
@@ -22,11 +20,8 @@ public class SpawnController
 
     public void OnEnable()
     {
-        //spawnGroupObject = GameObject.FindObjectOfType<SpawnObject>().gameObject;
-        spawnGroupObject = new GameObject(Object_ObjectGroup);
-        SpawnObject spawnObject = spawnGroupObject.AddComponent<SpawnObject>();
-
-        spawnObject.Init();
+        spawnGroupObject = GameObject.FindObjectOfType<SpawnObject>();
+        spawnGroupObject.Init();
     }
 
     public void OnDisable()

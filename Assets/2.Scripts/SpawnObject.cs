@@ -77,7 +77,7 @@ public class SpawnObject : MonoBehaviour
         {
             GameObject MapsObject = Resources.Load<GameObject>(Prefab_Map);
             GameObject MapsObjects = Instantiate(MapsObject,
-                new Vector3(spawnCenter.x + (i * 20), 0, 0), Quaternion.identity);
+                new Vector3(spawnCenter.x + (i * 40), 0, 0), Quaternion.identity);
             GameManager.OBJECT.mapDataList.Add(_mapSpawnConut, MapsObjects.GetComponent<Map>());
             _mapSpawnConut++;
         }
@@ -85,7 +85,7 @@ public class SpawnObject : MonoBehaviour
 
     private void SpawnMonsterPool()
     {
-        maxSize = 15;
+        maxSize = 20;
 
         for (int i = 0; i < maxSize; i++)
         {
@@ -102,7 +102,7 @@ public class SpawnObject : MonoBehaviour
 
     private void SpawnFishPool()
     {
-        maxSize = 45;
+        maxSize = 50;
 
         for (int i = 0; i < maxSize; i++)
         {

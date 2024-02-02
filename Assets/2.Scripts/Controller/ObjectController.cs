@@ -3,8 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
+public enum Type
+{
+    Player,
+    Enemy,
+    Fish,
+    Weapon,
+}
+
 public class ObjectController
 {
+    public Dictionary<Type, AttackableCharacter> characterList = new Dictionary<Type, AttackableCharacter>();
+
     public Player player;
     public Dictionary<long, EnemyCharater> enemyDataList = new Dictionary<long, EnemyCharater>();
     public Dictionary<long, FishCharacter> fishDataList = new Dictionary<long, FishCharacter>();
@@ -14,6 +24,12 @@ public class ObjectController
 
     public void OnEnable()
     {
+        //characterList.Add(Type.Player, new Player());
+        //characterList.Add(Type.Enemy, new EnemyCharater());
+
+        //characterList[Type.Player].OnDamage();
+        //characterList[Type.Enemy].OnDamage();
+
         for (int i = 0; i < mapDataList.Count; i++)
         {
             MapSpawn(i);
@@ -25,7 +41,7 @@ public class ObjectController
 
     }
 
-    public void Init()
+    public void Update()
     {
             
     }
@@ -42,14 +58,6 @@ public class ObjectController
     }
 
     public void SetActiveCharacter(int InIndex, bool InIsActive)
-    {
-        if (enemyDataList.TryGetValue(InIndex, out var outData) == false)
-            return;
-
-        outData.SetActiveObject(InIsActive);
-    }
-
-    public void SetActiveWeapon(int InIndex, bool InIsActive)
     {
         if (enemyDataList.TryGetValue(InIndex, out var outData) == false)
             return;

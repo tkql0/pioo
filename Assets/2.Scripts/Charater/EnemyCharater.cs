@@ -60,7 +60,7 @@ public class EnemyCharater : AttackableCharacter
     {
         health_Slider.value = cur_health;
 
-        Enemy_Die();
+        //Enemy_Die();
     }
 
     private void FixedUpdate()
@@ -136,7 +136,7 @@ public class EnemyCharater : AttackableCharacter
         }
     }
 
-    private void Enemy_Die()
+    public void Enemy_Die()
     {
         if (health_Slider.value <= 0)
         {

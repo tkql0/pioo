@@ -419,7 +419,19 @@ MonoBehaviour:
   m_Value: 1
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: -6288434598024368837}
+        m_TargetAssemblyTypeName: EnemyCharater, Assembly-CSharp
+        m_MethodName: Enemy_Die
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &6254334591076926219
 GameObject:
   m_ObjectHideFlags: 0
@@ -643,7 +655,7 @@ MonoBehaviour:
   Damage: 5
   Rate_Of_Fire: 0
   CoolDown_Time: 0
-  Enemy: {fileID: 0}
+  enemy: {fileID: 0}
   enemySearch: {fileID: 3090974467343328569}
   Danger: {fileID: 2752018058316488110}
   health_Slider: {fileID: 7431387396427753443}

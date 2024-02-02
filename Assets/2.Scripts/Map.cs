@@ -49,14 +49,14 @@ public class Map : MonoBehaviour
 
         DistanceX = DistanceX > 0 ? 1 : -1;
 
-        if (differenceX > 30.0f)
+        if (differenceX > 60.0f)
         {
             GameManager.SPAWN.DeSpawn(targetPosition);
 
-            transform.Translate(Vector3.right * DistanceX * 60);
+            transform.Translate(Vector3.right * DistanceX * 120);
 
-            enemyMaxSize = Random.Range(1, 6);
-            fishMaxSize = Random.Range(1, 15);
+            enemyMaxSize = Random.Range(1, 12);
+            fishMaxSize = Random.Range(1, 30);
 
             MapMonsterSpawn(enemyMaxSize, fishMaxSize);
         }

@@ -5,13 +5,13 @@ using UnityEngine;
 public class SpawnController
 {
     public GameObject spawnGroupObject;
-    private const int Position_X_Min = -10;
-    private const int Position_X_Max = 11;
+    private const int Position_X_Min = -20;
+    private const int Position_X_Max = 21;
 
     private const int Position_Y_Min = -3;
-    private const int Position_Y_Max = -20;
+    private const int Position_Y_Max = -40;
 
-    private const float DeSpawn_Distance = 22.5f;
+    private const float DeSpawn_Distance = 45f;
 
     private const string Object_ObjectGroup = "ObjectGroup";
 

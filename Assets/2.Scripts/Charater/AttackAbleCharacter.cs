@@ -16,6 +16,7 @@ public class AttackableCharacter : MonoBehaviour
 
     public const string Fish = "Fish_exp";
     public const string Player = "Player";
+    public const string Enemy = "Enemy";
     public const string Enemy_Attack = "Enemy_Attack";
     public const string Player_Attack = "Player_Attack";
 

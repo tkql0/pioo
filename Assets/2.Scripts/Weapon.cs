@@ -11,6 +11,9 @@ public class Weapon : MonoBehaviour
     [SerializeField]
     private Rigidbody2D rigid;
 
+    public const string Player = "Player";
+    public const string Enemy = "Enemy";
+
     private void OnEnable()
     {
         weapon = gameObject;
@@ -47,16 +50,7 @@ public class Weapon : MonoBehaviour
 
     private void OnTriggerStay2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("Enemy") && key == 1)
-        {
+        if (collision.gameObject.CompareTag(Enemy) || collision.gameObject.CompareTag(Player))
             gameObject.SetActive(false);
-        }
-        if (collision.gameObject.CompareTag("Player") && key == 2)
-            gameObject.SetActive(false);
-    }
-
-    public void SetActiveObject(bool InIsActive)
-    {
-        weapon?.SetActive(InIsActive);
     }
 }

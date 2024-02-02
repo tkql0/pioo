@@ -13,15 +13,19 @@ public class GameManager : MonoSingleTon<GameManager>
         SPAWN = new();
     }
 
-    public void OnEnable()
+    private void OnEnable()
     {
         SPAWN.OnEnable();
         OBJECT.OnEnable();
     }
 
-    public void OnDisable()
+    private void OnDisable()
     {
 
+    }
 
+    private void Update()
+    {
+        
     }
 }

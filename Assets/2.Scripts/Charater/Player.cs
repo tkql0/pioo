@@ -59,7 +59,7 @@ public class Player : AttackableCharacter
     private void Update()
     {
         LookAtMouse();
-        PlayerMove();
+        PlayerMovement();
     }
     private void FixedUpdate()
     {
@@ -80,7 +80,7 @@ public class Player : AttackableCharacter
         }
     }
 
-    private void PlayerMove()
+    private void PlayerMovement()
     {
         if (isDie == false)
         {

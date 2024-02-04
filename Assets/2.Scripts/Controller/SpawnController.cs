@@ -5,11 +5,6 @@ using UnityEngine;
 public class SpawnController
 {
     public SpawnObject spawnGroupObject;
-    private const int Position_X_Min = -20;
-    private const int Position_X_Max = 21;
-
-    private const int Position_Y_Min = -3;
-    private const int Position_Y_Max = -40;
 
     private const float DeSpawn_Distance = 45f;
 
@@ -53,16 +48,12 @@ public class SpawnController
     {
         ObjectController _objectController = GameManager.OBJECT;
 
-        int randomPositionX = Random.Range(Position_X_Min, Position_X_Max);
-
         for (int i = 0; i < _objectController.enemyDataList.Count; i++)
         {
-            if (!_objectController.GetActive(i, CharacterType.Enemy))
+            if (!_objectController.GetisActive(i, CharacterType.Enemy))
             {
-                _objectController.SetActiveEnemy(i, true);
-                
-                _objectController.enemyDataList[i].transform.position
-                    = new Vector3(randomPositionX + spawnObject.x, 0, 0);
+                _objectController.SetActive(i, CharacterType.Enemy, true);
+                _objectController.SetSpawnPosition(i, CharacterType.Enemy, spawnObject);
 
                 _objectController.enemyDataList[i].key = key;
 
@@ -76,17 +67,12 @@ public class SpawnController
     {
         ObjectController _objectController = GameManager.OBJECT;
 
-        int randomPositionX = Random.Range(Position_X_Min, Position_X_Max);
-        int randomPositionY = Random.Range(Position_Y_Min, Position_Y_Max);
-
         for (int i = 0; i < _objectController.fishDataList.Count; i++)
         {
-            if (!_objectController.GetActive(i, CharacterType.Fish))
+            if (!_objectController.GetisActive(i, CharacterType.Fish))
             {
-                _objectController.SetActiveFish(i, true);
-
-                _objectController.fishDataList[i].transform.position
-                    = new Vector3(randomPositionX + spawnObject.x, randomPositionY, 0);
+                _objectController.SetActive(i, CharacterType.Fish, true);
+                _objectController.SetSpawnPosition(i, CharacterType.Fish, spawnObject);
 
                 _objectController.fishDataList[i].key = key;
 
@@ -111,7 +97,7 @@ public class SpawnController
 
             if (differenceX > DeSpawn_Distance)
             {
-                _objectController.SetActiveEnemy(i, false);
+                _objectController.SetActive(i,CharacterType.Enemy, false);
                 _objectController.enemyDataList[i].key = 99;
             }
         }
@@ -132,7 +118,7 @@ public class SpawnController
 
             if (differenceX > DeSpawn_Distance)
             {
-                _objectController.SetActiveFish(i, false);
+                _objectController.SetActive(i, CharacterType.Fish, false);
                 _objectController.fishDataList[i].key = 99;
             }
         }

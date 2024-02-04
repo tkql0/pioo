@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System;
 
 public enum CharacterType
 {
@@ -24,6 +23,12 @@ public class ObjectController
     public Dictionary<long, Weapon> enemyWaponDataList = new Dictionary<long, Weapon>();
     public Dictionary<int, Map> mapDataList = new Dictionary<int, Map>();
     //public Dictionary<long, Weapon> WaponDataList = new Dictionary<long, Weapon>();
+
+    private const int Position_X_Min = -20;
+    private const int Position_X_Max = 21;
+
+    private const int Position_Y_Min = -3;
+    private const int Position_Y_Max = -40;
 
     public void OnEnable()
     {
@@ -60,23 +65,24 @@ public class ObjectController
         }
     }
 
-    public void SetActiveEnemy(int InIndex, bool InIsActive)
+    public void SetActive(int InIndex, CharacterType character, bool InIsActive)
     {
-        if (enemyDataList.TryGetValue(InIndex, out var outData) == false)
-            return;
-
-        outData.SetActiveObject(InIsActive);
+        switch (character)
+        {
+            case CharacterType.Enemy:
+                if (enemyDataList.TryGetValue(InIndex, out var outEnemyData) == false)
+                    return;
+                outEnemyData.SetActiveObject(InIsActive);
+                break;
+            case CharacterType.Fish:
+                if (fishDataList.TryGetValue(InIndex, out var outFishData) == false)
+                    return;
+                outFishData.SetActiveObject(InIsActive);
+                break;
+        }
     }
 
-    public void SetActiveFish(int InIndex, bool InIsActive)
-    {
-        if (fishDataList.TryGetValue(InIndex, out var outData) == false)
-            return;
-
-        outData.SetActiveObject(InIsActive);
-    }
-
-    public bool GetActive(int InIndex, CharacterType character)
+    public bool GetisActive(int InIndex, CharacterType character)
     {
         bool active = false;
 
@@ -88,16 +94,26 @@ public class ObjectController
         return active;
     }
 
-    public Vector3 SetPosition(int InIndex, CharacterType character)
+    public void SetSpawnPosition(int InIndex, CharacterType character, Vector3 centerPosition)
     {
-        Vector3 myPosition = new Vector3(0, 0, 0);
+        int randomPositionX = Random.Range(Position_X_Min, Position_X_Max);
+        int randomPositionY = Random.Range(Position_Y_Min, Position_Y_Max);
 
-        if (character == CharacterType.Enemy)
-            myPosition = enemyDataList[InIndex].transform.position;
-        else if (character == CharacterType.Fish)
-            myPosition = fishDataList[InIndex].transform.position;
-        //enemyDataList[InIndex].transform.position = new Vector3(randomPositionX + spawnObject.x, 0, 0);
-        return myPosition;
+        switch (character)
+        {
+            case CharacterType.Enemy:
+                if (enemyDataList.TryGetValue(InIndex, out var outEnemyData) == false)
+                    return;
+                outEnemyData.transform.position =
+                    new Vector3(randomPositionX + centerPosition.x, 0, 0);
+                break;
+            case CharacterType.Fish:
+                if (fishDataList.TryGetValue(InIndex, out var outFishData) == false)
+                    return;
+                outFishData.transform.position =
+                    new Vector3(randomPositionX + centerPosition.x, randomPositionY, 0);
+                break;
+        }
     }
 
     public Vector3 SetNewPosition(int InIndex, CharacterType character,Vector3 myPosition, float randomPosition, Vector3 getCenterPosition)

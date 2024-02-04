@@ -97,7 +97,7 @@ public class Map : MonoBehaviour
         for (int i = 0; i < _objectController.enemyDataList.Count; i++)
         {
             if (key == _objectController.enemyDataList[i].key
-                && _objectController.GetActive(i,CharacterType.Enemy))
+                && _objectController.GetisActive(i,CharacterType.Enemy))
             {
                 enemyReSpawnSize++;
             }
@@ -106,7 +106,7 @@ public class Map : MonoBehaviour
         for (int i = 0; i < _objectController.fishDataList.Count; i++)
         {
             if (key == _objectController.fishDataList[i].key
-                && _objectController.GetActive(i, CharacterType.Fish))
+                && _objectController.GetisActive(i, CharacterType.Fish))
             {
                 fishReSpawnSize++;
             }

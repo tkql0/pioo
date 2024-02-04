@@ -33,7 +33,7 @@ public class FishCharacter : MonoBehaviour
         key = 99;
     }
 
-    public void Move()
+    public void Movement()
     {
         if (!gameObject.activeSelf)
             return;
@@ -47,7 +47,7 @@ public class FishCharacter : MonoBehaviour
 
     public IEnumerator MoveDelay()
     {
-        Move();
+        Movement();
         float next_MoveTime = Random.Range(1, 3f);
         yield return new WaitForSeconds(next_MoveTime);
         StartCoroutine(MoveDelay());

@@ -38,7 +38,7 @@ public class Weapon : MonoBehaviour
 
         float DirY = myPos.y - gravityPoint.y;
         float diffY = Mathf.Abs(DirY);
-        rigid.drag = DirY <= 0 ? 3 : 0.2f;
+        rigid.drag = DirY <= 0 ? 3 : 0.7f;
 
         if (diffY > 30)
         {

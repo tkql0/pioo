@@ -69,7 +69,7 @@ public class EnemyCharater : AttackableCharacter
         Search(enemySearch);
     }
 
-    private void Move()
+    private void Movement()
     {
         if (!gameObject.activeSelf)
             return;
@@ -92,7 +92,7 @@ public class EnemyCharater : AttackableCharacter
 
     private IEnumerator MoveDelay()
     {
-        Move();
+        Movement();
         float next_MoveTime = Random.Range(1, 6f);
         yield return new WaitForSeconds(next_MoveTime);
 

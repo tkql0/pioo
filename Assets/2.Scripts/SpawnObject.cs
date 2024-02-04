@@ -128,7 +128,7 @@ public class SpawnObject : MonoBehaviour
     {
         ObjectController _objectController = GameManager.OBJECT;
 
-        maxSize = 20;
+        maxSize = 10;
 
         for (int i = 0; i < maxSize; i++)
         {
@@ -147,7 +147,7 @@ public class SpawnObject : MonoBehaviour
     {
         ObjectController _objectController = GameManager.OBJECT;
 
-        maxSize = 20;
+        maxSize = 15;
 
         for (int i = 0; i < maxSize; i++)
         {
@@ -156,7 +156,7 @@ public class SpawnObject : MonoBehaviour
 
             _objectController.enemyWaponDataList.Add(_enemyWaponSpawnConut,
                 EnemysAttackObject.GetComponent<Weapon>());
-            _objectController.playerWaponDataList[i].key = CharacterType.Enemy;
+            _objectController.enemyWaponDataList[i].key = CharacterType.Enemy;
             _enemyWaponSpawnConut++;
             EnemysAttackObject.SetActive(false);
         }

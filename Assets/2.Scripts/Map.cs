@@ -38,11 +38,11 @@ public class Map : MonoBehaviour
 
     private void MapRelocation()
     {
-        Vector3 targetPosition;
-        Vector3 myPosition;
+        ObjectController _objectController = GameManager.OBJECT;
+        SpawnController _spawnController = GameManager.SPAWN;
 
-        targetPosition = GameManager.OBJECT.player.transform.position;
-        myPosition = transform.position;
+        Vector3 targetPosition = _objectController.player.transform.position;
+        Vector3 myPosition = transform.position;
 
         float DistanceX = targetPosition.x - myPosition.x;
         float differenceX = Mathf.Abs(DistanceX);
@@ -51,7 +51,7 @@ public class Map : MonoBehaviour
 
         if (differenceX > 60.0f)
         {
-            GameManager.SPAWN.DeSpawn(targetPosition);
+            _spawnController.DeSpawn(targetPosition);
 
             transform.Translate(Vector3.right * DistanceX * 120);
 
@@ -64,16 +64,24 @@ public class Map : MonoBehaviour
 
     public void MapMonsterSpawn(int enemySize, int fishSize)
     {
-        GameManager.SPAWN.Spawn(gameObject, enemySize, fishSize, key);
+        Vector3 myPosition = transform.position;
+
+        SpawnController _spawnController = GameManager.SPAWN;
+
+        _spawnController.Spawn(myPosition, enemySize, fishSize, key);
 
         StartCoroutine(ReSpawn(reSpawnTime, enemySize, fishSize));
     }
 
     private IEnumerator ReSpawn(float ReSpawnTime, int enemySize, int fishSize)
     {
+        Vector3 myPosition = transform.position;
+
+        SpawnController _spawnController = GameManager.SPAWN;
+
         yield return new WaitForSeconds(ReSpawnTime);
 
-        GameManager.SPAWN.Spawn(gameObject, ReSpawnSize(enemySize,
+        _spawnController.Spawn(myPosition, ReSpawnSize(enemySize,
             fishSize).Item1, ReSpawnSize(enemySize, fishSize).Item2, key);
 
         StartCoroutine(ReSpawn(ReSpawnTime, enemySize, fishSize));
@@ -81,21 +89,24 @@ public class Map : MonoBehaviour
 
     private (int, int) ReSpawnSize(int enemySize, int fishSize)
     {
+        ObjectController _objectController = GameManager.OBJECT;
+
         int enemyReSpawnSize = 0;
         int fishReSpawnSize = 0;
 
-        for (int i = 0; i < GameManager.OBJECT.enemyDataList.Count; i++)
+        for (int i = 0; i < _objectController.enemyDataList.Count; i++)
         {
-            if (key == GameManager.OBJECT.enemyDataList[i].key
-                && GameManager.OBJECT.enemyDataList[i].enemy.activeSelf)
+            if (key == _objectController.enemyDataList[i].key
+                && _objectController.GetActive(i,CharacterType.Enemy))
             {
                 enemyReSpawnSize++;
             }
         }
-        for (int i = 0; i < GameManager.OBJECT.fishDataList.Count; i++)
+
+        for (int i = 0; i < _objectController.fishDataList.Count; i++)
         {
-            if (key == GameManager.OBJECT.fishDataList[i].key
-                && GameManager.OBJECT.fishDataList[i].Fish.activeSelf)
+            if (key == _objectController.fishDataList[i].key
+                && _objectController.GetActive(i, CharacterType.Fish))
             {
                 fishReSpawnSize++;
             }
@@ -107,8 +118,3 @@ public class Map : MonoBehaviour
         return (enemyReSpawnMaxSize, fishReSpawnMaxSize);
     }
 }
-// 한 맵에서 랜덤한 수의 몬스터를 잡으면 맵 하늘에 현상금 포스터가 붙고
-// 랜덤한 시간이 지나면 보스 몬스터 생성
-// 바위오브젝트도 만들어서 랜덤한 수의 맵을 만들거나 랜덤맵 몇개 만들어서
-// 만들어 놓은 맵 하나 생성되게?
-// 일정한 맵이면 배열로 해도 되려나

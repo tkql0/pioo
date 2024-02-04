@@ -7,6 +7,7 @@ public class Player : AttackableCharacter
     public GameObject player;
 
     public int key = 0;
+    public CharacterType spawnNumber = CharacterType.NULL;
 
     private Vector2 inputVec;
     public float moveMaxspeed;
@@ -141,7 +142,7 @@ public class Player : AttackableCharacter
         else if (Input.GetMouseButtonUp(0) && isJump == true && mouse_click == true)
         {
             mouse_click = false;
-            GameObject Attack = GameManager.SPAWN.SpawnPlayerWapon(gameObject);
+            GameObject Attack = GameManager.SPAWN.SpawnPlayerWapon(transform.position);
             Attack.GetComponent<Rigidbody2D>().velocity = dir * time;
         }
     }

@@ -18,6 +18,7 @@ public class EnemyCharater : AttackableCharacter
     private Slider health_Slider;
 
     public int key;
+    public CharacterType spawnNumber = CharacterType.NULL;
 
     [SerializeField]
     private float max_health;
@@ -181,7 +182,7 @@ public class EnemyCharater : AttackableCharacter
         Vector3 dir = targetPos - transform.position;
         dir = dir.normalized;
 
-        GameObject Attack = GameManager.SPAWN.SpawnEnemyWapon(gameObject);
+        GameObject Attack = GameManager.SPAWN.SpawnEnemyWapon(transform.position);
         Attack.transform.position = transform.position;
         Attack.transform.rotation = transform.rotation;
         Attack.GetComponent<Rigidbody2D>().velocity = dir * 10;

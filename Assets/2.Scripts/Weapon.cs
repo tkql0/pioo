@@ -6,7 +6,7 @@ public class Weapon : MonoBehaviour
 {
     public GameObject weapon;
 
-    public int key;
+    public CharacterType key;
 
     [SerializeField]
     private Rigidbody2D rigid;
@@ -23,24 +23,22 @@ public class Weapon : MonoBehaviour
 
     private void Update()
     {
-        if (key == 1 && transform.position.y < 0)
-        {
+        if (key == CharacterType.Player && transform.position.y < 0)
             gameObject.SetActive(false);
-        }
 
         transform.right = rigid.velocity;
 
-        lance_gravity();
+        weapon_gravity();
     }
 
-    private void lance_gravity()
+    private void weapon_gravity()
     {
         Vector3 myPos = transform.position;
         Vector3 gravityPoint = new Vector3(0, 0, 0);
 
         float DirY = myPos.y - gravityPoint.y;
         float diffY = Mathf.Abs(DirY);
-        rigid.drag = DirY <= 0 ? 3 : 1;
+        rigid.drag = DirY <= 0 ? 3 : 0.2f;
 
         if (diffY > 30)
         {
@@ -50,10 +48,16 @@ public class Weapon : MonoBehaviour
 
     private void OnTriggerStay2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag(Enemy) && key == 1)
+        GameObject target = collision.gameObject;
+
+        if (target.CompareTag(Enemy) && key == CharacterType.Player)
             gameObject.SetActive(false);
 
-        if (collision.gameObject.CompareTag(Player) && key == 2)
+        else if (target.CompareTag(Player) && key == CharacterType.Enemy)
             gameObject.SetActive(false);
+    }
+    public void SetActiveObject(bool InIsActive)
+    {
+        weapon?.SetActive(InIsActive);
     }
 }

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class FishCharacter : MonoBehaviour
 {
-    public GameObject Fish;
+    public GameObject fish;
 
     [SerializeField]
     Rigidbody2D rigid;
@@ -12,6 +12,7 @@ public class FishCharacter : MonoBehaviour
     SpriteRenderer sprite;
 
     public int key;
+    public CharacterType spawnNumber = CharacterType.NULL;
 
     void Awake()
     {
@@ -21,7 +22,7 @@ public class FishCharacter : MonoBehaviour
 
     private void OnEnable()
     {
-        Fish = gameObject;
+        fish = gameObject;
         key = 99;
 
         StartCoroutine(MoveDelay());
@@ -50,5 +51,10 @@ public class FishCharacter : MonoBehaviour
         float next_MoveTime = Random.Range(1, 3f);
         yield return new WaitForSeconds(next_MoveTime);
         StartCoroutine(MoveDelay());
+    }
+
+    public void SetActiveObject(bool InIsActive)
+    {
+        fish?.SetActive(InIsActive);
     }
 }

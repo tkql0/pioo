@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AttackableCharacter : MonoBehaviour
+public class Character : MonoBehaviour
 {
     public LayerMask targetMask;
 

@@ -420,8 +420,8 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: -6288434598024368837}
-        m_TargetAssemblyTypeName: EnemyCharater, Assembly-CSharp
+      - m_Target: {fileID: 8661838098025344704}
+        m_TargetAssemblyTypeName: EnemyCharacter, Assembly-CSharp
         m_MethodName: Enemy_Die
         m_Mode: 1
         m_Arguments:
@@ -520,7 +520,7 @@ GameObject:
   - component: {fileID: 4187919408629996690}
   - component: {fileID: -630355986785914911}
   - component: {fileID: 7251528320556816215}
-  - component: {fileID: -6288434598024368837}
+  - component: {fileID: 8661838098025344704}
   m_Layer: 7
   m_Name: Enemy
   m_TagString: Enemy
@@ -635,7 +635,7 @@ CapsuleCollider2D:
   m_Offset: {x: 0, y: 0}
   m_Size: {x: 0.3, y: 0.3}
   m_Direction: 0
---- !u!114 &-6288434598024368837
+--- !u!114 &8661838098025344704
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -660,6 +660,7 @@ MonoBehaviour:
   Danger: {fileID: 2752018058316488110}
   health_Slider: {fileID: 7431387396427753443}
   key: 0
+  spawnNumber: 0
   max_health: 20
   scanRange: 2
 --- !u!1001 &165861333883718943

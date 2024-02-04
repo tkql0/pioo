@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class EnemyCharater : AttackableCharacter
+public class EnemyCharacter : Character
 {
     public GameObject enemy;
 
@@ -18,7 +18,7 @@ public class EnemyCharater : AttackableCharacter
     private Slider health_Slider;
 
     public int key;
-    public CharacterType spawnNumber = CharacterType.NULL;
+    public ObjectType spawnNumber = ObjectType.NULL;
 
     [SerializeField]
     private float max_health;

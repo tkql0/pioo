@@ -6,7 +6,7 @@ public class Weapon : MonoBehaviour
 {
     public GameObject weapon;
 
-    public CharacterType key;
+    public ObjectType key;
 
     [SerializeField]
     private Rigidbody2D rigid;
@@ -23,7 +23,7 @@ public class Weapon : MonoBehaviour
 
     private void Update()
     {
-        if (key == CharacterType.Player && transform.position.y < 0)
+        if (key == ObjectType.Player && transform.position.y < 0)
             gameObject.SetActive(false);
 
         transform.right = rigid.velocity;
@@ -50,10 +50,10 @@ public class Weapon : MonoBehaviour
     {
         GameObject target = collision.gameObject;
 
-        if (target.CompareTag(Enemy) && key == CharacterType.Player)
+        if (target.CompareTag(Enemy) && key == ObjectType.Player)
             gameObject.SetActive(false);
 
-        else if (target.CompareTag(Player) && key == CharacterType.Enemy)
+        else if (target.CompareTag(Player) && key == ObjectType.Enemy)
             gameObject.SetActive(false);
     }
     public void SetActiveObject(bool InIsActive)

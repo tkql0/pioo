@@ -2,12 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player : AttackableCharacter
+public class Player : Character
 {
     public GameObject player;
 
     public int key = 0;
-    public CharacterType spawnNumber = CharacterType.NULL;
+    public ObjectType spawnNumber = ObjectType.NULL;
 
     private Vector2 inputVec;
     public float moveMaxspeed;

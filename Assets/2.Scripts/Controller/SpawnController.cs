@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SpawnController
 {
-    public SpawnObject spawnGroupObject;
+    private SpawnObject spawnGroupObject;
 
     private const float DeSpawn_Distance = 45f;
 
@@ -48,16 +48,16 @@ public class SpawnController
     {
         ObjectController _objectController = GameManager.OBJECT;
 
-        for (int i = 0; i < _objectController.enemyDataList.Count; i++)
+        foreach (KeyValuePair<long, EnemyCharacter> enemyNumber in _objectController.enemyDataList)
         {
-            if (!_objectController.GetisActive(i, CharacterType.Enemy))
+            if (!_objectController.GetisActive(enemyNumber.Key, ObjectType.Enemy))
             {
-                _objectController.SetActive(i, CharacterType.Enemy, true);
-                _objectController.SetSpawnPosition(i, CharacterType.Enemy, spawnObject);
+                _objectController.SetActive(enemyNumber.Key, ObjectType.Enemy, true);
+                _objectController.SetSpawnPosition(enemyNumber.Key, ObjectType.Enemy, spawnObject);
 
-                _objectController.enemyDataList[i].key = key;
+                enemyNumber.Value.key = key;
 
-                return _objectController.enemyDataList[i].enemy;
+                return enemyNumber.Value.enemy;
             }
         }
         return null;
@@ -67,18 +67,19 @@ public class SpawnController
     {
         ObjectController _objectController = GameManager.OBJECT;
 
-        for (int i = 0; i < _objectController.fishDataList.Count; i++)
+        foreach (KeyValuePair<long, FishCharacter> fishNumber in _objectController.fishDataList)
         {
-            if (!_objectController.GetisActive(i, CharacterType.Fish))
+            if (!_objectController.GetisActive(fishNumber.Key, ObjectType.Fish))
             {
-                _objectController.SetActive(i, CharacterType.Fish, true);
-                _objectController.SetSpawnPosition(i, CharacterType.Fish, spawnObject);
+                _objectController.SetActive(fishNumber.Key, ObjectType.Fish, true);
+                _objectController.SetSpawnPosition(fishNumber.Key, ObjectType.Fish, spawnObject);
 
-                _objectController.fishDataList[i].key = key;
+                fishNumber.Value.key = key;
 
-                return _objectController.fishDataList[i].fish;
+                return fishNumber.Value.fish;
             }
         }
+
         return null;
     }
 
@@ -88,17 +89,17 @@ public class SpawnController
 
         Vector3 myPosition;
 
-        for (int i = 0; i < _objectController.enemyDataList.Count; i++)
+        foreach (KeyValuePair<long, EnemyCharacter> enemyNumber in _objectController.enemyDataList)
         {
-            myPosition = _objectController.enemyDataList[i].transform.position;
+            myPosition = enemyNumber.Value.transform.position;
 
             float DistanceX = target.x - myPosition.x;
             float differenceX = Mathf.Abs(DistanceX);
 
             if (differenceX > DeSpawn_Distance)
             {
-                _objectController.SetActive(i,CharacterType.Enemy, false);
-                _objectController.enemyDataList[i].key = 99;
+                _objectController.SetActive(enemyNumber.Key, ObjectType.Enemy, false);
+                enemyNumber.Value.key = 99;
             }
         }
     }
@@ -109,17 +110,17 @@ public class SpawnController
 
         Vector3 myPosition;
 
-        for (int i = 0; i < _objectController.fishDataList.Count; i++)
+        foreach (KeyValuePair<long, FishCharacter> fishNumber in _objectController.fishDataList)
         {
-            myPosition = _objectController.fishDataList[i].transform.position;
+            myPosition = fishNumber.Value.transform.position;
 
             float DistanceX = target.x - myPosition.x;
             float differenceX = Mathf.Abs(DistanceX);
 
             if (differenceX > DeSpawn_Distance)
             {
-                _objectController.SetActive(i, CharacterType.Fish, false);
-                _objectController.fishDataList[i].key = 99;
+                _objectController.SetActive(fishNumber.Key, ObjectType.Fish, false);
+                fishNumber.Value.key = 99;
             }
         }
     }
@@ -133,7 +134,7 @@ public class SpawnController
             if (!_objectController.playerWaponDataList[i].weapon.activeSelf)
             {
                 _objectController.playerWaponDataList[i].weapon.SetActive(true);
-                _objectController.playerWaponDataList[i].key = CharacterType.Player;
+                _objectController.playerWaponDataList[i].key = ObjectType.Player;
 
                 _objectController.playerWaponDataList[i].transform.position
                     = new Vector3(spawnObject.x, spawnObject.y, 0);
@@ -153,7 +154,7 @@ public class SpawnController
             if (!_objectController.enemyWaponDataList[i].weapon.activeSelf)
             {
                 _objectController.enemyWaponDataList[i].weapon.SetActive(true);
-                _objectController.enemyWaponDataList[i].key = CharacterType.Enemy;
+                _objectController.enemyWaponDataList[i].key = ObjectType.Enemy;
 
                 _objectController.enemyWaponDataList[i].transform.position
                     = new Vector3(spawnObject.x, spawnObject.y, 0);

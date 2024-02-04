@@ -2,17 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FishCharacter : MonoBehaviour
+public class FishCharacter : Character
 {
     public GameObject fish;
 
-    [SerializeField]
-    Rigidbody2D rigid;
-    [SerializeField]
-    SpriteRenderer sprite;
-
     public int key;
-    public CharacterType spawnNumber = CharacterType.NULL;
+    public ObjectType spawnNumber = ObjectType.NULL;
 
     void Awake()
     {

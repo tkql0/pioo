@@ -5,7 +5,7 @@ using UnityEngine;
 public class SpawnObject : MonoBehaviour
 {
     public int maxSize;
-    private int _mapSpawnConut;
+    private long _mapSpawnConut;
     private long _enemySpawnConut;
     private long _fishSpawnConut;
     private long _playerWaponSpawnConut;
@@ -100,7 +100,7 @@ public class SpawnObject : MonoBehaviour
             GameObject EnemysObjects = Instantiate(EnemysObject, transform);
 
             _objectController.enemyDataList.Add(_enemySpawnConut,
-                EnemysObjects.GetComponent<EnemyCharater>());
+                EnemysObjects.GetComponent<EnemyCharacter>());
             _enemySpawnConut++;
             EnemysObjects.SetActive(false);
         }
@@ -137,7 +137,7 @@ public class SpawnObject : MonoBehaviour
 
             _objectController.playerWaponDataList.Add(_playerWaponSpawnConut,
                 PlayersAttackObject.GetComponent<Weapon>());
-            _objectController.playerWaponDataList[i].key = CharacterType.Player;
+            _objectController.playerWaponDataList[i].key = ObjectType.Player;
             _playerWaponSpawnConut++;
             PlayersAttackObject.SetActive(false);
         }
@@ -156,7 +156,7 @@ public class SpawnObject : MonoBehaviour
 
             _objectController.enemyWaponDataList.Add(_enemyWaponSpawnConut,
                 EnemysAttackObject.GetComponent<Weapon>());
-            _objectController.enemyWaponDataList[i].key = CharacterType.Enemy;
+            _objectController.enemyWaponDataList[i].key = ObjectType.Enemy;
             _enemyWaponSpawnConut++;
             EnemysAttackObject.SetActive(false);
         }

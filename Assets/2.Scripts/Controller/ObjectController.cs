@@ -9,6 +9,7 @@ public enum ObjectType
     Enemy,
     Fish,
     Weapon,
+    Map,
 }
 
 public class ObjectController
@@ -54,15 +55,13 @@ public class ObjectController
             
     }
 
-    private void MapSpawn(int InIndex)
+    private void MapSpawn(long InIndex)
     {
         if (mapDataList.TryGetValue(InIndex, out var outCharacter) == false)
             return;
 
         if (outCharacter.gameObject.activeSelf)
-        {
             outCharacter.MapMonsterSpawn(outCharacter.enemyMaxSize, outCharacter.fishMaxSize);
-        }
     }
 
     public void SetActive(long InIndex, ObjectType character, bool InIsActive)
@@ -90,6 +89,8 @@ public class ObjectController
             isActive = enemyDataList[InIndex].enemy.activeSelf;
         else if (character == ObjectType.Fish)
             isActive = fishDataList[InIndex].fish.activeSelf;
+        else if(character == ObjectType.Map)
+            isActive = mapDataList[InIndex].map.activeSelf;
 
         return isActive;
     }

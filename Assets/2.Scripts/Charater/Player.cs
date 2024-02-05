@@ -153,9 +153,9 @@ public class Player : Character
         }
     }
     // 레벨 업을 했을 때 포인트를 얻을 시 올릴 수 있는 능력치
-    // 공격 최대 사거리 : attackMaxPower
-    // 공격 최소 사거리 : attackMinPower
-    // 생각 중인게 공격이 비처럼 내리는 것도 있는데
+    // 1. 공격 최대 사거리 : attackMaxPower
+    // 2. 공격 최소 사거리 : attackMinPower
+    // 생각 했던 것 중에 공격이 비처럼 내리는 게 있었는데 한다면
     // 공격 갯수를 늘리는거랑 스킬로 비를 내리는거랑 머가 나으려나
 
     private void LookAtMouse()

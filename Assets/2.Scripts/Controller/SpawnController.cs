@@ -18,6 +18,7 @@ public class SpawnController
         spawnGroupObject = GameObject.FindObjectOfType<SpawnObject>();
         spawnGroupObject.Init();
         spawnGroupObject.StartSpawn();
+
     }
 
     public void OnDisable()
@@ -25,103 +26,101 @@ public class SpawnController
 
     }
 
-    public void Spawn(Vector2 spawnCenter, long enemyCount, long fishCount, int key)
+    public void Spawn(Vector2 spawnCenterPosition, long enemyCount, long fishCount, int key)
     {
         for (long i = 0; i < enemyCount; i++)
         {
-            SpawnEnemy(spawnCenter, key);
+            SpawnObject(spawnCenterPosition, key, ObjectType.Enemy);
         }
 
         for (long i = 0; i < fishCount; i++)
         {
-            SpawnFish(spawnCenter, key);
+            SpawnObject(spawnCenterPosition, key, ObjectType.Fish);
         }
     }
 
     public void DeSpawn(Vector2 target)
     {
-        DistanceEnemyDeSpawn(target);
-        DistanceFishDeSpawn(target);
+        DistanceObjectDeSpawn(target, ObjectType.Enemy);
+        DistanceObjectDeSpawn(target, ObjectType.Fish);
     }
 
-    private GameObject SpawnEnemy(Vector2 spawnObject, int key)
+    private GameObject SpawnObject(Vector2 spawnCenterPosition, int key, ObjectType character)
     {
         ObjectController _objectController = GameManager.OBJECT;
 
-        foreach (KeyValuePair<long, EnemyCharacter> enemyNumber in _objectController.enemyDataList)
+        switch (character)
         {
-            if (!_objectController.GetisActive(enemyNumber.Key, ObjectType.Enemy))
-            {
-                _objectController.SetActive(enemyNumber.Key, ObjectType.Enemy, true);
-                _objectController.SetSpawnPosition(enemyNumber.Key, ObjectType.Enemy, spawnObject);
+            case ObjectType.Enemy:
+                foreach (KeyValuePair<long, EnemyCharacter> enemyNumber in _objectController.enemyDataList)
+                {
+                    if (!_objectController.GetisActive(enemyNumber.Key, ObjectType.Enemy))
+                    {
+                        _objectController.SetActive(enemyNumber.Key, ObjectType.Enemy, true);
+                        _objectController.SetSpawnPosition(enemyNumber.Key, ObjectType.Enemy, spawnCenterPosition);
 
-                enemyNumber.Value.key = key;
+                        enemyNumber.Value.key = key;
 
-                return enemyNumber.Value.enemy;
-            }
+                        return enemyNumber.Value.enemy;
+                    }
+                }
+                break;
+            case ObjectType.Fish:
+                foreach (KeyValuePair<long, FishCharacter> fishNumber in _objectController.fishDataList)
+                {
+                    if (!_objectController.GetisActive(fishNumber.Key, ObjectType.Fish))
+                    {
+                        _objectController.SetActive(fishNumber.Key, ObjectType.Fish, true);
+                        _objectController.SetSpawnPosition(fishNumber.Key, ObjectType.Fish, spawnCenterPosition);
+
+                        fishNumber.Value.key = key;
+
+                        return fishNumber.Value.fish;
+                    }
+                }
+                break;
         }
         return null;
     }
 
-    private GameObject SpawnFish(Vector2 spawnObject, int key)
-    {
-        ObjectController _objectController = GameManager.OBJECT;
-
-        foreach (KeyValuePair<long, FishCharacter> fishNumber in _objectController.fishDataList)
-        {
-            if (!_objectController.GetisActive(fishNumber.Key, ObjectType.Fish))
-            {
-                _objectController.SetActive(fishNumber.Key, ObjectType.Fish, true);
-                _objectController.SetSpawnPosition(fishNumber.Key, ObjectType.Fish, spawnObject);
-
-                fishNumber.Value.key = key;
-
-                return fishNumber.Value.fish;
-            }
-        }
-
-        return null;
-    }
-
-    private void DistanceEnemyDeSpawn(Vector2 target)
+    private void DistanceObjectDeSpawn(Vector2 target, ObjectType character)
     {
         ObjectController _objectController = GameManager.OBJECT;
 
         Vector2 myPosition;
 
-        foreach (KeyValuePair<long, EnemyCharacter> enemyNumber in _objectController.enemyDataList)
+        switch (character)
         {
-            myPosition = enemyNumber.Value.transform.position;
+            case ObjectType.Enemy:
+                foreach (KeyValuePair<long, EnemyCharacter> enemyNumber in _objectController.enemyDataList)
+                {
+                    myPosition = enemyNumber.Value.transform.position;
 
-            float DistanceX = target.x - myPosition.x;
-            float differenceX = Mathf.Abs(DistanceX);
+                    float DistanceX = target.x - myPosition.x;
+                    float differenceX = Mathf.Abs(DistanceX);
 
-            if (differenceX > DeSpawn_Distance)
-            {
-                _objectController.SetActive(enemyNumber.Key, ObjectType.Enemy, false);
-                enemyNumber.Value.key = 99;
-            }
-        }
-    }
+                    if (differenceX > DeSpawn_Distance)
+                    {
+                        _objectController.SetActive(enemyNumber.Key, ObjectType.Enemy, false);
+                        enemyNumber.Value.key = 99;
+                    }
+                }
+                break;
+            case ObjectType.Fish:
+                foreach (KeyValuePair<long, FishCharacter> fishNumber in _objectController.fishDataList)
+                {
+                    myPosition = fishNumber.Value.transform.position;
 
-    private void DistanceFishDeSpawn(Vector2 target)
-    {
-        ObjectController _objectController = GameManager.OBJECT;
+                    float DistanceX = target.x - myPosition.x;
+                    float differenceX = Mathf.Abs(DistanceX);
 
-        Vector2 myPosition;
-
-        foreach (KeyValuePair<long, FishCharacter> fishNumber in _objectController.fishDataList)
-        {
-            myPosition = fishNumber.Value.transform.position;
-
-            float DistanceX = target.x - myPosition.x;
-            float differenceX = Mathf.Abs(DistanceX);
-
-            if (differenceX > DeSpawn_Distance)
-            {
-                _objectController.SetActive(fishNumber.Key, ObjectType.Fish, false);
-                fishNumber.Value.key = 99;
-            }
+                    if (differenceX > DeSpawn_Distance)
+                    {
+                        _objectController.SetActive(fishNumber.Key, ObjectType.Fish, false);
+                        fishNumber.Value.key = 99;
+                    }
+                }
+                break;
         }
     }
 
@@ -184,4 +183,16 @@ public class SpawnController
     //    }
     //    return null;
     //}
+    
+
+    private void MapSpawn(long InIndex)
+    {
+        ObjectController _objectController = GameManager.OBJECT;
+
+        if (_objectController.mapDataList.TryGetValue(InIndex, out var outCharacter) == false)
+            return;
+
+        if (outCharacter.gameObject.activeSelf)
+            outCharacter.MapMonsterSpawn(outCharacter.enemyMaxSize, outCharacter.fishMaxSize);
+    }
 }

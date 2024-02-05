@@ -19,6 +19,13 @@ public class EnemyCharacter : Character
 
     public int key;
     public ObjectType spawnNumber = ObjectType.NULL;
+    // 내가 생각한 ID값
+    // 몬스터 자체 키값 Key : ObjectType.2 or long 2
+    // 몬스터 순서 키값 NumberKey : enemyDataList.Key[i] or long 200
+    // 몬스터가 존재하는 맵의 키값 : SpawnObjectKey : mapDataList[i] or long 20000
+    // 첫번째는 할것 두번째는 하고싶은것
+    // 20202 키값이 20000인 오브젝트에서 키값이 2인 오브젝트를 찾으시오같은 느낌
+    // 적어보니까 이상한거 같기도하네
 
     [SerializeField]
     private float scanRange = 2;

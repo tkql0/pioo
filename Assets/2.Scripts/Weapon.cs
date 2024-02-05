@@ -33,8 +33,8 @@ public class Weapon : MonoBehaviour
 
     private void weapon_gravity()
     {
-        Vector3 myPos = transform.position;
-        Vector3 gravityPoint = new Vector3(0, 0, 0);
+        Vector2 myPos = transform.position;
+        Vector2 gravityPoint = new Vector3(0, 0);
 
         float DirY = myPos.y - gravityPoint.y;
         float diffY = Mathf.Abs(DirY);

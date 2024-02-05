@@ -80,11 +80,11 @@ public class EnemyCharacter : Character
             sprite.flipX = nextMove < 0;
 
         if (sprite.flipX == true)
-            enemySearch.transform.position = new Vector3(transform.position.x - 2,
-                enemySearch.transform.position.y, enemySearch.transform.position.z);
+            enemySearch.transform.position = new Vector2(transform.position.x - 2,
+                enemySearch.transform.position.y);
         else
-            enemySearch.transform.position = new Vector3(transform.position.x + 2,
-                enemySearch.transform.position.y, enemySearch.transform.position.z);
+            enemySearch.transform.position = new Vector2(transform.position.x + 2,
+                enemySearch.transform.position.y);
 
         float speed = Random.Range(0.1f, 5);
         rigid.velocity = new Vector2(nextMove * speed, rigid.velocity.y);
@@ -100,8 +100,8 @@ public class EnemyCharacter : Character
     }
     private void Hit_Tracking(GameObject target)
     {
-        Vector3 playerPos = target.transform.position;
-        Vector3 myPos = transform.position;
+        Vector2 playerPos = target.transform.position;
+        Vector2 myPos = transform.position;
 
         float DirX = playerPos.x - myPos.x;
 
@@ -109,11 +109,11 @@ public class EnemyCharacter : Character
             sprite.flipX = DirX < 0;
 
         if (sprite.flipX == true)
-            enemySearch.transform.position = new Vector3(transform.position.x - 2,
-                enemySearch.transform.position.y, enemySearch.transform.position.z);
+            enemySearch.transform.position = new Vector2(transform.position.x - 2,
+                enemySearch.transform.position.y);
         else
-            enemySearch.transform.position = new Vector3(transform.position.x + 2,
-                enemySearch.transform.position.y, enemySearch.transform.position.z);
+            enemySearch.transform.position = new Vector2(transform.position.x + 2,
+                enemySearch.transform.position.y);
 
     }
 
@@ -154,7 +154,8 @@ public class EnemyCharacter : Character
     {
         Rate_Of_Fire = 3f;
 
-        inTarget = Physics2D.CircleCastAll(enemySearch.transform.position, scanRange, Vector2.zero, 0, targetMask);
+        inTarget = Physics2D.CircleCastAll(enemySearch.transform.position,
+            scanRange, Vector2.zero, 0, targetMask);
 
         Transform target = GetNearest();
 
@@ -176,10 +177,9 @@ public class EnemyCharacter : Character
             Danger.SetActive(false);
     }
 
-    private void Attack(Vector3 target)
+    private void Attack(Vector2 targetPos)
     {
-        Vector3 targetPos = target;
-        Vector3 dir = targetPos - transform.position;
+        Vector2 dir = targetPos - (Vector2)transform.position;
         dir = dir.normalized;
 
         GameObject Attack = GameManager.SPAWN.SpawnEnemyWapon(transform.position);
@@ -195,10 +195,10 @@ public class EnemyCharacter : Character
 
         foreach (RaycastHit2D targets in inTarget)
         {
-            Vector3 myPos = transform.position;
-            Vector3 targetPos = targets.transform.position;
+            Vector2 myPos = transform.position;
+            Vector2 targetPos = targets.transform.position;
 
-            float curdiff = Vector3.Distance(myPos, targetPos);
+            float curdiff = Vector2.Distance(myPos, targetPos);
 
             if (curdiff < diff)
             {

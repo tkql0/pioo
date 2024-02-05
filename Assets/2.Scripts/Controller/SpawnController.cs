@@ -25,26 +25,26 @@ public class SpawnController
 
     }
 
-    public void Spawn(Vector3 spawnCenter, int enemyCount, int fishCount, int key)
+    public void Spawn(Vector2 spawnCenter, long enemyCount, long fishCount, int key)
     {
-        for (int i = 0; i < enemyCount; i++)
+        for (long i = 0; i < enemyCount; i++)
         {
             SpawnEnemy(spawnCenter, key);
         }
 
-        for (int i = 0; i < fishCount; i++)
+        for (long i = 0; i < fishCount; i++)
         {
             SpawnFish(spawnCenter, key);
         }
     }
 
-    public void DeSpawn(Vector3 target)
+    public void DeSpawn(Vector2 target)
     {
         DistanceEnemyDeSpawn(target);
         DistanceFishDeSpawn(target);
     }
 
-    private GameObject SpawnEnemy(Vector3 spawnObject, int key)
+    private GameObject SpawnEnemy(Vector2 spawnObject, int key)
     {
         ObjectController _objectController = GameManager.OBJECT;
 
@@ -63,7 +63,7 @@ public class SpawnController
         return null;
     }
 
-    private GameObject SpawnFish(Vector3 spawnObject, int key)
+    private GameObject SpawnFish(Vector2 spawnObject, int key)
     {
         ObjectController _objectController = GameManager.OBJECT;
 
@@ -83,11 +83,11 @@ public class SpawnController
         return null;
     }
 
-    private void DistanceEnemyDeSpawn(Vector3 target)
+    private void DistanceEnemyDeSpawn(Vector2 target)
     {
         ObjectController _objectController = GameManager.OBJECT;
 
-        Vector3 myPosition;
+        Vector2 myPosition;
 
         foreach (KeyValuePair<long, EnemyCharacter> enemyNumber in _objectController.enemyDataList)
         {
@@ -104,11 +104,11 @@ public class SpawnController
         }
     }
 
-    private void DistanceFishDeSpawn(Vector3 target)
+    private void DistanceFishDeSpawn(Vector2 target)
     {
         ObjectController _objectController = GameManager.OBJECT;
 
-        Vector3 myPosition;
+        Vector2 myPosition;
 
         foreach (KeyValuePair<long, FishCharacter> fishNumber in _objectController.fishDataList)
         {
@@ -125,7 +125,7 @@ public class SpawnController
         }
     }
 
-    public GameObject SpawnPlayerWapon(Vector3 spawnObject)
+    public GameObject SpawnPlayerWapon(Vector2 spawnObject)
     {
         ObjectController _objectController = GameManager.OBJECT;
 
@@ -137,7 +137,7 @@ public class SpawnController
                 _objectController.playerWaponDataList[i].key = ObjectType.Player;
 
                 _objectController.playerWaponDataList[i].transform.position
-                    = new Vector3(spawnObject.x, spawnObject.y, 0);
+                    = new Vector2(spawnObject.x, spawnObject.y);
 
                 return _objectController.playerWaponDataList[i].weapon;
             }
@@ -145,7 +145,7 @@ public class SpawnController
         return null;
     }
 
-    public GameObject SpawnEnemyWapon(Vector3 spawnObject)
+    public GameObject SpawnEnemyWapon(Vector2 spawnObject)
     {
         ObjectController _objectController = GameManager.OBJECT;
 
@@ -157,7 +157,7 @@ public class SpawnController
                 _objectController.enemyWaponDataList[i].key = ObjectType.Enemy;
 
                 _objectController.enemyWaponDataList[i].transform.position
-                    = new Vector3(spawnObject.x, spawnObject.y, 0);
+                    = new Vector2(spawnObject.x, spawnObject.y);
 
                 return _objectController.enemyWaponDataList[i].weapon;
             }

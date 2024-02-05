@@ -48,7 +48,7 @@ public class SpawnObject : MonoBehaviour
 
         SpawnMyPlayer();
 
-        Vector3 targetPosition = _objectController.player.transform.position;
+        Vector2 targetPosition = _objectController.player.transform.position;
 
         SpawnMap(targetPosition);
         SpawnPlayerAttackPool();
@@ -74,7 +74,7 @@ public class SpawnObject : MonoBehaviour
         _objectController.player = playersObjects.GetComponent<Player>();
     }
 
-    private void SpawnMap(Vector3 spawnCenter)
+    private void SpawnMap(Vector2 spawnCenter)
     {
         ObjectController _objectController = GameManager.OBJECT;
 
@@ -82,7 +82,7 @@ public class SpawnObject : MonoBehaviour
         {
             GameObject MapsObject = Resources.Load<GameObject>(Prefab_Map);
             GameObject MapsObjects = Instantiate(MapsObject,
-                new Vector3(spawnCenter.x + (i * 40), 0, 0), Quaternion.identity);
+                new Vector2(spawnCenter.x + (i * 40), 0), Quaternion.identity);
             _objectController.mapDataList.Add(_mapSpawnConut, MapsObjects.GetComponent<Map>());
             _mapSpawnConut++;
         }

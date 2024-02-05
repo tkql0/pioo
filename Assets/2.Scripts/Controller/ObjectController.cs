@@ -94,7 +94,7 @@ public class ObjectController
         return isActive;
     }
 
-    public void SetSpawnPosition(long InIndex, ObjectType character, Vector3 centerPosition)
+    public void SetSpawnPosition(long InIndex, ObjectType character, Vector2 centerPosition)
     {
         int randomPositionX = Random.Range(Position_X_Min, Position_X_Max);
         int randomPositionY = Random.Range(Position_Y_Min, Position_Y_Max);
@@ -105,13 +105,13 @@ public class ObjectController
                 if (enemyDataList.TryGetValue(InIndex, out var outEnemyData) == false)
                     return;
                 outEnemyData.transform.position =
-                    new Vector3(randomPositionX + centerPosition.x, 0, 0);
+                    new Vector2(randomPositionX + centerPosition.x, 0);
                 break;
             case ObjectType.Fish:
                 if (fishDataList.TryGetValue(InIndex, out var outFishData) == false)
                     return;
                 outFishData.transform.position =
-                    new Vector3(randomPositionX + centerPosition.x, randomPositionY, 0);
+                    new Vector2(randomPositionX + centerPosition.x, randomPositionY);
                 break;
         }
     }

@@ -13,7 +13,7 @@ public class Player : Character
     public float moveMaxspeed;
     private float time;
 
-    private Vector3 gravityPoint;
+    private Vector2 gravityPoint;
 
     public Camera cam;
 
@@ -44,7 +44,7 @@ public class Player : Character
 
         rigid = GetComponent<Rigidbody2D>();
         sprite = GetComponent<SpriteRenderer>();
-        gravityPoint = new Vector3(0, 0, 0);
+        gravityPoint = new Vector2(0, 0);
 
         curHealth = maxHealth;
         curBreath = maxBreath;

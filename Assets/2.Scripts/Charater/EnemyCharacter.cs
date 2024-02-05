@@ -21,14 +21,7 @@ public class EnemyCharacter : Character
     public ObjectType spawnNumber = ObjectType.NULL;
 
     [SerializeField]
-    private float max_health;
-    private float cur_health;
-
-    [SerializeField]
     private float scanRange = 2;
-
-    private bool isDie;
-    private bool isDamage;
 
     private void Awake()
     {
@@ -43,13 +36,14 @@ public class EnemyCharacter : Character
     {
         StartCoroutine(MoveDelay());
 
+        maxHealth = 20;
         isDie = false;
         isDamage = false;
         sprite.color = Color.white;
 
-        cur_health = max_health;
-        health_Slider.maxValue = max_health;
-        health_Slider.value = max_health;
+        curHealth = maxHealth;
+        health_Slider.maxValue = maxHealth;
+        health_Slider.value = maxHealth;
     }
 
     private void OnDestroy()
@@ -59,7 +53,7 @@ public class EnemyCharacter : Character
 
     private void Update()
     {
-        health_Slider.value = cur_health;
+        health_Slider.value = curHealth;
 
         //Enemy_Die();
     }
@@ -69,15 +63,9 @@ public class EnemyCharacter : Character
         Search(enemySearch);
     }
 
-    private void Movement()
+    public override void Movement()
     {
-        if (!gameObject.activeSelf)
-            return;
-
-        int nextMove = Random.Range(-1, 2);
-
-        if (nextMove != 0)
-            sprite.flipX = nextMove < 0;
+        base.Movement();
 
         if (sprite.flipX == true)
             enemySearch.transform.position = new Vector2(transform.position.x - 2,
@@ -85,9 +73,6 @@ public class EnemyCharacter : Character
         else
             enemySearch.transform.position = new Vector2(transform.position.x + 2,
                 enemySearch.transform.position.y);
-
-        float speed = Random.Range(0.1f, 5);
-        rigid.velocity = new Vector2(nextMove * speed, rigid.velocity.y);
     }
 
     private IEnumerator MoveDelay()
@@ -98,12 +83,11 @@ public class EnemyCharacter : Character
 
         StartCoroutine(MoveDelay());
     }
-    private void Hit_Tracking(GameObject target)
+    private void Hit_Tracking(Vector2 target)
     {
-        Vector2 playerPos = target.transform.position;
         Vector2 myPos = transform.position;
 
-        float DirX = playerPos.x - myPos.x;
+        float DirX = target.x - myPos.x;
 
         if (DirX != 0)
             sprite.flipX = DirX < 0;
@@ -119,20 +103,18 @@ public class EnemyCharacter : Character
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if ((collision.gameObject.CompareTag(Player) ||
-            collision.gameObject.CompareTag(Player_Attack)) && isDie == false)
+        if ((collision.CompareTag(Player) ||
+            collision.CompareTag(Player_Attack)) && isDie == false)
         {
-            GameObject _player = collision.gameObject;
+            Vector2 _player = collision.transform.position;
 
             Hit_Tracking(_player);
 
             if (!isDamage)
             {
                 isDamage = true;
-                cur_health = cur_health - Damage;
+                curHealth = curHealth - Damage;
                 StartCoroutine(OnDamage(sprite));
-
-                isDamage = false;
             }
         }
     }

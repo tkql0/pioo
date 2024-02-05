@@ -28,18 +28,6 @@ public class FishCharacter : Character
         key = 99;
     }
 
-    public void Movement()
-    {
-        if (!gameObject.activeSelf)
-            return;
-        int nextMove = Random.Range(-1, 2);
-        if (nextMove != 0)
-            sprite.flipX = nextMove < 0;
-
-        float speed = Random.Range(0.5f, 5f);
-        rigid.velocity = new Vector2(nextMove * speed, rigid.velocity.y);
-    }
-
     public IEnumerator MoveDelay()
     {
         Movement();

@@ -1,17 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Player : Character
 {
     public GameObject player;
+    public Slider attackPowerSlider;
 
     public int key = 0;
     public ObjectType spawnNumber = ObjectType.NULL;
 
     private Vector2 inputVec;
     public float moveMaxspeed;
-    private float time;
 
     private Vector2 gravityPoint;
 
@@ -19,13 +20,8 @@ public class Player : Character
 
     private bool isMove;
     private bool isJump;
-    public bool isDie;
     public bool isLv_up;
-    private bool isDamage;
     private bool mouse_click;
-
-    public float maxHealth;
-    public float curHealth;
 
     public float maxBreath;
     public float curBreath;
@@ -34,6 +30,11 @@ public class Player : Character
     public float curExperience;
 
     public int PlayerLv = 1;
+
+    float attackPower = 0.0f;
+    float attackMinPower = 10.0f;
+    float attackMaxPower = 20.0f;
+
 
     private const string Horizontal = "Horizontal";
     private const string Vertical = "Vertical";
@@ -59,7 +60,7 @@ public class Player : Character
     private void Update()
     {
         LookAtMouse();
-        PlayerMovement();
+        Movement();
     }
     private void FixedUpdate()
     {
@@ -80,7 +81,7 @@ public class Player : Character
         }
     }
 
-    private void PlayerMovement()
+    public override void Movement()
     {
         if (isDie == false)
         {
@@ -130,22 +131,33 @@ public class Player : Character
 
     private void PlayerAttack(Vector2 dir)
     {
-        if (Input.GetMouseButtonDown(0) && mouse_click == false)
+        attackPowerSlider.maxValue = attackMinPower;
+
+        if (Input.GetMouseButton(0))
         {
-            mouse_click = true;
-            time = 10f;
+            attackPowerSlider.gameObject.SetActive(true);
+            attackPower += Time.deltaTime;
+            attackPowerSlider.value = attackPower;
         }
-        else if (Input.GetMouseButton(0))
+        else if (Input.GetMouseButtonUp(0))
         {
-            time += Time.deltaTime;
-        }
-        else if (Input.GetMouseButtonUp(0) && isJump == true && mouse_click == true)
-        {
-            mouse_click = false;
+            attackPowerSlider.gameObject.SetActive(false);
+
+            attackPower = attackPower + attackMinPower;
+            if (attackPower > attackMaxPower)
+                attackPower = attackMaxPower;
+
             GameObject Attack = GameManager.SPAWN.SpawnPlayerWapon(transform.position);
-            Attack.GetComponent<Rigidbody2D>().velocity = dir * time;
+            Attack.GetComponent<Rigidbody2D>().velocity = dir * attackPower;
+            attackPower = 0.0f;
         }
     }
+    // 레벨 업을 했을 때 포인트를 얻을 시 올릴 수 있는 능력치
+    // 공격 최대 사거리 : attackMaxPower
+    // 공격 최소 사거리 : attackMinPower
+    // 생각 중인게 공격이 비처럼 내리는 것도 있는데
+    // 공격 갯수를 늘리는거랑 스킬로 비를 내리는거랑 머가 나으려나
+
     private void LookAtMouse()
     {
         Vector2 mousePos = cam.ScreenToWorldPoint(Input.mousePosition);

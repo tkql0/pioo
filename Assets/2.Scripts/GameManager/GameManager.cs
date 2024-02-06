@@ -23,9 +23,4 @@ public class GameManager : MonoSingleTon<GameManager>
     {
 
     }
-
-    private void Update()
-    {
-        
-    }
 }

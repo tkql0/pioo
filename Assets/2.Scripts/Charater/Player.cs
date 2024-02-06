@@ -8,8 +8,7 @@ public class Player : Character
     public GameObject player;
     public Slider attackPowerSlider;
 
-    public int key = 0;
-    public ObjectType spawnNumber = ObjectType.NULL;
+    public ObjectType key;
 
     private Vector2 inputVec;
     public float moveMaxspeed;
@@ -42,6 +41,7 @@ public class Player : Character
     public void OnEnable()
     {
         player = gameObject;
+        key = ObjectType.Player;
 
         rigid = GetComponent<Rigidbody2D>();
         sprite = GetComponent<SpriteRenderer>();
@@ -147,7 +147,7 @@ public class Player : Character
             if (attackPower > attackMaxPower)
                 attackPower = attackMaxPower;
 
-            GameObject Attack = GameManager.SPAWN.SpawnPlayerWapon(transform.position);
+            GameObject Attack = GameManager.SPAWN.SpawnWapon(transform.position, ObjectType.PlayerWeapon);
             Attack.GetComponent<Rigidbody2D>().velocity = dir * attackPower;
             attackPower = 0.0f;
         }

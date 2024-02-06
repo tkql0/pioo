@@ -6,7 +6,7 @@ public class Map : MonoBehaviour
 {
     public GameObject map;
 
-    public int key;
+    public long key;
 
     private const float reSpawnTime =  20f;
 
@@ -95,7 +95,7 @@ public class Map : MonoBehaviour
         foreach (KeyValuePair<long, EnemyCharacter> enemyData 
             in _objectController.enemyDataList)
         {
-            if (key == enemyData.Value.key
+            if (key == enemyData.Value.spawnObjectKey
                 && _objectController.GetisActive(enemyData.Key, ObjectType.Enemy))
                 enemyReSpawnSize++;
         }
@@ -103,7 +103,7 @@ public class Map : MonoBehaviour
         foreach (KeyValuePair<long, FishCharacter> fishData 
             in _objectController.fishDataList)
         {
-            if (key == fishData.Value.key
+            if (key == fishData.Value.spawnObjectKey
                 && _objectController.GetisActive(fishData.Key, ObjectType.Fish))
                 fishReSpawnSize++;
         }

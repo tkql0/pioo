@@ -23,7 +23,7 @@ public class Weapon : MonoBehaviour
 
     private void Update()
     {
-        if (key == ObjectType.Player && transform.position.y < 0)
+        if (key == ObjectType.PlayerWeapon && transform.position.y < 0)
             gameObject.SetActive(false);
 
         transform.right = rigid.velocity;
@@ -50,10 +50,10 @@ public class Weapon : MonoBehaviour
     {
         GameObject target = collision.gameObject;
 
-        if (target.CompareTag(Enemy) && key == ObjectType.Player)
+        if (target.CompareTag(Enemy) && key == ObjectType.PlayerWeapon)
             gameObject.SetActive(false);
 
-        else if (target.CompareTag(Player) && key == ObjectType.Enemy)
+        else if (target.CompareTag(Player) && key == ObjectType.EnemyWeapon)
             gameObject.SetActive(false);
     }
     public void SetActiveObject(bool InIsActive)

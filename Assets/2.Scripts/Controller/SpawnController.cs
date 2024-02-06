@@ -16,6 +16,8 @@ public class SpawnController
     public void OnEnable()
     {
         spawnGroupObject = GameObject.FindObjectOfType<SpawnObject>();
+        // 이걸로 게임 매니저에서 new() 대신 설정해야겠네
+        // 이름도 서로 바꾸고
         spawnGroupObject.Init();
         spawnGroupObject.StartSpawn();
 
@@ -26,7 +28,7 @@ public class SpawnController
 
     }
 
-    public void Spawn(Vector2 spawnCenterPosition, long enemyCount, long fishCount, int key)
+    public void Spawn(Vector2 spawnCenterPosition, long enemyCount, long fishCount, long key)
     {
         for (long i = 0; i < enemyCount; i++)
         {
@@ -45,7 +47,7 @@ public class SpawnController
         DistanceObjectDeSpawn(target, ObjectType.Fish);
     }
 
-    private GameObject SpawnObject(Vector2 spawnCenterPosition, int key, ObjectType character)
+    private GameObject SpawnObject(Vector2 spawnCenterPosition, long key, ObjectType character)
     {
         ObjectController _objectController = GameManager.OBJECT;
 
@@ -54,12 +56,12 @@ public class SpawnController
             case ObjectType.Enemy:
                 foreach (KeyValuePair<long, EnemyCharacter> enemyNumber in _objectController.enemyDataList)
                 {
-                    if (!_objectController.GetisActive(enemyNumber.Key, ObjectType.Enemy))
+                    if (!_objectController.GetisActive(enemyNumber.Key, character))
                     {
-                        _objectController.SetActive(enemyNumber.Key, ObjectType.Enemy, true);
-                        _objectController.SetSpawnPosition(enemyNumber.Key, ObjectType.Enemy, spawnCenterPosition);
+                        _objectController.SetActive(enemyNumber.Key, character, true);
+                        _objectController.SetSpawnPosition(enemyNumber.Key, character, spawnCenterPosition);
 
-                        enemyNumber.Value.key = key;
+                        enemyNumber.Value.spawnObjectKey = key;
 
                         return enemyNumber.Value.enemy;
                     }
@@ -68,12 +70,12 @@ public class SpawnController
             case ObjectType.Fish:
                 foreach (KeyValuePair<long, FishCharacter> fishNumber in _objectController.fishDataList)
                 {
-                    if (!_objectController.GetisActive(fishNumber.Key, ObjectType.Fish))
+                    if (!_objectController.GetisActive(fishNumber.Key, character))
                     {
-                        _objectController.SetActive(fishNumber.Key, ObjectType.Fish, true);
-                        _objectController.SetSpawnPosition(fishNumber.Key, ObjectType.Fish, spawnCenterPosition);
+                        _objectController.SetActive(fishNumber.Key, character, true);
+                        _objectController.SetSpawnPosition(fishNumber.Key, character, spawnCenterPosition);
 
-                        fishNumber.Value.key = key;
+                        fishNumber.Value.spawnObjectKey = key;
 
                         return fishNumber.Value.fish;
                     }
@@ -101,8 +103,8 @@ public class SpawnController
 
                     if (differenceX > DeSpawn_Distance)
                     {
-                        _objectController.SetActive(enemyNumber.Key, ObjectType.Enemy, false);
-                        enemyNumber.Value.key = 99;
+                        _objectController.SetActive(enemyNumber.Key, character, false);
+                        enemyNumber.Value.spawnObjectKey = 99;
                     }
                 }
                 break;
@@ -116,74 +118,51 @@ public class SpawnController
 
                     if (differenceX > DeSpawn_Distance)
                     {
-                        _objectController.SetActive(fishNumber.Key, ObjectType.Fish, false);
-                        fishNumber.Value.key = 99;
+                        _objectController.SetActive(fishNumber.Key, character, false);
+                        fishNumber.Value.spawnObjectKey = 99;
                     }
                 }
                 break;
         }
     }
 
-    public GameObject SpawnPlayerWapon(Vector2 spawnObject)
+    public GameObject SpawnWapon(Vector2 spawnObject, ObjectType character)
     {
         ObjectController _objectController = GameManager.OBJECT;
 
-        for (int i = 0; i < _objectController.playerWaponDataList.Count; i++)
+        foreach (KeyValuePair<long, Weapon> weaponNumber in _objectController.weaponDataList)
         {
-            if (!_objectController.playerWaponDataList[i].weapon.activeSelf)
+            switch(character)
             {
-                _objectController.playerWaponDataList[i].weapon.SetActive(true);
-                _objectController.playerWaponDataList[i].key = ObjectType.Player;
+                case ObjectType.PlayerWeapon:
+                    if (!_objectController.GetisActive(weaponNumber.Key, character) && weaponNumber.Value.key == character)
+                    {
+                        weaponNumber.Value.weapon.SetActive(true);
 
-                _objectController.playerWaponDataList[i].transform.position
-                    = new Vector2(spawnObject.x, spawnObject.y);
+                        weaponNumber.Value.transform.position
+                            = new Vector2(spawnObject.x, spawnObject.y);
 
-                return _objectController.playerWaponDataList[i].weapon;
+                        return weaponNumber.Value.weapon;
+                    }
+                    break;
+                case ObjectType.EnemyWeapon:
+                    if (!_objectController.GetisActive(weaponNumber.Key, character) && weaponNumber.Value.key == character)
+                    {
+                        weaponNumber.Value.weapon.SetActive(true);
+
+                        weaponNumber.Value.transform.position
+                            = new Vector2(spawnObject.x, spawnObject.y);
+
+                        return weaponNumber.Value.weapon;
+                    }
+                    break;
             }
         }
         return null;
     }
 
-    public GameObject SpawnEnemyWapon(Vector2 spawnObject)
-    {
-        ObjectController _objectController = GameManager.OBJECT;
-
-        for (int i = 0; i < _objectController.enemyWaponDataList.Count; i++)
-        {
-            if (!_objectController.enemyWaponDataList[i].weapon.activeSelf)
-            {
-                _objectController.enemyWaponDataList[i].weapon.SetActive(true);
-                _objectController.enemyWaponDataList[i].key = ObjectType.Enemy;
-
-                _objectController.enemyWaponDataList[i].transform.position
-                    = new Vector2(spawnObject.x, spawnObject.y);
-
-                return _objectController.enemyWaponDataList[i].weapon;
-            }
-        }
-        return null;
-    }
-
-    //public GameObject SpawnWapon(GameObject spawnObject)
-    //{
-    //    ObjectController _objectController = GameManager.OBJECT;
-
-    //    for (int i = 0; i < _objectController.WaponDataList.Count; i++)
-    //    {
-    //        if (!_objectController.WaponDataList[i].weapon.activeSelf)
-    //        {
-    //            _objectController.WaponDataList[i].weapon.SetActive(true);
-    //            _objectController.WaponDataList[i].key = CharacterType.Enemy;
-
-    //            _objectController.WaponDataList[i].transform.position
-    //                = new Vector3(spawnObject.transform.position.x, spawnObject.transform.position.y, 0);
-
-    //            return _objectController.WaponDataList[i].weapon;
-    //        }
-    //    }
-    //    return null;
-    //}
-    
+    // switch 안에 내용이 똑같은데 합치고 싶다 어떻게 하지 반환형 함수 하나 더 만들어서 해야되나
+    // 리스트로 활성화된 오브젝트 내용 담고 전체 개수를 넘기면 활성화 안되게 하거나 더 생성했다가 삭제 할 수 있나
 
     private void MapSpawn(long InIndex)
     {

@@ -8,7 +8,8 @@ public enum ObjectType
     Player,
     Enemy,
     Fish,
-    Weapon,
+    EnemyWeapon,
+    PlayerWeapon,
     Map,
 }
 
@@ -20,10 +21,8 @@ public class ObjectController
     public Player player;
     public Dictionary<long, EnemyCharacter> enemyDataList = new Dictionary<long, EnemyCharacter>();
     public Dictionary<long, FishCharacter> fishDataList = new Dictionary<long, FishCharacter>();
-    public Dictionary<long, Weapon> playerWaponDataList = new Dictionary<long, Weapon>();
-    public Dictionary<long, Weapon> enemyWaponDataList = new Dictionary<long, Weapon>();
     public Dictionary<long, Map> mapDataList = new Dictionary<long, Map>();
-    //public Dictionary<long, Weapon> WaponDataList = new Dictionary<long, Weapon>();
+    public Dictionary<long, Weapon> weaponDataList = new Dictionary<long, Weapon>();
 
     private const int Position_X_Min = -20;
     private const int Position_X_Max = 21;
@@ -85,12 +84,30 @@ public class ObjectController
     {
         bool isActive = false;
 
-        if (character == ObjectType.Enemy)
-            isActive = enemyDataList[InIndex].enemy.activeSelf;
-        else if (character == ObjectType.Fish)
-            isActive = fishDataList[InIndex].fish.activeSelf;
-        else if(character == ObjectType.Map)
-            isActive = mapDataList[InIndex].map.activeSelf;
+        switch (character)
+        {
+            case ObjectType.Enemy:
+                if (enemyDataList.TryGetValue(InIndex, out var outEnemyData) == false)
+                    return isActive;
+                isActive = outEnemyData.enemy.activeSelf;
+                break;
+            case ObjectType.Fish:
+                if (fishDataList.TryGetValue(InIndex, out var outFishData) == false)
+                    return isActive;
+                isActive = outFishData.fish.activeSelf;
+                break;
+            case ObjectType.Map:
+                if (mapDataList.TryGetValue(InIndex, out var outMapData) == false)
+                    return isActive;
+                isActive = outMapData.map.activeSelf;
+                break;
+            case ObjectType.EnemyWeapon:
+                isActive = weaponDataList[InIndex].weapon.activeSelf;
+                break;
+            case ObjectType.PlayerWeapon:
+                isActive = weaponDataList[InIndex].weapon.activeSelf;
+                break;
+        }
 
         return isActive;
     }

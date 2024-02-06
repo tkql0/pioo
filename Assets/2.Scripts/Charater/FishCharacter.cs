@@ -6,8 +6,8 @@ public class FishCharacter : Character
 {
     public GameObject fish;
 
-    public int key;
-    public ObjectType spawnNumber = ObjectType.NULL;
+    public long spawnObjectKey;
+    public ObjectType key;
 
     void Awake()
     {
@@ -18,14 +18,15 @@ public class FishCharacter : Character
     private void OnEnable()
     {
         fish = gameObject;
-        key = 99;
+        spawnObjectKey = 99;
+        key = ObjectType.Fish;
 
         StartCoroutine(MoveDelay());
     }
 
     private void OnDestroy()
     {
-        key = 99;
+        spawnObjectKey = 99;
     }
 
     public IEnumerator MoveDelay()

@@ -17,8 +17,8 @@ public class EnemyCharacter : Character
     [SerializeField]
     private Slider health_Slider;
 
-    public int key;
-    public ObjectType spawnNumber = ObjectType.NULL;
+    public long spawnObjectKey;
+    public ObjectType key;
     // 내가 생각한 ID값
     // 몬스터 자체 키값 Key : ObjectType.2 or long 2
     // 몬스터 순서 키값 NumberKey : enemyDataList.Key[i] or long 200
@@ -35,13 +35,14 @@ public class EnemyCharacter : Character
         rigid = GetComponent<Rigidbody2D>();
         sprite = GetComponent<SpriteRenderer>();
 
-        key = 99;
+        spawnObjectKey = 99;
         enemy = gameObject;
     }
 
     private void OnEnable()
     {
         StartCoroutine(MoveDelay());
+        key = ObjectType.Enemy;
 
         maxHealth = 20;
         isDie = false;
@@ -55,7 +56,7 @@ public class EnemyCharacter : Character
 
     private void OnDestroy()
     {
-        key = 99;
+        spawnObjectKey = 99;
     }
 
     private void Update()
@@ -171,7 +172,7 @@ public class EnemyCharacter : Character
         Vector2 dir = targetPos - (Vector2)transform.position;
         dir = dir.normalized;
 
-        GameObject Attack = GameManager.SPAWN.SpawnEnemyWapon(transform.position);
+        GameObject Attack = GameManager.SPAWN.SpawnWapon(transform.position, ObjectType.EnemyWeapon);
         Attack.transform.position = transform.position;
         Attack.transform.rotation = transform.rotation;
         Attack.GetComponent<Rigidbody2D>().velocity = dir * 10;

@@ -63,9 +63,9 @@ public class ObjectController
             outCharacter.MapMonsterSpawn(outCharacter.enemyMaxSize, outCharacter.fishMaxSize);
     }
 
-    public void SetActive(long InIndex, ObjectType character, bool InIsActive)
+    public void SetActive(long InIndex, ObjectType objectType, bool InIsActive)
     {
-        switch (character)
+        switch (objectType)
         {
             case ObjectType.Enemy:
                 if (enemyDataList.TryGetValue(InIndex, out var outEnemyData) == false)
@@ -80,11 +80,11 @@ public class ObjectController
         }
     }
 
-    public bool GetisActive(long InIndex, ObjectType character)
+    public bool GetisActive(long InIndex, ObjectType objectType)
     {
         bool isActive = false;
 
-        switch (character)
+        switch (objectType)
         {
             case ObjectType.Enemy:
                 if (enemyDataList.TryGetValue(InIndex, out var outEnemyData) == false)
@@ -112,12 +112,12 @@ public class ObjectController
         return isActive;
     }
 
-    public void SetSpawnPosition(long InIndex, ObjectType character, Vector2 centerPosition)
+    public void SetSpawnPosition(long InIndex, ObjectType objectType, Vector2 centerPosition)
     {
         int randomPositionX = Random.Range(Position_X_Min, Position_X_Max);
         int randomPositionY = Random.Range(Position_Y_Min, Position_Y_Max);
 
-        switch (character)
+        switch (objectType)
         {
             case ObjectType.Enemy:
                 if (enemyDataList.TryGetValue(InIndex, out var outEnemyData) == false)

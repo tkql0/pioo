@@ -131,6 +131,8 @@ public class Player : Character
 
     private void PlayerAttack(Vector2 dir)
     {
+        SpawnObject spawnObject = GameManager.SPAWN.spawnObject;
+
         attackPowerSlider.maxValue = attackMinPower;
 
         if (Input.GetMouseButton(0))
@@ -147,7 +149,7 @@ public class Player : Character
             if (attackPower > attackMaxPower)
                 attackPower = attackMaxPower;
 
-            GameObject Attack = GameManager.SPAWN.SpawnWapon(transform.position, ObjectType.PlayerWeapon);
+            GameObject Attack = spawnObject.SpawnWeapon(transform.position, ObjectType.PlayerWeapon);
             Attack.GetComponent<Rigidbody2D>().velocity = dir * attackPower;
             attackPower = 0.0f;
         }

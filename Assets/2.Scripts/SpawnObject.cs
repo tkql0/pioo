@@ -137,7 +137,7 @@ public class SpawnObject : MonoBehaviour
         }
     }
 
-    private void SpawnMap(Vector2 spawnCenterPosition)
+    private void SpawnMap(Vector2 inSpawnPosition)
     {
         ObjectController _objectController = GameManager.OBJECT;
 
@@ -145,13 +145,13 @@ public class SpawnObject : MonoBehaviour
         {
             GameObject MapsObject = Resources.Load<GameObject>(Prefab_Map);
             GameObject MapsObjects = Instantiate(MapsObject,
-                new Vector2(spawnCenterPosition.x + (i * 40), 0), Quaternion.identity);
+                new Vector2(inSpawnPosition.x + (i * 40), 0), Quaternion.identity);
             _objectController.mapDataList.Add(_mapSpawnConut, MapsObjects.GetComponent<Map>());
             _mapSpawnConut++;
         }
     }
 
-    public GameObject Spawn(Vector2 spawnCenterPosition, long key, ObjectType objectType)
+    public GameObject Spawn(Vector2 inSpawnPosition, long key, ObjectType objectType)
     {
         ObjectController _objectController = GameManager.OBJECT;
 
@@ -163,7 +163,7 @@ public class SpawnObject : MonoBehaviour
                     if (!_objectController.GetisActive(enemyNumber.Key, objectType))
                     {
                         _objectController.SetActive(enemyNumber.Key, objectType, true);
-                        _objectController.SetSpawnPosition(enemyNumber.Key, objectType, spawnCenterPosition);
+                        _objectController.SetSpawnPosition(enemyNumber.Key, objectType, inSpawnPosition);
 
                         enemyNumber.Value.spawnObjectKey = key;
 
@@ -177,7 +177,7 @@ public class SpawnObject : MonoBehaviour
                     if (!_objectController.GetisActive(fishNumber.Key, objectType))
                     {
                         _objectController.SetActive(fishNumber.Key, objectType, true);
-                        _objectController.SetSpawnPosition(fishNumber.Key, objectType, spawnCenterPosition);
+                        _objectController.SetSpawnPosition(fishNumber.Key, objectType, inSpawnPosition);
 
                         fishNumber.Value.spawnObjectKey = key;
 
@@ -188,6 +188,7 @@ public class SpawnObject : MonoBehaviour
         }
         return null;
     }
+    // 여기로 SpawnWeapon() 옮겨야겠다
 
     public void DistanceObjectDeSpawn(Vector2 target, ObjectType objectType)
     {
@@ -230,7 +231,7 @@ public class SpawnObject : MonoBehaviour
         }
     }
 
-    public GameObject SpawnWeapon(Vector2 spawnCenterPosition, ObjectType objectType)
+    public GameObject SpawnWeapon(Vector2 inSpawnPosition, ObjectType objectType)
     {
         ObjectController _objectController = GameManager.OBJECT;
 
@@ -244,7 +245,7 @@ public class SpawnObject : MonoBehaviour
                         weaponNumber.Value.weapon.SetActive(true);
 
                         weaponNumber.Value.transform.position
-                            = new Vector2(spawnCenterPosition.x, spawnCenterPosition.y);
+                            = new Vector2(inSpawnPosition.x, inSpawnPosition.y);
 
                         return weaponNumber.Value.weapon;
                     }
@@ -255,7 +256,7 @@ public class SpawnObject : MonoBehaviour
                         weaponNumber.Value.weapon.SetActive(true);
 
                         weaponNumber.Value.transform.position
-                            = new Vector2(spawnCenterPosition.x, spawnCenterPosition.y);
+                            = new Vector2(inSpawnPosition.x, inSpawnPosition.y);
 
                         return weaponNumber.Value.weapon;
                     }

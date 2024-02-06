@@ -8,24 +8,17 @@ public class EnemyCharacter : Character
     public GameObject enemy;
 
     [SerializeField]
-    private GameObject enemySearch;
+    private GameObject _scanObject;
     [SerializeField]
-    private GameObject Danger;
+    private GameObject _detection;
 
-    private RaycastHit2D[] inTarget;
+    private RaycastHit2D[] _inTarget;
 
     [SerializeField]
-    private Slider health_Slider;
+    private Slider _healthSlider;
 
     public long spawnObjectKey;
     public ObjectType key;
-    // 내가 생각한 ID값
-    // 몬스터 자체 키값 Key : ObjectType.2 or long 2
-    // 몬스터 순서 키값 NumberKey : enemyDataList.Key[i] or long 200
-    // 몬스터가 존재하는 맵의 키값 : SpawnObjectKey : mapDataList[i] or long 20000
-    // 첫번째는 할것 두번째는 하고싶은것
-    // 20202 키값이 20000인 오브젝트에서 키값이 2인 오브젝트를 찾으시오같은 느낌
-    // 적어보니까 이상한거 같기도하네
 
     [SerializeField]
     private float scanRange = 2;
@@ -50,25 +43,26 @@ public class EnemyCharacter : Character
         sprite.color = Color.white;
 
         curHealth = maxHealth;
-        health_Slider.maxValue = maxHealth;
-        health_Slider.value = maxHealth;
+        _healthSlider.maxValue = maxHealth;
+        _healthSlider.value = maxHealth;
     }
 
     private void OnDestroy()
     {
         spawnObjectKey = 99;
+        isDie = true;
     }
 
     private void Update()
     {
-        health_Slider.value = curHealth;
+        _healthSlider.value = curHealth;
 
-        //Enemy_Die();
+        Die(_healthSlider);
     }
 
     private void FixedUpdate()
     {
-        Search(enemySearch);
+        ObjectScan(_scanObject);
     }
 
     public override void Movement()
@@ -76,11 +70,11 @@ public class EnemyCharacter : Character
         base.Movement();
 
         if (sprite.flipX == true)
-            enemySearch.transform.position = new Vector2(transform.position.x - 2,
-                enemySearch.transform.position.y);
+            _scanObject.transform.position = new Vector2(transform.position.x - 2,
+                _scanObject.transform.position.y);
         else
-            enemySearch.transform.position = new Vector2(transform.position.x + 2,
-                enemySearch.transform.position.y);
+            _scanObject.transform.position = new Vector2(transform.position.x + 2,
+                _scanObject.transform.position.y);
     }
 
     private IEnumerator MoveDelay()
@@ -91,21 +85,21 @@ public class EnemyCharacter : Character
 
         StartCoroutine(MoveDelay());
     }
-    private void Hit_Tracking(Vector2 target)
+    private void Hit_Tracking(Vector2 targetPosition)
     {
         Vector2 myPos = transform.position;
 
-        float DirX = target.x - myPos.x;
+        float DirX = targetPosition.x - myPos.x;
 
         if (DirX != 0)
             sprite.flipX = DirX < 0;
 
         if (sprite.flipX == true)
-            enemySearch.transform.position = new Vector2(transform.position.x - 2,
-                enemySearch.transform.position.y);
+            _scanObject.transform.position = new Vector2(transform.position.x - 2,
+                _scanObject.transform.position.y);
         else
-            enemySearch.transform.position = new Vector2(transform.position.x + 2,
-                enemySearch.transform.position.y);
+            _scanObject.transform.position = new Vector2(transform.position.x + 2,
+                _scanObject.transform.position.y);
 
     }
 
@@ -127,51 +121,38 @@ public class EnemyCharacter : Character
         }
     }
 
-    public void Enemy_Die()
+    private void ObjectScan(GameObject enemySearch)
     {
-        if (health_Slider.value <= 0)
-        {
-            isDie = true;
+        coolTimeMax = 3f;
 
-            gameObject.SetActive(false);
-            return;
-        }
-        else
-            isDie = false;
-    }
-
-    private void Search(GameObject enemySearch)
-    {
-        Rate_Of_Fire = 3f;
-
-        inTarget = Physics2D.CircleCastAll(enemySearch.transform.position,
+        _inTarget = Physics2D.CircleCastAll(enemySearch.transform.position,
             scanRange, Vector2.zero, 0, targetMask);
 
         Transform target = GetNearest();
 
-        if (inTarget.Length != 0)
+        if (_inTarget.Length != 0)
         {
-            CoolDown_Time += Time.deltaTime;
-            Danger.SetActive(true);
+            coolTime += Time.deltaTime;
+            _detection.SetActive(true);
 
-            if (Rate_Of_Fire < CoolDown_Time)
+            if (coolTimeMax < coolTime)
             {
                 if (!target)
                     return;
 
-                CoolDown_Time = 0f;
+                coolTime = 0f;
                 Attack(target.position);
             }
         }
         else
-            Danger.SetActive(false);
+            _detection.SetActive(false);
     }
 
-    private void Attack(Vector2 targetPos)
+    private void Attack(Vector2 targetPosition)
     {
         SpawnObject spawnObject = GameManager.SPAWN.spawnObject;
 
-        Vector2 dir = targetPos - (Vector2)transform.position;
+        Vector2 dir = targetPosition - (Vector2)transform.position;
         dir = dir.normalized;
 
         GameObject Attack = spawnObject.SpawnWeapon(transform.position, ObjectType.EnemyWeapon);
@@ -185,7 +166,7 @@ public class EnemyCharacter : Character
         Transform target = null;
         float diff = 15;
 
-        foreach (RaycastHit2D targets in inTarget)
+        foreach (RaycastHit2D targets in _inTarget)
         {
             Vector2 myPos = transform.position;
             Vector2 targetPos = targets.transform.position;

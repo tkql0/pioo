@@ -18,14 +18,16 @@ public class FollowCamera : MonoBehaviour
 
     private void Start()
     {
-        if (!GameManager.OBJECT.player)
+        ObjectController _objectController = GameManager.OBJECT;
+
+        if (!_objectController.player)
             return;
 
         _camPos = new Vector3(0, 0, -40f);
-        _speed = GameManager.OBJECT.player.moveMaxspeed;
-        _player = GameManager.OBJECT.player.gameObject;
+        _speed = _objectController.player.moveMaxspeed;
+        _player = _objectController.player.gameObject;
 
-        GameManager.OBJECT.player.cam = Camera.main;
+        _objectController.player.cam = Camera.main;
 
         _height = Camera.main.orthographicSize;
     }

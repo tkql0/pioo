@@ -8,10 +8,10 @@ public class Map : MonoBehaviour
 
     public long key;
 
-    private const float reSpawnTime =  20f;
-
     public long enemyMaxSize;
     public long fishMaxSize;
+
+    private const float ReSpawn_Time = 20f;
 
     private void Update()
     {
@@ -69,7 +69,7 @@ public class Map : MonoBehaviour
 
         _spawnController.Spawn(myPosition, enemySize, fishSize, key);
 
-        StartCoroutine(ReSpawn(reSpawnTime, enemySize, fishSize));
+        StartCoroutine(ReSpawn(ReSpawn_Time, enemySize, fishSize));
     }
 
     private IEnumerator ReSpawn(float ReSpawnTime, long enemySize, long fishSize)

@@ -6,10 +6,10 @@ using UnityEngine.UI;
 public class UI : MonoBehaviour
 {
     [SerializeField]
-    private GameObject GameStart_Panel;
+    private GameObject _gameStartPanel;
 
     [SerializeField]
-    private GameObject Stop_Button;
+    private GameObject _gameStopButton;
 
     public Text experienceTxt;
     public Text healthTxt;
@@ -21,89 +21,92 @@ public class UI : MonoBehaviour
 
     public RectTransform menu_ui;
 
-    public bool Click_count = false;
+    public bool isClick = false;
 
     private void Update()
     {
-        if (GameStart_Panel.activeSelf == true)
+        ObjectController _objectController = GameManager.OBJECT;
+
+        if (_gameStartPanel.activeSelf)
         {
             Time.timeScale = 0;
         }
         else
         {
-            if (!Click_count)
+            if (!isClick)
                 Time.timeScale = 1;
         }
 
         if (healthSlider.value <= 0)
         {
-            GameManager.OBJECT.player.isDie = true;
+            _objectController.player.isDie = true;
             Time.timeScale = 0;
         }
 
-        if (experienceSlider.value == 100 && GameManager.OBJECT.player.isLv_up == false)
+        if (experienceSlider.value == 100 && _objectController.player.isLv_up == false)
         {
-            GameManager.OBJECT.player.isLv_up = true;
+            _objectController.player.isLv_up = true;
             Lv_Up();
         }
-        healthTxt.text = (int)GameManager.OBJECT.player.curHealth + " / " + GameManager.OBJECT.player.maxHealth;
-        breathTxt.text = (int)GameManager.OBJECT.player.curBreath + " / " + GameManager.OBJECT.player.maxBreath;
+        healthTxt.text = (int)_objectController.player.curHealth + " / " + _objectController.player.maxHealth;
+        breathTxt.text = (int)_objectController.player.curBreath + " / " + _objectController.player.maxBreath;
 
-        healthSlider.maxValue = GameManager.OBJECT.player.maxHealth;
-        breathSlider.maxValue = GameManager.OBJECT.player.maxBreath;
-        experienceSlider.maxValue = GameManager.OBJECT.player.maxExperience;
+        healthSlider.maxValue = _objectController.player.maxHealth;
+        breathSlider.maxValue = _objectController.player.maxBreath;
+        experienceSlider.maxValue = _objectController.player.maxExperience;
 
-        healthSlider.value = GameManager.OBJECT.player.curHealth;
-        breathSlider.value = GameManager.OBJECT.player.curBreath;
-        experienceSlider.value = GameManager.OBJECT.player.curExperience;
+        healthSlider.value = _objectController.player.curHealth;
+        breathSlider.value = _objectController.player.curBreath;
+        experienceSlider.value = _objectController.player.curExperience;
     }
 
     private void OnEnable()
     {
-        healthSlider.value = GameManager.OBJECT.player.maxHealth;
-        breathSlider.value = GameManager.OBJECT.player.maxBreath;
+        ObjectController _objectController = GameManager.OBJECT;
+
+        healthSlider.value = _objectController.player.maxHealth;
+        breathSlider.value = _objectController.player.maxBreath;
         experienceSlider.value = 0;
     }
 
     public void OnClick()
     {
-        if (GameStart_Panel == true)
-        {
-            //GameTree.UI.player++;
-            GameStart_Panel.SetActive(false);
-        }
+        if (_gameStartPanel)
+            _gameStartPanel.SetActive(false);
     }
 
     public void OnStop()
     {
-        if (Click_count == false)
+        if (isClick == false)
         {
-            enter();
-            Click_count = true;
+            Enter();
+            isClick = true;
             Time.timeScale = 0;
         }
         else
         {
-            exit();
-            Click_count = false;
+            Exit();
+            isClick = false;
             Time.timeScale = 1;
         }
     }
     private void Lv_Up()
     {
-        GameManager.OBJECT.player.curExperience = 0;
-        GameManager.OBJECT.player.PlayerLv++;
+        ObjectController _objectController = GameManager.OBJECT;
+
+        _objectController.player.curExperience = 0;
+        _objectController.player.PlayerLv++;
         experienceTxt.text = "Lv. " + GameManager.OBJECT.player.PlayerLv;
-        GameManager.OBJECT.player.isLv_up = false;
-        GameManager.OBJECT.player.maxHealth += 2;
+        _objectController.player.isLv_up = false;
+        _objectController.player.maxHealth += 2;
     }
 
-    void enter()
+    private void Enter()
     {
         menu_ui.anchoredPosition = Vector2.zero;
     }
 
-    void exit()
+    private void Exit()
     {
         menu_ui.anchoredPosition = Vector2.up * 2000;
     }

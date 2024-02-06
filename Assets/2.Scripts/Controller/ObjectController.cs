@@ -49,11 +49,6 @@ public class ObjectController
 
     }
 
-    public void Update()
-    {
-            
-    }
-
     private void MapSpawn(long InIndex)
     {
         if (mapDataList.TryGetValue(InIndex, out var outCharacter) == false)
@@ -63,9 +58,9 @@ public class ObjectController
             outCharacter.MapMonsterSpawn(outCharacter.enemyMaxSize, outCharacter.fishMaxSize);
     }
 
-    public void SetActive(long InIndex, ObjectType objectType, bool InIsActive)
+    public void SetActive(long InIndex, ObjectType InObjectType, bool InIsActive)
     {
-        switch (objectType)
+        switch (InObjectType)
         {
             case ObjectType.Enemy:
                 if (enemyDataList.TryGetValue(InIndex, out var outEnemyData) == false)
@@ -80,11 +75,11 @@ public class ObjectController
         }
     }
 
-    public bool GetisActive(long InIndex, ObjectType objectType)
+    public bool GetisActive(long InIndex, ObjectType InObjectType)
     {
         bool isActive = false;
 
-        switch (objectType)
+        switch (InObjectType)
         {
             case ObjectType.Enemy:
                 if (enemyDataList.TryGetValue(InIndex, out var outEnemyData) == false)
@@ -111,25 +106,27 @@ public class ObjectController
 
         return isActive;
     }
+    // activeSelf를 변수로 만들어서 OnEnable()랑 OnDisable()로
+    // 값을.. 그게 그건가 생각 보류
 
-    public void SetSpawnPosition(long InIndex, ObjectType objectType, Vector2 centerPosition)
+    public void SetSpawnPosition(long InIndex, ObjectType InObjectType, Vector2 InSpawnPosition)
     {
         int randomPositionX = Random.Range(Position_X_Min, Position_X_Max);
         int randomPositionY = Random.Range(Position_Y_Min, Position_Y_Max);
 
-        switch (objectType)
+        switch (InObjectType)
         {
             case ObjectType.Enemy:
                 if (enemyDataList.TryGetValue(InIndex, out var outEnemyData) == false)
                     return;
                 outEnemyData.transform.position =
-                    new Vector2(randomPositionX + centerPosition.x, 0);
+                    new Vector2(randomPositionX + InSpawnPosition.x, 0);
                 break;
             case ObjectType.Fish:
                 if (fishDataList.TryGetValue(InIndex, out var outFishData) == false)
                     return;
                 outFishData.transform.position =
-                    new Vector2(randomPositionX + centerPosition.x, randomPositionY);
+                    new Vector2(randomPositionX + InSpawnPosition.x, randomPositionY);
                 break;
         }
     }

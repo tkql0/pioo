@@ -13,12 +13,12 @@ public class FishCharacter : Character
     {
         rigid = GetComponent<Rigidbody2D>();
         sprite = GetComponent<SpriteRenderer>();
+        spawnObjectKey = 99;
     }
 
     private void OnEnable()
     {
         fish = gameObject;
-        spawnObjectKey = 99;
         key = ObjectType.Fish;
 
         StartCoroutine(MoveDelay());

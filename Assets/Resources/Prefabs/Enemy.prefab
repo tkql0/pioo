@@ -419,19 +419,7 @@ MonoBehaviour:
   m_Value: 1
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 8661838098025344704}
-        m_TargetAssemblyTypeName: EnemyCharacter, Assembly-CSharp
-        m_MethodName: Enemy_Die
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!1 &6254334591076926219
 GameObject:
   m_ObjectHideFlags: 0
@@ -653,15 +641,18 @@ MonoBehaviour:
   rigid: {fileID: 0}
   sprite: {fileID: 0}
   Damage: 5
-  Rate_Of_Fire: 0
-  CoolDown_Time: 0
+  coolTimeMax: 0
+  coolTime: 0
+  maxHealth: 0
+  curHealth: 0
+  isDie: 0
+  isDamage: 0
   enemy: {fileID: 0}
-  enemySearch: {fileID: 3090974467343328569}
-  Danger: {fileID: 2752018058316488110}
-  health_Slider: {fileID: 7431387396427753443}
+  _scanObject: {fileID: 3090974467343328569}
+  _detection: {fileID: 2752018058316488110}
+  _healthSlider: {fileID: 7431387396427753443}
+  spawnObjectKey: 0
   key: 0
-  spawnNumber: 0
-  max_health: 20
   scanRange: 2
 --- !u!1001 &165861333883718943
 PrefabInstance:

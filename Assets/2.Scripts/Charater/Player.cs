@@ -10,17 +10,16 @@ public class Player : Character
 
     public ObjectType key;
 
-    private Vector2 inputVec;
+    private Vector2 _inputVector;
     public float moveMaxspeed;
 
-    private Vector2 gravityPoint;
+    private Vector2 _gravityPoint;
 
     public Camera cam;
 
-    private bool isMove;
-    private bool isJump;
+    private bool _isMove;
+    private bool _isJump;
     public bool isLv_up;
-    private bool mouse_click;
 
     public float maxBreath;
     public float curBreath;
@@ -30,9 +29,9 @@ public class Player : Character
 
     public int PlayerLv = 1;
 
-    float attackPower = 0.0f;
-    float attackMinPower = 10.0f;
-    float attackMaxPower = 20.0f;
+    private float _attackPower = 0.0f;
+    private float _attackMinPower = 10.0f;
+    private float _attackMaxPower = 20.0f;
 
 
     private const string Horizontal = "Horizontal";
@@ -45,15 +44,15 @@ public class Player : Character
 
         rigid = GetComponent<Rigidbody2D>();
         sprite = GetComponent<SpriteRenderer>();
-        gravityPoint = new Vector2(0, 0);
+        _gravityPoint = new Vector2(0, 0);
 
         curHealth = maxHealth;
         curBreath = maxBreath;
 
         moveMaxspeed = 20f;
         isDie = false;
-        isMove = false;
-        isJump = false;
+        _isMove = false;
+        _isJump = false;
         isDamage = false;
     }
 
@@ -62,12 +61,13 @@ public class Player : Character
         LookAtMouse();
         Movement();
     }
+
     private void FixedUpdate()
     {
-        if (isDie == false && isMove)
+        if (isDie == false && _isMove)
         {
             rigid.gravityScale = 0.2f;
-            rigid.AddForce(inputVec.normalized, ForceMode2D.Impulse);
+            rigid.AddForce(_inputVector.normalized, ForceMode2D.Impulse);
 
             if (rigid.velocity.x > moveMaxspeed)
                 rigid.velocity = new Vector2(moveMaxspeed, rigid.velocity.y);
@@ -85,19 +85,19 @@ public class Player : Character
     {
         if (isDie == false)
         {
-            inputVec.x = Input.GetAxisRaw(Horizontal);
-            inputVec.y = Input.GetAxisRaw(Vertical);
+            _inputVector.x = Input.GetAxisRaw(Horizontal);
+            _inputVector.y = Input.GetAxisRaw(Vertical);
 
-            if (inputVec.x != 0)
-                sprite.flipX = inputVec.x > 0;
+            if (_inputVector.x != 0)
+                sprite.flipX = _inputVector.x > 0;
 
-            float gravityPointY = transform.position.y - gravityPoint.y;
-            isMove = gravityPointY <= 0 ? true : false;
+            float gravityPointY = transform.position.y - _gravityPoint.y;
+            _isMove = gravityPointY <= 0 ? true : false;
 
-            if (isMove)
+            if (_isMove)
             {
-                isMove = true;
-                isJump = false;
+                _isMove = true;
+                _isJump = false;
                 rigid.gravityScale = 0.2f;
 
                 if (curBreath > 0.0f)
@@ -105,21 +105,21 @@ public class Player : Character
                 else
                     curHealth -= Time.deltaTime;
             }
-            else if (!isMove && Input.GetKey(KeyCode.LeftShift))
+            else if (!_isMove && Input.GetKey(KeyCode.LeftShift))
             {
-                isMove = false;
+                _isMove = false;
                 rigid.gravityScale = 4f;
                 curBreath = maxBreath;
                 if (curHealth < maxHealth)
                     curHealth += Time.deltaTime;
 
-                if (!isJump)
+                if (!_isJump)
                 {
                     rigid.AddForce(Vector2.up * rigid.velocity.y, ForceMode2D.Impulse);
-                    isJump = true;
+                    _isJump = true;
                 }
             }
-            else if (!isMove && !Input.GetKey(KeyCode.LeftShift))
+            else if (!_isMove && !Input.GetKey(KeyCode.LeftShift))
             {
                 rigid.gravityScale = 7f;
                 curBreath = maxBreath;
@@ -129,29 +129,29 @@ public class Player : Character
         }
     }
 
-    private void PlayerAttack(Vector2 dir)
+    private void PlayerAttack(Vector2 InDirection)
     {
         SpawnObject spawnObject = GameManager.SPAWN.spawnObject;
 
-        attackPowerSlider.maxValue = attackMinPower;
+        attackPowerSlider.maxValue = _attackMinPower;
 
         if (Input.GetMouseButton(0))
         {
             attackPowerSlider.gameObject.SetActive(true);
-            attackPower += Time.deltaTime;
-            attackPowerSlider.value = attackPower;
+            _attackPower += Time.deltaTime;
+            attackPowerSlider.value = _attackPower;
         }
         else if (Input.GetMouseButtonUp(0))
         {
             attackPowerSlider.gameObject.SetActive(false);
 
-            attackPower = attackPower + attackMinPower;
-            if (attackPower > attackMaxPower)
-                attackPower = attackMaxPower;
+            _attackPower = _attackPower + _attackMinPower;
+            if (_attackPower > _attackMaxPower)
+                _attackPower = _attackMaxPower;
 
             GameObject Attack = spawnObject.SpawnWeapon(transform.position, ObjectType.PlayerWeapon);
-            Attack.GetComponent<Rigidbody2D>().velocity = dir * attackPower;
-            attackPower = 0.0f;
+            Attack.GetComponent<Rigidbody2D>().velocity = InDirection * _attackPower;
+            _attackPower = 0.0f;
         }
     }
     // 레벨 업을 했을 때 포인트를 얻을 시 올릴 수 있는 능력치

@@ -38,3 +38,7 @@ public class SpawnController
         spawnObject.DistanceObjectDeSpawn(TargetPosition, ObjectType.Fish);
     }
 }
+
+// 어떻게 고쳐야 할지 이해 완료
+// 스폰오브젝트 class는 스폰컨트롤러 class를 참조해야 하는데
+// 오히려 참조는 spawnObject 변수로 반대로 하고있네

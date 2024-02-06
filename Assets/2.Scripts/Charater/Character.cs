@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Character : MonoBehaviour
 {
@@ -11,8 +12,8 @@ public class Character : MonoBehaviour
 
     public int Damage = 5;
 
-    public float Rate_Of_Fire;
-    public float CoolDown_Time;
+    public float coolTimeMax;
+    public float coolTime;
 
     public float maxHealth;
     public float curHealth;
@@ -33,8 +34,7 @@ public class Character : MonoBehaviour
 
     private void OnEnable()
     {
-        Rate_Of_Fire = 5f;
-        CoolDown_Time = 0f;
+
     }
 
     public virtual void Movement()
@@ -50,14 +50,27 @@ public class Character : MonoBehaviour
         rigid.velocity = new Vector2(nextMove * speed, rigid.velocity.y);
     }
 
-    public IEnumerator OnDamage(SpriteRenderer sprite)
+    public IEnumerator OnDamage(SpriteRenderer InSprite)
     {
-        sprite.color = Color.red;
+        InSprite.color = Color.red;
 
         yield return new WaitForSeconds(0.5f);
 
-        sprite.color = Color.white;
+        InSprite.color = Color.white;
 
         isDamage = false;
+    }
+
+    public void Die(Slider _healthSlider)
+    {
+        if (_healthSlider.value <= 0)
+        {
+            isDie = true;
+
+            gameObject.SetActive(false);
+            return;
+        }
+        else
+            isDie = false;
     }
 }

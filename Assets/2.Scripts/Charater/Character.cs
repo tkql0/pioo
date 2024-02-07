@@ -7,6 +7,11 @@ public class Character : MonoBehaviour
 {
     public LayerMask targetMask;
 
+    public ObjectType key;
+    public long spawnObjectKey;
+
+    public GameObject characterObject;
+
     public Rigidbody2D rigid;
     public SpriteRenderer sprite;
 
@@ -72,5 +77,9 @@ public class Character : MonoBehaviour
         }
         else
             isDie = false;
+    }
+    public void SetActiveObject(bool InIsActive)
+    {
+        characterObject?.SetActive(InIsActive);
     }
 }

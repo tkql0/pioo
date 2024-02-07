@@ -8,7 +8,7 @@ public class Player : Character
     public GameObject player;
     public Slider attackPowerSlider;
 
-    public ObjectType key;
+    //public ObjectType key;
 
     private Vector2 _inputVector;
     public float moveMaxspeed;

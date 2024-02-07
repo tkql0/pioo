@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class FishCharacter : Character
 {
-    public GameObject fish;
+    //public GameObject fish;
 
-    public long spawnObjectKey;
-    public ObjectType key;
+    //public long spawnObjectKey;
+    //public ObjectType key;
 
     void Awake()
     {
@@ -18,7 +18,7 @@ public class FishCharacter : Character
 
     private void OnEnable()
     {
-        fish = gameObject;
+        characterObject = gameObject;
         key = ObjectType.Fish;
 
         StartCoroutine(MoveDelay());
@@ -35,10 +35,5 @@ public class FishCharacter : Character
         float next_MoveTime = Random.Range(1, 3f);
         yield return new WaitForSeconds(next_MoveTime);
         StartCoroutine(MoveDelay());
-    }
-
-    public void SetActiveObject(bool InIsActive)
-    {
-        fish?.SetActive(InIsActive);
     }
 }

@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class EnemyCharacter : Character
 {
-    public GameObject enemy;
+    //public GameObject enemy;
 
     [SerializeField]
     private GameObject _scanObject;
@@ -17,8 +17,8 @@ public class EnemyCharacter : Character
     [SerializeField]
     private Slider _healthSlider;
 
-    public long spawnObjectKey;
-    public ObjectType key;
+    //public long spawnObjectKey;
+    //public ObjectType key;
 
     [SerializeField]
     private float scanRange = 2;
@@ -29,7 +29,7 @@ public class EnemyCharacter : Character
         sprite = GetComponent<SpriteRenderer>();
 
         spawnObjectKey = 99;
-        enemy = gameObject;
+        characterObject = gameObject;
     }
 
     private void OnEnable()
@@ -180,10 +180,5 @@ public class EnemyCharacter : Character
             }
         }
         return target;
-    }
-
-    public void SetActiveObject(bool InIsActive)
-    {
-        enemy?.SetActive(InIsActive);
     }
 }

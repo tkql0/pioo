@@ -100,6 +100,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   map: {fileID: 0}
   key: 0
+  testText1: {fileID: 0}
+  testText2: {fileID: 0}
+  testText3: {fileID: 0}
   enemyMaxSize: 0
   fishMaxSize: 0
 --- !u!1 &8465054877537293370

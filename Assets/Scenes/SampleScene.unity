@@ -1510,8 +1510,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 53c945bbd291b2348bc264eac40add31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GameStart_Panel: {fileID: 1201103155}
-  Stop_Button: {fileID: 2041093881}
+  _gameStartPanel: {fileID: 1201103155}
+  _gameStopButton: {fileID: 2041093881}
   experienceTxt: {fileID: 1963782831}
   healthTxt: {fileID: 423280232}
   breathTxt: {fileID: 269233628}
@@ -1519,7 +1519,7 @@ MonoBehaviour:
   breathSlider: {fileID: 669490480}
   experienceSlider: {fileID: 986096011}
   menu_ui: {fileID: 2060618905}
-  Click_count: 0
+  isClick: 0
 --- !u!1 &1496391824
 GameObject:
   m_ObjectHideFlags: 0
@@ -1677,7 +1677,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a521b86d0fb8c124eb90675215324d7c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxSize: 0
 --- !u!4 &1751085724
 Transform:
   m_ObjectHideFlags: 0

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Map : MonoBehaviour
 {
@@ -11,7 +12,9 @@ public class Map : MonoBehaviour
     public long enemyMaxSize;
     public long fishMaxSize;
 
-    private const float ReSpawn_Time = 20f;
+    private const float ReSpawn_Time = 10f;
+
+    private const float DeSpawn_Distance = 60f;
 
     private void Update()
     {
@@ -26,9 +29,10 @@ public class Map : MonoBehaviour
     public void OnEnable()
     {
         map = gameObject;
-
         enemyMaxSize = Random.Range(1, 6);
         fishMaxSize = Random.Range(1, 15);
+
+        //StartCoroutine(ReSpawn(ReSpawn_Time, enemyMaxSize, fishMaxSize));
     }
 
     public void OnDisable()
@@ -49,14 +53,14 @@ public class Map : MonoBehaviour
 
         DistanceX = DistanceX > 0 ? 1 : -1;
 
-        if (differenceX > 60.0f)
+        if (differenceX > DeSpawn_Distance)
         {
             _spawnController.DeSpawn(targetPosition);
 
             transform.Translate(Vector2.right * DistanceX * 120);
 
-            enemyMaxSize = Random.Range(1, 12);
-            fishMaxSize = Random.Range(1, 30);
+            enemyMaxSize = Random.Range(1, 6);
+            fishMaxSize = Random.Range(1, 15);
 
             MapMonsterSpawn(enemyMaxSize, fishMaxSize);
         }
@@ -92,19 +96,19 @@ public class Map : MonoBehaviour
         long enemyReSpawnSize = 0;
         long fishReSpawnSize = 0;
 
-        foreach (KeyValuePair<long, EnemyCharacter> enemyData 
-            in _objectController.enemyDataList)
+        foreach (KeyValuePair<long, Character> enemyData in _objectController.characterList)
         {
-            if (key == enemyData.Value.spawnObjectKey
-                && _objectController.GetisActive(enemyData.Key, ObjectType.Enemy))
+            if (enemyData.Value.key == ObjectType.Enemy
+                && _objectController.GetisActive(enemyData.Key, ObjectType.Enemy)
+                && enemyData.Value.spawnObjectKey == key)
                 enemyReSpawnSize++;
         }
 
-        foreach (KeyValuePair<long, FishCharacter> fishData 
-            in _objectController.fishDataList)
+        foreach (KeyValuePair<long, Character> fishData in _objectController.characterList)
         {
-            if (key == fishData.Value.spawnObjectKey
-                && _objectController.GetisActive(fishData.Key, ObjectType.Fish))
+            if (fishData.Value.key == ObjectType.Fish
+                && _objectController.GetisActive(fishData.Key, ObjectType.Fish)
+                && fishData.Value.spawnObjectKey == key)
                 fishReSpawnSize++;
         }
 

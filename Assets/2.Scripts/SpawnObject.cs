@@ -5,14 +5,15 @@ using UnityEngine;
 public class SpawnObject : MonoBehaviour
 {
     private long _mapSpawnConut;
-    private long _enemySpawnConut;
-    private long _fishSpawnConut;
+    //private long _enemySpawnConut;
+    //private long _fishSpawnConut;
+    private long _characterSpawnConut;
     private long _weaponSpawnConut;
 
     private const int Left_MapSpawn = -1;
     private const int Right_MapSpawn = 2;
 
-    private const float DeSpawn_Distance = 45f;
+    private const float DeSpawn_Distance = 60f;
 
     private const string Prefab_Player = "Prefabs/Player";
     private const string Prefab_Map = "Prefabs/Map";
@@ -23,8 +24,9 @@ public class SpawnObject : MonoBehaviour
 
     public void Init()
     {
-        _fishSpawnConut = 0;
-        _enemySpawnConut = 0;
+        //_fishSpawnConut = 0;
+        //_enemySpawnConut = 0;
+        _characterSpawnConut = 0;
         _mapSpawnConut = 0;
        _weaponSpawnConut = 0;
     }
@@ -82,9 +84,10 @@ public class SpawnObject : MonoBehaviour
                     GameObject EnemysObject = Resources.Load<GameObject>(Prefab_Enemy);
                     GameObject EnemysObjects = Instantiate(EnemysObject, transform);
 
-                    _objectController.enemyDataList.Add(_enemySpawnConut,
+                    _objectController.characterList.Add(_characterSpawnConut,
                         EnemysObjects.GetComponent<EnemyCharacter>());
-                    _enemySpawnConut++;
+                    _objectController.characterList[_characterSpawnConut].key = ObjectType.Enemy;
+                    _characterSpawnConut++;
                     EnemysObjects.SetActive(false);
                 }
                 break;
@@ -96,9 +99,10 @@ public class SpawnObject : MonoBehaviour
                     GameObject FishsObject = Resources.Load<GameObject>(Prefab_Fish);
                     GameObject FishsObjects = Instantiate(FishsObject, transform);
 
-                    _objectController.fishDataList.Add(_fishSpawnConut,
+                    _objectController.characterList.Add(_characterSpawnConut,
                         FishsObjects.GetComponent<FishCharacter>());
-                    _fishSpawnConut++;
+                    _objectController.characterList[_characterSpawnConut].key = ObjectType.Fish;
+                    _characterSpawnConut++;
                     FishsObjects.SetActive(false);
                 }
                 break;
@@ -155,36 +159,33 @@ public class SpawnObject : MonoBehaviour
     {
         ObjectController _objectController = GameManager.OBJECT;
 
-        switch (objectType)
+        foreach (KeyValuePair<long, Character> chatacterNumber in _objectController.characterList)
         {
-            case ObjectType.Enemy:
-                foreach (KeyValuePair<long, EnemyCharacter> enemyNumber in _objectController.enemyDataList)
-                {
-                    if (!_objectController.GetisActive(enemyNumber.Key, objectType))
+            switch (objectType)
+            {
+                case ObjectType.Enemy:
+                    if (!_objectController.GetisActive(chatacterNumber.Key, objectType) && chatacterNumber.Value.key == objectType)
                     {
-                        _objectController.SetActive(enemyNumber.Key, objectType, true);
-                        _objectController.SetSpawnPosition(enemyNumber.Key, objectType, inSpawnPosition);
+                        _objectController.SetActive(chatacterNumber.Key, objectType, true);
+                        _objectController.SetSpawnPosition(chatacterNumber.Key, objectType, inSpawnPosition);
 
-                        enemyNumber.Value.spawnObjectKey = key;
+                        chatacterNumber.Value.spawnObjectKey = key;
 
-                        return enemyNumber.Value.enemy;
+                        return chatacterNumber.Value.characterObject;
                     }
-                }
-                break;
-            case ObjectType.Fish:
-                foreach (KeyValuePair<long, FishCharacter> fishNumber in _objectController.fishDataList)
-                {
-                    if (!_objectController.GetisActive(fishNumber.Key, objectType))
+                    break;
+                case ObjectType.Fish:
+                    if (!_objectController.GetisActive(chatacterNumber.Key, objectType) && chatacterNumber.Value.key == objectType)
                     {
-                        _objectController.SetActive(fishNumber.Key, objectType, true);
-                        _objectController.SetSpawnPosition(fishNumber.Key, objectType, inSpawnPosition);
+                        _objectController.SetActive(chatacterNumber.Key, objectType, true);
+                        _objectController.SetSpawnPosition(chatacterNumber.Key, objectType, inSpawnPosition);
 
-                        fishNumber.Value.spawnObjectKey = key;
+                        chatacterNumber.Value.spawnObjectKey = key;
 
-                        return fishNumber.Value.fish;
+                        return chatacterNumber.Value.characterObject;
                     }
-                }
-                break;
+                    break;
+            }
         }
         return null;
     }
@@ -196,38 +197,21 @@ public class SpawnObject : MonoBehaviour
 
         Vector2 myPosition;
 
-        switch (objectType)
+        float DistanceX = 0;
+        float differenceX = 0;
+
+        foreach (KeyValuePair<long, Character> chatacterNumber in _objectController.characterList)
         {
-            case ObjectType.Enemy:
-                foreach (KeyValuePair<long, EnemyCharacter> enemyNumber in _objectController.enemyDataList)
-                {
-                    myPosition = enemyNumber.Value.transform.position;
+            myPosition = chatacterNumber.Value.transform.position;
 
-                    float DistanceX = target.x - myPosition.x;
-                    float differenceX = Mathf.Abs(DistanceX);
+            DistanceX = target.x - myPosition.x;
+            differenceX = Mathf.Abs(DistanceX);
 
-                    if (differenceX > DeSpawn_Distance)
-                    {
-                        _objectController.SetActive(enemyNumber.Key, objectType, false);
-                        enemyNumber.Value.spawnObjectKey = 99;
-                    }
-                }
-                break;
-            case ObjectType.Fish:
-                foreach (KeyValuePair<long, FishCharacter> fishNumber in _objectController.fishDataList)
-                {
-                    myPosition = fishNumber.Value.transform.position;
-
-                    float DistanceX = target.x - myPosition.x;
-                    float differenceX = Mathf.Abs(DistanceX);
-
-                    if (differenceX > DeSpawn_Distance)
-                    {
-                        _objectController.SetActive(fishNumber.Key, objectType, false);
-                        fishNumber.Value.spawnObjectKey = 99;
-                    }
-                }
-                break;
+            if (differenceX > DeSpawn_Distance)
+            {
+                _objectController.SetActive(chatacterNumber.Key, objectType, false);
+                chatacterNumber.Value.spawnObjectKey = 99;
+            }
         }
     }
 

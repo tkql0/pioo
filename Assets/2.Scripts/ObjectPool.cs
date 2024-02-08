@@ -8,12 +8,18 @@ public class ObjectPool : MonoBehaviour
     private long _characterSpawnConut = 0;
     private long _weaponSpawnConut = 0;
 
-    private const string Prefab_Player = "Prefabs/Player";
-    private const string Prefab_Map = "Prefabs/Map";
-    private const string Prefab_Enemy = "Prefabs/Enemy";
-    private const string Prefab_Fish = "Prefabs/Fish";
-    private const string Prefab_EnemyWapon = "Prefabs/EnemyAttack";
-    private const string Prefab_PlayerWapon = "Prefabs/PlayerAttack";
+    [SerializeField]
+    private GameObject Prefab_Player;
+    [SerializeField]
+    private GameObject Prefab_Map;
+    [SerializeField]
+    private GameObject Prefab_Enemy;
+    [SerializeField]
+    private GameObject Prefab_Fish;
+    [SerializeField]
+    private GameObject Prefab_EnemyWapon;
+    [SerializeField]
+    private GameObject Prefab_PlayerWapon;
 
     public void OnEnable()
     {
@@ -52,10 +58,9 @@ public class ObjectPool : MonoBehaviour
         switch (objectType)
         {
             case ObjectType.Player:
-                GameObject playerObject = Resources.Load<GameObject>(Prefab_Player);
-                GameObject playersObjects = Instantiate(playerObject);
+                GameObject playerObject = Instantiate(Prefab_Player);
 
-                _objectController.player = playersObjects.GetComponent<Player>();
+                _objectController.player = playerObject.GetComponent<Player>();
                 _characterSpawnConut++;
                 break;
             case ObjectType.Enemy:
@@ -63,14 +68,13 @@ public class ObjectPool : MonoBehaviour
 
                 for (int i = 0; i < maxSize; i++)
                 {
-                    GameObject EnemysObject = Resources.Load<GameObject>(Prefab_Enemy);
-                    GameObject EnemysObjects = Instantiate(EnemysObject, transform);
+                    GameObject EnemysObject = Instantiate(Prefab_Enemy, transform);
 
                     _objectController.characterDataList.Add(_characterSpawnConut,
-                        EnemysObjects.GetComponent<EnemyCharacter>());
+                        EnemysObject.GetComponent<EnemyCharacter>());
                     _objectController.characterDataList[_characterSpawnConut].key = ObjectType.Enemy;
                     _characterSpawnConut++;
-                    EnemysObjects.SetActive(false);
+                    EnemysObject.SetActive(false);
                 }
                 break;
             case ObjectType.Fish:
@@ -78,14 +82,13 @@ public class ObjectPool : MonoBehaviour
 
                 for (int i = 0; i < maxSize; i++)
                 {
-                    GameObject FishsObject = Resources.Load<GameObject>(Prefab_Fish);
-                    GameObject FishsObjects = Instantiate(FishsObject, transform);
+                    GameObject FishsObject = Instantiate(Prefab_Fish, transform);
 
                     _objectController.characterDataList.Add(_characterSpawnConut,
-                        FishsObjects.GetComponent<FishCharacter>());
+                        FishsObject.GetComponent<FishCharacter>());
                     _objectController.characterDataList[_characterSpawnConut].key = ObjectType.Fish;
                     _characterSpawnConut++;
-                    FishsObjects.SetActive(false);
+                    FishsObject.SetActive(false);
                 }
                 break;
             case ObjectType.Map:
@@ -93,10 +96,9 @@ public class ObjectPool : MonoBehaviour
 
                 for (int i = 0; i < maxSize; i++)
                 {
-                    GameObject MapsObject = Resources.Load<GameObject>(Prefab_Map);
-                    GameObject MapsObjects = Instantiate(MapsObject);
+                    GameObject MapsObject = Instantiate(Prefab_Map);
 
-                    _objectController.mapDataList.Add(_mapSpawnConut, MapsObjects.GetComponent<Map>());
+                    _objectController.mapDataList.Add(_mapSpawnConut, MapsObject.GetComponent<Map>());
                     _mapSpawnConut++;
                 }
                 break;
@@ -105,8 +107,7 @@ public class ObjectPool : MonoBehaviour
 
                 for (int i = 0; i < maxSize; i++)
                 {
-                    GameObject EnemyAttackObject = Resources.Load<GameObject>(Prefab_EnemyWapon);
-                    GameObject EnemysAttackObject = Instantiate(EnemyAttackObject, transform);
+                    GameObject EnemysAttackObject = Instantiate(Prefab_EnemyWapon, transform);
 
                     _objectController.weaponDataList.Add(_weaponSpawnConut,
                         EnemysAttackObject.GetComponent<Weapon>());
@@ -120,8 +121,7 @@ public class ObjectPool : MonoBehaviour
 
                 for (int i = 0; i < maxSize; i++)
                 {
-                    GameObject PlayerAttackObject = Resources.Load<GameObject>(Prefab_PlayerWapon);
-                    GameObject PlayersAttackObject = Instantiate(PlayerAttackObject, transform);
+                    GameObject PlayersAttackObject = Instantiate(Prefab_PlayerWapon, transform);
 
                     _objectController.weaponDataList.Add(_weaponSpawnConut,
                         PlayersAttackObject.GetComponent<Weapon>());

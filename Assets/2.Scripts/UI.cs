@@ -62,17 +62,25 @@ public class UI : MonoBehaviour
 
     private void OnEnable()
     {
-        ObjectController _objectController = GameManager.OBJECT;
-
-        healthSlider.value = _objectController.player.maxHealth;
-        breathSlider.value = _objectController.player.maxBreath;
-        experienceSlider.value = 0;
+        
     }
 
     public void OnClick()
     {
+        ObjectController _objectController = GameManager.OBJECT;
+        SpawnController _spawnController = GameManager.SPAWN;
+
         if (_gameStartPanel)
+        {
+            _spawnController.GameStartSpawnPosition();
+
+            healthSlider.value = _objectController.player.maxHealth;
+            breathSlider.value = _objectController.player.maxBreath;
+            experienceSlider.value = 0;
+            _objectController.player.isDie = false;
+
             _gameStartPanel.SetActive(false);
+        }
     }
 
     public void OnStop()

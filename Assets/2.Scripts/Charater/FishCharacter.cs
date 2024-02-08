@@ -4,11 +4,6 @@ using UnityEngine;
 
 public class FishCharacter : Character
 {
-    //public GameObject fish;
-
-    //public long spawnObjectKey;
-    //public ObjectType key;
-
     void Awake()
     {
         rigid = GetComponent<Rigidbody2D>();

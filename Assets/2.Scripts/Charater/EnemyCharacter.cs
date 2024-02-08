@@ -5,8 +5,6 @@ using UnityEngine.UI;
 
 public class EnemyCharacter : Character
 {
-    //public GameObject enemy;
-
     [SerializeField]
     private GameObject _scanObject;
     [SerializeField]
@@ -16,9 +14,6 @@ public class EnemyCharacter : Character
 
     [SerializeField]
     private Slider _healthSlider;
-
-    //public long spawnObjectKey;
-    //public ObjectType key;
 
     [SerializeField]
     private float scanRange = 2;

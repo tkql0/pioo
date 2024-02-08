@@ -9,7 +9,7 @@ public class SpawnController
 
     public void OnEnable()
     {
-        GameStartSpawnPosition();
+        
     }
 
     public void OnDisable()
@@ -17,7 +17,7 @@ public class SpawnController
 
     }
 
-    private void GameStartSpawnPosition()
+    public void GameStartSpawnPosition()
     {
         ObjectController _objectController = GameManager.OBJECT;
 
@@ -62,30 +62,14 @@ public class SpawnController
 
         foreach (KeyValuePair<long, Character> chatacterNumber in _objectController.characterDataList)
         {
-            switch (InObjectType)
+            if (!_objectController.GetisActive(chatacterNumber.Key, InObjectType) && chatacterNumber.Value.key == InObjectType)
             {
-                case ObjectType.Enemy:
-                    if (!_objectController.GetisActive(chatacterNumber.Key, InObjectType) && chatacterNumber.Value.key == InObjectType)
-                    {
-                        _objectController.SetActive(chatacterNumber.Key, InObjectType, true);
-                        _objectController.SetSpawnPosition(chatacterNumber.Key, InObjectType, InSpawnPosition);
+                _objectController.SetActive(chatacterNumber.Key, InObjectType, true);
+                _objectController.SetSpawnPosition(chatacterNumber.Key, InObjectType, InSpawnPosition);
 
-                        chatacterNumber.Value.spawnObjectKey = InKey;
+                chatacterNumber.Value.spawnObjectKey = InKey;
 
-                        return chatacterNumber.Value.characterObject;
-                    }
-                    break;
-                case ObjectType.Fish:
-                    if (!_objectController.GetisActive(chatacterNumber.Key, InObjectType) && chatacterNumber.Value.key == InObjectType)
-                    {
-                        _objectController.SetActive(chatacterNumber.Key, InObjectType, true);
-                        _objectController.SetSpawnPosition(chatacterNumber.Key, InObjectType, InSpawnPosition);
-
-                        chatacterNumber.Value.spawnObjectKey = InKey;
-
-                        return chatacterNumber.Value.characterObject;
-                    }
-                    break;
+                return chatacterNumber.Value.characterObject;
             }
         }
         return null;

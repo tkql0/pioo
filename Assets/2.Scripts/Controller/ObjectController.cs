@@ -16,7 +16,7 @@ public enum ObjectType
 public class ObjectController
 {
     public Player player;
-    public Dictionary<long, Character> characterList = new Dictionary<long, Character>();
+    public Dictionary<long, Character> characterDataList = new Dictionary<long, Character>();
     public Dictionary<long, Map> mapDataList = new Dictionary<long, Map>();
     public Dictionary<long, Weapon> weaponDataList = new Dictionary<long, Weapon>();
 
@@ -28,11 +28,7 @@ public class ObjectController
 
     public void OnEnable()
     {
-        //characterList.Add(1, Player);
-        //characterList.Add(2, new EnemyCharater());
 
-        //characterList[1].OnDamage();
-        //characterList[2].OnDamage();
     }
 
     public void OnDisable()
@@ -45,13 +41,13 @@ public class ObjectController
         switch (InObjectType)
         {
             case ObjectType.Enemy:
-                if (characterList.TryGetValue(InIndex, out var outEnemyData) == false)
+                if (characterDataList.TryGetValue(InIndex, out var outEnemyData) == false)
                     return;
                 if(outEnemyData.key == ObjectType.Enemy)
                     outEnemyData.SetActiveObject(InIsActive);
                 break;
             case ObjectType.Fish:
-                if (characterList.TryGetValue(InIndex, out var outFishData) == false)
+                if (characterDataList.TryGetValue(InIndex, out var outFishData) == false)
                     return;
                 if (outFishData.key == ObjectType.Fish)
                     outFishData.SetActiveObject(InIsActive);
@@ -66,13 +62,13 @@ public class ObjectController
         switch (InObjectType)
         {
             case ObjectType.Enemy:
-                if (characterList.TryGetValue(InIndex, out var outEnemyData) == false)
+                if (characterDataList.TryGetValue(InIndex, out var outEnemyData) == false)
                     return isActive;
                 if (outEnemyData.key == ObjectType.Enemy)
                     isActive = outEnemyData.characterObject.activeSelf;
                 break;
             case ObjectType.Fish:
-                if (characterList.TryGetValue(InIndex, out var outFishData) == false)
+                if (characterDataList.TryGetValue(InIndex, out var outFishData) == false)
                     return isActive;
                 if (outFishData.key == ObjectType.Fish)
                     isActive = outFishData.characterObject.activeSelf;
@@ -101,13 +97,13 @@ public class ObjectController
         switch (InObjectType)
         {
             case ObjectType.Enemy:
-                if (characterList.TryGetValue(InIndex, out var outEnemyData) == false)
+                if (characterDataList.TryGetValue(InIndex, out var outEnemyData) == false)
                     return;
                 if (outEnemyData.key == ObjectType.Enemy)
                     outEnemyData.transform.position = new Vector2(randomPositionX + InSpawnPosition.x, 0);
                 break;
             case ObjectType.Fish:
-                if (characterList.TryGetValue(InIndex, out var outFishData) == false)
+                if (characterDataList.TryGetValue(InIndex, out var outFishData) == false)
                     return;
                 if (outFishData.key == ObjectType.Fish)
                     outFishData.transform.position = new Vector2(randomPositionX + InSpawnPosition.x, randomPositionY);

@@ -2,11 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SpawnObject : MonoBehaviour
+public class ObjectPool : MonoBehaviour
 {
-    private long _mapSpawnConut;
-    private long _characterSpawnConut;
-    private long _weaponSpawnConut;
+    private long _mapSpawnConut = 0;
+    private long _characterSpawnConut = 0;
+    private long _weaponSpawnConut = 0;
 
     private const string Prefab_Player = "Prefabs/Player";
     private const string Prefab_Map = "Prefabs/Map";
@@ -15,16 +15,9 @@ public class SpawnObject : MonoBehaviour
     private const string Prefab_EnemyWapon = "Prefabs/EnemyAttack";
     private const string Prefab_PlayerWapon = "Prefabs/PlayerAttack";
 
-    public void Init()
-    {
-        _characterSpawnConut = 0;
-        _mapSpawnConut = 0;
-       _weaponSpawnConut = 0;
-    }
-
     public void OnEnable()
     {
-        
+        ObjectSpawnPool();
     }
 
     public void OnDisable()
@@ -73,9 +66,9 @@ public class SpawnObject : MonoBehaviour
                     GameObject EnemysObject = Resources.Load<GameObject>(Prefab_Enemy);
                     GameObject EnemysObjects = Instantiate(EnemysObject, transform);
 
-                    _objectController.characterList.Add(_characterSpawnConut,
+                    _objectController.characterDataList.Add(_characterSpawnConut,
                         EnemysObjects.GetComponent<EnemyCharacter>());
-                    _objectController.characterList[_characterSpawnConut].key = ObjectType.Enemy;
+                    _objectController.characterDataList[_characterSpawnConut].key = ObjectType.Enemy;
                     _characterSpawnConut++;
                     EnemysObjects.SetActive(false);
                 }
@@ -88,9 +81,9 @@ public class SpawnObject : MonoBehaviour
                     GameObject FishsObject = Resources.Load<GameObject>(Prefab_Fish);
                     GameObject FishsObjects = Instantiate(FishsObject, transform);
 
-                    _objectController.characterList.Add(_characterSpawnConut,
+                    _objectController.characterDataList.Add(_characterSpawnConut,
                         FishsObjects.GetComponent<FishCharacter>());
-                    _objectController.characterList[_characterSpawnConut].key = ObjectType.Fish;
+                    _objectController.characterDataList[_characterSpawnConut].key = ObjectType.Fish;
                     _characterSpawnConut++;
                     FishsObjects.SetActive(false);
                 }

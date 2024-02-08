@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class Map : MonoBehaviour
 {
@@ -19,11 +18,6 @@ public class Map : MonoBehaviour
     private void Update()
     {
         MapRelocation();
-    }
-
-    public void Init()
-    {
-        
     }
 
     public void OnEnable()
@@ -96,14 +90,14 @@ public class Map : MonoBehaviour
         long enemyReSpawnSize = 0;
         long fishReSpawnSize = 0;
 
-        foreach (KeyValuePair<long, Character> enemyData in _objectController.characterList)
+        foreach (KeyValuePair<long, Character> enemyData in _objectController.characterDataList)
         {
             if (_objectController.GetisActive(enemyData.Key, ObjectType.Enemy)
                 && enemyData.Value.spawnObjectKey == key)
                 enemyReSpawnSize++;
         }
 
-        foreach (KeyValuePair<long, Character> fishData in _objectController.characterList)
+        foreach (KeyValuePair<long, Character> fishData in _objectController.characterDataList)
         {
             if (_objectController.GetisActive(fishData.Key, ObjectType.Fish)
                 && fishData.Value.spawnObjectKey == key)

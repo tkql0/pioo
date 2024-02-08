@@ -4,17 +4,11 @@ using UnityEngine;
 
 public class SpawnController
 {
-    public SpawnObject spawnObject;
-
     private const int Left_MapSpawn = -1;
     private const int Right_MapSpawn = 1;
 
     public void OnEnable()
     {
-        spawnObject = GameObject.FindObjectOfType<SpawnObject>();
-        spawnObject.Init();
-        spawnObject.ObjectSpawnPool();
-
         GameStartSpawnPosition();
     }
 
@@ -42,52 +36,52 @@ public class SpawnController
         }
     }
 
-    public void Spawn(Vector2 inSpawnPosition, long enemyCount, long fishCount, long key)
+    public void Spawn(Vector2 InSpawnPosition, long InEnemyCount, long InFishCount, long InKey)
     {
-        for (long i = 0; i < enemyCount; i++)
+        for (long i = 0; i < InEnemyCount; i++)
         {
-            ObjectSpawn(inSpawnPosition, key, ObjectType.Enemy);
+            ObjectSpawn(InSpawnPosition, InKey, ObjectType.Enemy);
         }
 
-        for (long i = 0; i < fishCount; i++)
+        for (long i = 0; i < InFishCount; i++)
         {
-            ObjectSpawn(inSpawnPosition, key, ObjectType.Fish);
+            ObjectSpawn(InSpawnPosition, InKey, ObjectType.Fish);
         }
     }
 
-    public void DeSpawn(Vector2 TargetPosition, float InDeSpawnDistance)
+    public void DeSpawn(Vector2 InTargetPosition, float InDeSpawnDistance)
     {
-        DistanceObjectDeSpawn(TargetPosition, ObjectType.Enemy, InDeSpawnDistance);
-        DistanceObjectDeSpawn(TargetPosition, ObjectType.Fish, InDeSpawnDistance);
+        ObjectDeSpawn(InTargetPosition, ObjectType.Enemy, InDeSpawnDistance);
+        ObjectDeSpawn(InTargetPosition, ObjectType.Fish, InDeSpawnDistance);
     }
 
 
-    public GameObject ObjectSpawn(Vector2 inSpawnPosition, long key, ObjectType objectType)
+    public GameObject ObjectSpawn(Vector2 InSpawnPosition, long InKey, ObjectType InObjectType)
     {
         ObjectController _objectController = GameManager.OBJECT;
 
-        foreach (KeyValuePair<long, Character> chatacterNumber in _objectController.characterList)
+        foreach (KeyValuePair<long, Character> chatacterNumber in _objectController.characterDataList)
         {
-            switch (objectType)
+            switch (InObjectType)
             {
                 case ObjectType.Enemy:
-                    if (!_objectController.GetisActive(chatacterNumber.Key, objectType) && chatacterNumber.Value.key == objectType)
+                    if (!_objectController.GetisActive(chatacterNumber.Key, InObjectType) && chatacterNumber.Value.key == InObjectType)
                     {
-                        _objectController.SetActive(chatacterNumber.Key, objectType, true);
-                        _objectController.SetSpawnPosition(chatacterNumber.Key, objectType, inSpawnPosition);
+                        _objectController.SetActive(chatacterNumber.Key, InObjectType, true);
+                        _objectController.SetSpawnPosition(chatacterNumber.Key, InObjectType, InSpawnPosition);
 
-                        chatacterNumber.Value.spawnObjectKey = key;
+                        chatacterNumber.Value.spawnObjectKey = InKey;
 
                         return chatacterNumber.Value.characterObject;
                     }
                     break;
                 case ObjectType.Fish:
-                    if (!_objectController.GetisActive(chatacterNumber.Key, objectType) && chatacterNumber.Value.key == objectType)
+                    if (!_objectController.GetisActive(chatacterNumber.Key, InObjectType) && chatacterNumber.Value.key == InObjectType)
                     {
-                        _objectController.SetActive(chatacterNumber.Key, objectType, true);
-                        _objectController.SetSpawnPosition(chatacterNumber.Key, objectType, inSpawnPosition);
+                        _objectController.SetActive(chatacterNumber.Key, InObjectType, true);
+                        _objectController.SetSpawnPosition(chatacterNumber.Key, InObjectType, InSpawnPosition);
 
-                        chatacterNumber.Value.spawnObjectKey = key;
+                        chatacterNumber.Value.spawnObjectKey = InKey;
 
                         return chatacterNumber.Value.characterObject;
                     }
@@ -97,7 +91,7 @@ public class SpawnController
         return null;
     }
 
-    public void DistanceObjectDeSpawn(Vector2 target, ObjectType objectType, float InDeSpawnDistance)
+    public void ObjectDeSpawn(Vector2 InTargetPosition, ObjectType InObjectType, float InDeSpawnDistance)
     {
         ObjectController _objectController = GameManager.OBJECT;
 
@@ -106,16 +100,16 @@ public class SpawnController
         float DistanceX = 0;
         float differenceX = 0;
 
-        foreach (KeyValuePair<long, Character> chatacterNumber in _objectController.characterList)
+        foreach (KeyValuePair<long, Character> chatacterNumber in _objectController.characterDataList)
         {
             myPosition = chatacterNumber.Value.transform.position;
 
-            DistanceX = target.x - myPosition.x;
+            DistanceX = InTargetPosition.x - myPosition.x;
             differenceX = Mathf.Abs(DistanceX);
 
             if (differenceX > InDeSpawnDistance)
             {
-                _objectController.SetActive(chatacterNumber.Key, objectType, false);
+                _objectController.SetActive(chatacterNumber.Key, InObjectType, false);
                 chatacterNumber.Value.spawnObjectKey = 99;
             }
         }

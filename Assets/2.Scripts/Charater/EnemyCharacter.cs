@@ -150,12 +150,12 @@ public class EnemyCharacter : Character
 
     private void Attack(Vector2 targetPosition)
     {
-        SpawnObject spawnObject = GameManager.SPAWN.spawnObject;
+        SpawnController _spawnController = GameManager.SPAWN;
 
         Vector2 dir = targetPosition - (Vector2)transform.position;
         dir = dir.normalized;
 
-        GameObject Attack = spawnObject.SpawnWeapon(transform.position, ObjectType.EnemyWeapon);
+        GameObject Attack = _spawnController.SpawnWeapon(transform.position, ObjectType.EnemyWeapon);
         Attack.transform.position = transform.position;
         Attack.transform.rotation = transform.rotation;
         Attack.GetComponent<Rigidbody2D>().velocity = dir * 10;

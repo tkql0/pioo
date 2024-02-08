@@ -15,11 +15,8 @@ public enum ObjectType
 
 public class ObjectController
 {
-    public Dictionary<long, Character> characterList = new Dictionary<long, Character>();
-
     public Player player;
-    //public Dictionary<long, EnemyCharacter> enemyDataList = new Dictionary<long, EnemyCharacter>();
-    //public Dictionary<long, FishCharacter> fishDataList = new Dictionary<long, FishCharacter>();
+    public Dictionary<long, Character> characterList = new Dictionary<long, Character>();
     public Dictionary<long, Map> mapDataList = new Dictionary<long, Map>();
     public Dictionary<long, Weapon> weaponDataList = new Dictionary<long, Weapon>();
 
@@ -31,30 +28,16 @@ public class ObjectController
 
     public void OnEnable()
     {
-        //characterList.Add(Type.Player, Player);
-        //characterList.Add(Type.Enemy, new EnemyCharater());
+        //characterList.Add(1, Player);
+        //characterList.Add(2, new EnemyCharater());
 
-        //characterList[Type.Player].OnDamage();
-        //characterList[Type.Enemy].OnDamage();
-
-        for (int i = 0; i < mapDataList.Count; i++)
-        {
-            MapSpawn(i);
-        }
+        //characterList[1].OnDamage();
+        //characterList[2].OnDamage();
     }
 
     public void OnDisable()
     {
 
-    }
-
-    private void MapSpawn(long InIndex)
-    {
-        if (mapDataList.TryGetValue(InIndex, out var outCharacter) == false)
-            return;
-
-        if (outCharacter.gameObject.activeSelf)
-            outCharacter.MapMonsterSpawn(outCharacter.enemyMaxSize, outCharacter.fishMaxSize);
     }
 
     public void SetActive(long InIndex, ObjectType InObjectType, bool InIsActive)
@@ -85,12 +68,14 @@ public class ObjectController
             case ObjectType.Enemy:
                 if (characterList.TryGetValue(InIndex, out var outEnemyData) == false)
                     return isActive;
-                isActive = outEnemyData.characterObject.activeSelf;
+                if (outEnemyData.key == ObjectType.Enemy)
+                    isActive = outEnemyData.characterObject.activeSelf;
                 break;
             case ObjectType.Fish:
                 if (characterList.TryGetValue(InIndex, out var outFishData) == false)
                     return isActive;
-                isActive = outFishData.characterObject.activeSelf;
+                if (outFishData.key == ObjectType.Fish)
+                    isActive = outFishData.characterObject.activeSelf;
                 break;
             case ObjectType.Map:
                 if (mapDataList.TryGetValue(InIndex, out var outMapData) == false)
@@ -107,8 +92,6 @@ public class ObjectController
 
         return isActive;
     }
-    // activeSelf를 변수로 만들어서 OnEnable()랑 OnDisable()로
-    // 값을.. 그게 그건가 생각 보류
 
     public void SetSpawnPosition(long InIndex, ObjectType InObjectType, Vector2 InSpawnPosition)
     {
@@ -120,14 +103,14 @@ public class ObjectController
             case ObjectType.Enemy:
                 if (characterList.TryGetValue(InIndex, out var outEnemyData) == false)
                     return;
-                outEnemyData.transform.position =
-                    new Vector2(randomPositionX + InSpawnPosition.x, 0);
+                if (outEnemyData.key == ObjectType.Enemy)
+                    outEnemyData.transform.position = new Vector2(randomPositionX + InSpawnPosition.x, 0);
                 break;
             case ObjectType.Fish:
                 if (characterList.TryGetValue(InIndex, out var outFishData) == false)
                     return;
-                outFishData.transform.position =
-                    new Vector2(randomPositionX + InSpawnPosition.x, randomPositionY);
+                if (outFishData.key == ObjectType.Fish)
+                    outFishData.transform.position = new Vector2(randomPositionX + InSpawnPosition.x, randomPositionY);
                 break;
         }
     }

@@ -31,8 +31,6 @@ public class Map : MonoBehaviour
         map = gameObject;
         enemyMaxSize = Random.Range(1, 6);
         fishMaxSize = Random.Range(1, 15);
-
-        //StartCoroutine(ReSpawn(ReSpawn_Time, enemyMaxSize, fishMaxSize));
     }
 
     public void OnDisable()
@@ -53,9 +51,11 @@ public class Map : MonoBehaviour
 
         DistanceX = DistanceX > 0 ? 1 : -1;
 
+        _spawnController.DeSpawn(targetPosition, DeSpawn_Distance + 15);
+
         if (differenceX > DeSpawn_Distance)
         {
-            _spawnController.DeSpawn(targetPosition);
+            _spawnController.DeSpawn(targetPosition, DeSpawn_Distance - 15);
 
             transform.Translate(Vector2.right * DistanceX * 120);
 
@@ -98,16 +98,14 @@ public class Map : MonoBehaviour
 
         foreach (KeyValuePair<long, Character> enemyData in _objectController.characterList)
         {
-            if (enemyData.Value.key == ObjectType.Enemy
-                && _objectController.GetisActive(enemyData.Key, ObjectType.Enemy)
+            if (_objectController.GetisActive(enemyData.Key, ObjectType.Enemy)
                 && enemyData.Value.spawnObjectKey == key)
                 enemyReSpawnSize++;
         }
 
         foreach (KeyValuePair<long, Character> fishData in _objectController.characterList)
         {
-            if (fishData.Value.key == ObjectType.Fish
-                && _objectController.GetisActive(fishData.Key, ObjectType.Fish)
+            if (_objectController.GetisActive(fishData.Key, ObjectType.Fish)
                 && fishData.Value.spawnObjectKey == key)
                 fishReSpawnSize++;
         }

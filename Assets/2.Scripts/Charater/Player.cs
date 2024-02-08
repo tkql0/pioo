@@ -131,7 +131,7 @@ public class Player : Character
 
     private void PlayerAttack(Vector2 InDirection)
     {
-        SpawnObject spawnObject = GameManager.SPAWN.spawnObject;
+        SpawnController _spawnController = GameManager.SPAWN;
 
         attackPowerSlider.maxValue = _attackMinPower;
 
@@ -149,7 +149,7 @@ public class Player : Character
             if (_attackPower > _attackMaxPower)
                 _attackPower = _attackMaxPower;
 
-            GameObject Attack = spawnObject.SpawnWeapon(transform.position, ObjectType.PlayerWeapon);
+            GameObject Attack = _spawnController.SpawnWeapon(transform.position, ObjectType.PlayerWeapon);
             Attack.GetComponent<Rigidbody2D>().velocity = InDirection * _attackPower;
             _attackPower = 0.0f;
         }

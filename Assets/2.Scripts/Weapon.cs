@@ -28,10 +28,10 @@ public class Weapon : MonoBehaviour
 
         transform.right = rigid.velocity;
 
-        weapon_gravity();
+        WeaponGravity();
     }
 
-    private void weapon_gravity()
+    private void WeaponGravity()
     {
         Vector2 myPos = transform.position;
         Vector2 gravityPoint = new Vector3(0, 0);

@@ -9,6 +9,7 @@ public class Character : MonoBehaviour
 
     public ObjectType key;
     public long spawnObjectKey;
+    public long spawnWeaponKey = -1;
 
     public GameObject characterObject;
 
@@ -66,9 +67,9 @@ public class Character : MonoBehaviour
         isDamage = false;
     }
 
-    public void Die(Slider _healthSlider)
+    public void Die(Slider InHealthSlider)
     {
-        if (_healthSlider.value <= 0)
+        if (InHealthSlider.value <= 0)
         {
             isDie = true;
 

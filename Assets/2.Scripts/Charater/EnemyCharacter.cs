@@ -16,7 +16,7 @@ public class EnemyCharacter : Character
     private Slider _healthSlider;
 
     [SerializeField]
-    private float scanRange = 2;
+    private float _scanRange = 2;
 
     private void Awake()
     {
@@ -80,11 +80,12 @@ public class EnemyCharacter : Character
 
         StartCoroutine(MoveDelay());
     }
-    private void Hit_Tracking(Vector2 targetPosition)
+
+    private void Hit_Tracking(Vector2 InTargetPosition)
     {
         Vector2 myPos = transform.position;
 
-        float DirX = targetPosition.x - myPos.x;
+        float DirX = InTargetPosition.x - myPos.x;
 
         if (DirX != 0)
             sprite.flipX = DirX < 0;
@@ -116,12 +117,12 @@ public class EnemyCharacter : Character
         }
     }
 
-    private void ObjectScan(GameObject enemySearch)
+    private void ObjectScan(GameObject InEnemyScan)
     {
         coolTimeMax = 3f;
 
-        _inTarget = Physics2D.CircleCastAll(enemySearch.transform.position,
-            scanRange, Vector2.zero, 0, targetMask);
+        _inTarget = Physics2D.CircleCastAll(InEnemyScan.transform.position,
+            _scanRange, Vector2.zero, 0, targetMask);
 
         Transform target = GetNearest();
 
@@ -143,14 +144,14 @@ public class EnemyCharacter : Character
             _detection.SetActive(false);
     }
 
-    private void Attack(Vector2 targetPosition)
+    private void Attack(Vector2 InTargetPosition)
     {
         SpawnController _spawnController = GameManager.SPAWN;
 
-        Vector2 dir = targetPosition - (Vector2)transform.position;
+        Vector2 dir = InTargetPosition - (Vector2)transform.position;
         dir = dir.normalized;
 
-        GameObject Attack = _spawnController.SpawnWeapon(transform.position, ObjectType.EnemyWeapon);
+        GameObject Attack = _spawnController.ObjectSpawn(transform.position, spawnWeaponKey, ObjectType.EnemyWeapon);
         Attack.transform.position = transform.position;
         Attack.transform.rotation = transform.rotation;
         Attack.GetComponent<Rigidbody2D>().velocity = dir * 10;

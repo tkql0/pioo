@@ -127,7 +127,7 @@ public class Player : Character
         }
     }
 
-    private void PlayerAttack(Vector2 InDirection)
+    private void Attack(Vector2 InDirection)
     {
         SpawnController _spawnController = GameManager.SPAWN;
 
@@ -147,7 +147,7 @@ public class Player : Character
             if (_attackPower > _attackMaxPower)
                 _attackPower = _attackMaxPower;
 
-            GameObject Attack = _spawnController.SpawnWeapon(transform.position, ObjectType.PlayerWeapon);
+            GameObject Attack = _spawnController.ObjectSpawn(transform.position, spawnWeaponKey, ObjectType.PlayerWeapon);
             Attack.GetComponent<Rigidbody2D>().velocity = InDirection * _attackPower;
             _attackPower = 0.0f;
         }
@@ -164,7 +164,7 @@ public class Player : Character
         Vector2 dir = new Vector2(mousePos.x - transform.position.x, mousePos.y - transform.position.y);
         dir = dir.normalized;
 
-        PlayerAttack(dir);
+        Attack(dir);
     }
 
     private void OnTriggerStay2D(Collider2D collision)

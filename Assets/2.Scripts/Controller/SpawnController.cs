@@ -60,16 +60,34 @@ public class SpawnController
     {
         ObjectController _objectController = GameManager.OBJECT;
 
-        foreach (KeyValuePair<long, Character> chatacterNumber in _objectController.characterDataList)
+        bool _character =  InKey >= 0 ? true : false;
+
+        if (_character)
         {
-            if (!_objectController.GetisActive(chatacterNumber.Key, InObjectType) && chatacterNumber.Value.key == InObjectType)
+            foreach (KeyValuePair<long, Character> outChatacterData in _objectController.characterDataList)
             {
-                _objectController.SetActive(chatacterNumber.Key, InObjectType, true);
-                _objectController.SetSpawnPosition(chatacterNumber.Key, InObjectType, InSpawnPosition);
+                if (!_objectController.GetisActive(outChatacterData.Key, InObjectType) && outChatacterData.Value.key == InObjectType)
+                {
+                    _objectController.SetActive(outChatacterData.Key, InObjectType, true);
+                    _objectController.SetSpawnPosition(outChatacterData.Key, InObjectType, InSpawnPosition);
 
-                chatacterNumber.Value.spawnObjectKey = InKey;
+                    outChatacterData.Value.spawnObjectKey = InKey;
 
-                return chatacterNumber.Value.characterObject;
+                    return outChatacterData.Value.characterObject;
+                }
+            }
+        }
+        else
+        {
+            foreach (KeyValuePair<long, Weapon> outWeaponData in _objectController.weaponDataList)
+            {
+                if (!_objectController.GetisActive(outWeaponData.Key, InObjectType) && outWeaponData.Value.key == InObjectType)
+                {
+                    _objectController.SetActive(outWeaponData.Key, InObjectType, true);
+                    _objectController.SetSpawnPosition(outWeaponData.Key, InObjectType, InSpawnPosition);
+
+                    return outWeaponData.Value.weapon;
+                }
             }
         }
         return null;
@@ -84,53 +102,18 @@ public class SpawnController
         float DistanceX = 0;
         float differenceX = 0;
 
-        foreach (KeyValuePair<long, Character> chatacterNumber in _objectController.characterDataList)
+        foreach (KeyValuePair<long, Character> OutChatacterData in _objectController.characterDataList)
         {
-            myPosition = chatacterNumber.Value.transform.position;
+            myPosition = OutChatacterData.Value.transform.position;
 
             DistanceX = InTargetPosition.x - myPosition.x;
             differenceX = Mathf.Abs(DistanceX);
 
             if (differenceX > InDeSpawnDistance)
             {
-                _objectController.SetActive(chatacterNumber.Key, InObjectType, false);
-                chatacterNumber.Value.spawnObjectKey = 99;
+                _objectController.SetActive(OutChatacterData.Key, InObjectType, false);
+                OutChatacterData.Value.spawnObjectKey = 99;
             }
         }
-    }
-
-    public GameObject SpawnWeapon(Vector2 inSpawnPosition, ObjectType objectType)
-    {
-        ObjectController _objectController = GameManager.OBJECT;
-
-        foreach (KeyValuePair<long, Weapon> weaponNumber in _objectController.weaponDataList)
-        {
-            switch (objectType)
-            {
-                case ObjectType.PlayerWeapon:
-                    if (!_objectController.GetisActive(weaponNumber.Key, objectType) && weaponNumber.Value.key == objectType)
-                    {
-                        weaponNumber.Value.weapon.SetActive(true);
-
-                        weaponNumber.Value.transform.position
-                            = new Vector2(inSpawnPosition.x, inSpawnPosition.y);
-
-                        return weaponNumber.Value.weapon;
-                    }
-                    break;
-                case ObjectType.EnemyWeapon:
-                    if (!_objectController.GetisActive(weaponNumber.Key, objectType) && weaponNumber.Value.key == objectType)
-                    {
-                        weaponNumber.Value.weapon.SetActive(true);
-
-                        weaponNumber.Value.transform.position
-                            = new Vector2(inSpawnPosition.x, inSpawnPosition.y);
-
-                        return weaponNumber.Value.weapon;
-                    }
-                    break;
-            }
-        }
-        return null;
     }
 }

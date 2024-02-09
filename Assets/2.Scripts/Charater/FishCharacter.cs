@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class FishCharacter : Character
 {
-    void Awake()
+    private void Awake()
     {
         rigid = GetComponent<Rigidbody2D>();
         sprite = GetComponent<SpriteRenderer>();

@@ -40,22 +40,22 @@ public class ObjectPool : MonoBehaviour
         SpawnPool(ObjectType.EnemyWeapon);
         SpawnPool(ObjectType.PlayerWeapon);
 
-        foreach (KeyValuePair<long, Map> mapNumber in _objectController.mapDataList)
+        foreach (KeyValuePair<long, Map> outMapData in _objectController.mapDataList)
         {
             SpawnPool(ObjectType.Enemy);
             SpawnPool(ObjectType.Fish);
 
-            mapNumber.Value.key = mapNumber.Key;
+            outMapData.Value.key = outMapData.Key;
         }
     }
 
-    private void SpawnPool(ObjectType objectType)
+    private void SpawnPool(ObjectType InObjectType)
     {
         int maxSize = 0;
 
         ObjectController _objectController = GameManager.OBJECT;
 
-        switch (objectType)
+        switch (InObjectType)
         {
             case ObjectType.Player:
                 GameObject playerObject = Instantiate(Prefab_Player);
@@ -70,9 +70,8 @@ public class ObjectPool : MonoBehaviour
                 {
                     GameObject EnemysObject = Instantiate(Prefab_Enemy, transform);
 
-                    _objectController.characterDataList.Add(_characterSpawnConut,
-                        EnemysObject.GetComponent<EnemyCharacter>());
-                    _objectController.characterDataList[_characterSpawnConut].key = ObjectType.Enemy;
+                    _objectController.characterDataList.Add(_characterSpawnConut, EnemysObject.GetComponent<EnemyCharacter>());
+                    _objectController.characterDataList[_characterSpawnConut].key = InObjectType;
                     _characterSpawnConut++;
                     EnemysObject.SetActive(false);
                 }
@@ -84,9 +83,8 @@ public class ObjectPool : MonoBehaviour
                 {
                     GameObject FishsObject = Instantiate(Prefab_Fish, transform);
 
-                    _objectController.characterDataList.Add(_characterSpawnConut,
-                        FishsObject.GetComponent<FishCharacter>());
-                    _objectController.characterDataList[_characterSpawnConut].key = ObjectType.Fish;
+                    _objectController.characterDataList.Add(_characterSpawnConut, FishsObject.GetComponent<FishCharacter>());
+                    _objectController.characterDataList[_characterSpawnConut].key = InObjectType;
                     _characterSpawnConut++;
                     FishsObject.SetActive(false);
                 }
@@ -109,10 +107,10 @@ public class ObjectPool : MonoBehaviour
                 {
                     GameObject EnemysAttackObject = Instantiate(Prefab_EnemyWapon, transform);
 
-                    _objectController.weaponDataList.Add(_weaponSpawnConut,
-                        EnemysAttackObject.GetComponent<Weapon>());
-                    _objectController.weaponDataList[_weaponSpawnConut].key = ObjectType.EnemyWeapon;
+                    _objectController.weaponDataList.Add(_weaponSpawnConut, EnemysAttackObject.GetComponent<Weapon>());
+                    _objectController.weaponDataList[_weaponSpawnConut].key = InObjectType;
                     _weaponSpawnConut++;
+
                     EnemysAttackObject.SetActive(false);
                 }
                 break;
@@ -123,10 +121,10 @@ public class ObjectPool : MonoBehaviour
                 {
                     GameObject PlayersAttackObject = Instantiate(Prefab_PlayerWapon, transform);
 
-                    _objectController.weaponDataList.Add(_weaponSpawnConut,
-                        PlayersAttackObject.GetComponent<Weapon>());
-                    _objectController.weaponDataList[_weaponSpawnConut].key = ObjectType.PlayerWeapon;
+                    _objectController.weaponDataList.Add(_weaponSpawnConut, PlayersAttackObject.GetComponent<Weapon>());
+                    _objectController.weaponDataList[_weaponSpawnConut].key = InObjectType;
                     _weaponSpawnConut++;
+
                     PlayersAttackObject.SetActive(false);
                 }
                 break;

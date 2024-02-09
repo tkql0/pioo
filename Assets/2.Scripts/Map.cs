@@ -60,30 +60,30 @@ public class Map : MonoBehaviour
         }
     }
 
-    public void MapMonsterSpawn(long enemySize, long fishSize)
+    public void MapMonsterSpawn(long InEnemySize, long InFishSize)
     {
         Vector2 myPosition = transform.position;
         SpawnController _spawnController = GameManager.SPAWN;
 
-        _spawnController.Spawn(myPosition, enemySize, fishSize, key);
+        _spawnController.Spawn(myPosition, InEnemySize, InFishSize, key);
 
-        StartCoroutine(ReSpawn(ReSpawn_Time, enemySize, fishSize));
+        StartCoroutine(ReSpawn(ReSpawn_Time, InEnemySize, InFishSize));
     }
 
-    private IEnumerator ReSpawn(float ReSpawnTime, long enemySize, long fishSize)
+    private IEnumerator ReSpawn(float ReSpawnTime, long InEnemySize, long InFishSize)
     {
         Vector2 myPosition = transform.position;
         SpawnController _spawnController = GameManager.SPAWN;
 
         yield return new WaitForSeconds(ReSpawnTime);
 
-        _spawnController.Spawn(myPosition, ReSpawnSize(enemySize,
-            fishSize).Item1, ReSpawnSize(enemySize, fishSize).Item2, key);
+        _spawnController.Spawn(myPosition, ReSpawnSize(InEnemySize,
+            InFishSize).Item1, ReSpawnSize(InEnemySize, InFishSize).Item2, key);
 
-        StartCoroutine(ReSpawn(ReSpawnTime, enemySize, fishSize));
+        StartCoroutine(ReSpawn(ReSpawnTime, InEnemySize, InFishSize));
     }
 
-    private (long, long) ReSpawnSize(long enemySize, long fishSize)
+    private (long, long) ReSpawnSize(long InEnemySize, long InFishSize)
     {
         ObjectController _objectController = GameManager.OBJECT;
 
@@ -104,8 +104,8 @@ public class Map : MonoBehaviour
                 fishReSpawnSize++;
         }
 
-        long enemyReSpawnMaxSize = enemySize - enemyReSpawnSize;
-        long fishReSpawnMaxSize = fishSize - fishReSpawnSize;
+        long enemyReSpawnMaxSize = InEnemySize - enemyReSpawnSize;
+        long fishReSpawnMaxSize = InFishSize - fishReSpawnSize;
 
         return (enemyReSpawnMaxSize, fishReSpawnMaxSize);
     }

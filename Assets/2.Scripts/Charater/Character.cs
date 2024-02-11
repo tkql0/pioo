@@ -8,8 +8,8 @@ public class Character : MonoBehaviour
     public LayerMask targetMask;
 
     public ObjectType key;
-    public long spawnObjectKey;
-    public long spawnWeaponKey = -1;
+    public long spawnNumberKey;
+    public long mySpawnNumber;
 
     public GameObject characterObject;
 

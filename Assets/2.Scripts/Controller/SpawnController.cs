@@ -42,23 +42,23 @@ public class SpawnController
     {
         for (long i = 0; i < InEnemyCount; i++)
         {
-            ObjectSpawn(InSpawnPosition, InKey, ObjectType.Enemy);
+            GetObjectSpawn(InSpawnPosition, InKey, ObjectType.Enemy);
         }
 
         for (long i = 0; i < InFishCount; i++)
         {
-            ObjectSpawn(InSpawnPosition, InKey, ObjectType.Fish);
+            GetObjectSpawn(InSpawnPosition, InKey, ObjectType.Fish);
         }
     }
 
     public void DeSpawn(Vector2 InTargetPosition, float InDeSpawnDistance)
     {
-        ObjectDeSpawn(InTargetPosition, ObjectType.Enemy, InDeSpawnDistance);
-        ObjectDeSpawn(InTargetPosition, ObjectType.Fish, InDeSpawnDistance);
+        SetObjectDeSpawn(InTargetPosition, ObjectType.Enemy, InDeSpawnDistance);
+        SetObjectDeSpawn(InTargetPosition, ObjectType.Fish, InDeSpawnDistance);
     }
 
 
-    public GameObject ObjectSpawn(Vector2 InSpawnPosition, long InKey, ObjectType InObjectType)
+    public GameObject GetObjectSpawn(Vector2 InSpawnPosition, long InKey, ObjectType InObjectType)
     {
         ObjectController _objectController = GameManager.OBJECT;
 
@@ -73,7 +73,7 @@ public class SpawnController
                     _objectController.SetActive(outChatacterData.Key, InObjectType, true);
                     _objectController.SetSpawnPosition(outChatacterData.Key, InObjectType, InSpawnPosition);
 
-                    outChatacterData.Value.spawnObjectKey = InKey;
+                    outChatacterData.Value.spawnNumberKey = InKey;
 
                     return outChatacterData.Value.characterObject;
                 }
@@ -95,7 +95,7 @@ public class SpawnController
         return null;
     }
 
-    public void ObjectDeSpawn(Vector2 InTargetPosition, ObjectType InObjectType, float InDeSpawnDistance)
+    public void SetObjectDeSpawn(Vector2 InTargetPosition, ObjectType InObjectType, float InDeSpawnDistance)
     {
         ObjectController _objectController = GameManager.OBJECT;
 
@@ -114,7 +114,7 @@ public class SpawnController
             if (differenceX > InDeSpawnDistance)
             {
                 _objectController.SetActive(outChatacterData.Key, InObjectType, false);
-                outChatacterData.Value.spawnObjectKey = 99;
+                outChatacterData.Value.spawnNumberKey = 99;
             }
         }
     }

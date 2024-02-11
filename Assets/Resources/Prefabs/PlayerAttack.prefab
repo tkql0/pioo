@@ -138,4 +138,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weapon: {fileID: 0}
   key: 0
-  rigid: {fileID: 0}
+  rigid: {fileID: 4667246755139029878}

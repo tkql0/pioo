@@ -7,9 +7,10 @@ public class Weapon : MonoBehaviour
     public GameObject weapon;
 
     public ObjectType key;
+    public long spawnNumberKey;
+    public long mySpawnNumber;
 
-    [SerializeField]
-    private Rigidbody2D rigid;
+    public Rigidbody2D rigid;
 
     public const string Player = "Player";
     public const string Enemy = "Enemy";

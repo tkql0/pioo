@@ -8,7 +8,7 @@ public class FishCharacter : Character
     {
         rigid = GetComponent<Rigidbody2D>();
         sprite = GetComponent<SpriteRenderer>();
-        spawnObjectKey = 99;
+        spawnNumberKey = 99;
     }
 
     private void OnEnable()
@@ -21,7 +21,7 @@ public class FishCharacter : Character
 
     private void OnDestroy()
     {
-        spawnObjectKey = 99;
+        spawnNumberKey = 99;
     }
 
     public IEnumerator MoveDelay()

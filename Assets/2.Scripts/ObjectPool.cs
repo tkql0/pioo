@@ -45,7 +45,7 @@ public class ObjectPool : MonoBehaviour
             SpawnPool(ObjectType.Enemy);
             SpawnPool(ObjectType.Fish);
 
-            outMapData.Value.key = outMapData.Key;
+            outMapData.Value.mySpawnNumber = outMapData.Key;
         }
     }
 
@@ -72,6 +72,7 @@ public class ObjectPool : MonoBehaviour
 
                     _objectController.characterDataList.Add(_characterSpawnConut, EnemysObject.GetComponent<EnemyCharacter>());
                     _objectController.characterDataList[_characterSpawnConut].key = InObjectType;
+                    _objectController.characterDataList[_characterSpawnConut].mySpawnNumber = _characterSpawnConut;
                     _characterSpawnConut++;
                     EnemysObject.SetActive(false);
                 }
@@ -85,6 +86,7 @@ public class ObjectPool : MonoBehaviour
 
                     _objectController.characterDataList.Add(_characterSpawnConut, FishsObject.GetComponent<FishCharacter>());
                     _objectController.characterDataList[_characterSpawnConut].key = InObjectType;
+                    _objectController.characterDataList[_characterSpawnConut].mySpawnNumber = _characterSpawnConut;
                     _characterSpawnConut++;
                     FishsObject.SetActive(false);
                 }
@@ -109,6 +111,7 @@ public class ObjectPool : MonoBehaviour
 
                     _objectController.weaponDataList.Add(_weaponSpawnConut, EnemysAttackObject.GetComponent<Weapon>());
                     _objectController.weaponDataList[_weaponSpawnConut].key = InObjectType;
+                    _objectController.weaponDataList[_weaponSpawnConut].mySpawnNumber = _weaponSpawnConut;
                     _weaponSpawnConut++;
 
                     EnemysAttackObject.SetActive(false);
@@ -123,6 +126,7 @@ public class ObjectPool : MonoBehaviour
 
                     _objectController.weaponDataList.Add(_weaponSpawnConut, PlayersAttackObject.GetComponent<Weapon>());
                     _objectController.weaponDataList[_weaponSpawnConut].key = InObjectType;
+                    _objectController.weaponDataList[_weaponSpawnConut].mySpawnNumber = _weaponSpawnConut;
                     _weaponSpawnConut++;
 
                     PlayersAttackObject.SetActive(false);

@@ -23,7 +23,7 @@ public class EnemyCharacter : Character
         rigid = GetComponent<Rigidbody2D>();
         sprite = GetComponent<SpriteRenderer>();
 
-        spawnObjectKey = 99;
+        spawnNumberKey = 99;
         characterObject = gameObject;
     }
 
@@ -44,7 +44,7 @@ public class EnemyCharacter : Character
 
     private void OnDestroy()
     {
-        spawnObjectKey = 99;
+        spawnNumberKey = 99;
         isDie = true;
     }
 
@@ -151,7 +151,7 @@ public class EnemyCharacter : Character
         Vector2 dir = InTargetPosition - (Vector2)transform.position;
         dir = dir.normalized;
 
-        GameObject Attack = _spawnController.ObjectSpawn(transform.position, spawnWeaponKey, ObjectType.EnemyWeapon);
+        GameObject Attack = _spawnController.GetObjectSpawn(transform.position, -1, ObjectType.EnemyWeapon);
         Attack.transform.position = transform.position;
         Attack.transform.rotation = transform.rotation;
         Attack.GetComponent<Rigidbody2D>().velocity = dir * 10;

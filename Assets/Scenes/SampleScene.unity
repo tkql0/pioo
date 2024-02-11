@@ -1677,6 +1677,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a521b86d0fb8c124eb90675215324d7c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Prefab_Player: {fileID: 5583603722423035446, guid: 41407f756b00ccb48bc05d574476bf3d, type: 3}
+  Prefab_Map: {fileID: 434199003347398403, guid: 5c1d097ad402dd04ea222efb62deebc2, type: 3}
+  Prefab_Enemy: {fileID: 6674951112768226406, guid: 889d653fe9125b648a689371cdddb27f, type: 3}
+  Prefab_Fish: {fileID: 6515369471602294542, guid: 36e26e3049e1e4f4e85cb32a05e38a63, type: 3}
+  Prefab_EnemyWapon: {fileID: 5201422918442001972, guid: 192e0ef2a4a222a42afe871ecf71c857, type: 3}
+  Prefab_PlayerWapon: {fileID: 9132612283443746806, guid: 740ee34b51f517d4e89a7199c95402c6, type: 3}
 --- !u!4 &1751085724
 Transform:
   m_ObjectHideFlags: 0

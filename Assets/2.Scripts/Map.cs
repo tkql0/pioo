@@ -6,7 +6,9 @@ public class Map : MonoBehaviour
 {
     public GameObject map;
 
-    public long key;
+    public ObjectType key;
+
+    public long mySpawnNumber;
 
     public long enemyMaxSize;
     public long fishMaxSize;
@@ -65,7 +67,7 @@ public class Map : MonoBehaviour
         Vector2 myPosition = transform.position;
         SpawnController _spawnController = GameManager.SPAWN;
 
-        _spawnController.Spawn(myPosition, InEnemySize, InFishSize, key);
+        _spawnController.Spawn(myPosition, InEnemySize, InFishSize, mySpawnNumber);
 
         StartCoroutine(ReSpawn(ReSpawn_Time, InEnemySize, InFishSize));
     }
@@ -78,7 +80,7 @@ public class Map : MonoBehaviour
         yield return new WaitForSeconds(ReSpawnTime);
 
         _spawnController.Spawn(myPosition, ReSpawnSize(InEnemySize,
-            InFishSize).Item1, ReSpawnSize(InEnemySize, InFishSize).Item2, key);
+            InFishSize).Item1, ReSpawnSize(InEnemySize, InFishSize).Item2, mySpawnNumber);
 
         StartCoroutine(ReSpawn(ReSpawnTime, InEnemySize, InFishSize));
     }
@@ -93,14 +95,14 @@ public class Map : MonoBehaviour
         foreach (KeyValuePair<long, Character> enemyData in _objectController.characterDataList)
         {
             if (_objectController.GetisActive(enemyData.Key, ObjectType.Enemy)
-                && enemyData.Value.spawnObjectKey == key)
+                && enemyData.Value.spawnNumberKey == mySpawnNumber)
                 enemyReSpawnSize++;
         }
 
         foreach (KeyValuePair<long, Character> fishData in _objectController.characterDataList)
         {
             if (_objectController.GetisActive(fishData.Key, ObjectType.Fish)
-                && fishData.Value.spawnObjectKey == key)
+                && fishData.Value.spawnNumberKey == mySpawnNumber)
                 fishReSpawnSize++;
         }
 

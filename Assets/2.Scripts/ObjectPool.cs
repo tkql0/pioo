@@ -21,26 +21,20 @@ public class ObjectPool : MonoBehaviour
     [SerializeField]
     private GameObject Prefab_PlayerWapon;
 
-    public void OnEnable()
-    {
-        ObjectSpawnPool();
-    }
-
-    public void OnDisable()
-    {
-
-    }
-
     public void ObjectSpawnPool()
     {
-        ObjectController _objectController = GameManager.OBJECT;
-
         SpawnPool(ObjectType.Player);
-        SpawnPool(ObjectType.Map);
         SpawnPool(ObjectType.EnemyWeapon);
         SpawnPool(ObjectType.PlayerWeapon);
 
-        foreach (KeyValuePair<long, Map> outMapData in _objectController.mapDataList)
+        SpawnMapPool();
+    }
+
+    public void SpawnMapPool()
+    {
+        SpawnPool(ObjectType.Map);
+
+        foreach (KeyValuePair<long, Map> outMapData in GameManager.OBJECT.mapDataList)
         {
             SpawnPool(ObjectType.Enemy);
             SpawnPool(ObjectType.Fish);
@@ -53,14 +47,12 @@ public class ObjectPool : MonoBehaviour
     {
         int maxSize = 0;
 
-        ObjectController _objectController = GameManager.OBJECT;
-
         switch (InObjectType)
         {
             case ObjectType.Player:
                 GameObject playerObject = Instantiate(Prefab_Player);
 
-                _objectController.player = playerObject.GetComponent<Player>();
+                GameManager.OBJECT.player = playerObject.GetComponent<Player>();
                 _characterSpawnConut++;
                 break;
             case ObjectType.Enemy:
@@ -70,9 +62,12 @@ public class ObjectPool : MonoBehaviour
                 {
                     GameObject EnemysObject = Instantiate(Prefab_Enemy, transform);
 
-                    _objectController.characterDataList.Add(_characterSpawnConut, EnemysObject.GetComponent<EnemyCharacter>());
-                    _objectController.characterDataList[_characterSpawnConut].key = InObjectType;
-                    _objectController.characterDataList[_characterSpawnConut].mySpawnNumber = _characterSpawnConut;
+                    Character character = EnemysObject.GetComponent<Character>();
+                    if (GameManager.OBJECT.SetCharacterInfo(character, InObjectType, _characterSpawnConut) == false)
+                    {
+                        Debug.Log("Null");
+                    }
+
                     _characterSpawnConut++;
                     EnemysObject.SetActive(false);
                 }
@@ -84,9 +79,12 @@ public class ObjectPool : MonoBehaviour
                 {
                     GameObject FishsObject = Instantiate(Prefab_Fish, transform);
 
-                    _objectController.characterDataList.Add(_characterSpawnConut, FishsObject.GetComponent<FishCharacter>());
-                    _objectController.characterDataList[_characterSpawnConut].key = InObjectType;
-                    _objectController.characterDataList[_characterSpawnConut].mySpawnNumber = _characterSpawnConut;
+                    Character character = FishsObject.GetComponent<Character>();
+                    if (GameManager.OBJECT.SetCharacterInfo(character, InObjectType, _characterSpawnConut) == false)
+                    {
+                        Debug.Log("Null");
+                    }
+
                     _characterSpawnConut++;
                     FishsObject.SetActive(false);
                 }
@@ -98,38 +96,26 @@ public class ObjectPool : MonoBehaviour
                 {
                     GameObject MapsObject = Instantiate(Prefab_Map);
 
-                    _objectController.mapDataList.Add(_mapSpawnConut, MapsObject.GetComponent<Map>());
+                    GameManager.OBJECT.mapDataList.Add(_mapSpawnConut, MapsObject.GetComponent<Map>());
                     _mapSpawnConut++;
                 }
                 break;
             case ObjectType.EnemyWeapon:
-                maxSize = 20;
-
-                for (int i = 0; i < maxSize; i++)
-                {
-                    GameObject EnemysAttackObject = Instantiate(Prefab_EnemyWapon, transform);
-
-                    _objectController.weaponDataList.Add(_weaponSpawnConut, EnemysAttackObject.GetComponent<Weapon>());
-                    _objectController.weaponDataList[_weaponSpawnConut].key = InObjectType;
-                    _objectController.weaponDataList[_weaponSpawnConut].mySpawnNumber = _weaponSpawnConut;
-                    _weaponSpawnConut++;
-
-                    EnemysAttackObject.SetActive(false);
-                }
-                break;
             case ObjectType.PlayerWeapon:
                 maxSize = 20;
 
                 for (int i = 0; i < maxSize; i++)
                 {
-                    GameObject PlayersAttackObject = Instantiate(Prefab_PlayerWapon, transform);
+                    GameObject AttackObject = Instantiate(Prefab_PlayerWapon, transform);
 
-                    _objectController.weaponDataList.Add(_weaponSpawnConut, PlayersAttackObject.GetComponent<Weapon>());
-                    _objectController.weaponDataList[_weaponSpawnConut].key = InObjectType;
-                    _objectController.weaponDataList[_weaponSpawnConut].mySpawnNumber = _weaponSpawnConut;
+                    Weapon weapon = AttackObject.GetComponent<Weapon>();
+                    if (GameManager.OBJECT.SetWeaponInfo(weapon, InObjectType, _weaponSpawnConut) == false)
+                    {
+                        Debug.Log("Null");
+                    }
                     _weaponSpawnConut++;
 
-                    PlayersAttackObject.SetActive(false);
+                    AttackObject.SetActive(false);
                 }
                 break;
         }

@@ -182,7 +182,7 @@ public class Player : Character
             {
                 isDamage = true;
                 collision.gameObject.SetActive(false);
-                curHealth = curHealth - Damage;
+                curHealth = curHealth - damage;
                 StartCoroutine(OnDamage(sprite));
 
                 isDamage = false;

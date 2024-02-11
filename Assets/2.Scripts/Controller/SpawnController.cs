@@ -4,14 +4,25 @@ using UnityEngine;
 
 public class SpawnController
 {
+    private ObjectPool _objectPool = null;
+    
     private const int Left_MapSpawn = -1;
     private const int Right_MapSpawn = 1;
 
     private const int Map_Distance = 40;
 
+    private const string objectPool = "Prefabs/ObjectPool";
+
     public void OnEnable()
     {
-        
+        var load = Resources.Load<ObjectPool>(objectPool);
+
+        if (load == null)
+            return;
+
+        _objectPool = GameObject.Instantiate(load);
+
+        _objectPool.ObjectSpawnPool();
     }
 
     public void OnDisable()
@@ -88,7 +99,7 @@ public class SpawnController
                     _objectController.SetActive(outWeaponData.Key, InObjectType, true);
                     _objectController.SetSpawnPosition(outWeaponData.Key, InObjectType, InSpawnPosition);
 
-                    return outWeaponData.Value.weapon;
+                    return outWeaponData.Value.weaponObject;
                 }
             }
         }
@@ -106,7 +117,7 @@ public class SpawnController
 
         foreach (KeyValuePair<long, Character> outChatacterData in _objectController.characterDataList)
         {
-            myPosition = outChatacterData.Value.transform.position;
+            myPosition = outChatacterData.Value.inPosition;
 
             distanceX = InTargetPosition.x - myPosition.x;
             differenceX = Mathf.Abs(distanceX);

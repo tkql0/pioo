@@ -41,61 +41,54 @@ public class ObjectController
         switch (InObjectType)
         {
             case ObjectType.Enemy:
-                if (characterDataList.TryGetValue(InIndex, out var outEnemyData) == false)
-                    return;
-                    outEnemyData.SetActiveObject(InIsActive);
-                break;
             case ObjectType.Fish:
-                if (characterDataList.TryGetValue(InIndex, out var outFishData) == false)
+                if (characterDataList.TryGetValue(InIndex, out var outCharacterData) == false)
                     return;
-                    outFishData.SetActiveObject(InIsActive);
+
+                outCharacterData.SetActiveObject(InIsActive);
                 break;
             case ObjectType.EnemyWeapon:
-                if (weaponDataList.TryGetValue(InIndex, out var outEnemyWeaponData) == false)
-                    return;
-                    outEnemyWeaponData.SetActiveObject(InIsActive);
-                break;
             case ObjectType.PlayerWeapon:
-                if (weaponDataList.TryGetValue(InIndex, out var outPlayerWeaponData) == false)
+                if (weaponDataList.TryGetValue(InIndex, out var outWeaponData) == false)
                     return;
-                    outPlayerWeaponData.SetActiveObject(InIsActive);
+
+                outWeaponData.SetActiveObject(InIsActive);
                 break;
         }
     }
 
     public bool GetisActive(long InIndex, ObjectType InObjectType)
     {
-        bool isActive = true;
-
         switch (InObjectType)
         {
             case ObjectType.Enemy:
-                if (characterDataList.TryGetValue(InIndex, out var outEnemyData) == true)
-                    if (outEnemyData.key == InObjectType)
-                        isActive = outEnemyData.characterObject.activeSelf;
-                break;
             case ObjectType.Fish:
-                if (characterDataList.TryGetValue(InIndex, out var outFishData) == true)
-                    if (outFishData.key == InObjectType)
-                        isActive = outFishData.characterObject.activeSelf;
+                {
+                    if (characterDataList.TryGetValue(InIndex, out var outCharacterData) == false)
+                        return true;
+
+                    if (outCharacterData.key == InObjectType)
+                        return outCharacterData.isActive;
+                }
                 break;
             case ObjectType.EnemyWeapon:
-                if (weaponDataList.TryGetValue(InIndex, out var outEnemyWeaponData) == true)
-                    if (outEnemyWeaponData.key == InObjectType)
-                        isActive = outEnemyWeaponData.weapon.activeSelf;
-                break;
             case ObjectType.PlayerWeapon:
-                if (weaponDataList.TryGetValue(InIndex, out var outPlayerWeaponData) == true)
-                    if (outPlayerWeaponData.key == InObjectType)
-                        isActive = outPlayerWeaponData.weapon.activeSelf;
+                {
+                    if (weaponDataList.TryGetValue(InIndex, out var outWeaponData) == false)
+                        return true;
+
+                    if (outWeaponData.key == InObjectType)
+                        return outWeaponData.isActive;
+                }
                 break;
             case ObjectType.Map:
-                if (mapDataList.TryGetValue(InIndex, out var outMapData) == true)
-                    isActive = outMapData.map.activeSelf;
+                {
+                    if (mapDataList.TryGetValue(InIndex, out var outMapData) == false)
+                        return outMapData.isActive;
+                }
                 break;
         }
-
-        return isActive;
+        return true;
     }
 
     public void SetSpawnPosition(long InIndex, ObjectType InObjectType, Vector2 InSpawnPosition)
@@ -116,15 +109,34 @@ public class ObjectController
                     outFishData.transform.position = new Vector2(randomPositionX + InSpawnPosition.x, randomPositionY);
                 break;
             case ObjectType.EnemyWeapon:
-                if (weaponDataList.TryGetValue(InIndex, out var outEnemyWeaponData) == false)
-                    return;
-                    outEnemyWeaponData.transform.position = InSpawnPosition;
-                break;
             case ObjectType.PlayerWeapon:
-                if (weaponDataList.TryGetValue(InIndex, out var outPlayerWawponData) == false)
+                if (weaponDataList.TryGetValue(InIndex, out var outWawponData) == false)
                     return;
-                    outPlayerWawponData.transform.position = InSpawnPosition;
+                outWawponData.transform.position = InSpawnPosition;
                 break;
         }
+    }
+
+    public bool SetCharacterInfo(Character InCharacter, ObjectType Inkey, long InSpawnNumber)
+    {
+        if (InCharacter == null)
+            return false;
+
+        characterDataList.Add(InSpawnNumber, InCharacter);
+        InCharacter.key = Inkey;
+        InCharacter.mySpawnNumber = InSpawnNumber;
+
+        return true;
+    }
+    public bool SetWeaponInfo(Weapon InWeapon, ObjectType Inkey, long InSpawnNumber)
+    {
+        if (InWeapon == null)
+            return false;
+
+        weaponDataList.Add(InSpawnNumber, InWeapon);
+        InWeapon.key = Inkey;
+        InWeapon.mySpawnNumber = InSpawnNumber;
+
+        return true;
     }
 }

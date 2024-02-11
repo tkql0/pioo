@@ -111,7 +111,7 @@ public class EnemyCharacter : Character
             if (!isDamage)
             {
                 isDamage = true;
-                curHealth = curHealth - Damage;
+                curHealth = curHealth - damage;
                 StartCoroutine(OnDamage(sprite));
             }
         }

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Weapon : MonoBehaviour
 {
-    public GameObject weapon;
+    public GameObject weaponObject;
 
     public ObjectType key;
     public long spawnNumberKey;
@@ -17,7 +17,7 @@ public class Weapon : MonoBehaviour
 
     private void OnEnable()
     {
-        weapon = gameObject;
+        weaponObject = gameObject;
 
         rigid = GetComponent<Rigidbody2D>();
     }
@@ -59,6 +59,8 @@ public class Weapon : MonoBehaviour
     }
     public void SetActiveObject(bool InIsActive)
     {
-        weapon?.SetActive(InIsActive);
+        weaponObject?.SetActive(InIsActive);
     }
+
+    public bool isActive => weaponObject.activeSelf;
 }

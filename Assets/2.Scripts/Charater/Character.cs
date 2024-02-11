@@ -16,7 +16,7 @@ public class Character : MonoBehaviour
     public Rigidbody2D rigid;
     public SpriteRenderer sprite;
 
-    public int Damage = 5;
+    public int damage = 5;
 
     public float coolTimeMax;
     public float coolTime;
@@ -83,4 +83,9 @@ public class Character : MonoBehaviour
     {
         characterObject?.SetActive(InIsActive);
     }
+
+    public bool isActive => characterObject.activeSelf;
+
+    public Vector2 inPosition => characterObject.transform.position;
+
 }

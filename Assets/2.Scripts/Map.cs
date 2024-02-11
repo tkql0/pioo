@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Map : MonoBehaviour
 {
-    public GameObject map;
+    public GameObject mapObject;
 
     public ObjectType key;
 
@@ -24,7 +24,7 @@ public class Map : MonoBehaviour
 
     public void OnEnable()
     {
-        map = gameObject;
+        mapObject = gameObject;
         enemyMaxSize = Random.Range(1, 6);
         fishMaxSize = Random.Range(1, 15);
     }
@@ -111,4 +111,6 @@ public class Map : MonoBehaviour
 
         return (enemyReSpawnMaxSize, fishReSpawnMaxSize);
     }
+
+    public bool isActive => mapObject.activeSelf;
 }

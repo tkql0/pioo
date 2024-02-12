@@ -86,6 +86,5 @@ public class Character : MonoBehaviour
 
     public bool isActive => characterObject.activeSelf;
 
-    public Vector2 setPosition => characterObject.transform.position;
-    public Quaternion setRotation => characterObject.transform.rotation;
+    public Vector2 CharacterPosition => characterObject.transform.position;
 }

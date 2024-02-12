@@ -13,7 +13,7 @@ public class Map : MonoBehaviour
     public long enemyMaxSize;
     public long fishMaxSize;
 
-    private const float ReSpawn_Time = 10f;
+    private float ReSpawn_Time = 10f;
 
     private const float DeSpawn_Distance = 60f;
 
@@ -36,22 +36,18 @@ public class Map : MonoBehaviour
 
     private void MapRelocation()
     {
-        ObjectController _objectController = GameManager.OBJECT;
-        SpawnController _spawnController = GameManager.SPAWN;
+        Vector2 targetPosition = GameManager.OBJECT.player.CharacterPosition;
 
-        Vector2 targetPosition = _objectController.player.transform.position;
-        Vector2 myPosition = transform.position;
-
-        float DistanceX = targetPosition.x - myPosition.x;
+        float DistanceX = targetPosition.x - MapPosition.x;
         float differenceX = Mathf.Abs(DistanceX);
 
         DistanceX = DistanceX > 0 ? 1 : -1;
 
-        _spawnController.DeSpawn(targetPosition, DeSpawn_Distance + 15);
+        GameManager.SPAWN.DeSpawn(targetPosition, DeSpawn_Distance + 15);
 
         if (differenceX > DeSpawn_Distance)
         {
-            _spawnController.DeSpawn(targetPosition, DeSpawn_Distance - 15);
+            GameManager.SPAWN.DeSpawn(targetPosition, DeSpawn_Distance - 15);
 
             transform.Translate(Vector2.right * DistanceX * 120);
 
@@ -64,44 +60,24 @@ public class Map : MonoBehaviour
 
     public void MapMonsterSpawn(long InEnemySize, long InFishSize)
     {
-        Vector2 myPosition = transform.position;
-        SpawnController _spawnController = GameManager.SPAWN;
+        GameManager.SPAWN.Spawn(MapPosition, InEnemySize, InFishSize, mySpawnNumber);
 
-        _spawnController.Spawn(myPosition, InEnemySize, InFishSize, mySpawnNumber);
-
-        StartCoroutine(ReSpawn(ReSpawn_Time, InEnemySize, InFishSize));
+        StartCoroutine(ReSpawn(ReSpawn_Time));
     }
 
-    private IEnumerator ReSpawn(float ReSpawnTime, long InEnemySize, long InFishSize)
+    private IEnumerator ReSpawn(float InReSpawnTime)
     {
-        Vector2 myPosition = transform.position;
-        SpawnController _spawnController = GameManager.SPAWN;
+        yield return new WaitForSeconds(InReSpawnTime);
 
-        yield return new WaitForSeconds(ReSpawnTime);
+        long enemyReSpawnSize = GameManager.Map.GetReSpawnSize(mySpawnNumber).Item1;
+        long fishReSpawnSize = GameManager.Map.GetReSpawnSize(mySpawnNumber).Item2;
 
-        _spawnController.Spawn(myPosition, ReSpawnSize().Item1, ReSpawnSize().Item2, mySpawnNumber);
+        GameManager.SPAWN.Spawn(MapPosition, enemyReSpawnSize, fishReSpawnSize, mySpawnNumber);
 
-        StartCoroutine(ReSpawn(ReSpawnTime, InEnemySize, InFishSize));
-    }
-
-    private (long, long) ReSpawnSize()
-    {
-        long enemyReSpawnSize = 0;
-        long fishReSpawnSize = 0;
-
-        foreach (KeyValuePair<long, Character> outCharacterData in GameManager.OBJECT.characterDataList)
-        {
-            if (outCharacterData.Value.targetSpawnNumber == mySpawnNumber)
-            {
-                if (GameManager.OBJECT.GetisActive(outCharacterData.Key, ObjectType.Enemy) == false)
-                    enemyReSpawnSize++;
-                else if (GameManager.OBJECT.GetisActive(outCharacterData.Key, ObjectType.Fish) == false)
-                    fishReSpawnSize++;
-            }
-        }
-
-        return (enemyReSpawnSize, fishReSpawnSize);
+        StartCoroutine(ReSpawn(InReSpawnTime));
     }
 
     public bool isActive => mapObject.activeSelf;
+
+    public Vector2 MapPosition => mapObject.transform.position;
 }

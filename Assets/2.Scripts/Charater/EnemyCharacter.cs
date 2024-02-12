@@ -65,10 +65,10 @@ public class EnemyCharacter : Character
         base.Move();
 
         if (sprite.flipX == true)
-            _scanObject.transform.position = new Vector2(setPosition.x - 2,
+            _scanObject.transform.position = new Vector2(CharacterPosition.x - 2,
                 _scanObject.transform.position.y);
         else
-            _scanObject.transform.position = new Vector2(setPosition.x + 2,
+            _scanObject.transform.position = new Vector2(CharacterPosition.x + 2,
                 _scanObject.transform.position.y);
     }
 
@@ -81,18 +81,18 @@ public class EnemyCharacter : Character
         StartCoroutine(MoveDelay());
     }
 
-    private void Hit_Tracking(Vector2 InTargetPosition)
+    private void HitTracking(Vector2 InTargetPosition)
     {
-        float DirX = InTargetPosition.x - setPosition.x;
+        float DirX = InTargetPosition.x - CharacterPosition.x;
 
         if (DirX != 0)
             sprite.flipX = DirX < 0;
 
         if (sprite.flipX == true)
-            _scanObject.transform.position = new Vector2(setPosition.x - 2,
+            _scanObject.transform.position = new Vector2(CharacterPosition.x - 2,
                 _scanObject.transform.position.y);
         else
-            _scanObject.transform.position = new Vector2(setPosition.x + 2,
+            _scanObject.transform.position = new Vector2(CharacterPosition.x + 2,
                 _scanObject.transform.position.y);
 
     }
@@ -104,7 +104,7 @@ public class EnemyCharacter : Character
         {
             Vector2 _player = collision.transform.position;
 
-            Hit_Tracking(_player);
+            HitTracking(_player);
 
             if (!isDamage)
             {
@@ -144,14 +144,10 @@ public class EnemyCharacter : Character
 
     private void Attack(Vector2 InTargetPosition)
     {
-        SpawnController _spawnController = GameManager.SPAWN;
-
-        Vector2 dir = InTargetPosition - setPosition;
+        Vector2 dir = InTargetPosition - CharacterPosition;
         dir = dir.normalized;
 
-        GameObject Attack = _spawnController.GetObjectSpawn(setPosition, -1, ObjectType.EnemyWeapon);
-        Attack.transform.position = setPosition;
-        Attack.transform.rotation = setRotation;
+        GameObject Attack = GameManager.SPAWN.GetObjectSpawn(CharacterPosition, -1, ObjectType.EnemyWeapon);
         Attack.GetComponent<Rigidbody2D>().velocity = dir * 10;
     }
 
@@ -164,7 +160,7 @@ public class EnemyCharacter : Character
         {
             Vector2 targetPosition = targets.transform.position;
 
-            float curdiff = Vector2.Distance(setPosition, targetPosition);
+            float curdiff = Vector2.Distance(CharacterPosition, targetPosition);
 
             if (curdiff < diff)
             {

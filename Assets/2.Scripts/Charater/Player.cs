@@ -149,7 +149,7 @@ public class Player : Character
             if (_attackPower > _attackMaxPower)
                 _attackPower = _attackMaxPower;
 
-            GameObject Attack = _spawnController.GetObjectSpawn(transform.position, -1, ObjectType.PlayerWeapon);
+            GameObject Attack = _spawnController.GetObjectSpawn(CharacterPosition, -1, ObjectType.PlayerWeapon);
             Attack.GetComponent<Rigidbody2D>().velocity = InDirection * _attackPower;
 
             _attackPower = 0.0f;

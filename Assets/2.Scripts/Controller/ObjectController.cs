@@ -20,11 +20,11 @@ public class ObjectController
     public Dictionary<long, Map> mapDataList = new Dictionary<long, Map>();
     public Dictionary<long, Weapon> weaponDataList = new Dictionary<long, Weapon>();
 
-    private const int Position_X_Min = -20;
-    private const int Position_X_Max = 21;
+    private const int Spawn_Position_X_Min = -20;
+    private const int Spawn_Position_X_Max = 21;
 
-    private const int Position_Y_Min = -3;
-    private const int Position_Y_Max = -40;
+    private const int Spawn_Position_Y_Min = -3;
+    private const int Spawn_Position_Y_Max = -40;
 
     public void OnEnable()
     {
@@ -93,8 +93,8 @@ public class ObjectController
 
     public void SetSpawnPosition(long InIndex, ObjectType InObjectType, Vector2 InSpawnPosition)
     {
-        int randomPositionX = Random.Range(Position_X_Min, Position_X_Max);
-        int randomPositionY = Random.Range(Position_Y_Min, Position_Y_Max);
+        int randomPositionX = Random.Range(Spawn_Position_X_Min, Spawn_Position_X_Max);
+        int randomPositionY = Random.Range(Spawn_Position_Y_Min, Spawn_Position_Y_Max);
 
         switch (InObjectType)
         {
@@ -128,6 +128,7 @@ public class ObjectController
 
         return true;
     }
+
     public bool SetWeaponInfo(Weapon InWeapon, ObjectType Inkey, long InSpawnNumber)
     {
         if (InWeapon == null)

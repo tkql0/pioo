@@ -32,13 +32,11 @@ public class SpawnController
 
     public void GameStartSpawnPosition()
     {
-        ObjectController _objectController = GameManager.OBJECT;
-
         int mapSpawnCount = Left_MapSpawn;
 
-        foreach (KeyValuePair<long, Map> outMapData in _objectController.mapDataList)
+        foreach (KeyValuePair<long, Map> outMapData in GameManager.OBJECT.mapDataList)
         {
-            outMapData.Value.transform.position = new Vector2(_objectController.player.setPosition.x + (mapSpawnCount * Map_Distance), 0);
+            outMapData.Value.transform.position = new Vector2(GameManager.OBJECT.player.CharacterPosition.x + (mapSpawnCount * Map_Distance), 0);
 
             if (mapSpawnCount == Right_MapSpawn)
                 mapSpawnCount = Left_MapSpawn;
@@ -71,18 +69,16 @@ public class SpawnController
 
     public GameObject GetObjectSpawn(Vector2 InSpawnPosition, long InKey, ObjectType InObjectType)
     {
-        ObjectController _objectController = GameManager.OBJECT;
-
         bool _character =  InKey >= 0 ? true : false;
 
         if (_character)
         {
-            foreach (KeyValuePair<long, Character> outChatacterData in _objectController.characterDataList)
+            foreach (KeyValuePair<long, Character> outChatacterData in GameManager.OBJECT.characterDataList)
             {
-                if (!_objectController.GetisActive(outChatacterData.Key, InObjectType))
+                if (!GameManager.OBJECT.GetisActive(outChatacterData.Key, InObjectType))
                 {
-                    _objectController.SetActive(outChatacterData.Key, InObjectType, true);
-                    _objectController.SetSpawnPosition(outChatacterData.Key, InObjectType, InSpawnPosition);
+                    GameManager.OBJECT.SetActive(outChatacterData.Key, InObjectType, true);
+                    GameManager.OBJECT.SetSpawnPosition(outChatacterData.Key, InObjectType, InSpawnPosition);
 
                     outChatacterData.Value.targetSpawnNumber = InKey;
 
@@ -92,12 +88,12 @@ public class SpawnController
         }
         else
         {
-            foreach (KeyValuePair<long, Weapon> outWeaponData in _objectController.weaponDataList)
+            foreach (KeyValuePair<long, Weapon> outWeaponData in GameManager.OBJECT.weaponDataList)
             {
-                if (!_objectController.GetisActive(outWeaponData.Key, InObjectType))
+                if (!GameManager.OBJECT.GetisActive(outWeaponData.Key, InObjectType))
                 {
-                    _objectController.SetActive(outWeaponData.Key, InObjectType, true);
-                    _objectController.SetSpawnPosition(outWeaponData.Key, InObjectType, InSpawnPosition);
+                    GameManager.OBJECT.SetActive(outWeaponData.Key, InObjectType, true);
+                    GameManager.OBJECT.SetSpawnPosition(outWeaponData.Key, InObjectType, InSpawnPosition);
 
                     return outWeaponData.Value.weaponObject;
                 }
@@ -108,23 +104,21 @@ public class SpawnController
 
     public void SetObjectDeSpawn(Vector2 InTargetPosition, ObjectType InObjectType, float InDeSpawnDistance)
     {
-        ObjectController _objectController = GameManager.OBJECT;
-
         Vector2 myPosition;
 
         float distanceX = 0;
         float differenceX = 0;
 
-        foreach (KeyValuePair<long, Character> outChatacterData in _objectController.characterDataList)
+        foreach (KeyValuePair<long, Character> outChatacterData in GameManager.OBJECT.characterDataList)
         {
-            myPosition = outChatacterData.Value.setPosition;
+            myPosition = outChatacterData.Value.CharacterPosition;
 
             distanceX = InTargetPosition.x - myPosition.x;
             differenceX = Mathf.Abs(distanceX);
 
             if (differenceX > InDeSpawnDistance)
             {
-                _objectController.SetActive(outChatacterData.Key, InObjectType, false);
+                GameManager.OBJECT.SetActive(outChatacterData.Key, InObjectType, false);
                 outChatacterData.Value.targetSpawnNumber = 99;
             }
         }

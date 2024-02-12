@@ -23,7 +23,7 @@ public class EnemyCharacter : Character
         rigid = GetComponent<Rigidbody2D>();
         sprite = GetComponent<SpriteRenderer>();
 
-        spawnNumberKey = 99;
+        targetSpawnNumber = 99;
         characterObject = gameObject;
     }
 
@@ -44,7 +44,7 @@ public class EnemyCharacter : Character
 
     private void OnDestroy()
     {
-        spawnNumberKey = 99;
+        targetSpawnNumber = 99;
         isDie = true;
     }
 
@@ -60,21 +60,21 @@ public class EnemyCharacter : Character
         ObjectScan(_scanObject);
     }
 
-    public override void Movement()
+    public override void Move()
     {
-        base.Movement();
+        base.Move();
 
         if (sprite.flipX == true)
-            _scanObject.transform.position = new Vector2(transform.position.x - 2,
+            _scanObject.transform.position = new Vector2(setPosition.x - 2,
                 _scanObject.transform.position.y);
         else
-            _scanObject.transform.position = new Vector2(transform.position.x + 2,
+            _scanObject.transform.position = new Vector2(setPosition.x + 2,
                 _scanObject.transform.position.y);
     }
 
     private IEnumerator MoveDelay()
     {
-        Movement();
+        Move();
         float next_MoveTime = Random.Range(1, 6f);
         yield return new WaitForSeconds(next_MoveTime);
 
@@ -83,18 +83,16 @@ public class EnemyCharacter : Character
 
     private void Hit_Tracking(Vector2 InTargetPosition)
     {
-        Vector2 myPos = transform.position;
-
-        float DirX = InTargetPosition.x - myPos.x;
+        float DirX = InTargetPosition.x - setPosition.x;
 
         if (DirX != 0)
             sprite.flipX = DirX < 0;
 
         if (sprite.flipX == true)
-            _scanObject.transform.position = new Vector2(transform.position.x - 2,
+            _scanObject.transform.position = new Vector2(setPosition.x - 2,
                 _scanObject.transform.position.y);
         else
-            _scanObject.transform.position = new Vector2(transform.position.x + 2,
+            _scanObject.transform.position = new Vector2(setPosition.x + 2,
                 _scanObject.transform.position.y);
 
     }
@@ -148,12 +146,12 @@ public class EnemyCharacter : Character
     {
         SpawnController _spawnController = GameManager.SPAWN;
 
-        Vector2 dir = InTargetPosition - (Vector2)transform.position;
+        Vector2 dir = InTargetPosition - setPosition;
         dir = dir.normalized;
 
-        GameObject Attack = _spawnController.GetObjectSpawn(transform.position, -1, ObjectType.EnemyWeapon);
-        Attack.transform.position = transform.position;
-        Attack.transform.rotation = transform.rotation;
+        GameObject Attack = _spawnController.GetObjectSpawn(setPosition, -1, ObjectType.EnemyWeapon);
+        Attack.transform.position = setPosition;
+        Attack.transform.rotation = setRotation;
         Attack.GetComponent<Rigidbody2D>().velocity = dir * 10;
     }
 
@@ -164,10 +162,9 @@ public class EnemyCharacter : Character
 
         foreach (RaycastHit2D targets in _inTarget)
         {
-            Vector2 myPos = transform.position;
-            Vector2 targetPos = targets.transform.position;
+            Vector2 targetPosition = targets.transform.position;
 
-            float curdiff = Vector2.Distance(myPos, targetPos);
+            float curdiff = Vector2.Distance(setPosition, targetPosition);
 
             if (curdiff < diff)
             {

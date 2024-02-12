@@ -8,7 +8,7 @@ public class Character : MonoBehaviour
     public LayerMask targetMask;
 
     public ObjectType key;
-    public long spawnNumberKey;
+    public long targetSpawnNumber;
     public long mySpawnNumber;
 
     public GameObject characterObject;
@@ -43,7 +43,7 @@ public class Character : MonoBehaviour
 
     }
 
-    public virtual void Movement()
+    public virtual void Move()
     {
         if (!gameObject.activeSelf)
             return;
@@ -86,6 +86,6 @@ public class Character : MonoBehaviour
 
     public bool isActive => characterObject.activeSelf;
 
-    public Vector2 inPosition => characterObject.transform.position;
-
+    public Vector2 setPosition => characterObject.transform.position;
+    public Quaternion setRotation => characterObject.transform.rotation;
 }

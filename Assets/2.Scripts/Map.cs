@@ -79,37 +79,28 @@ public class Map : MonoBehaviour
 
         yield return new WaitForSeconds(ReSpawnTime);
 
-        _spawnController.Spawn(myPosition, ReSpawnSize(InEnemySize,
-            InFishSize).Item1, ReSpawnSize(InEnemySize, InFishSize).Item2, mySpawnNumber);
+        _spawnController.Spawn(myPosition, ReSpawnSize().Item1, ReSpawnSize().Item2, mySpawnNumber);
 
         StartCoroutine(ReSpawn(ReSpawnTime, InEnemySize, InFishSize));
     }
 
-    private (long, long) ReSpawnSize(long InEnemySize, long InFishSize)
+    private (long, long) ReSpawnSize()
     {
-        ObjectController _objectController = GameManager.OBJECT;
-
         long enemyReSpawnSize = 0;
         long fishReSpawnSize = 0;
 
-        foreach (KeyValuePair<long, Character> enemyData in _objectController.characterDataList)
+        foreach (KeyValuePair<long, Character> outCharacterData in GameManager.OBJECT.characterDataList)
         {
-            if (_objectController.GetisActive(enemyData.Key, ObjectType.Enemy)
-                && enemyData.Value.spawnNumberKey == mySpawnNumber)
-                enemyReSpawnSize++;
+            if (outCharacterData.Value.targetSpawnNumber == mySpawnNumber)
+            {
+                if (GameManager.OBJECT.GetisActive(outCharacterData.Key, ObjectType.Enemy) == false)
+                    enemyReSpawnSize++;
+                else if (GameManager.OBJECT.GetisActive(outCharacterData.Key, ObjectType.Fish) == false)
+                    fishReSpawnSize++;
+            }
         }
 
-        foreach (KeyValuePair<long, Character> fishData in _objectController.characterDataList)
-        {
-            if (_objectController.GetisActive(fishData.Key, ObjectType.Fish)
-                && fishData.Value.spawnNumberKey == mySpawnNumber)
-                fishReSpawnSize++;
-        }
-
-        long enemyReSpawnMaxSize = InEnemySize - enemyReSpawnSize;
-        long fishReSpawnMaxSize = InFishSize - fishReSpawnSize;
-
-        return (enemyReSpawnMaxSize, fishReSpawnMaxSize);
+        return (enemyReSpawnSize, fishReSpawnSize);
     }
 
     public bool isActive => mapObject.activeSelf;

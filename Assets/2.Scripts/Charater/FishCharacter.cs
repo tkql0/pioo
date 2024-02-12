@@ -8,7 +8,7 @@ public class FishCharacter : Character
     {
         rigid = GetComponent<Rigidbody2D>();
         sprite = GetComponent<SpriteRenderer>();
-        spawnNumberKey = 99;
+        targetSpawnNumber = 99;
     }
 
     private void OnEnable()
@@ -21,12 +21,12 @@ public class FishCharacter : Character
 
     private void OnDestroy()
     {
-        spawnNumberKey = 99;
+        targetSpawnNumber = 99;
     }
 
     public IEnumerator MoveDelay()
     {
-        Movement();
+        Move();
         float next_MoveTime = Random.Range(1, 3f);
         yield return new WaitForSeconds(next_MoveTime);
         StartCoroutine(MoveDelay());

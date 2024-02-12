@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SpawnController
 {
-    private ObjectPool _objectPool = null;
+    public ObjectPool _objectPool = null;
     
     private const int Left_MapSpawn = -1;
     private const int Right_MapSpawn = 1;
@@ -38,7 +38,7 @@ public class SpawnController
 
         foreach (KeyValuePair<long, Map> outMapData in _objectController.mapDataList)
         {
-            outMapData.Value.transform.position = new Vector2(_objectController.player.transform.position.x + (mapSpawnCount * Map_Distance), 0);
+            outMapData.Value.transform.position = new Vector2(_objectController.player.setPosition.x + (mapSpawnCount * Map_Distance), 0);
 
             if (mapSpawnCount == Right_MapSpawn)
                 mapSpawnCount = Left_MapSpawn;
@@ -84,7 +84,7 @@ public class SpawnController
                     _objectController.SetActive(outChatacterData.Key, InObjectType, true);
                     _objectController.SetSpawnPosition(outChatacterData.Key, InObjectType, InSpawnPosition);
 
-                    outChatacterData.Value.spawnNumberKey = InKey;
+                    outChatacterData.Value.targetSpawnNumber = InKey;
 
                     return outChatacterData.Value.characterObject;
                 }
@@ -117,7 +117,7 @@ public class SpawnController
 
         foreach (KeyValuePair<long, Character> outChatacterData in _objectController.characterDataList)
         {
-            myPosition = outChatacterData.Value.inPosition;
+            myPosition = outChatacterData.Value.setPosition;
 
             distanceX = InTargetPosition.x - myPosition.x;
             differenceX = Mathf.Abs(distanceX);
@@ -125,7 +125,7 @@ public class SpawnController
             if (differenceX > InDeSpawnDistance)
             {
                 _objectController.SetActive(outChatacterData.Key, InObjectType, false);
-                outChatacterData.Value.spawnNumberKey = 99;
+                outChatacterData.Value.targetSpawnNumber = 99;
             }
         }
     }

@@ -38,6 +38,7 @@ public class Player : Character
     public void OnEnable()
     {
         player = gameObject;
+        characterObject = gameObject;
         key = ObjectType.Player;
 
         rigid = GetComponent<Rigidbody2D>();
@@ -57,7 +58,7 @@ public class Player : Character
     private void Update()
     {
         LookAtMouse();
-        Movement();
+        Move();
     }
 
     private void FixedUpdate()
@@ -79,7 +80,7 @@ public class Player : Character
         }
     }
 
-    public override void Movement()
+    public override void Move()
     {
         if (isDie == false)
         {

@@ -25,8 +25,6 @@ public class PlayerUI : MonoBehaviour
 
     private void Update()
     {
-        ObjectController _objectController = GameManager.OBJECT;
-
         if (_gameStartPanel.activeSelf)
         {
             Time.timeScale = 0;
@@ -39,25 +37,27 @@ public class PlayerUI : MonoBehaviour
 
         if (healthSlider.value <= 0)
         {
-            _objectController.player.isDie = true;
+            GameManager.OBJECT.player.isDie = true;
             Time.timeScale = 0;
         }
 
-        if (experienceSlider.value == 100 && _objectController.player.isLv_up == false)
+        if (experienceSlider.value == 100 && GameManager.OBJECT.player.isLv_up == false)
         {
-            _objectController.player.isLv_up = true;
+            GameManager.OBJECT.player.isLv_up = true;
             Lv_Up();
         }
-        healthTxt.text = (int)_objectController.player.curHealth + " / " + _objectController.player.maxHealth;
-        breathTxt.text = (int)_objectController.player.curBreath + " / " + _objectController.player.maxBreath;
+        healthTxt.text = (int)GameManager.OBJECT.player.curHealth +
+            " / " + GameManager.OBJECT.player.maxHealth;
+        breathTxt.text = (int)GameManager.OBJECT.player.curBreath +
+            " / " + GameManager.OBJECT.player.maxBreath;
 
-        healthSlider.maxValue = _objectController.player.maxHealth;
-        breathSlider.maxValue = _objectController.player.maxBreath;
-        experienceSlider.maxValue = _objectController.player.maxExperience;
+        healthSlider.maxValue = GameManager.OBJECT.player.maxHealth;
+        breathSlider.maxValue = GameManager.OBJECT.player.maxBreath;
+        experienceSlider.maxValue = GameManager.OBJECT.player.maxExperience;
 
-        healthSlider.value = _objectController.player.curHealth;
-        breathSlider.value = _objectController.player.curBreath;
-        experienceSlider.value = _objectController.player.curExperience;
+        healthSlider.value = GameManager.OBJECT.player.curHealth;
+        breathSlider.value = GameManager.OBJECT.player.curBreath;
+        experienceSlider.value = GameManager.OBJECT.player.curExperience;
     }
 
     private void OnEnable()
@@ -67,17 +67,14 @@ public class PlayerUI : MonoBehaviour
 
     public void OnClick()
     {
-        ObjectController _objectController = GameManager.OBJECT;
-        SpawnController _spawnController = GameManager.SPAWN;
-
         if (_gameStartPanel)
         {
-            _spawnController.GameStartSpawnPosition();
+            GameManager.SPAWN.GameStartSpawnPosition();
 
-            healthSlider.value = _objectController.player.maxHealth;
-            breathSlider.value = _objectController.player.maxBreath;
+            healthSlider.value = GameManager.OBJECT.player.maxHealth;
+            breathSlider.value = GameManager.OBJECT.player.maxBreath;
             experienceSlider.value = 0;
-            _objectController.player.isDie = false;
+            GameManager.OBJECT.player.isDie = false;
 
             _gameStartPanel.SetActive(false);
         }
@@ -100,13 +97,11 @@ public class PlayerUI : MonoBehaviour
     }
     private void Lv_Up()
     {
-        ObjectController _objectController = GameManager.OBJECT;
-
-        _objectController.player.curExperience = 0;
-        _objectController.player.PlayerLv++;
+        GameManager.OBJECT.player.curExperience = 0;
+        GameManager.OBJECT.player.PlayerLv++;
         experienceTxt.text = "Lv. " + GameManager.OBJECT.player.PlayerLv;
-        _objectController.player.isLv_up = false;
-        _objectController.player.maxHealth += 2;
+        GameManager.OBJECT.player.isLv_up = false;
+        GameManager.OBJECT.player.maxHealth += 2;
     }
 
     private void Enter()

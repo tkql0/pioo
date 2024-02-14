@@ -8,18 +8,12 @@ public class ObjectPool : MonoBehaviour
     private long _characterSpawnConut = 0;
     private long _weaponSpawnConut = 0;
 
-    [SerializeField]
-    private GameObject Prefab_Player;
-    [SerializeField]
-    private GameObject Prefab_Map;
-    [SerializeField]
-    private GameObject Prefab_Enemy;
-    [SerializeField]
-    private GameObject Prefab_Fish;
-    [SerializeField]
-    private GameObject Prefab_EnemyWapon;
-    [SerializeField]
-    private GameObject Prefab_PlayerWapon;
+    private const string Prefab_Player = "Prefabs/Player";
+    private const string Prefab_Map = "Prefabs/Map";
+    private const string Prefab_Enemy = "Prefabs/Enemy";
+    private const string Prefab_Fish = "Prefabs/Fish";
+    private const string Prefab_EnemyWeapon = "Prefabs/EnemyAttack";
+    private const string Prefab_PlayerWeapon = "Prefabs/PlayerAttack";
 
     public void ObjectSpawnPool()
     {
@@ -48,7 +42,7 @@ public class ObjectPool : MonoBehaviour
         switch (InObjectType)
         {
             case ObjectType.Player:
-                GameObject playerObject = Instantiate(Prefab_Player);
+                GameObject playerObject = Instantiate(GetPrefabObject(Prefab_Player));
 
                 Player player = playerObject.GetComponent<Player>();
                 GameManager.OBJECT.player = player;
@@ -60,7 +54,7 @@ public class ObjectPool : MonoBehaviour
 
                 for (int i = 0; i < maxSize; i++)
                 {
-                    GameObject EnemyObject = Instantiate(Prefab_Enemy, transform);
+                    GameObject EnemyObject = Instantiate(GetPrefabObject(Prefab_Enemy), transform);
 
                     Character character = EnemyObject.GetComponent<Character>();
                     if (GameManager.OBJECT.SetCharacterInfo(character, InObjectType, _characterSpawnConut) == false)
@@ -69,7 +63,7 @@ public class ObjectPool : MonoBehaviour
                     }
 
                     _characterSpawnConut++;
-                    EnemyObject.SetActive(false);
+                    character.SetActiveObject(false);
                 }
                 break;
             case ObjectType.Fish:
@@ -77,7 +71,7 @@ public class ObjectPool : MonoBehaviour
 
                 for (int i = 0; i < maxSize; i++)
                 {
-                    GameObject FishObject = Instantiate(Prefab_Fish, transform);
+                    GameObject FishObject = Instantiate(GetPrefabObject(Prefab_Fish), transform);
 
                     Character character = FishObject.GetComponent<Character>();
                     if (GameManager.OBJECT.SetCharacterInfo(character, InObjectType, _characterSpawnConut) == false)
@@ -86,7 +80,7 @@ public class ObjectPool : MonoBehaviour
                     }
 
                     _characterSpawnConut++;
-                    FishObject.SetActive(false);
+                    character.SetActiveObject(false);
                 }
                 break;
             case ObjectType.Map:
@@ -94,7 +88,7 @@ public class ObjectPool : MonoBehaviour
 
                 for (int i = 0; i < maxSize; i++)
                 {
-                    GameObject MapObject = Instantiate(Prefab_Map);
+                    GameObject MapObject = Instantiate(GetPrefabObject(Prefab_Map));
 
                     Map map = MapObject.GetComponent<Map>();
                     GameManager.OBJECT.mapDataList.Add(_mapSpawnConut, map);
@@ -106,16 +100,16 @@ public class ObjectPool : MonoBehaviour
 
                 for (int i = 0; i < maxSize; i++)
                 {
-                    GameObject AttackObject = Instantiate(Prefab_EnemyWapon, transform);
+                    GameObject AttackObject = Instantiate(GetPrefabObject(Prefab_EnemyWeapon), transform);
 
                     Weapon weapon = AttackObject.GetComponent<Weapon>();
+
                     if (GameManager.OBJECT.SetWeaponInfo(weapon, InObjectType, _weaponSpawnConut) == false)
                     {
                         Debug.Log("Null");
                     }
                     _weaponSpawnConut++;
-
-                    AttackObject.SetActive(false);
+                    weapon.SetActiveObject(false);
                 }
                 break;
             case ObjectType.PlayerWeapon:
@@ -123,18 +117,26 @@ public class ObjectPool : MonoBehaviour
 
                 for (int i = 0; i < maxSize; i++)
                 {
-                    GameObject AttackObject = Instantiate(Prefab_PlayerWapon, transform);
+                    GameObject AttackObject = Instantiate(GetPrefabObject(Prefab_PlayerWeapon), transform);
 
                     Weapon weapon = AttackObject.GetComponent<Weapon>();
+
                     if (GameManager.OBJECT.SetWeaponInfo(weapon, InObjectType, _weaponSpawnConut) == false)
                     {
                         Debug.Log("Null");
                     }
                     _weaponSpawnConut++;
 
-                    AttackObject.SetActive(false);
+                    weapon.SetActiveObject(false);
                 }
                 break;
         }
+    }
+
+    public GameObject GetPrefabObject(string InPrefabObject)
+    {
+        GameObject prefabObject = Resources.Load<GameObject>(InPrefabObject);
+
+        return prefabObject;
     }
 }

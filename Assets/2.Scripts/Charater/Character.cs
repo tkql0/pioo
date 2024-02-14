@@ -29,34 +29,15 @@ public class Character : MonoBehaviour
     public bool isDie;
     public bool isDamage;
 
-    public const string Fish = "Fish_exp";
-    public const string Player = "Player";
-    public const string Enemy = "Enemy";
-    public const string Enemy_Attack = "Enemy_Attack";
-    public const string Player_Attack = "Player_Attack";
-    public Vector2 _leftPosition => new Vector2(-1, 1);
-    public Vector2 _rightPosition => new Vector2(1, 1);
-
-    private void Update()
-    {
-        
-    }
-
-    private void OnEnable()
-    {
-
-    }
-
     public virtual void Move()
     {
-        if (!gameObject.activeSelf)
+        if (isActive == false)
             return;
 
-        int nextMove = Random.Range(-1, 2);
-        transform.localScale = nextMove <= 0 ? _leftPosition : _rightPosition;
+        int nextMove = GetRandomPosition(Left_Position, Right_Position);
+        float speed = GetRandomSpeed(Min_Speed, Max_Speed);
 
-        float speed = Random.Range(0.5f, 5f);
-        rigid.velocity = new Vector2(nextMove * speed, rigid.velocity.y);
+        SetNextMove(nextMove, speed);
     }
 
     public IEnumerator OnDamage(SpriteRenderer InSprite)
@@ -70,18 +51,26 @@ public class Character : MonoBehaviour
         isDamage = false;
     }
 
-    public void Die(Slider InHealthSlider)
+    public void Die(float curHealth)
     {
-        if (InHealthSlider.value <= 0)
+        if (curHealth <= 0)
         {
             isDie = true;
 
-            gameObject.SetActive(false);
+            SetActiveObject(false);
             return;
         }
         else
             isDie = false;
     }
+    public IEnumerator MoveDelay(float InMinDelayTime, float InMaxDelayTime)
+    {
+        Move();
+        float next_MoveTime = GetRandomDelayTime(InMinDelayTime, InMaxDelayTime);
+        yield return new WaitForSeconds(next_MoveTime);
+        StartCoroutine(MoveDelay(InMinDelayTime, InMaxDelayTime));
+    }
+
     public void SetActiveObject(bool InIsActive)
     {
         characterObject?.SetActive(InIsActive);
@@ -92,4 +81,38 @@ public class Character : MonoBehaviour
     public Vector2 characterPosition => characterObject.transform.position;
 
     public void SetKey(ObjectType InType) => key = InType;
+    public void SetSpawnNumber(long InNumber) => mySpawnNumber = InNumber;
+    public int GetRandomPosition(int InLeft_Position, int InRight_Position)
+    {
+        return Random.Range(InLeft_Position, InRight_Position);
+    }
+    public float GetRandomSpeed(float InMin_Speed, float InMax_Speed)
+    {
+        return Random.Range(InMin_Speed, InMax_Speed);
+    }
+
+    public float GetRandomDelayTime(float InMinDelayTime, float InMaxDelayTime)
+    {
+        return Random.Range(InMinDelayTime, InMaxDelayTime);
+    }
+
+    public void SetNextMove(int InNextPostion, float InNextSpeed)
+    {
+        transform.localScale = InNextPostion <= 0 ? _leftPosition : _rightPosition;
+        rigid.velocity = new Vector2(InNextPostion * InNextSpeed, rigid.velocity.y);
+    }
+
+    public const float Max_Speed = 5f;
+    public const float Min_Speed = 0.5f;
+
+    public const int Left_Position = -1;
+    public const int Right_Position = 2;
+    public Vector2 _leftPosition => new Vector2(-1, 1);
+    public Vector2 _rightPosition => new Vector2(1, 1);
+
+    public const string Fish = "Fish_exp";
+    public const string Player = "Player";
+    public const string Enemy = "Enemy";
+    public const string Enemy_Attack = "Enemy_Attack";
+    public const string Player_Attack = "Player_Attack";
 }

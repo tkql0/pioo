@@ -6,7 +6,7 @@ public class MapController
 {
     public void OnEnable()
     {
-        GameManager.SPAWN._objectPool.SpawnMapPool();
+        GameManager.SPAWN.objectPool.SpawnMapPool();
     }
 
     public void OnDisable()

@@ -25,7 +25,7 @@ public class Weapon : MonoBehaviour
     private void Update()
     {
         if (key == ObjectType.PlayerWeapon && weaponPosition.y < 0)
-            gameObject.SetActive(false);
+            SetActiveObject(false);
 
         transform.right = rigid.velocity;
 
@@ -42,7 +42,7 @@ public class Weapon : MonoBehaviour
 
         if (diffY > 30)
         {
-            gameObject.SetActive(false);
+            SetActiveObject(false);
         }
     }
 
@@ -51,11 +51,11 @@ public class Weapon : MonoBehaviour
         GameObject target = collision.gameObject;
 
         if (target.CompareTag(Enemy) && key == ObjectType.PlayerWeapon)
-            gameObject.SetActive(false);
-
+            SetActiveObject(false);
         else if (target.CompareTag(Player) && key == ObjectType.EnemyWeapon)
-            gameObject.SetActive(false);
+            SetActiveObject(false);
     }
+
     public void SetActiveObject(bool InIsActive)
     {
         weaponObject?.SetActive(InIsActive);
@@ -64,4 +64,7 @@ public class Weapon : MonoBehaviour
     public bool isActive => weaponObject.activeSelf;
 
     public Vector2 weaponPosition => weaponObject.transform.position;
+
+    public void SetKey(ObjectType InType) => key = InType;
+    public void SetSpawnNumber(long InNumber) => mySpawnNumber = InNumber;
 }

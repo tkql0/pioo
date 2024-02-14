@@ -17,6 +17,7 @@ public class Player : Character
 
     private bool _isMove;
     private bool _isJump;
+    private bool _isBreath;
     public bool isLv_up;
 
     public float maxBreath;
@@ -26,6 +27,7 @@ public class Player : Character
     public float curExperience;
 
     public int PlayerLv = 1;
+    private float _jumpPower = 0;
 
     private float _attackPower = 0.0f;
     private float _attackMinPower = 5.0f;
@@ -34,6 +36,8 @@ public class Player : Character
 
     private const string Horizontal = "Horizontal";
     private const string Vertical = "Vertical";
+
+    public float gravityMaxPointY = 0;
 
     public void OnEnable()
     {
@@ -57,15 +61,18 @@ public class Player : Character
 
     private void Update()
     {
-        LookAtMouse();
-        Move();
+        if (isDie == false)
+        {
+            LookAtMouse();
+            Move();
+        }
     }
 
     private void FixedUpdate()
     {
         if (isDie == false && _isMove)
         {
-            rigid.gravityScale = 0.2f;
+            rigid.gravityScale = 0.1f;
             rigid.AddForce(_inputVector.normalized, ForceMode2D.Impulse);
 
             if (rigid.velocity.x > moveMaxspeed)
@@ -82,57 +89,58 @@ public class Player : Character
 
     public override void Move()
     {
-        if (isDie == false)
+        _inputVector.x = Input.GetAxisRaw(Horizontal);
+        _inputVector.y = Input.GetAxisRaw(Vertical);
+
+        if (_inputVector.x != 0)
+            sprite.flipX = _inputVector.x > 0;
+
+        float gravityPointY = characterPosition.y - _gravityPoint.y;
+
+        _isBreath = Mathf.Abs(gravityPointY) < 1 ? true : false;
+        _isMove = gravityPointY <= 0 ? true : false;
+
+        if (gravityMaxPointY < gravityPointY)
         {
-            _inputVector.x = Input.GetAxisRaw(Horizontal);
-            _inputVector.y = Input.GetAxisRaw(Vertical);
+            gravityMaxPointY = gravityPointY + 2;
+        }
 
-            if (_inputVector.x != 0)
-                sprite.flipX = _inputVector.x > 0;
+        if (_isMove)
+        {
+            _isJump = false;
 
-            float gravityPointY = transform.position.y - _gravityPoint.y;
-            _isMove = gravityPointY <= 0 ? true : false;
+            rigid.gravityScale = 0.1f;
+            gravityMaxPointY = 0f;
 
-            if (_isMove)
+            if (!_isBreath)
             {
-                _isMove = true;
-                _isJump = false;
-                rigid.gravityScale = 0.2f;
-
                 if (curBreath > 0.0f)
                     curBreath -= Time.deltaTime;
                 else
                     curHealth -= Time.deltaTime;
             }
-            else if (!_isMove && Input.GetKey(KeyCode.LeftShift))
-            {
-                _isMove = false;
-                rigid.gravityScale = 4f;
-                curBreath = maxBreath;
-                if (curHealth < maxHealth)
-                    curHealth += Time.deltaTime;
+        }
+        else
+        {
+            curBreath = maxBreath;
+            if (curHealth < maxHealth)
+                curHealth += Time.deltaTime;
 
-                if (!_isJump)
-                {
-                    rigid.AddForce(Vector2.up * rigid.velocity.y, ForceMode2D.Impulse);
-                    _isJump = true;
-                }
-            }
-            else if (!_isMove && !Input.GetKey(KeyCode.LeftShift))
+            if (!_isJump && Input.GetKey(KeyCode.LeftShift))
             {
-                rigid.gravityScale = 7f;
-                curBreath = maxBreath;
-                if (curHealth < maxHealth)
-                    curHealth += Time.deltaTime;
+                rigid.gravityScale = gravityMaxPointY;
+                rigid.AddForce(Vector2.up * (rigid.velocity.y + _jumpPower), ForceMode2D.Impulse);
+                _isJump = true;
+            }
+            else if(!_isJump && !Input.GetKey(KeyCode.LeftShift))
+            {
+                player.transform.position = new Vector2(characterPosition.x, 0);
             }
         }
     }
 
     private void Attack(Vector2 InDirection)
     {
-        SpawnController _spawnController = GameManager.SPAWN;
-        ObjectController _objectController = GameManager.OBJECT;
-
         attackPowerSlider.maxValue = _attackMinPower;
 
         if (Input.GetMouseButton(0))
@@ -149,7 +157,8 @@ public class Player : Character
             if (_attackPower > _attackMaxPower)
                 _attackPower = _attackMaxPower;
 
-            GameObject Attack = _spawnController.GetObjectSpawn(characterPosition, weaponSpawnKey, ObjectType.PlayerWeapon);
+            GameObject Attack = GameManager.SPAWN.GetObjectSpawn
+                (characterPosition, weaponSpawnKey, ObjectType.PlayerWeapon);
             Attack.GetComponent<Rigidbody2D>().velocity = InDirection * _attackPower;
 
             _attackPower = 0.0f;

@@ -4,25 +4,18 @@ using UnityEngine;
 
 public class SpawnController
 {
-    public ObjectPool _objectPool = null;
-    
-    private const int Left_MapSpawn = -1;
-    private const int Right_MapSpawn = 1;
-
-    private const int Map_Distance = 40;
-
-    private const string objectPool = "Prefabs/ObjectPool";
+    public ObjectPool objectPool = null;
 
     public void OnEnable()
     {
-        var load = Resources.Load<ObjectPool>(objectPool);
+        var load = Resources.Load<ObjectPool>(_objectPoolPrefab);
 
         if (load == null)
             return;
 
-        _objectPool = GameObject.Instantiate(load);
+        objectPool = GameObject.Instantiate(load);
 
-        _objectPool.ObjectSpawnPool();
+        objectPool.ObjectSpawnPool();
     }
 
     public void OnDisable()
@@ -123,4 +116,11 @@ public class SpawnController
             }
         }
     }
+
+    private const int Left_MapSpawn = -1;
+    private const int Right_MapSpawn = 1;
+
+    private const int Map_Distance = 40;
+
+    private const string _objectPoolPrefab = "Prefabs/ObjectPool";
 }

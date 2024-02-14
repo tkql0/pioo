@@ -4,15 +4,6 @@ using UnityEngine;
 
 public class UIController
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public PlayerUI playerUI = null;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }

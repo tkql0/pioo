@@ -37,7 +37,7 @@ public class EnemyCharacter : Character
         _weaponMaxCount = Random.Range(1, 5);
         _weaponCurCount = _weaponMaxCount;
 
-        StartCoroutine(MoveDelay());
+        StartCoroutine(MoveDelay(Min_DelayTime, Max_DelayTime));
         key = ObjectType.Enemy;
 
         maxHealth = 20;
@@ -60,36 +60,12 @@ public class EnemyCharacter : Character
     {
         _healthSlider.value = curHealth;
 
-        Die(_healthSlider);
+        Die(curHealth);
     }
 
     private void FixedUpdate()
     {
         ObjectScan(_scanObject);
-    }
-
-    //public override void Move()
-    //{
-    //    base.Move();
-
-    //    //SetScanObjectPosition(nextMove <= 0 ? _leftPosition : _rightPosition);
-    //}
-
-    //private void SetScanObjectPosition(Vector2 InPosition)
-    //{
-    //    if (_scanObject == null)
-    //        return;
-
-    //    _scanObject.transform.position = InPosition;
-    //}
-
-    private IEnumerator MoveDelay()
-    {
-        Move();
-        float next_MoveTime = Random.Range(1, 6f);
-        yield return new WaitForSeconds(next_MoveTime);
-
-        StartCoroutine(MoveDelay());
     }
 
     private void HitTracking(Vector2 InTargetPosition)
@@ -193,4 +169,7 @@ public class EnemyCharacter : Character
         }
         return target;
     }
+
+    private const float Min_DelayTime = 1f;
+    private const float Max_DelayTime = 6f;
 }

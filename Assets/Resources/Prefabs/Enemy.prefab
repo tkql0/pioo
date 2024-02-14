@@ -641,7 +641,7 @@ MonoBehaviour:
   key: 0
   targetSpawnNumber: 0
   mySpawnNumber: 0
-  weaponPower: 7
+  weaponPower: 10
   weaponSpawnKey: -1
   characterObject: {fileID: 0}
   rigid: {fileID: 0}

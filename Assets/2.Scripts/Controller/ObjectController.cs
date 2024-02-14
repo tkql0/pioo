@@ -124,7 +124,7 @@ public class ObjectController
 
         characterDataList.Add(InSpawnNumber, InCharacter);
         InCharacter.SetKey(Inkey);
-        InCharacter.mySpawnNumber = InSpawnNumber;
+        InCharacter.SetSpawnNumber(InSpawnNumber);
 
         return true;
     }
@@ -135,8 +135,8 @@ public class ObjectController
             return false;
 
         weaponDataList.Add(InSpawnNumber, InWeapon);
-        InWeapon.key = Inkey;
-        InWeapon.mySpawnNumber = InSpawnNumber;
+        InWeapon.SetKey(Inkey);
+        InWeapon.SetSpawnNumber(InSpawnNumber);
 
         return true;
     }

@@ -16,7 +16,12 @@ public class EnemyCharacter : Character
     private Slider _healthSlider;
 
     [SerializeField]
-    private float _scanRange = 2;
+    private float _scanRange = 0.8f;
+
+    public int _weaponCurCount;
+    private int _weaponMaxCount;
+
+    private Vector2 _scanPosition => _scanObject.transform.position;
 
     private void Awake()
     {
@@ -29,6 +34,9 @@ public class EnemyCharacter : Character
 
     private void OnEnable()
     {
+        _weaponMaxCount = Random.Range(1, 5);
+        _weaponCurCount = _weaponMaxCount;
+
         StartCoroutine(MoveDelay());
         key = ObjectType.Enemy;
 
@@ -60,17 +68,20 @@ public class EnemyCharacter : Character
         ObjectScan(_scanObject);
     }
 
-    public override void Move()
-    {
-        base.Move();
+    //public override void Move()
+    //{
+    //    base.Move();
 
-        if (sprite.flipX == true)
-            _scanObject.transform.position = new Vector2(CharacterPosition.x - 2,
-                _scanObject.transform.position.y);
-        else
-            _scanObject.transform.position = new Vector2(CharacterPosition.x + 2,
-                _scanObject.transform.position.y);
-    }
+    //    //SetScanObjectPosition(nextMove <= 0 ? _leftPosition : _rightPosition);
+    //}
+
+    //private void SetScanObjectPosition(Vector2 InPosition)
+    //{
+    //    if (_scanObject == null)
+    //        return;
+
+    //    _scanObject.transform.position = InPosition;
+    //}
 
     private IEnumerator MoveDelay()
     {
@@ -83,18 +94,9 @@ public class EnemyCharacter : Character
 
     private void HitTracking(Vector2 InTargetPosition)
     {
-        float DirX = InTargetPosition.x - CharacterPosition.x;
+        float DirX = InTargetPosition.x - _scanPosition.x;
 
-        if (DirX != 0)
-            sprite.flipX = DirX < 0;
-
-        if (sprite.flipX == true)
-            _scanObject.transform.position = new Vector2(CharacterPosition.x - 2,
-                _scanObject.transform.position.y);
-        else
-            _scanObject.transform.position = new Vector2(CharacterPosition.x + 2,
-                _scanObject.transform.position.y);
-
+        transform.localScale = DirX <= 0 ? _leftPosition : _rightPosition;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -113,6 +115,11 @@ public class EnemyCharacter : Character
                 StartCoroutine(OnDamage(sprite));
             }
         }
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.DrawSphere(_scanObject.transform.position, _scanRange);
     }
 
     private void ObjectScan(GameObject InEnemyScan)
@@ -144,11 +151,27 @@ public class EnemyCharacter : Character
 
     private void Attack(Vector2 InTargetPosition)
     {
-        Vector2 dir = InTargetPosition - CharacterPosition;
+        if (_weaponCurCount == 0)
+        {
+            StartCoroutine(ReLoad());
+            return;
+        }
+        Vector2 dir = InTargetPosition - characterPosition;
         dir = dir.normalized;
 
-        GameObject Attack = GameManager.SPAWN.GetObjectSpawn(CharacterPosition, -1, ObjectType.EnemyWeapon);
-        Attack.GetComponent<Rigidbody2D>().velocity = dir * 10;
+        GameObject Attack = GameManager.SPAWN.GetObjectSpawn(characterPosition, weaponSpawnKey, ObjectType.EnemyWeapon);
+        Attack.GetComponent<Rigidbody2D>().velocity = dir * weaponPower;
+        _weaponCurCount--;
+    }
+
+    private IEnumerator ReLoad()
+    {
+        float reLoadTime = _weaponMaxCount * 2;
+        sprite.color = Color.green;
+
+        yield return new WaitForSeconds(reLoadTime);
+        _weaponCurCount = _weaponMaxCount;
+        sprite.color = Color.white;
     }
 
     private Transform GetNearest()
@@ -160,7 +183,7 @@ public class EnemyCharacter : Character
         {
             Vector2 targetPosition = targets.transform.position;
 
-            float curdiff = Vector2.Distance(CharacterPosition, targetPosition);
+            float curdiff = Vector2.Distance(characterPosition, targetPosition);
 
             if (curdiff < diff)
             {

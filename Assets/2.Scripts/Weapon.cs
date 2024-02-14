@@ -24,7 +24,7 @@ public class Weapon : MonoBehaviour
 
     private void Update()
     {
-        if (key == ObjectType.PlayerWeapon && transform.position.y < 0)
+        if (key == ObjectType.PlayerWeapon && weaponPosition.y < 0)
             gameObject.SetActive(false);
 
         transform.right = rigid.velocity;
@@ -34,10 +34,9 @@ public class Weapon : MonoBehaviour
 
     private void WeaponGravity()
     {
-        Vector2 myPos = transform.position;
         Vector2 gravityPoint = new Vector3(0, 0);
 
-        float DirY = myPos.y - gravityPoint.y;
+        float DirY = weaponPosition.y - gravityPoint.y;
         float diffY = Mathf.Abs(DirY);
         rigid.drag = DirY <= 0 ? 3 : 0.7f;
 
@@ -63,4 +62,6 @@ public class Weapon : MonoBehaviour
     }
 
     public bool isActive => weaponObject.activeSelf;
+
+    public Vector2 weaponPosition => weaponObject.transform.position;
 }

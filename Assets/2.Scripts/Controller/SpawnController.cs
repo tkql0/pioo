@@ -36,7 +36,7 @@ public class SpawnController
 
         foreach (KeyValuePair<long, Map> outMapData in GameManager.OBJECT.mapDataList)
         {
-            outMapData.Value.transform.position = new Vector2(GameManager.OBJECT.player.CharacterPosition.x + (mapSpawnCount * Map_Distance), 0);
+            outMapData.Value.transform.position = new Vector2(GameManager.OBJECT.player.characterPosition.x + (mapSpawnCount * Map_Distance), 0);
 
             if (mapSpawnCount == Right_MapSpawn)
                 mapSpawnCount = Left_MapSpawn;
@@ -111,7 +111,7 @@ public class SpawnController
 
         foreach (KeyValuePair<long, Character> outChatacterData in GameManager.OBJECT.characterDataList)
         {
-            myPosition = outChatacterData.Value.CharacterPosition;
+            myPosition = outChatacterData.Value.characterPosition;
 
             distanceX = InTargetPosition.x - myPosition.x;
             differenceX = Mathf.Abs(distanceX);

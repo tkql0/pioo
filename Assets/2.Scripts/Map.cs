@@ -7,7 +7,6 @@ public class Map : MonoBehaviour
     public GameObject mapObject;
 
     public ObjectType key;
-
     public long mySpawnNumber;
 
     public long enemyMaxSize;
@@ -36,7 +35,7 @@ public class Map : MonoBehaviour
 
     private void MapRelocation()
     {
-        Vector2 targetPosition = GameManager.OBJECT.player.CharacterPosition;
+        Vector2 targetPosition = GameManager.OBJECT.player.characterPosition;
 
         float DistanceX = targetPosition.x - MapPosition.x;
         float differenceX = Mathf.Abs(DistanceX);

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UI : MonoBehaviour
+public class PlayerUI : MonoBehaviour
 {
     [SerializeField]
     private GameObject _gameStartPanel;

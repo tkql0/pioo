@@ -28,8 +28,8 @@ public class Player : Character
     public int PlayerLv = 1;
 
     private float _attackPower = 0.0f;
-    private float _attackMinPower = 10.0f;
-    private float _attackMaxPower = 20.0f;
+    private float _attackMinPower = 5.0f;
+    private float _attackMaxPower = 10.0f;
 
 
     private const string Horizontal = "Horizontal";
@@ -48,7 +48,7 @@ public class Player : Character
         curHealth = maxHealth;
         curBreath = maxBreath;
 
-        moveMaxspeed = 20f;
+        moveMaxspeed = 10f;
         isDie = false;
         _isMove = false;
         _isJump = false;
@@ -149,7 +149,7 @@ public class Player : Character
             if (_attackPower > _attackMaxPower)
                 _attackPower = _attackMaxPower;
 
-            GameObject Attack = _spawnController.GetObjectSpawn(CharacterPosition, -1, ObjectType.PlayerWeapon);
+            GameObject Attack = _spawnController.GetObjectSpawn(characterPosition, weaponSpawnKey, ObjectType.PlayerWeapon);
             Attack.GetComponent<Rigidbody2D>().velocity = InDirection * _attackPower;
 
             _attackPower = 0.0f;

@@ -10,6 +10,8 @@ public class Character : MonoBehaviour
     public ObjectType key;
     public long targetSpawnNumber;
     public long mySpawnNumber;
+    public long weaponPower = 10;
+    public long weaponSpawnKey = -1;
 
     public GameObject characterObject;
 
@@ -32,6 +34,8 @@ public class Character : MonoBehaviour
     public const string Enemy = "Enemy";
     public const string Enemy_Attack = "Enemy_Attack";
     public const string Player_Attack = "Player_Attack";
+    public Vector2 _leftPosition => new Vector2(-1, 1);
+    public Vector2 _rightPosition => new Vector2(1, 1);
 
     private void Update()
     {
@@ -49,8 +53,7 @@ public class Character : MonoBehaviour
             return;
 
         int nextMove = Random.Range(-1, 2);
-        if (nextMove != 0)
-            sprite.flipX = nextMove < 0;
+        transform.localScale = nextMove <= 0 ? _leftPosition : _rightPosition;
 
         float speed = Random.Range(0.5f, 5f);
         rigid.velocity = new Vector2(nextMove * speed, rigid.velocity.y);
@@ -86,5 +89,7 @@ public class Character : MonoBehaviour
 
     public bool isActive => characterObject.activeSelf;
 
-    public Vector2 CharacterPosition => characterObject.transform.position;
+    public Vector2 characterPosition => characterObject.transform.position;
+
+    public void SetKey(ObjectType InType) => key = InType;
 }

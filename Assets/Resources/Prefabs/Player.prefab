@@ -67,7 +67,7 @@ Transform:
   m_GameObject: {fileID: 5583603722423035446}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3916610530586496527}
@@ -179,19 +179,23 @@ MonoBehaviour:
   targetMask:
     serializedVersion: 2
     m_Bits: 128
+  key: 0
+  targetSpawnNumber: 0
+  mySpawnNumber: 0
+  weaponPower: 7
+  weaponSpawnKey: -1
+  characterObject: {fileID: 0}
   rigid: {fileID: 0}
   sprite: {fileID: 0}
-  Damage: 5
-  Rate_Of_Fire: 0
-  CoolDown_Time: 0
-  maxHealth: 10
+  damage: 5
+  coolTimeMax: 0
+  coolTime: 0
+  maxHealth: 100
   curHealth: 0
   isDie: 0
   isDamage: 0
   player: {fileID: 0}
   attackPowerSlider: {fileID: 7512124684891448307}
-  key: 0
-  spawnNumber: 0
   moveMaxspeed: 20
   cam: {fileID: 0}
   isLv_up: 0

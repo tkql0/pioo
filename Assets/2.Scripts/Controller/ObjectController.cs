@@ -123,7 +123,7 @@ public class ObjectController
             return false;
 
         characterDataList.Add(InSpawnNumber, InCharacter);
-        InCharacter.key = Inkey;
+        InCharacter.SetKey(Inkey);
         InCharacter.mySpawnNumber = InSpawnNumber;
 
         return true;

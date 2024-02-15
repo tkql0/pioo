@@ -196,12 +196,14 @@ MonoBehaviour:
   isDamage: 0
   player: {fileID: 0}
   attackPowerSlider: {fileID: 7512124684891448307}
-  moveMaxspeed: 20
+  moveMaxSpeed: 0
+  moveSpeedX: 0
+  moveSpeedY: 0
   cam: {fileID: 0}
   isLv_up: 0
   maxBreath: 10
   curBreath: 0
-  maxExperience: 100
+  maxExperience: 10
   curExperience: 0
   PlayerLv: 1
   gravityMaxPointY: 0

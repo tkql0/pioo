@@ -4,6 +4,11 @@ using UnityEngine;
 
 public class UIController
 {
-    public PlayerUI playerUI = null;
+    public UIObject uiObject = null;
 
+    public void OnEnable()
+    {
+        uiObject = GameObject.FindObjectOfType<UIObject>();
+
+    }
 }

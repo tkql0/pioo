@@ -34,16 +34,16 @@ public class EnemyCharacter : Character
 
     private void OnEnable()
     {
-        _weaponMaxCount = Random.Range(1, 5);
+        _weaponMaxCount = GetRandomCount(_Min_Weapon_Count, _Max_Weapon_Count);
         _weaponCurCount = _weaponMaxCount;
 
-        StartCoroutine(MoveDelay(Min_DelayTime, Max_DelayTime));
-        key = ObjectType.Enemy;
+        StartCoroutine(MoveDelay(_Min_DelayTime, _Max_DelayTime));
+        SetKey(ObjectType.Enemy);
 
         maxHealth = 20;
         isDie = false;
         isDamage = false;
-        sprite.color = Color.white;
+        SetColor(sprite, Color.white);
 
         curHealth = maxHealth;
         _healthSlider.maxValue = maxHealth;
@@ -84,18 +84,13 @@ public class EnemyCharacter : Character
 
             HitTracking(_player);
 
-            if (!isDamage)
+            if (isDamage == false)
             {
                 isDamage = true;
-                curHealth = curHealth - damage;
+                curHealth -= damage;
                 StartCoroutine(OnDamage(sprite));
             }
         }
-    }
-
-    private void OnDrawGizmosSelected()
-    {
-        Gizmos.DrawSphere(_scanObject.transform.position, _scanRange);
     }
 
     private void ObjectScan(GameObject InEnemyScan)
@@ -142,12 +137,15 @@ public class EnemyCharacter : Character
 
     private IEnumerator ReLoad()
     {
-        float reLoadTime = _weaponMaxCount * 2;
-        sprite.color = Color.green;
+        coolTime = 2f;
+
+        float reLoadTime = _weaponMaxCount * coolTime;
+        SetColor(sprite, Color.green);
 
         yield return new WaitForSeconds(reLoadTime);
         _weaponCurCount = _weaponMaxCount;
-        sprite.color = Color.white;
+        SetColor(sprite, Color.white);
+        // 색이 겹치면 금방 끝나니까 오브젝트로 표현해야겠다
     }
 
     private Transform GetNearest()
@@ -170,6 +168,9 @@ public class EnemyCharacter : Character
         return target;
     }
 
-    private const float Min_DelayTime = 1f;
-    private const float Max_DelayTime = 6f;
+    private const float _Min_DelayTime = 1f;
+    private const float _Max_DelayTime = 6f;
+
+    private const int _Max_Weapon_Count = 5;
+    private const int _Min_Weapon_Count = 1;
 }

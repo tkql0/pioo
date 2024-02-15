@@ -24,7 +24,7 @@ public class FollowCamera : MonoBehaviour
             return;
 
         _camPos = new Vector3(0, 0, -20f);
-        _speed = _objectController.player.moveMaxspeed;
+        _speed = _objectController.player.moveMaxSpeed;
         _player = _objectController.player.gameObject;
 
         _objectController.player.cam = Camera.main;

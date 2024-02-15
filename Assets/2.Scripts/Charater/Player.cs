@@ -9,7 +9,9 @@ public class Player : Character
     public Slider attackPowerSlider;
 
     private Vector2 _inputVector;
-    public float moveMaxspeed;
+    public float moveMaxSpeed;
+    public float moveSpeedX;
+    public float moveSpeedY;
 
     private Vector2 _gravityPoint;
 
@@ -18,7 +20,9 @@ public class Player : Character
     private bool _isMove;
     private bool _isJump;
     private bool _isBreath;
+    private bool _isSwimming;
     public bool isLv_up;
+    private bool _isEat;
 
     public float maxBreath;
     public float curBreath;
@@ -27,12 +31,15 @@ public class Player : Character
     public float curExperience;
 
     public int PlayerLv = 1;
+
+    public int fishItemCount = 0;
+    public int fishItemMaxCount = 10;
+
     private float _jumpPower = 0;
 
     private float _attackPower = 0.0f;
     private float _attackMinPower = 5.0f;
     private float _attackMaxPower = 10.0f;
-
 
     private const string Horizontal = "Horizontal";
     private const string Vertical = "Vertical";
@@ -52,7 +59,7 @@ public class Player : Character
         curHealth = maxHealth;
         curBreath = maxBreath;
 
-        moveMaxspeed = 10f;
+        moveMaxSpeed = 10f;
         isDie = false;
         _isMove = false;
         _isJump = false;
@@ -63,28 +70,44 @@ public class Player : Character
     {
         if (isDie == false)
         {
+            if(Input.GetKey(KeyCode.F) && fishItemCount > 0 && !_isEat)
+                StartCoroutine(EatDelay());
             LookAtMouse();
             Move();
         }
+    }
+    private IEnumerator EatDelay()
+    {
+        _isEat = true;
+           curExperience += 5;
+        fishItemCount--;
+        yield return new WaitForSeconds(1f);
+        // 먹는 모습 활성화 시간
+        _isEat = false;
     }
 
     private void FixedUpdate()
     {
         if (isDie == false && _isMove)
         {
+            moveSpeedX = rigid.velocity.x / 2;
+            moveSpeedY = rigid.velocity.y / 2;
+
             rigid.gravityScale = 0.1f;
-            rigid.AddForce(_inputVector.normalized, ForceMode2D.Impulse);
+            rigid.AddForce((_inputVector).normalized, ForceMode2D.Impulse);
 
-            if (rigid.velocity.x > moveMaxspeed)
-                rigid.velocity = new Vector2(moveMaxspeed, rigid.velocity.y);
-            else if (rigid.velocity.x < moveMaxspeed * (-1))
-                rigid.velocity = new Vector2(moveMaxspeed * (-1), rigid.velocity.y);
+            if (moveSpeedX > moveMaxSpeed)
+                rigid.velocity = new Vector2(moveMaxSpeed, moveSpeedY);
+            else if (moveSpeedX < moveMaxSpeed * (-1))
+                rigid.velocity = new Vector2(moveMaxSpeed * (-1), moveSpeedY);
 
-            if (rigid.velocity.y > moveMaxspeed)
-                rigid.velocity = new Vector2(rigid.velocity.x, moveMaxspeed);
-            else if (rigid.velocity.y < moveMaxspeed * (-1))
-                rigid.velocity = new Vector2(rigid.velocity.x, moveMaxspeed * (-1));
+            if (moveSpeedY > moveMaxSpeed)
+                rigid.velocity = new Vector2(moveSpeedX, moveMaxSpeed);
+            else if (moveSpeedY < moveMaxSpeed * (-1))
+                rigid.velocity = new Vector2(moveSpeedX, moveMaxSpeed * (-1));
         }
+        // 속도 줄여야됨
+        // shift를 누르면 속도 올라가게
     }
 
     public override void Move()
@@ -105,6 +128,11 @@ public class Player : Character
             gravityMaxPointY = gravityPointY + 2;
         }
 
+        if (Input.GetKey(KeyCode.LeftShift) && !_isBreath)
+            _isSwimming = true;
+        else if(!Input.GetKey(KeyCode.LeftShift))
+            _isSwimming = false;
+
         if (_isMove)
         {
             _isJump = false;
@@ -121,21 +149,25 @@ public class Player : Character
             }
         }
         else
-        {
-            curBreath = maxBreath;
-            if (curHealth < maxHealth)
-                curHealth += Time.deltaTime;
+            Jump();
+    }
 
-            if (!_isJump && Input.GetKey(KeyCode.LeftShift))
+    private void Jump()
+    {
+        curBreath = maxBreath;
+        if (curHealth < maxHealth)
+            curHealth += Time.deltaTime;
+
+        if (!_isJump)
+        {
+            if (_isSwimming)
             {
                 rigid.gravityScale = gravityMaxPointY;
-                rigid.AddForce(Vector2.up * (rigid.velocity.y + _jumpPower), ForceMode2D.Impulse);
+                rigid.AddForce(Vector2.up * (moveSpeedY + _jumpPower), ForceMode2D.Impulse);
                 _isJump = true;
             }
-            else if(!_isJump && !Input.GetKey(KeyCode.LeftShift))
-            {
+            else
                 player.transform.position = new Vector2(characterPosition.x, 0);
-            }
         }
     }
 
@@ -173,7 +205,8 @@ public class Player : Character
     private void LookAtMouse()
     {
         Vector2 mousePos = cam.ScreenToWorldPoint(Input.mousePosition);
-        Vector2 dir = new Vector2(mousePos.x - transform.position.x, mousePos.y - transform.position.y);
+        Vector2 dir = new Vector2(mousePos.x - transform.position.x,
+            mousePos.y - transform.position.y);
         dir = dir.normalized;
 
         Attack(dir);
@@ -183,9 +216,12 @@ public class Player : Character
     {
         if (collision.gameObject.CompareTag(Fish))
         {
-            curExperience += 5;
+            if (fishItemMaxCount < fishItemCount)
+                return;
+            fishItemCount++;
             collision.gameObject.SetActive(false);
         }
+
         if (!isDamage)
         {
             if (collision.gameObject.CompareTag(Enemy_Attack))

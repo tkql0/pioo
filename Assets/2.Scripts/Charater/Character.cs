@@ -40,13 +40,19 @@ public class Character : MonoBehaviour
         SetNextMove(nextMove, speed);
     }
 
+    private void SetNextMove(int InNextPostion, float InNextSpeed)
+    {
+        transform.localScale = InNextPostion <= 0 ? _leftPosition : _rightPosition;
+        rigid.velocity = new Vector2(InNextPostion * InNextSpeed, rigid.velocity.y);
+    }
+
     public IEnumerator OnDamage(SpriteRenderer InSprite)
     {
-        InSprite.color = Color.red;
+        SetColor(InSprite, Color.red);
 
         yield return new WaitForSeconds(0.5f);
 
-        InSprite.color = Color.white;
+        SetColor(InSprite, Color.white);
 
         isDamage = false;
     }
@@ -82,24 +88,27 @@ public class Character : MonoBehaviour
 
     public void SetKey(ObjectType InType) => key = InType;
     public void SetSpawnNumber(long InNumber) => mySpawnNumber = InNumber;
-    public int GetRandomPosition(int InLeft_Position, int InRight_Position)
+
+    public void SetColor(SpriteRenderer InSprite, Color Incolor)
     {
-        return Random.Range(InLeft_Position, InRight_Position);
+        InSprite.color = Incolor;
     }
-    public float GetRandomSpeed(float InMin_Speed, float InMax_Speed)
+    public int GetRandomPosition(int InLeftPosition, int InRightPosition)
     {
-        return Random.Range(InMin_Speed, InMax_Speed);
+        return Random.Range(InLeftPosition, InRightPosition);
+    }
+    public int GetRandomCount(int InMinCount, int InMaxCount)
+    {
+        return Random.Range(InMinCount, InMaxCount);
+    }
+    public float GetRandomSpeed(float InMinSpeed, float InMaxSpeed)
+    {
+        return Random.Range(InMinSpeed, InMaxSpeed);
     }
 
     public float GetRandomDelayTime(float InMinDelayTime, float InMaxDelayTime)
     {
         return Random.Range(InMinDelayTime, InMaxDelayTime);
-    }
-
-    public void SetNextMove(int InNextPostion, float InNextSpeed)
-    {
-        transform.localScale = InNextPostion <= 0 ? _leftPosition : _rightPosition;
-        rigid.velocity = new Vector2(InNextPostion * InNextSpeed, rigid.velocity.y);
     }
 
     public const float Max_Speed = 5f;

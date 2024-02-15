@@ -190,7 +190,7 @@ MonoBehaviour:
   damage: 5
   coolTimeMax: 0
   coolTime: 0
-  maxHealth: 100
+  maxHealth: 5
   curHealth: 0
   isDie: 0
   isDamage: 0
@@ -206,6 +206,8 @@ MonoBehaviour:
   maxExperience: 10
   curExperience: 0
   PlayerLv: 1
+  fishItemCount: 0
+  fishItemMaxCount: 10
   gravityMaxPointY: 0
 --- !u!253 &5942437967893040124
 BuoyancyEffector2D:

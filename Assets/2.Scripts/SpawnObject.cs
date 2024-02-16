@@ -2,18 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ObjectPool : MonoBehaviour
+public class SpawnObject : MonoBehaviour
 {
     private long _mapSpawnConut = 0;
     private long _characterSpawnConut = 0;
     private long _weaponSpawnConut = 0;
-
-    private const string Prefab_Player = "Prefabs/Player";
-    private const string Prefab_Map = "Prefabs/Map";
-    private const string Prefab_Enemy = "Prefabs/Enemy";
-    private const string Prefab_Fish = "Prefabs/Fish";
-    private const string Prefab_EnemyWeapon = "Prefabs/EnemyAttack";
-    private const string Prefab_PlayerWeapon = "Prefabs/PlayerAttack";
 
     public void ObjectSpawnPool()
     {
@@ -139,4 +132,11 @@ public class ObjectPool : MonoBehaviour
 
         return prefabObject;
     }
+
+    private const string Prefab_Player = "Prefabs/Player";
+    private const string Prefab_Map = "Prefabs/Map";
+    private const string Prefab_Enemy = "Prefabs/Enemy";
+    private const string Prefab_Fish = "Prefabs/Fish";
+    private const string Prefab_EnemyWeapon = "Prefabs/EnemyAttack";
+    private const string Prefab_PlayerWeapon = "Prefabs/PlayerAttack";
 }

@@ -20,18 +20,7 @@ public class ObjectController
     public Dictionary<long, Map> mapDataList = new Dictionary<long, Map>();
     public Dictionary<long, Weapon> weaponDataList = new Dictionary<long, Weapon>();
 
-    private const int Spawn_Position_X_Min = -20;
-    private const int Spawn_Position_X_Max = 21;
-
-    private const int Spawn_Position_Y_Min = -3;
-    private const int Spawn_Position_Y_Max = -40;
-
     public void OnEnable()
-    {
-
-    }
-
-    public void OnDisable()
     {
 
     }
@@ -140,4 +129,10 @@ public class ObjectController
 
         return true;
     }
+
+    private const int Spawn_Position_X_Min = -20;
+    private const int Spawn_Position_X_Max = 21;
+
+    private const int Spawn_Position_Y_Min = -3;
+    private const int Spawn_Position_Y_Max = -40;
 }

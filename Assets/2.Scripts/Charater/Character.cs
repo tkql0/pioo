@@ -6,17 +6,16 @@ using UnityEngine.UI;
 public class Character : MonoBehaviour
 {
     public LayerMask targetMask;
+    public Rigidbody2D rigid;
+    public SpriteRenderer sprite;
 
     public ObjectType key;
     public long targetSpawnNumber;
     public long mySpawnNumber;
-    public long weaponPower = 10;
-    public long weaponSpawnKey = -1;
-
     public GameObject characterObject;
 
-    public Rigidbody2D rigid;
-    public SpriteRenderer sprite;
+    public long weaponPower = 10;
+    public long weaponSpawnKey = -1;
 
     public int damage = 5;
 
@@ -45,6 +44,13 @@ public class Character : MonoBehaviour
         transform.localScale = InNextPostion <= 0 ? _leftPosition : _rightPosition;
         rigid.velocity = new Vector2(InNextPostion * InNextSpeed, rigid.velocity.y);
     }
+    public IEnumerator MoveDelay(float InMinDelayTime, float InMaxDelayTime)
+    {
+        Move();
+        float next_MoveTime = GetRandomDelayTime(InMinDelayTime, InMaxDelayTime);
+        yield return new WaitForSeconds(next_MoveTime);
+        StartCoroutine(MoveDelay(InMinDelayTime, InMaxDelayTime));
+    }
 
     public IEnumerator OnDamage(SpriteRenderer InSprite)
     {
@@ -57,9 +63,9 @@ public class Character : MonoBehaviour
         isDamage = false;
     }
 
-    public void Die(float curHealth)
+    public void Dead(float InCurHealth)
     {
-        if (curHealth <= 0)
+        if (InCurHealth <= 0)
         {
             isDie = true;
 
@@ -69,38 +75,35 @@ public class Character : MonoBehaviour
         else
             isDie = false;
     }
-    public IEnumerator MoveDelay(float InMinDelayTime, float InMaxDelayTime)
-    {
-        Move();
-        float next_MoveTime = GetRandomDelayTime(InMinDelayTime, InMaxDelayTime);
-        yield return new WaitForSeconds(next_MoveTime);
-        StartCoroutine(MoveDelay(InMinDelayTime, InMaxDelayTime));
-    }
+
+    public bool isActive => characterObject.activeSelf;
+
+    public Vector2 characterPosition => characterObject.transform.position;
 
     public void SetActiveObject(bool InIsActive)
     {
         characterObject?.SetActive(InIsActive);
     }
 
-    public bool isActive => characterObject.activeSelf;
-
-    public Vector2 characterPosition => characterObject.transform.position;
-
     public void SetKey(ObjectType InType) => key = InType;
+
     public void SetSpawnNumber(long InNumber) => mySpawnNumber = InNumber;
 
     public void SetColor(SpriteRenderer InSprite, Color Incolor)
     {
         InSprite.color = Incolor;
     }
+
     public int GetRandomPosition(int InLeftPosition, int InRightPosition)
     {
         return Random.Range(InLeftPosition, InRightPosition);
     }
+
     public int GetRandomCount(int InMinCount, int InMaxCount)
     {
         return Random.Range(InMinCount, InMaxCount);
     }
+
     public float GetRandomSpeed(float InMinSpeed, float InMaxSpeed)
     {
         return Random.Range(InMinSpeed, InMaxSpeed);

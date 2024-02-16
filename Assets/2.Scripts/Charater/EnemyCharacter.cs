@@ -11,7 +11,6 @@ public class EnemyCharacter : Character
     private GameObject _detection;
 
     private RaycastHit2D[] _inTarget;
-
     [SerializeField]
     private Slider _healthSlider;
 
@@ -60,7 +59,7 @@ public class EnemyCharacter : Character
     {
         _healthSlider.value = curHealth;
 
-        Die(curHealth);
+        Dead(curHealth);
     }
 
     private void FixedUpdate()
@@ -168,8 +167,8 @@ public class EnemyCharacter : Character
         return target;
     }
 
-    private const float _Min_DelayTime = 1f;
     private const float _Max_DelayTime = 6f;
+    private const float _Min_DelayTime = 1f;
 
     private const int _Max_Weapon_Count = 5;
     private const int _Min_Weapon_Count = 1;

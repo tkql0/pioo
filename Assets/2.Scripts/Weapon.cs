@@ -12,9 +12,6 @@ public class Weapon : MonoBehaviour
 
     public Rigidbody2D rigid;
 
-    public const string Player = "Player";
-    public const string Enemy = "Enemy";
-
     private void OnEnable()
     {
         weaponObject = gameObject;
@@ -67,4 +64,7 @@ public class Weapon : MonoBehaviour
 
     public void SetKey(ObjectType InType) => key = InType;
     public void SetSpawnNumber(long InNumber) => mySpawnNumber = InNumber;
+
+    public const string Player = "Player";
+    public const string Enemy = "Enemy";
 }

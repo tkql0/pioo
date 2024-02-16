@@ -7,23 +7,25 @@ using UnityEngine.EventSystems;
 public class Player : Character
 {
     public GameObject player;
+
+    public Camera cam;
     public Slider attackPowerSlider;
 
     private Vector2 _inputVector;
+    private Vector2 _gravityPoint;
+
     public float moveMaxSpeed;
     public float moveSpeedX;
     public float moveSpeedY;
-
-    private Vector2 _gravityPoint;
-
-    public Camera cam;
+    // 이거 다시 보기
 
     private bool _isMove;
     private bool _isJump;
     private bool _isBreath;
     private bool _isSwimming;
-    public bool isLv_up;
     private bool _isEat;
+    public bool isLv_up;
+    // 앤 UI로 넘겨야겟다
 
     public float maxBreath;
     public float curBreath;
@@ -41,9 +43,6 @@ public class Player : Character
     private float _attackPower = 0.0f;
     private float _attackMinPower = 5.0f;
     private float _attackMaxPower = 10.0f;
-
-    private const string Horizontal = "Horizontal";
-    private const string Vertical = "Vertical";
 
     public float gravityMaxPointY = 0;
 
@@ -150,10 +149,10 @@ public class Player : Character
             }
         }
         else
-            OnJump();
+            Jump();
     }
 
-    private void OnJump()
+    private void Jump()
     {
         curBreath = maxBreath;
         if (curHealth < maxHealth)
@@ -172,7 +171,7 @@ public class Player : Character
         }
     }
 
-    private void OnAttack(Vector2 InDirection)
+    private void Attack(Vector2 InDirection)
     {
         if (EventSystem.current.IsPointerOverGameObject())
             return;
@@ -213,7 +212,7 @@ public class Player : Character
             mousePos.y - transform.position.y);
         dir = dir.normalized;
 
-        OnAttack(dir);
+        Attack(dir);
     }
 
     private void OnTriggerStay2D(Collider2D collision)
@@ -239,4 +238,7 @@ public class Player : Character
             }
         }
     }
+
+    private const string Horizontal = "Horizontal";
+    private const string Vertical = "Vertical";
 }

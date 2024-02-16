@@ -14,8 +14,6 @@ public class Map : MonoBehaviour
 
     private float ReSpawn_Time = 10f;
 
-    private const float DeSpawn_Distance = 60f;
-
     private void Update()
     {
         MapRelocation();
@@ -74,4 +72,6 @@ public class Map : MonoBehaviour
     public bool isActive => mapObject.activeSelf;
 
     public Vector2 MapPosition => mapObject.transform.position;
+
+    private const float DeSpawn_Distance = 60f;
 }

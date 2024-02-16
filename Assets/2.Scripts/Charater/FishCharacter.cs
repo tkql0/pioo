@@ -24,6 +24,6 @@ public class FishCharacter : Character
         targetSpawnNumber = 99;
     }
 
-    private const float Min_DelayTime = 1f;
     private const float Max_DelayTime = 3f;
+    private const float Min_DelayTime = 1f;
 }

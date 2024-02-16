@@ -4,18 +4,18 @@ using UnityEngine;
 
 public class SpawnController
 {
-    public ObjectPool objectPool = null;
+    public SpawnObject spawnObject = null;
 
     public void OnEnable()
     {
-        var load = Resources.Load<ObjectPool>(_objectPoolPrefab);
+        var load = Resources.Load<SpawnObject>(_objectPoolPrefab);
 
         if (load == null)
             return;
 
-        objectPool = GameObject.Instantiate(load);
+        spawnObject = GameObject.Instantiate(load);
 
-        objectPool.ObjectSpawnPool();
+        spawnObject.ObjectSpawnPool();
     }
 
     public void GameStartSpawnPosition()

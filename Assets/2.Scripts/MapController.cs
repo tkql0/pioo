@@ -6,7 +6,7 @@ public class MapController
 {
     public void OnEnable()
     {
-        GameManager.SPAWN.objectPool.SpawnMapPool();
+        GameManager.SPAWN.spawnObject.SpawnMapPool();
     }
 
     public (long, long) GetReSpawnSize(long InKey)

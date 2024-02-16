@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class Player : Character
 {
@@ -149,10 +150,10 @@ public class Player : Character
             }
         }
         else
-            Jump();
+            OnJump();
     }
 
-    private void Jump()
+    private void OnJump()
     {
         curBreath = maxBreath;
         if (curHealth < maxHealth)
@@ -171,8 +172,11 @@ public class Player : Character
         }
     }
 
-    private void Attack(Vector2 InDirection)
+    private void OnAttack(Vector2 InDirection)
     {
+        if (EventSystem.current.IsPointerOverGameObject())
+            return;
+
         attackPowerSlider.maxValue = _attackMinPower;
 
         if (Input.GetMouseButton(0))
@@ -185,7 +189,7 @@ public class Player : Character
         {
             attackPowerSlider.gameObject.SetActive(false);
 
-            _attackPower = _attackPower + _attackMinPower;
+            _attackPower += _attackMinPower;
             if (_attackPower > _attackMaxPower)
                 _attackPower = _attackMaxPower;
 
@@ -209,7 +213,7 @@ public class Player : Character
             mousePos.y - transform.position.y);
         dir = dir.normalized;
 
-        Attack(dir);
+        OnAttack(dir);
     }
 
     private void OnTriggerStay2D(Collider2D collision)

@@ -119,7 +119,7 @@ public class Character : MonoBehaviour
     public Vector2 _leftPosition => new Vector2(-1, 1);
     public Vector2 _rightPosition => new Vector2(1, 1);
 
-    public const string Fish = "Fish_exp";
+    public const string Fish = "Fish";
     public const string Player = "Player";
     public const string Enemy = "Enemy";
     public const string Enemy_Attack = "Enemy_Attack";

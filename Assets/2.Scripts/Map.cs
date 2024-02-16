@@ -28,11 +28,6 @@ public class Map : MonoBehaviour
         fishMaxSize = Random.Range(1, 15);
     }
 
-    public void OnDisable()
-    {
-
-    }
-
     private void MapRelocation()
     {
         Vector2 targetPosition = GameManager.OBJECT.player.characterPosition;

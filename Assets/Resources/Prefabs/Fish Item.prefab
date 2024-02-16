@@ -12,10 +12,9 @@ GameObject:
   - component: {fileID: 2887581168828488389}
   - component: {fileID: 1951120627910890028}
   - component: {fileID: 6331058131846764321}
-  - component: {fileID: 2737579273709714765}
   m_Layer: 0
-  m_Name: Fish
-  m_TagString: Fish
+  m_Name: Fish Item
+  m_TagString: Fish_exp
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -76,7 +75,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 3
-  m_Sprite: {fileID: 21300000, guid: 9125c204f566db048a92ebcb64d9d14a, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 045a46ed7fd32804eb02dc411be96859, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -124,33 +123,3 @@ CapsuleCollider2D:
   m_Offset: {x: 0, y: 0}
   m_Size: {x: 0.3, y: 0.3}
   m_Direction: 0
---- !u!114 &2737579273709714765
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6515369471602294542}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 00d05ca71c3e76548b44bb9e5908cefe, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  targetMask:
-    serializedVersion: 2
-    m_Bits: 0
-  key: 0
-  targetSpawnNumber: 0
-  mySpawnNumber: 0
-  weaponPower: 10
-  weaponSpawnKey: -1
-  characterObject: {fileID: 0}
-  rigid: {fileID: 0}
-  sprite: {fileID: 0}
-  damage: 5
-  coolTimeMax: 0
-  coolTime: 0
-  maxHealth: 0
-  curHealth: 0
-  isDie: 0
-  isDamage: 0

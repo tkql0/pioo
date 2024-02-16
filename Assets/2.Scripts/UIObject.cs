@@ -67,7 +67,7 @@ public class UIObject : MonoBehaviour
         GameManager.UI.SetSliderUpdate(InPlayer.maxExperience, InPlayer.curExperience, _experienceSlider);
     }
 
-    private void Stat(Player InPlayer)
+    private void Stat()
     {
 
     }

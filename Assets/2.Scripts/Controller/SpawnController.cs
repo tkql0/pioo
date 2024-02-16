@@ -18,18 +18,14 @@ public class SpawnController
         objectPool.ObjectSpawnPool();
     }
 
-    public void OnDisable()
-    {
-
-    }
-
     public void GameStartSpawnPosition()
     {
         int mapSpawnCount = Left_MapSpawn;
 
         foreach (KeyValuePair<long, Map> outMapData in GameManager.OBJECT.mapDataList)
         {
-            outMapData.Value.transform.position = new Vector2(GameManager.OBJECT.player.characterPosition.x + (mapSpawnCount * Map_Distance), 0);
+            outMapData.Value.transform.position =
+                new Vector2(GameManager.OBJECT.player.characterPosition.x + (mapSpawnCount * Map_Distance), 0);
 
             if (mapSpawnCount == Right_MapSpawn)
                 mapSpawnCount = Left_MapSpawn;

@@ -29,7 +29,7 @@ public class UIController
     public int GetLevelUpStat(Player InPlayer)
     {
         InPlayer.curExperience = 0;
-        InPlayer.maxHealth += 2;
+        InPlayer.maxHealth += 5;
         InPlayer.maxExperience += 5;
 
         return ++InPlayer.PlayerLv;

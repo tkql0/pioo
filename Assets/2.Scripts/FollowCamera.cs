@@ -4,30 +4,27 @@ using UnityEngine;
 
 public class FollowCamera : MonoBehaviour
 {
-    private Vector3 _camPos;
-    private GameObject _player;
+    private Vector3 _cameraPosition;
+    private Player _player;
 
     [SerializeField]
-    private Vector2 _center;
+    private Vector3 _centerPosition;
     [SerializeField]
     private Vector2 _mapSize;
-
-    private float _speed;
 
     private float _height;
 
     private void Start()
     {
-        ObjectController _objectController = GameManager.OBJECT;
-
-        if (!_objectController.player)
+        if (!GameManager.OBJECT.player)
             return;
 
-        _camPos = new Vector3(0, 0, -20f);
-        _speed = _objectController.player.moveMaxSpeed;
-        _player = _objectController.player.gameObject;
+        _cameraPosition = transform.position;
+        _centerPosition = new Vector3(0, 0, -20f);
 
-        _objectController.player.cam = Camera.main;
+        _player = GameManager.OBJECT.player;
+
+        _player.cam = Camera.main;
 
         _height = Camera.main.orthographicSize;
     }
@@ -39,11 +36,17 @@ public class FollowCamera : MonoBehaviour
 
     private void LimitCamArea()
     {
-        transform.position = Vector3.Lerp(transform.position,
-            _player.transform.position + _camPos, Time.fixedDeltaTime * _speed);
-        float ly = _mapSize.y - _height;
-        float clampY = Mathf.Clamp(transform.position.y, -ly + _center.y, ly + _center.y);
+        _cameraPosition = GetLerp();
+        float diffY = _mapSize.y - _height;
+        float clampY = Mathf.Clamp(_cameraPosition.y,
+            -diffY + _centerPosition.y, diffY + _centerPosition.y);
 
-        transform.position = new Vector3(transform.position.x, clampY, _camPos.z);
+        transform.position = new Vector3(_cameraPosition.x, clampY, _centerPosition.z);
+    }
+
+    private Vector3 GetLerp()
+    {
+        return Vector3.Lerp(_cameraPosition, (Vector3)_player.characterPosition +
+            _centerPosition, Time.fixedDeltaTime * _player.moveMaxSpeed);
     }
 }

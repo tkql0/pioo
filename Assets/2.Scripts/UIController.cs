@@ -5,11 +5,9 @@ using UnityEngine.UI;
 
 public class UIController
 {
-    public UIObject uiObject = null;
-
     public void OnEnable()
     {
-        uiObject = GameObject.FindObjectOfType<UIObject>();
+
     }
 
     public void SetUIEnter(RectTransform InUI)
@@ -26,5 +24,14 @@ public class UIController
     {
         InSlider.maxValue = InMaxValue;
         InSlider.value = InValue;
+    }
+
+    public int GetLevelUpStat(Player InPlayer)
+    {
+        InPlayer.curExperience = 0;
+        InPlayer.maxHealth += 2;
+        InPlayer.maxExperience += 5;
+
+        return ++InPlayer.PlayerLv;
     }
 }

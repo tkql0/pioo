@@ -1755,15 +1755,14 @@ MonoBehaviour:
   _gameStartPanel: {fileID: 1201103155}
   _gameOverPanel: {fileID: 1236642886}
   _gameStopButton: {fileID: 2041093881}
-  experienceTxt: {fileID: 1963782831}
-  healthTxt: {fileID: 423280232}
-  breathTxt: {fileID: 269233628}
-  FishCount: {fileID: 1736654833}
-  healthSlider: {fileID: 1749753016}
-  breathSlider: {fileID: 669490480}
-  experienceSlider: {fileID: 986096011}
-  menu_ui: {fileID: 2060618905}
-  isClick: 0
+  _experienceTxt: {fileID: 1963782831}
+  _healthTxt: {fileID: 423280232}
+  _breathTxt: {fileID: 269233628}
+  _fishCount: {fileID: 1736654833}
+  _healthSlider: {fileID: 1749753016}
+  _breathSlider: {fileID: 669490480}
+  _experienceSlider: {fileID: 986096011}
+  _menuUI: {fileID: 2060618905}
 --- !u!1 &1496391824
 GameObject:
   m_ObjectHideFlags: 0

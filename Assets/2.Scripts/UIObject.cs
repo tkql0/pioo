@@ -14,57 +14,62 @@ public class UIObject : MonoBehaviour
     private GameObject _gameStopButton;
 
     [SerializeField]
-    private Text experienceTxt;
+    private Text _experienceTxt;
     [SerializeField]
-    private Text healthTxt;
+    private Text _healthTxt;
     [SerializeField]
-    private Text breathTxt;
+    private Text _breathTxt;
 
     [SerializeField]
-    private Text FishCount;
+    private Text _fishCount;
 
     [SerializeField]
-    private Slider healthSlider;
+    private Slider _healthSlider;
     [SerializeField]
-    private Slider breathSlider;
+    private Slider _breathSlider;
     [SerializeField]
-    private Slider experienceSlider;
+    private Slider _experienceSlider;
 
     [SerializeField]
-    private RectTransform menu_ui;
+    private RectTransform _menuUI;
 
-    public bool isClick = false;
-    private bool isStart = true;
+    private bool _isClick = false;
+    private bool _isStart = true;
 
     private void Update()
     {
-        if (isStart || GameManager.OBJECT.player.isDie == true)
+        if (_isStart || GameManager.OBJECT.player.isDie == true)
             SetGameStop();
 
-        SetDataUpdate(GameManager.OBJECT.player);
+        SetSliderDataUpdate(GameManager.OBJECT.player);
 
         LevelUp(GameManager.OBJECT.player);
     }
 
-    private void SetDataUpdate(Player InPlayer)
+    private void SetSliderDataUpdate(Player InPlayer)
     {
-        if (healthSlider.value <= 0)
+        if (_healthSlider.value <= 0)
         {
             _gameOverPanel.SetActive(true);
             InPlayer.isDie = true;
         }
 
-        healthTxt.text = (int)InPlayer.curHealth +
+        _healthTxt.text = (int)InPlayer.curHealth +
             " / " + InPlayer.maxHealth;
-        breathTxt.text = (int)InPlayer.curBreath +
+        _breathTxt.text = (int)InPlayer.curBreath +
             " / " + InPlayer.maxBreath;
 
-        FishCount.text = "Fish\n" + InPlayer.fishItemCount +
+        _fishCount.text = "Fish\n" + InPlayer.fishItemCount +
             " / " + InPlayer.fishItemMaxCount;
 
-        GameManager.UI.SetSliderUpdate(InPlayer.maxHealth, InPlayer.curHealth, healthSlider);
-        GameManager.UI.SetSliderUpdate(InPlayer.maxBreath, InPlayer.curBreath, breathSlider);
-        GameManager.UI.SetSliderUpdate(InPlayer.maxExperience, InPlayer.curExperience, experienceSlider);
+        GameManager.UI.SetSliderUpdate(InPlayer.maxHealth, InPlayer.curHealth, _healthSlider);
+        GameManager.UI.SetSliderUpdate(InPlayer.maxBreath, InPlayer.curBreath, _breathSlider);
+        GameManager.UI.SetSliderUpdate(InPlayer.maxExperience, InPlayer.curExperience, _experienceSlider);
+    }
+
+    private void Stat(Player InPlayer)
+    {
+
     }
 
     public void OnClick()
@@ -72,30 +77,30 @@ public class UIObject : MonoBehaviour
         if (!_gameStartPanel)
             return;
 
-        isStart = false;
+        _isStart = false;
         SetGameStart();
         GameManager.SPAWN.GameStartSpawnPosition();
 
-        healthSlider.value = GameManager.OBJECT.player.maxHealth;
-        breathSlider.value = GameManager.OBJECT.player.maxBreath;
-        experienceSlider.value = 0;
+        _healthSlider.value = GameManager.OBJECT.player.maxHealth;
+        _breathSlider.value = GameManager.OBJECT.player.maxBreath;
+        _experienceSlider.value = 0;
 
         _gameStartPanel.SetActive(false);
     }
 
     public void OnStop()
     {
-        if (isClick == false)
+        if (!_isClick)
         {
-            GameManager.UI.SetUIEnter(menu_ui);
+            GameManager.UI.SetUIEnter(_menuUI);
             SetGameStop();
-            isClick = true;
+            _isClick = true;
         }
         else
         {
-            GameManager.UI.SetUIExit(menu_ui);
+            GameManager.UI.SetUIExit(_menuUI);
             SetGameStart();
-            isClick = false;
+            _isClick = false;
         }
     }
 
@@ -106,14 +111,10 @@ public class UIObject : MonoBehaviour
 
     private void LevelUp(Player InPlayer)
     {
-        if (experienceSlider.value != InPlayer.maxExperience)
+        if (_experienceSlider.value != InPlayer.maxExperience)
             return;
 
-        InPlayer.curExperience = 0;
-        InPlayer.PlayerLv++;
-        experienceTxt.text = "Lv. " + InPlayer.PlayerLv;
-        InPlayer.maxHealth += 2;
-        InPlayer.maxExperience += 5;
+        _experienceTxt.text = "Lv. " + GameManager.UI.GetLevelUpStat(InPlayer);
     }
 
     private void SetGameStop() => Time.timeScale = 0;

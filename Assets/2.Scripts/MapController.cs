@@ -9,11 +9,6 @@ public class MapController
         GameManager.SPAWN.objectPool.SpawnMapPool();
     }
 
-    public void OnDisable()
-    {
-
-    }
-
     public (long, long) GetReSpawnSize(long InKey)
     {
         long enemyReSpawnSize = 0;

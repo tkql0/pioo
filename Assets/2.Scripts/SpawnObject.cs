@@ -77,7 +77,7 @@ public class SpawnObject : MonoBehaviour
                 }
                 break;
             case ObjectType.Map:
-                maxSize = 1;
+                maxSize = 3;
 
                 for (int i = 0; i < maxSize; i++)
                 {

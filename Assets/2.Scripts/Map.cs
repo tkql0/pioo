@@ -5,14 +5,16 @@ using UnityEngine;
 public class Map : MonoBehaviour
 {
     public GameObject mapObject;
-
     public ObjectType key;
     public long mySpawnNumber;
+    public long targetSpawnNumber;
+    // 플레이어의 key를 받아올 예정
 
     public long enemyMaxSize;
     public long fishMaxSize;
 
     private float ReSpawn_Time = 10f;
+
 
     private void Update()
     {

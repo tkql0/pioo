@@ -10,25 +10,25 @@ public class SpawnObject : MonoBehaviour
 
     public void ObjectSpawnPool()
     {
-        SpawnPool(ObjectType.Player);
-        SpawnPool(ObjectType.EnemyWeapon);
-        SpawnPool(ObjectType.PlayerWeapon);
+        SpawnObjectPool(ObjectType.Player);
+        SpawnObjectPool(ObjectType.EnemyWeapon);
+        SpawnObjectPool(ObjectType.PlayerWeapon);
     }
 
     public void SpawnMapPool()
     {
-        SpawnPool(ObjectType.Map);
+        SpawnObjectPool(ObjectType.Map);
 
         foreach (KeyValuePair<long, Map> outMapData in GameManager.OBJECT.mapDataList)
         {
-            SpawnPool(ObjectType.Enemy);
-            SpawnPool(ObjectType.Fish);
+            SpawnObjectPool(ObjectType.Enemy);
+            SpawnObjectPool(ObjectType.Fish);
 
             outMapData.Value.mySpawnNumber = outMapData.Key;
         }
     }
 
-    private void SpawnPool(ObjectType InObjectType)
+    private void SpawnObjectPool(ObjectType InObjectType)
     {
         int maxSize = 0;
 
@@ -77,7 +77,7 @@ public class SpawnObject : MonoBehaviour
                 }
                 break;
             case ObjectType.Map:
-                maxSize = 3;
+                maxSize = 1;
 
                 for (int i = 0; i < maxSize; i++)
                 {
@@ -126,6 +126,17 @@ public class SpawnObject : MonoBehaviour
         }
     }
 
+    public long itemMaxSize;
+    private void SpawnItemPool(ItemType InItemType)
+    {
+        switch(InItemType)
+        {
+            case ItemType.Item_Fish:
+                var itemFish = Instantiate(GetPrefabObject(Prefab_Drop_Fish).GetComponent<Item>());
+                break;
+        }
+    }
+
     public GameObject GetPrefabObject(string InPrefabObject)
     {
         GameObject prefabObject = Resources.Load<GameObject>(InPrefabObject);
@@ -139,4 +150,5 @@ public class SpawnObject : MonoBehaviour
     private const string Prefab_Fish = "Prefabs/Fish";
     private const string Prefab_EnemyWeapon = "Prefabs/EnemyAttack";
     private const string Prefab_PlayerWeapon = "Prefabs/PlayerAttack";
+    private const string Prefab_Drop_Fish = "Prefabs/FishItem";
 }

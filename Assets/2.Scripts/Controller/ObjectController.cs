@@ -13,12 +13,20 @@ public enum ObjectType
     Map,
 }
 
+public enum ItemType
+{
+    NULL,
+    Item_Fish,
+}
+
 public class ObjectController
 {
     public Player player;
     public Dictionary<long, Character> characterDataList = new Dictionary<long, Character>();
     public Dictionary<long, Map> mapDataList = new Dictionary<long, Map>();
     public Dictionary<long, Weapon> weaponDataList = new Dictionary<long, Weapon>();
+
+    public Dictionary<long, Item> itemDataList = new Dictionary<long, Item>();
 
     public void OnEnable()
     {

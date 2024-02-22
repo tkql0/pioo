@@ -76,4 +76,9 @@ public class Map : MonoBehaviour
     public Vector2 MapPosition => mapObject.transform.position;
 
     private const float DeSpawn_Distance = 60f;
+
+    public void SetActiveObject(bool InIsActive)
+    {
+        mapObject?.SetActive(InIsActive);
+    }
 }

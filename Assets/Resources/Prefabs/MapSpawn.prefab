@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 890041330224359661}
+  - component: {fileID: -615095042392409741}
   m_Layer: 0
   m_Name: MapSpawn
   m_TagString: Untagged
@@ -31,3 +32,26 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &-615095042392409741
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7753057022440304501}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b2220964116abd4685b9bcd656c5d55, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mapSpawnObject: {fileID: 0}
+  mapObject: {fileID: 0}
+  targetMask:
+    serializedVersion: 2
+    m_Bits: 0
+  key: 0
+  mySpawnNumber: 0
+  targetSpawnNumber: 0
+  isStayPlayer: 0
+  enemyMaxSize: 0
+  fishMaxSize: 0

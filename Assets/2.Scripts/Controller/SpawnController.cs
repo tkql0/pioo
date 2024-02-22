@@ -22,7 +22,20 @@ public class SpawnController
     {
         int mapSpawnCount = Left_MapSpawn;
 
-        foreach (KeyValuePair<long, Map> outMapData in GameManager.OBJECT.mapDataList)
+        //foreach (KeyValuePair<long, Map> outMapData in GameManager.OBJECT.mapDataList)
+        //{
+        //    outMapData.Value.transform.position =
+        //        new Vector2(GameManager.OBJECT.player.characterPosition.x + (mapSpawnCount * Map_Distance), 0);
+
+        //    if (mapSpawnCount == Right_MapSpawn)
+        //        mapSpawnCount = Left_MapSpawn;
+
+        //    mapSpawnCount++;
+
+        //    outMapData.Value.MapMonsterSpawn(outMapData.Value.enemyMaxSize, outMapData.Value.fishMaxSize);
+        //}
+
+        foreach (KeyValuePair<long, SpawnMap> outMapData in GameManager.OBJECT.spawnMapDataList)
         {
             outMapData.Value.transform.position =
                 new Vector2(GameManager.OBJECT.player.characterPosition.x + (mapSpawnCount * Map_Distance), 0);
@@ -30,9 +43,12 @@ public class SpawnController
             if (mapSpawnCount == Right_MapSpawn)
                 mapSpawnCount = Left_MapSpawn;
 
+            if (mapSpawnCount == 3)
+                return;
+
             mapSpawnCount++;
 
-            outMapData.Value.MapMonsterSpawn(outMapData.Value.enemyMaxSize, outMapData.Value.fishMaxSize);
+            //outMapData.Value.MapMonsterSpawn(outMapData.Value.enemyMaxSize, outMapData.Value.fishMaxSize);
         }
     }
 

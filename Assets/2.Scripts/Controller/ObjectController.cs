@@ -24,7 +24,7 @@ public class ObjectController
     public Player player;
     public Dictionary<long, Character> characterDataList = new Dictionary<long, Character>();
     public Dictionary<long, Map> mapDataList = new Dictionary<long, Map>();
-    public Dictionary<long, SpawnMap> spawnMapDataList = new Dictionary<long, SpawnMap>();
+    //public Dictionary<long, SpawnMap> spawnMapDataList = new Dictionary<long, SpawnMap>();
     public Dictionary<long, Weapon> weaponDataList = new Dictionary<long, Weapon>();
 
     public Dictionary<long, Item> itemDataList = new Dictionary<long, Item>();
@@ -81,11 +81,11 @@ public class ObjectController
                 break;
             case ObjectType.Map:
                 {
-                    //if (mapDataList.TryGetValue(InIndex, out var outMapData) == false)
-                    //    return outMapData.isActive;
-
-                    if (spawnMapDataList.TryGetValue(InIndex, out var outMapData) == false)
+                    if (mapDataList.TryGetValue(InIndex, out var outMapData) == false)
                         return outMapData.isActive;
+
+                    //if (spawnMapDataList.TryGetValue(InIndex, out var outMapData) == false)
+                    //    return outMapData.isActive;
                 }
                 break;
         }

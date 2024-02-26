@@ -116,9 +116,9 @@ public class SpawnMap : MonoBehaviour
         }
     }
 
-    private void SetSpawnMap(long InIndex)
-    {
-        if (GameManager.OBJECT.spawnMapDataList.TryGetValue(InIndex, out var outMapData) == false)
-            return;
-    }
+    //private void SetSpawnMap(long InIndex)
+    //{
+    //    if (GameManager.OBJECT.spawnMapDataList.TryGetValue(InIndex, out var outMapData) == false)
+    //        return;
+    //}
 }

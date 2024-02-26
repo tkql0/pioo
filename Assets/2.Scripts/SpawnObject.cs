@@ -20,8 +20,8 @@ public class SpawnObject : MonoBehaviour
     {
         SpawnObjectPool(ObjectType.Map);
 
-        //foreach (KeyValuePair<long, Map> outMapData in GameManager.OBJECT.mapDataList)
-        foreach (KeyValuePair<long, SpawnMap> outMapData in GameManager.OBJECT.spawnMapDataList)
+        foreach (KeyValuePair<long, Map> outMapData in GameManager.OBJECT.mapDataList)
+        //foreach (KeyValuePair<long, SpawnMap> outMapData in GameManager.OBJECT.spawnMapDataList)
         {
             SpawnObjectPool(ObjectType.Enemy);
             SpawnObjectPool(ObjectType.Fish);
@@ -81,41 +81,41 @@ public class SpawnObject : MonoBehaviour
             case ObjectType.Map:
                 maxSize = 3;
 
-                //for (int i = 0; i < maxSize; i++)
-                //{
-                //    GameObject MapObject = Instantiate(GetPrefabObject(Prefab_Map));
-
-                //    Map map = MapObject.GetComponent<Map>();
-                //    GameManager.OBJECT.mapDataList.Add(_mapSpawnConut, map);
-                //    _mapSpawnConut++;
-                //}
-
-                int testMaxSize = 3;
-
                 for (int i = 0; i < maxSize; i++)
                 {
-                    GameObject SpawnMapObject = Instantiate(GetPrefabObject(Prefab_SpawnMap));
+                    GameObject MapObject = Instantiate(GetPrefabObject(Prefab_Map));
 
-                    SpawnMap spawnMap = SpawnMapObject.GetComponent<SpawnMap>();
-                    GameManager.OBJECT.spawnMapDataList.Add(_testMapSpawnConut, spawnMap);
-                    _testMapSpawnConut++;
-
-                    spawnMap.mySpawnNumber = _testMapSpawnConut;
-
-                    for (int j = 0; j < testMaxSize; j++)
-                    {
-                        GameObject MapObject = Instantiate(GetPrefabObject(Prefab_Map));
-
-                        Map map = MapObject.GetComponent<Map>();
-                        GameManager.OBJECT.mapDataList.Add(_mapSpawnConut, map);
-                        _mapSpawnConut++;
-
-                        map.mySpawnNumber = _mapSpawnConut;
-
-                        map.SetActiveObject(false);
-                    }
+                    Map map = MapObject.GetComponent<Map>();
+                    GameManager.OBJECT.mapDataList.Add(_mapSpawnConut, map);
+                    _mapSpawnConut++;
                 }
-                break;
+
+                    //int testMaxSize = 3;
+
+                    //for (int i = 0; i < maxSize; i++)
+                    //{
+                    //    GameObject SpawnMapObject = Instantiate(GetPrefabObject(Prefab_SpawnMap));
+
+                    //    SpawnMap spawnMap = SpawnMapObject.GetComponent<SpawnMap>();
+                    //    GameManager.OBJECT.spawnMapDataList.Add(_testMapSpawnConut, spawnMap);
+                    //    _testMapSpawnConut++;
+
+                    //    spawnMap.mySpawnNumber = _testMapSpawnConut;
+
+                    //    for (int j = 0; j < testMaxSize; j++)
+                    //    {
+                    //        GameObject MapObject = Instantiate(GetPrefabObject(Prefab_Map));
+
+                    //        Map map = MapObject.GetComponent<Map>();
+                    //        GameManager.OBJECT.mapDataList.Add(_mapSpawnConut, map);
+                    //        _mapSpawnConut++;
+
+                    //        map.mySpawnNumber = _mapSpawnConut;
+
+                    //        map.SetActiveObject(false);
+                    //    }
+                    //}
+                    break;
             case ObjectType.EnemyWeapon:
                 maxSize = 20;
 
@@ -180,5 +180,5 @@ public class SpawnObject : MonoBehaviour
     private const string Prefab_PlayerWeapon = "Prefabs/PlayerAttack";
     private const string Prefab_Drop_Fish = "Prefabs/FishItem";
 
-    private const string Prefab_SpawnMap = "Prefabs/SpawnMap";
+    //private const string Prefab_SpawnMap = "Prefabs/SpawnMap";
 }

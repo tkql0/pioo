@@ -22,20 +22,7 @@ public class SpawnController
     {
         int mapSpawnCount = Left_MapSpawn;
 
-        //foreach (KeyValuePair<long, Map> outMapData in GameManager.OBJECT.mapDataList)
-        //{
-        //    outMapData.Value.transform.position =
-        //        new Vector2(GameManager.OBJECT.player.characterPosition.x + (mapSpawnCount * Map_Distance), 0);
-
-        //    if (mapSpawnCount == Right_MapSpawn)
-        //        mapSpawnCount = Left_MapSpawn;
-
-        //    mapSpawnCount++;
-
-        //    outMapData.Value.MapMonsterSpawn(outMapData.Value.enemyMaxSize, outMapData.Value.fishMaxSize);
-        //}
-
-        foreach (KeyValuePair<long, SpawnMap> outMapData in GameManager.OBJECT.spawnMapDataList)
+        foreach (KeyValuePair<long, Map> outMapData in GameManager.OBJECT.mapDataList)
         {
             outMapData.Value.transform.position =
                 new Vector2(GameManager.OBJECT.player.characterPosition.x + (mapSpawnCount * Map_Distance), 0);
@@ -43,13 +30,26 @@ public class SpawnController
             if (mapSpawnCount == Right_MapSpawn)
                 mapSpawnCount = Left_MapSpawn;
 
-            if (mapSpawnCount == 3)
-                return;
-
             mapSpawnCount++;
 
-            //outMapData.Value.MapMonsterSpawn(outMapData.Value.enemyMaxSize, outMapData.Value.fishMaxSize);
+            outMapData.Value.MapMonsterSpawn(outMapData.Value.enemyMaxSize, outMapData.Value.fishMaxSize);
         }
+
+        //foreach (KeyValuePair<long, SpawnMap> outMapData in GameManager.OBJECT.spawnMapDataList)
+        //{
+        //    outMapData.Value.transform.position =
+        //        new Vector2(GameManager.OBJECT.player.characterPosition.x + (mapSpawnCount * Map_Distance), 0);
+
+        //    if (mapSpawnCount == Right_MapSpawn)
+        //        mapSpawnCount = Left_MapSpawn;
+
+        //    if (mapSpawnCount == 3)
+        //        return;
+
+        //    mapSpawnCount++;
+
+        //    //outMapData.Value.MapMonsterSpawn(outMapData.Value.enemyMaxSize, outMapData.Value.fishMaxSize);
+        //}
     }
 
     public void Spawn(Vector2 InSpawnPosition, long InEnemyCount, long InFishCount, long InKey)
@@ -128,6 +128,29 @@ public class SpawnController
             }
         }
     }
+
+    public void SetDeSpawnTest(GameObject gameObject)
+    {
+        if(gameObject.activeSelf == false)
+        {
+            // gameObject를 Stack에 넣기
+        }
+    }
+
+    public GameObject SetSpawnTest(MapType mapType, ObjectType objectType)
+    {
+        GameObject gameObject = null;
+        // gameObject를 Stack에서 빼기
+
+        return gameObject;
+    }
+
+    // SpawnController의 스택 변수 만들기
+    // 만약 스택을 사용했을 때 모든 오브젝트를 한번에 넣고 스폰했을때
+    // 해당 오브젝트가 아닐 경우 꺼냈던 오브젝트를.. 그건 큐구나
+    // 만약 큐로 했을 경우에 위와 같은 상황일 경우 다시 큐에 넣는게 좋을까
+    // 스택 여러개를 만들어서 사용하는게 좋을까
+    // 아니면 지금처럼 딕셔너리를 for로 돌려서 찾는건?
 
     private const int Left_MapSpawn = -1;
     private const int Right_MapSpawn = 1;

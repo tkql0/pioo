@@ -6,7 +6,7 @@ public class RandomMapData
 {
     public long mySpawnNumber;
 
-    private float ReSpawn_Time = 10f;
+    //private float ReSpawn_Time = 10f;
 
     public void MapMonsterSpawn(long InEnemySize, long InFishSize)
     {

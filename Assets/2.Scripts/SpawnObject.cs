@@ -7,7 +7,7 @@ public class SpawnObject : MonoBehaviour
     private long _mapSpawnConut = 0;
     private long _characterSpawnConut = 0;
     private long _weaponSpawnConut = 0;
-    private long _testMapSpawnConut = 0;
+    //private long _testMapSpawnConut = 0;
 
     public void ObjectSpawnPool()
     {

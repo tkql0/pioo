@@ -32,10 +32,10 @@ public class SpawnMap : MonoBehaviour
 
 
 
-    private void Update()
-    {
-        MapPosition();
-    }
+    //private void Update()
+    //{
+    //    MapPosition();
+    //}
 
     //private void MapRelocation()
     private void MapPosition()

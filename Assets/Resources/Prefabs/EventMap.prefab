@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4529292736586410409}
   - component: {fileID: 1577627637153816562}
-  - component: {fileID: -9023327873804874164}
   m_Layer: 0
   m_Name: EventMap
   m_TagString: Map
@@ -86,23 +85,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &-9023327873804874164
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 434199003347398403}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0ec25243686960d4c815556c922ef970, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  mapObject: {fileID: 0}
-  key: 0
-  mySpawnNumber: 0
-  enemyMaxSize: 0
-  fishMaxSize: 0
 --- !u!1 &8465054877537293370
 GameObject:
   m_ObjectHideFlags: 0

@@ -7,7 +7,7 @@ public class SpawnObject : MonoBehaviour
     private long _mapSpawnConut = 0;
     private long _characterSpawnConut = 0;
     private long _weaponSpawnConut = 0;
-    //private long _testMapSpawnConut = 0;
+    private long _testMapSpawnConut = 0;
 
     public void ObjectSpawnPool()
     {
@@ -90,32 +90,32 @@ public class SpawnObject : MonoBehaviour
                     _mapSpawnConut++;
                 }
 
-                    //int testMaxSize = 3;
+                int testMaxSize = 3;
+                // 현재 Player가 한명으로써 진행
+                for (int i = 0; i < testMaxSize; i++)
+                {
+                    GameObject SpawnMapObject = Instantiate(GetPrefabObject(Prefab_MapSpawnObject));
+                    // Player 주변에 생성될 MapSpawnPositionObject를 3개 생성
 
-                    //for (int i = 0; i < maxSize; i++)
-                    //{
-                    //    GameObject SpawnMapObject = Instantiate(GetPrefabObject(Prefab_SpawnMap));
+                    SpawnMap spawnMap = SpawnMapObject.GetComponent<SpawnMap>();
+                    GameManager.OBJECT.spawnMapDataList.Add(_testMapSpawnConut, spawnMap);
 
-                    //    SpawnMap spawnMap = SpawnMapObject.GetComponent<SpawnMap>();
-                    //    GameManager.OBJECT.spawnMapDataList.Add(_testMapSpawnConut, spawnMap);
-                    //    _testMapSpawnConut++;
+                    spawnMap.mySpawnNumber = _testMapSpawnConut;
+                    // Position Key와는 다른 SpawnCount Key
+                    // Position Key보단 Spawn Key가 알아보기 더 좋으려나
 
-                    //    spawnMap.mySpawnNumber = _testMapSpawnConut;
+                    GameObject RandomMapObject =
+                        Instantiate(GetPrefabObject(Prefab_RandomMap), spawnMap.mapSpawnObject);
+                    GameObject PlayerSettingMapObject =
+                        Instantiate(GetPrefabObject(Prefab_PlayerSettingMap), spawnMap.mapSpawnObject);
+                    GameObject EventMapObject =
+                        Instantiate(GetPrefabObject(Prefab_EventMap), spawnMap.mapSpawnObject);
+                    
 
-                    //    for (int j = 0; j < testMaxSize; j++)
-                    //    {
-                    //        GameObject MapObject = Instantiate(GetPrefabObject(Prefab_Map));
 
-                    //        Map map = MapObject.GetComponent<Map>();
-                    //        GameManager.OBJECT.mapDataList.Add(_mapSpawnConut, map);
-                    //        _mapSpawnConut++;
-
-                    //        map.mySpawnNumber = _mapSpawnConut;
-
-                    //        map.SetActiveObject(false);
-                    //    }
-                    //}
-                    break;
+                    _testMapSpawnConut++;
+                }
+                break;
             case ObjectType.EnemyWeapon:
                 maxSize = 20;
 
@@ -180,5 +180,8 @@ public class SpawnObject : MonoBehaviour
     private const string Prefab_PlayerWeapon = "Prefabs/PlayerAttack";
     private const string Prefab_Drop_Fish = "Prefabs/FishItem";
 
-    //private const string Prefab_SpawnMap = "Prefabs/SpawnMap";
+    private const string Prefab_MapSpawnObject = "Prefabs/SpawnMap";
+    private const string Prefab_RandomMap = "Prefabs/RandomMap";
+    private const string Prefab_PlayerSettingMap = "Prefabs/PlayerSettingMap";
+    private const string Prefab_EventMap = "Prefabs/EventMap";
 }

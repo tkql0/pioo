@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class MapController
 {
-    public int[] mapPositionKey;
+    public float[] mapPositionKey;
     // 해당 배열의 크기는 맵을 생성하며 mapSpawnSize로 초기화
     // 맵마다의 position key로써 Player가 맵이 겹치는지 확인용
 

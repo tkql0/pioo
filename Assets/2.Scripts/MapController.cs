@@ -31,4 +31,24 @@ public class MapController
 
         return (enemyReSpawnSize, fishReSpawnSize);
     }
+
+    public void SetMapPositionKey(long SpawnNumber, Vector2 mapPosition)
+    {
+        GameManager.Map.mapPositionKey[SpawnNumber] = (int)mapPosition.x / 40;
+    }
+
+    public int StayPlayerCount(long SpawnNumber)
+    {
+        int stayPlayer = 0;
+        // 확인전 초기화
+
+        foreach(int i in mapPositionKey)
+        {
+            if (mapPositionKey[i] == mapPositionKey[SpawnNumber])
+                stayPlayer++;
+            // 맵의 Position Key를 돌며 같은 Key가 있는지 확인 후 저장
+        }
+
+        return stayPlayer;
+    }
 }

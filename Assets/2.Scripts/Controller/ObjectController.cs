@@ -24,7 +24,7 @@ public class ObjectController
     public Player player;
     public Dictionary<long, Character> characterDataList = new Dictionary<long, Character>();
     public Dictionary<long, Map> mapDataList = new Dictionary<long, Map>();
-    //public Dictionary<long, SpawnMap> spawnMapDataList = new Dictionary<long, SpawnMap>();
+    public Dictionary<long, SpawnMap> spawnMapDataList = new Dictionary<long, SpawnMap>();
     public Dictionary<long, Weapon> weaponDataList = new Dictionary<long, Weapon>();
 
     public Dictionary<long, Item> itemDataList = new Dictionary<long, Item>();

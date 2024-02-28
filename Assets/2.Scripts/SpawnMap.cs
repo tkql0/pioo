@@ -23,7 +23,7 @@ public class SpawnMap : MonoBehaviour
     // Player의 mySpawnNumber을 받을 변수
 
     //private bool isRelocation = false;
-    public int stayPlayer;
+    //public int stayPlayer;
     // 해당 맵에 머무르고 있는 Player가 0이라면 비활성화
     // 해당 맵에 Player가 머물고있는지 확인을 하는 법은
     // 맵의 x좌표의 40(맵과의 간격)을 나눠서
@@ -40,12 +40,15 @@ public class SpawnMap : MonoBehaviour
     //private void MapRelocation()
     private void MapPosition()
     { // 맵이 아닌 맵이 있을 공간을 이동
+        GameManager.Map.SetMapPositionKey(mySpawnNumber, myMapPosition);
+        // 맵의 현재 위치 확인
+
         Vector2 targetPosition = GameManager.OBJECT.player.characterPosition;
         // Dictionary로 만들 Player들의 mySpawnNumber을 받고
         // GameManager.OBJECT.player[targetSpawnNumber].characterPosition
         // 각자 지정된 Player를 따라다니는 MapPosition()
 
-        float DistanceX = targetPosition.x - mapPosition.x;
+        float DistanceX = targetPosition.x - myMapPosition.x;
         float differenceX = Mathf.Abs(DistanceX);
 
         DistanceX = DistanceX > 0 ? 1 : -1;
@@ -55,36 +58,31 @@ public class SpawnMap : MonoBehaviour
 
         if (differenceX > DeSpawn_Distance)
         { // 맵이 Palyer에게서 멀어졌을때
-            if (stayPlayer <= 1)
-            { // 맵에 존재하는 플레이어가 1 이하일 때
+            if (GameManager.Map.StayPlayerCount(mySpawnNumber) <= 1)
+            { // 이동 전 맵에 존재하는 플레이어가 1 이하일 때 (자신 포함)
                 mapObject.SetActive(false);
                 GameManager.SPAWN.DeSpawn(targetPosition, DeSpawn_Distance - 15);
                 // 맵과 몬스터를 비활성화
             }
+
             mapSpawnObject.Translate(Vector2.right * DistanceX * 120);
             // MapPosition()이 이동
 
-            SetMapPositionKey();
+            if (GameManager.Map.StayPlayerCount(mySpawnNumber) <= 1)
+            { // 이동 후 맵에 존재하는 플레이어가 1 이하일 때 (자신 포함)
+
+            }
         }
     }
 
-    private void SetMapPositionKey()
-    {
-        stayPlayer = 0;
+    private void MapRandomSpawn()
+    { // 비활성화된 맵 오브젝트중 하나 랜덤으로 활성화
 
-        GameManager.Map.mapPositionKey[mySpawnNumber] = (int)mapPosition.x / 40;
-
-        for(int i = 0; i < GameManager.Map.mapPositionKey.Length; i++)
-        {
-            if (GameManager.Map.mapPositionKey[i] == GameManager.Map.mapPositionKey[mySpawnNumber])
-                stayPlayer++;
-        }
     }
-    // 여기까지 내일 다시
 
     public bool isActive => mapObject.activeSelf;
 
-    public Vector2 mapPosition => transform.position;
+    public Vector2 myMapPosition => transform.position;
     public Transform mapSpawnObject => transform;
 
     private const float DeSpawn_Distance = 60f;

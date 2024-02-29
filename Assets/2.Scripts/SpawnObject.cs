@@ -101,17 +101,10 @@ public class SpawnObject : MonoBehaviour
                     GameManager.OBJECT.spawnMapDataList.Add(_testMapSpawnConut, spawnMap);
 
                     spawnMap.mySpawnNumber = _testMapSpawnConut;
-                    // Position Key와는 다른 SpawnCount Key
-                    // Position Key보단 Spawn Key가 알아보기 더 좋으려나
 
-                    GameObject RandomMapObject =
-                        Instantiate(GetPrefabObject(Prefab_RandomMap), spawnMap.mapSpawnObject);
-                    GameObject PlayerSettingMapObject =
-                        Instantiate(GetPrefabObject(Prefab_PlayerSettingMap), spawnMap.mapSpawnObject);
-                    GameObject EventMapObject =
-                        Instantiate(GetPrefabObject(Prefab_EventMap), spawnMap.mapSpawnObject);
-                    
-
+                    mapSpawnList(GetPrefabObject(Prefab_RandomMap), spawnMap);
+                    mapSpawnList(GetPrefabObject(Prefab_PlayerSettingMap), spawnMap);
+                    mapSpawnList(GetPrefabObject(Prefab_EventMap), spawnMap);
 
                     _testMapSpawnConut++;
                 }
@@ -152,6 +145,14 @@ public class SpawnObject : MonoBehaviour
                 }
                 break;
         }
+    }
+
+    public void mapSpawnList(GameObject InMapObject, SpawnMap spawnMap)
+    {
+        GameObject mapObject = Instantiate(InMapObject, spawnMap.mapSpawnObject);
+
+        spawnMap.mapObjects.Add(mapObject);
+        mapObject.SetActive(false);
     }
 
     public long itemMaxSize;

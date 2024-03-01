@@ -24,8 +24,10 @@ public class ObjectController
     public Player player;
     public Dictionary<long, Character> characterDataList = new Dictionary<long, Character>();
     public Dictionary<long, Map> mapDataList = new Dictionary<long, Map>();
-    public Dictionary<long, SpawnMap> spawnMapDataList = new Dictionary<long, SpawnMap>();
+    public Dictionary<long, TestMap> testMapDataList = new Dictionary<long, TestMap>();
     // 위에 있는 mapDataList와는 다른 테스트용 Dictionary
+    public Dictionary<long, SpawnPositionObject> testSpawmPositionDataList =
+        new Dictionary<long, SpawnPositionObject>();
     public Dictionary<long, Weapon> weaponDataList = new Dictionary<long, Weapon>();
 
     public Dictionary<long, Item> itemDataList = new Dictionary<long, Item>();

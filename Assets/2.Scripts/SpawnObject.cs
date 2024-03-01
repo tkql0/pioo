@@ -91,22 +91,20 @@ public class SpawnObject : MonoBehaviour
                 }
 
                 int testMaxSize = 3;
-                // 현재 Player가 한명으로써 진행
+                // 현재 Player가 한명이라는 가정하에 진행
                 for (int i = 0; i < testMaxSize; i++)
                 {
                     GameObject SpawnMapObject = Instantiate(GetPrefabObject(Prefab_MapSpawnObject));
                     // Player 주변에 생성될 MapSpawnPositionObject를 3개 생성
 
-                    SpawnMap spawnMap = SpawnMapObject.GetComponent<SpawnMap>();
-                    GameManager.OBJECT.spawnMapDataList.Add(_testMapSpawnConut, spawnMap);
+                    //NULLMap nullMap = SpawnMapObject.GetComponent<NULLMap>();
+                    //GameManager.OBJECT.testMapDataList.Add(_testMapSpawnConut, spawnMap);
 
-                    spawnMap.mySpawnNumber = _testMapSpawnConut;
+                    //spawnMap.mySpawnNumber = _testMapSpawnConut;
 
-                    mapSpawnList(GetPrefabObject(Prefab_RandomMap), spawnMap);
-                    mapSpawnList(GetPrefabObject(Prefab_PlayerSettingMap), spawnMap);
-                    mapSpawnList(GetPrefabObject(Prefab_EventMap), spawnMap);
-
-                    _testMapSpawnConut++;
+                    MapSpawnList(GetPrefabObject(Prefab_RandomMap));
+                    MapSpawnList(GetPrefabObject(Prefab_PlayerSettingMap));
+                    MapSpawnList(GetPrefabObject(Prefab_EventMap));
                 }
                 break;
             case ObjectType.EnemyWeapon:
@@ -147,12 +145,17 @@ public class SpawnObject : MonoBehaviour
         }
     }
 
-    public void mapSpawnList(GameObject InMapObject, SpawnMap spawnMap)
+    public void MapSpawnList(GameObject InMapObject)
     {
-        GameObject mapObject = Instantiate(InMapObject, spawnMap.mapSpawnObject);
+        GameObject mapObject = Instantiate(InMapObject, transform);
 
-        spawnMap.mapObjects.Add(mapObject);
+        TestMap testMap = mapObject.GetComponent<TestMap>();
+
+        GameManager.OBJECT.testMapDataList.Add(_testMapSpawnConut, testMap);
+
         mapObject.SetActive(false);
+
+        _testMapSpawnConut++;
     }
 
     public long itemMaxSize;

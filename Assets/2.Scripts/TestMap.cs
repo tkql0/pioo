@@ -1,13 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-public enum MapType
-{
-    NULL,
-    RandomMap,
-    EventMap,
-    PlayerSettingMap,
-}
+//public enum MapType
+//{
+//    NULL,
+//    RandomMap,
+//    EventMap,
+//    PlayerSettingMap,
+//}
 
 public class TestMap : MonoBehaviour
 {

@@ -25,7 +25,6 @@ public class ObjectController
     public Dictionary<long, Character> characterDataList = new Dictionary<long, Character>();
     public Dictionary<long, Map> mapDataList = new Dictionary<long, Map>();
     public Dictionary<long, TestMap> testMapDataList = new Dictionary<long, TestMap>();
-    // 위에 있는 mapDataList와는 다른 테스트용 Dictionary
     public Dictionary<long, SpawnPositionObject> testSpawmPositionDataList =
         new Dictionary<long, SpawnPositionObject>();
     public Dictionary<long, Weapon> weaponDataList = new Dictionary<long, Weapon>();
@@ -86,9 +85,6 @@ public class ObjectController
                 {
                     if (mapDataList.TryGetValue(InIndex, out var outMapData) == false)
                         return outMapData.isActive;
-
-                    //if (spawnMapDataList.TryGetValue(InIndex, out var outMapData) == false)
-                    //    return outMapData.isActive;
                 }
                 break;
         }

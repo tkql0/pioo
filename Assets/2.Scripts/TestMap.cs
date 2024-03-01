@@ -11,25 +11,27 @@ public enum MapType
 
 public class TestMap : MonoBehaviour
 {
-    public GameObject mabObject;
+    //public GameObject mabObject;
 
-    public void RandomMap()
-    {
+    //public void RandomMap()
+    //{
 
-    }
+    //}
 
-    public void SpawnMap(MapType InMapType)
-    {
-        switch (InMapType)
-        {
-            case MapType.RandomMap:
+    //public void SpawnMap(MapType InMapType)
+    //{
+    //    GameObject Map;
 
-                break;
-        }
-    }
+    //    switch (InMapType)
+    //    {
+    //        case MapType.RandomMap:
+    //            Map = 
+    //            break;
+    //    }
+    //}
 
-    public void DeSpawnMap()
-    {
+    //public void DeSpawnMap()
+    //{
 
-    }
+    //}
 }

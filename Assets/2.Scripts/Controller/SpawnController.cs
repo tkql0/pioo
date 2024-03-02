@@ -30,25 +30,11 @@ public class SpawnController
             if (mapSpawnCount == Right_MapSpawn)
                 mapSpawnCount = Left_MapSpawn;
 
+            outMapData.Value.positionNumber = mapSpawnCount;
+
             mapSpawnCount++;
 
             outMapData.Value.MapMonsterSpawn(outMapData.Value.enemyMaxSize, outMapData.Value.fishMaxSize);
-        }
-    }
-
-    public void TestGameStartSpawnPosition()
-    {
-        int mapSpawnCount = Left_MapSpawn;
-
-        foreach (KeyValuePair<long, SpawnPositionObject> outMapData in GameManager.OBJECT.testSpawmPositionDataList)
-        {
-            outMapData.Value.transform.position =
-                new Vector2(GameManager.OBJECT.player.characterPosition.x + (mapSpawnCount * Map_Distance), 0);
-
-            if (mapSpawnCount == Right_MapSpawn)
-                mapSpawnCount = Left_MapSpawn;
-
-            mapSpawnCount++;
         }
     }
 

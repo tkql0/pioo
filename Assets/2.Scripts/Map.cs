@@ -2,19 +2,29 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum MAPType
+{
+    RANDOM,
+    SETTING,
+    EVENT,
+}
+
 public class Map : MonoBehaviour
 {
     public GameObject mapObject;
     public ObjectType key;
     public long mySpawnNumber;
     public long targetSpawnNumber;
-    // 플레이어의 key를 받아올 예정
 
     public long enemyMaxSize;
     public long fishMaxSize;
 
-    private float ReSpawn_Time = 10f;
+    private float reSpawn_Time = 10f;
+    public float positionNumber;
 
+    public bool isRelocation = false;
+
+    public MAPType mapType;
 
     private void Update()
     {
@@ -26,6 +36,35 @@ public class Map : MonoBehaviour
         mapObject = gameObject;
         enemyMaxSize = Random.Range(1, 6);
         fishMaxSize = Random.Range(1, 15);
+    }
+
+    private void RandomMap()
+    {
+        mapType = (MAPType)Random.Range(0, 3);
+
+        switch (mapType)
+        {
+            case MAPType.RANDOM:
+                enemyMaxSize = Random.Range(1, 6);
+                fishMaxSize = Random.Range(1, 15);
+
+                MapMonsterSpawn(enemyMaxSize, fishMaxSize);
+                break;
+            case MAPType.SETTING:
+                enemyMaxSize = GameManager.OBJECT.player.PlayerLv / 20;
+                fishMaxSize = GameManager.OBJECT.player.fishItemCount;
+
+                GameManager.OBJECT.player.fishItemCount = 0;
+
+                MapMonsterSpawn(enemyMaxSize, fishMaxSize);
+                break;
+            case MAPType.EVENT:
+                enemyMaxSize = Random.Range(0, 6);
+                fishMaxSize = Random.Range(0, 15);
+
+                MapMonsterSpawn(enemyMaxSize, fishMaxSize);
+                break;
+        }
     }
 
     private void MapRelocation()
@@ -45,10 +84,8 @@ public class Map : MonoBehaviour
 
             transform.Translate(Vector2.right * DistanceX * 120);
 
-            enemyMaxSize = Random.Range(1, 6);
-            fishMaxSize = Random.Range(1, 15);
-
-            MapMonsterSpawn(enemyMaxSize, fishMaxSize);
+            RandomMap();
+            positionNumber = (int)MapPosition.x / 40;
         }
     }
 
@@ -56,7 +93,7 @@ public class Map : MonoBehaviour
     {
         GameManager.SPAWN.Spawn(MapPosition, InEnemySize, InFishSize, mySpawnNumber);
 
-        StartCoroutine(ReSpawn(ReSpawn_Time));
+        StartCoroutine(ReSpawn(reSpawn_Time));
     }
 
     private IEnumerator ReSpawn(float InReSpawnTime)

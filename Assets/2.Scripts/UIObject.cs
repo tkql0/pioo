@@ -80,7 +80,6 @@ public class UIObject : MonoBehaviour
         _isStart = false;
         SetGameStart();
         GameManager.SPAWN.GameStartSpawnPosition();
-        GameManager.SPAWN.TestGameStartSpawnPosition();
 
         _healthSlider.value = GameManager.OBJECT.player.maxHealth;
         _breathSlider.value = GameManager.OBJECT.player.maxBreath;

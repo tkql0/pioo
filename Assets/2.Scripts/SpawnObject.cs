@@ -7,8 +7,6 @@ public class SpawnObject : MonoBehaviour
     private long _mapSpawnConut = 0;
     private long _characterSpawnConut = 0;
     private long _weaponSpawnConut = 0;
-    private long _testMapSpawnConut = 0;
-    private long _testMapConut = 0;
 
     public void ObjectSpawnPool()
     {
@@ -89,21 +87,6 @@ public class SpawnObject : MonoBehaviour
                     GameManager.OBJECT.mapDataList.Add(_mapSpawnConut, map);
                     _mapSpawnConut++;
                 }
-
-                int testMaxSize = 3;
-                for (int i = 0; i < testMaxSize; i++)
-                {
-                    GameObject SpawnMapObject = Instantiate(GetPrefabObject(Prefab_MapSpawnObject));
-                    SpawnPositionObject spawnPositionObject =
-                        SpawnMapObject.GetComponent<SpawnPositionObject>();
-                    GameManager.OBJECT.testSpawmPositionDataList.Add
-                        (_testMapSpawnConut, spawnPositionObject);
-                    _testMapSpawnConut++;
-
-                    MapSpawnList(GetPrefabObject(Prefab_RandomMap));
-                    MapSpawnList(GetPrefabObject(Prefab_PlayerSettingMap));
-                    MapSpawnList(GetPrefabObject(Prefab_EventMap));
-                }
                 break;
             case ObjectType.EnemyWeapon:
                 maxSize = 20;
@@ -145,19 +128,6 @@ public class SpawnObject : MonoBehaviour
         }
     }
 
-    public void MapSpawnList(GameObject InMapObject)
-    {
-        GameObject mapObject = Instantiate(InMapObject, transform);
-
-        TestMap testMap = mapObject.GetComponent<TestMap>();
-
-        GameManager.OBJECT.testMapDataList.Add(_testMapConut, testMap);
-
-        mapObject.SetActive(false);
-
-        _testMapConut++;
-    }
-
     //public long itemMaxSize;
     //private void SpawnItemPool(ItemType InItemType)
     //{
@@ -183,9 +153,4 @@ public class SpawnObject : MonoBehaviour
     private const string Prefab_EnemyWeapon = "Prefabs/EnemyAttack";
     private const string Prefab_PlayerWeapon = "Prefabs/PlayerAttack";
     private const string Prefab_Drop_Fish = "Prefabs/FishItem";
-
-    private const string Prefab_MapSpawnObject = "Prefabs/SpawnMap";
-    private const string Prefab_RandomMap = "Prefabs/RandomMap";
-    private const string Prefab_PlayerSettingMap = "Prefabs/PlayerSettingMap";
-    private const string Prefab_EventMap = "Prefabs/EventMap";
 }

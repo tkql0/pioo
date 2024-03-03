@@ -14,10 +14,10 @@ public class Player : Character
     private Vector2 _inputVector;
     private Vector2 _gravityPoint;
 
-    public float moveMaxSpeed;
+    public float moveAddSpeed;
+    public float moveSpeed;
     public float moveSpeedX;
     public float moveSpeedY;
-    // 이거 다시 보기
 
     private bool _isMove;
     private bool _isJump;
@@ -25,7 +25,6 @@ public class Player : Character
     private bool _isSwimming;
     private bool _isEat;
     public bool isLv_up;
-    // 앤 UI로 넘겨야겟다
 
     public float maxBreath;
     public float curBreath;
@@ -59,7 +58,8 @@ public class Player : Character
         curHealth = maxHealth;
         curBreath = maxBreath;
 
-        moveMaxSpeed = 10f;
+        moveAddSpeed = 2f;
+        moveSpeed = 6f;
         isDie = false;
         _isMove = false;
         _isJump = false;
@@ -88,32 +88,42 @@ public class Player : Character
 
     private void FixedUpdate()
     {
-        if (isDie == false && _isMove)
+        if (isDie == true)
+            return;
+
+        if (_isSwimming)
         {
-            moveSpeedX = rigid.velocity.x / 2;
-            moveSpeedY = rigid.velocity.y / 2;
+            float moveMaxSpeed = moveSpeed + moveAddSpeed;
 
-            rigid.gravityScale = 0.1f;
-            rigid.AddForce((_inputVector).normalized, ForceMode2D.Impulse);
-
-            if (moveSpeedX > moveMaxSpeed)
-                rigid.velocity = new Vector2(moveMaxSpeed, moveSpeedY);
-            else if (moveSpeedX < moveMaxSpeed * (-1))
-                rigid.velocity = new Vector2(moveMaxSpeed * (-1), moveSpeedY);
-
-            if (moveSpeedY > moveMaxSpeed)
-                rigid.velocity = new Vector2(moveSpeedX, moveMaxSpeed);
-            else if (moveSpeedY < moveMaxSpeed * (-1))
-                rigid.velocity = new Vector2(moveSpeedX, moveMaxSpeed * (-1));
+            MoveSpeed(moveMaxSpeed);
         }
-        // 속도 줄여야됨
-        // shift를 누르면 속도 올라가게
+        else
+            MoveSpeed(moveSpeed);
+    }
+
+    private void MoveSpeed(float MaxSpeed)
+    {
+        if (!_isMove)
+            return;
+
+        moveSpeedX = rigid.velocity.x;
+        moveSpeedY = rigid.velocity.y;
+
+        rigid.gravityScale = 0.1f;
+        rigid.AddForce((_inputVector).normalized, ForceMode2D.Impulse);
+
+        if (Mathf.Abs(moveSpeedX) > MaxSpeed)
+            rigid.velocity = new Vector2(Mathf.Sign(moveSpeedX) * MaxSpeed, moveSpeedY);
+
+        if (Mathf.Abs(moveSpeedY) > MaxSpeed)
+            rigid.velocity = new Vector2(moveSpeedX, Mathf.Sign(moveSpeedY) * MaxSpeed);
     }
 
     public override void Move()
     {
-        _inputVector.x = Input.GetAxisRaw(Horizontal);
-        _inputVector.y = Input.GetAxisRaw(Vertical);
+        _inputVector = new Vector2(Input.GetAxisRaw(Horizontal), Input.GetAxisRaw(Vertical));
+
+        
 
         if (_inputVector.x != 0)
             sprite.flipX = _inputVector.x > 0;

@@ -45,22 +45,24 @@ public class Map : MonoBehaviour
         switch (mapType)
         {
             case MAPType.RANDOM:
-                enemyMaxSize = Random.Range(1, 6);
-                fishMaxSize = Random.Range(1, 15);
+                enemyMaxSize = Random.Range(1, 4);
+                fishMaxSize = Random.Range(1, 10);
 
                 MapMonsterSpawn(enemyMaxSize, fishMaxSize);
                 break;
             case MAPType.SETTING:
-                enemyMaxSize = GameManager.OBJECT.player.PlayerLv / 20;
+                enemyMaxSize = GameManager.OBJECT.player.PlayerLv / 30;
                 fishMaxSize = GameManager.OBJECT.player.fishItemCount;
 
-                GameManager.OBJECT.player.fishItemCount = 0;
+                Debug.Log("고요한 바다");
 
                 MapMonsterSpawn(enemyMaxSize, fishMaxSize);
                 break;
             case MAPType.EVENT:
-                enemyMaxSize = Random.Range(0, 6);
-                fishMaxSize = Random.Range(0, 15);
+                enemyMaxSize = Random.Range(0, 10);
+                fishMaxSize = Random.Range(0, 20);
+
+                Debug.Log("흔들리는 바다");
 
                 MapMonsterSpawn(enemyMaxSize, fishMaxSize);
                 break;

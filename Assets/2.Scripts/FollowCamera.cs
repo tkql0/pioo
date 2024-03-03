@@ -47,6 +47,6 @@ public class FollowCamera : MonoBehaviour
     private Vector3 GetLerp()
     {
         return Vector3.Lerp(_cameraPosition, (Vector3)_player.characterPosition +
-            _centerPosition, Time.fixedDeltaTime * _player.moveMaxSpeed);
+            _centerPosition, Time.fixedDeltaTime * _player.moveSpeed);
     }
 }

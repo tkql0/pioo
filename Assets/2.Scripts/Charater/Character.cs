@@ -17,7 +17,9 @@ public class Character : MonoBehaviour
     public long weaponPower = 10;
     public long weaponSpawnKey = -1;
 
-    public int damage = 5;
+    public int damage = 4;
+    public int playerCriticalDamage = 3;
+    public int enemyCriticalDamage = 2;
 
     public float coolTimeMax;
     public float coolTime;

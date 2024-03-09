@@ -12,6 +12,7 @@ TagManager:
   - Enemy_Attack
   - Player_Attack
   - Fish
+  - Bait
   layers:
   - Default
   - TransparentFX

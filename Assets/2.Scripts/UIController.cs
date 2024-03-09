@@ -5,6 +5,9 @@ using UnityEngine.UI;
 
 public class UIController
 {
+    public bool _isClick = false;
+    public bool _isStart = true;
+
     public void OnEnable()
     {
 

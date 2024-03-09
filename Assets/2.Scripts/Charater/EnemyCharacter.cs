@@ -9,6 +9,8 @@ public class EnemyCharacter : Character
     private GameObject _scanObject;
     [SerializeField]
     private GameObject _detection;
+    [SerializeField]
+    private GameObject _bait;
 
     private RaycastHit2D[] _inTarget;
     [SerializeField]
@@ -16,6 +18,8 @@ public class EnemyCharacter : Character
 
     [SerializeField]
     private float _scanRange = 0.8f;
+
+    private float _RandomBaitPosition;
 
     public int _weaponCurCount;
     private int _weaponMaxCount;
@@ -47,6 +51,8 @@ public class EnemyCharacter : Character
         curHealth = maxHealth;
         _healthSlider.maxValue = maxHealth;
         _healthSlider.value = maxHealth;
+
+        _RandomBaitPosition = Random.Range(-0.5f, -30f);
     }
 
     private void OnDestroy()
@@ -85,8 +91,15 @@ public class EnemyCharacter : Character
 
             if (isDamage == false)
             {
+                int Critical = Random.Range(1, 5);
+
                 isDamage = true;
-                curHealth -= damage;
+
+                if (Critical == 4)
+                    curHealth -= (damage + playerCriticalDamage);
+                else
+                    curHealth -= damage;
+
                 StartCoroutine(OnDamage(sprite));
             }
         }

@@ -40,8 +40,8 @@ public class Player : Character
     private float _jumpPower = 0;
 
     private float _attackPower = 0.0f;
-    private float _attackMinPower = 5.0f;
-    private float _attackMaxPower = 10.0f;
+    public float attackMinPower = 5.0f;
+    public float attackMaxPower = 10.0f;
 
     public float gravityMaxPointY = 0;
 
@@ -68,7 +68,7 @@ public class Player : Character
 
     private void Update()
     {
-        if (isDie == false)
+        if (isDie == false && GameManager.UI._isClick == false)
         {
             if(Input.GetKey(KeyCode.F) && fishItemCount > 0 && !_isEat)
                 StartCoroutine(EatDelay());
@@ -122,8 +122,6 @@ public class Player : Character
     public override void Move()
     {
         _inputVector = new Vector2(Input.GetAxisRaw(Horizontal), Input.GetAxisRaw(Vertical));
-
-        
 
         if (_inputVector.x != 0)
             sprite.flipX = _inputVector.x > 0;
@@ -186,7 +184,7 @@ public class Player : Character
         if (EventSystem.current.IsPointerOverGameObject())
             return;
 
-        attackPowerSlider.maxValue = _attackMinPower;
+        attackPowerSlider.maxValue = attackMinPower;
 
         if (Input.GetMouseButton(0))
         {
@@ -198,9 +196,9 @@ public class Player : Character
         {
             attackPowerSlider.gameObject.SetActive(false);
 
-            _attackPower += _attackMinPower;
-            if (_attackPower > _attackMaxPower)
-                _attackPower = _attackMaxPower;
+            _attackPower += attackMinPower;
+            if (_attackPower > attackMaxPower)
+                _attackPower = attackMaxPower;
 
             GameObject Attack = GameManager.SPAWN.GetObjectSpawn
                 (characterPosition, weaponSpawnKey, ObjectType.PlayerWeapon);
@@ -241,7 +239,13 @@ public class Player : Character
             {
                 isDamage = true;
                 collision.gameObject.SetActive(false);
-                curHealth = curHealth - damage;
+
+                int Critical = Random.Range(1, 5);
+
+                if(Critical == 4)
+                    curHealth = curHealth - (damage + enemyCriticalDamage);
+                else
+                    curHealth = curHealth - damage;
                 StartCoroutine(OnDamage(sprite));
 
                 isDamage = false;

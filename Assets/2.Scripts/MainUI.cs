@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
-public class UIObject : MonoBehaviour
+public class MainUI : MonoBehaviour
 {
     [SerializeField]
     private GameObject _gameStartPanel;
@@ -14,11 +14,11 @@ public class UIObject : MonoBehaviour
     private GameObject _gameStopButton;
 
     [SerializeField]
-    private Text _experienceTxt;
+    private Text _experienceText;
     [SerializeField]
-    private Text _healthTxt;
+    private Text _healthText;
     [SerializeField]
-    private Text _breathTxt;
+    private Text _breathText;
 
     [SerializeField]
     private Text _fishCount;
@@ -33,12 +33,9 @@ public class UIObject : MonoBehaviour
     [SerializeField]
     private RectTransform _menuUI;
 
-    private bool _isClick = false;
-    private bool _isStart = true;
-
     private void Update()
     {
-        if (_isStart || GameManager.OBJECT.player.isDie == true)
+        if (GameManager.UI._isStart || GameManager.OBJECT.player.isDie == true)
             SetGameStop();
 
         SetSliderDataUpdate(GameManager.OBJECT.player);
@@ -54,9 +51,9 @@ public class UIObject : MonoBehaviour
             InPlayer.isDie = true;
         }
 
-        _healthTxt.text = (int)InPlayer.curHealth +
+        _healthText.text = (int)InPlayer.curHealth +
             " / " + InPlayer.maxHealth;
-        _breathTxt.text = (int)InPlayer.curBreath +
+        _breathText.text = (int)InPlayer.curBreath +
             " / " + InPlayer.maxBreath;
 
         _fishCount.text = "Fish\n" + InPlayer.fishItemCount +
@@ -77,7 +74,7 @@ public class UIObject : MonoBehaviour
         if (!_gameStartPanel)
             return;
 
-        _isStart = false;
+        GameManager.UI._isStart = false;
         SetGameStart();
         GameManager.SPAWN.GameStartSpawnPosition();
 
@@ -90,17 +87,17 @@ public class UIObject : MonoBehaviour
 
     public void OnStop()
     {
-        if (!_isClick)
+        if (!GameManager.UI._isClick)
         {
             GameManager.UI.SetUIEnter(_menuUI);
             SetGameStop();
-            _isClick = true;
+            GameManager.UI._isClick = true;
         }
         else
         {
             GameManager.UI.SetUIExit(_menuUI);
             SetGameStart();
-            _isClick = false;
+            GameManager.UI._isClick = false;
         }
     }
 
@@ -114,7 +111,7 @@ public class UIObject : MonoBehaviour
         if (_experienceSlider.value != InPlayer.maxExperience)
             return;
 
-        _experienceTxt.text = "Lv. " + GameManager.UI.GetLevelUpStat(InPlayer);
+        _experienceText.text = "Lv. " + GameManager.UI.GetLevelUpStat(InPlayer);
     }
 
     private void SetGameStop() => Time.timeScale = 0;

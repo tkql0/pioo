@@ -18,14 +18,15 @@ public class Character : MonoBehaviour
     public long weaponSpawnKey = -1;
 
     public int damage = 4;
+    public int playerDamage = 4;
     public int playerCriticalDamage = 3;
     public int enemyCriticalDamage = 2;
 
     public float coolTimeMax;
     public float coolTime;
 
-    public float maxHealth;
-    public float curHealth;
+    public float maxHealth = 0.0f;
+    public float curHealth = 0.0f;
 
     public bool isDie;
     public bool isDamage;

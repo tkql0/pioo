@@ -179,15 +179,18 @@ MonoBehaviour:
   targetMask:
     serializedVersion: 2
     m_Bits: 128
+  rigid: {fileID: 0}
+  sprite: {fileID: 0}
   key: 0
   targetSpawnNumber: 0
   mySpawnNumber: 0
+  characterObject: {fileID: 0}
   weaponPower: 10
   weaponSpawnKey: -1
-  characterObject: {fileID: 0}
-  rigid: {fileID: 0}
-  sprite: {fileID: 0}
   damage: 5
+  playerDamage: 4
+  playerCriticalDamage: 3
+  enemyCriticalDamage: 2
   coolTimeMax: 0
   coolTime: 0
   maxHealth: 5
@@ -195,19 +198,24 @@ MonoBehaviour:
   isDie: 0
   isDamage: 0
   player: {fileID: 0}
+  cam: {fileID: 0}
   attackPowerSlider: {fileID: 7512124684891448307}
+  moveSpeed: 0
   moveMaxSpeed: 0
   moveSpeedX: 0
   moveSpeedY: 0
-  cam: {fileID: 0}
   isLv_up: 0
   maxBreath: 10
   curBreath: 0
   maxExperience: 10
   curExperience: 0
   PlayerLv: 1
+  LvPoint: 50
   fishItemCount: 0
   fishItemMaxCount: 10
+  fishEatCount: 1
+  attackMinPower: 2
+  attackMaxPower: 6
   gravityMaxPointY: 0
 --- !u!253 &5942437967893040124
 BuoyancyEffector2D:

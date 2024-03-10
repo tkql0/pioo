@@ -96,9 +96,9 @@ public class EnemyCharacter : Character
                 isDamage = true;
 
                 if (Critical == 4)
-                    curHealth -= (damage + playerCriticalDamage);
+                    curHealth -= (playerDamage + playerCriticalDamage);
                 else
-                    curHealth -= damage;
+                    curHealth -= playerDamage;
 
                 StartCoroutine(OnDamage(sprite));
             }

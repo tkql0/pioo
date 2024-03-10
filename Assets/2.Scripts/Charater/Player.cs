@@ -14,10 +14,10 @@ public class Player : Character
     private Vector2 _inputVector;
     private Vector2 _gravityPoint;
 
-    public float moveAddSpeed;
-    public float moveSpeed;
-    public float moveSpeedX;
-    public float moveSpeedY;
+    public float moveSpeed = 0.0f;
+    public float moveMaxSpeed = 0.0f;
+    public float moveSpeedX = 0.0f;
+    public float moveSpeedY = 0.0f;
 
     private bool _isMove;
     private bool _isJump;
@@ -26,22 +26,25 @@ public class Player : Character
     private bool _isEat;
     public bool isLv_up;
 
-    public float maxBreath;
-    public float curBreath;
+    public float maxBreath = 0.0f;
+    public float curBreath = 0.0f;
 
-    public float maxExperience;
-    public float curExperience;
+    public float maxExperience = 0.0f;
+    public float curExperience = 0.0f;
 
     public int PlayerLv = 1;
+    public int LvPoint = 50;
 
     public int fishItemCount = 0;
     public int fishItemMaxCount = 10;
+    public int fishEatCount = 1;
 
-    private float _jumpPower = 0;
+    private float _jumpPower = 0.0f;
 
     private float _attackPower = 0.0f;
-    public float attackMinPower = 5.0f;
-    public float attackMaxPower = 10.0f;
+    private float _chargingPower = 0.0f;
+    public float attackMinPower = 0.0f;
+    public float attackMaxPower = 6.0f;
 
     public float gravityMaxPointY = 0;
 
@@ -58,8 +61,8 @@ public class Player : Character
         curHealth = maxHealth;
         curBreath = maxBreath;
 
-        moveAddSpeed = 2f;
         moveSpeed = 6f;
+        moveMaxSpeed = 8f;
         isDie = false;
         _isMove = false;
         _isJump = false;
@@ -80,7 +83,10 @@ public class Player : Character
     {
         _isEat = true;
            curExperience += 5;
-        fishItemCount--;
+        if (fishItemCount < fishEatCount)
+            fishItemCount -= fishItemCount;
+        else
+            fishItemCount -= fishEatCount;
         yield return new WaitForSeconds(1f);
         // 먹는 모습 활성화 시간
         _isEat = false;
@@ -92,11 +98,7 @@ public class Player : Character
             return;
 
         if (_isSwimming)
-        {
-            float moveMaxSpeed = moveSpeed + moveAddSpeed;
-
             MoveSpeed(moveMaxSpeed);
-        }
         else
             MoveSpeed(moveSpeed);
     }
@@ -184,34 +186,37 @@ public class Player : Character
         if (EventSystem.current.IsPointerOverGameObject())
             return;
 
-        attackPowerSlider.maxValue = attackMinPower;
+        attackPowerSlider.maxValue = attackMaxPower - attackMinPower;
+
+        bool _isCharging = false;
 
         if (Input.GetMouseButton(0))
+            _isCharging = true;
+
+        if (_isCharging)
         {
             attackPowerSlider.gameObject.SetActive(true);
-            _attackPower += Time.deltaTime;
-            attackPowerSlider.value = _attackPower;
+            _chargingPower += Time.deltaTime;
+            attackPowerSlider.value = _chargingPower;
         }
-        else if (Input.GetMouseButtonUp(0))
+
+        if (Input.GetMouseButtonUp(0))
         {
             attackPowerSlider.gameObject.SetActive(false);
 
-            _attackPower += attackMinPower;
-            if (_attackPower > attackMaxPower)
-                _attackPower = attackMaxPower;
+            if (_chargingPower >= attackMaxPower)
+                _chargingPower = attackMaxPower;
+
+            _attackPower += _chargingPower + attackMinPower;
 
             GameObject Attack = GameManager.SPAWN.GetObjectSpawn
                 (characterPosition, weaponSpawnKey, ObjectType.PlayerWeapon);
             Attack.GetComponent<Rigidbody2D>().velocity = InDirection * _attackPower;
 
             _attackPower = 0.0f;
+            _chargingPower = 0.0f;
         }
     }
-    // 레벨 업을 했을 때 포인트를 얻을 시 올릴 수 있는 능력치
-    // 1. 공격 최대 사거리 : attackMaxPower
-    // 2. 공격 최소 사거리 : attackMinPower
-    // 생각 했던 것 중에 공격이 비처럼 내리는 게 있었는데 한다면
-    // 공격 갯수를 늘리는거랑 스킬로 비를 내리는거랑 머가 나으려나
 
     private void LookAtMouse()
     {

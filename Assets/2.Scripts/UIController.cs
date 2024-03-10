@@ -34,6 +34,7 @@ public class UIController
         InPlayer.curExperience = 0;
         InPlayer.maxHealth += 5;
         InPlayer.maxExperience += 5;
+        InPlayer.LvPoint++;
 
         return ++InPlayer.PlayerLv;
     }

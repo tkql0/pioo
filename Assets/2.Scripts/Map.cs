@@ -2,13 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum MAPType
-{
-    RANDOM,
-    SETTING,
-    EVENT,
-}
-
 public class Map : MonoBehaviour
 {
     public GameObject mapObject;

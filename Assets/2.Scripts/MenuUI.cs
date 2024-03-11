@@ -2,16 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-public enum AbilityType
-{
-    NULL,
-    Health_Ability,
-    Damage_Ability,
-    Speed_Ability,
-    Power_Ability,
-    Breath_Ability,
-    Storage_Ability,
-}
 
 public class MenuUI : MonoBehaviour
 {
@@ -48,8 +38,6 @@ public class MenuUI : MonoBehaviour
     private Text _levelText;
 
     private AbilityType abilityType = AbilityType.NULL;
-
-    private bool _isMax = false;
 
     private void Update()
     {
@@ -118,7 +106,7 @@ public class MenuUI : MonoBehaviour
 
                 _abilityValueNameText.text = "속도";
 
-                if (SetAbilityMax(player.moveSpeed, player.moveMaxSpeed))
+                if (GameManager.UI.SetAbilityMax(player.moveSpeed, player.moveMaxSpeed))
                     _minValueNameText.text = "현재 속도\nMax";
                 else
                     _minValueNameText.text = "현재 속도\n" +
@@ -134,7 +122,7 @@ public class MenuUI : MonoBehaviour
 
                 _abilityValueNameText.text = "사거리";
 
-                if (SetAbilityMax(player.attackMinPower, player.attackMaxPower))
+                if (GameManager.UI.SetAbilityMax(player.attackMinPower, player.attackMaxPower))
                     _minValueNameText.text = "현재 사거리\nMax";
                 else
                     _minValueNameText.text = "현재 사거리\n" +
@@ -187,15 +175,15 @@ public class MenuUI : MonoBehaviour
         switch (abilityType)
         {
             case AbilityType.Health_Ability:
-                if (SetAbilityMax(InPlayer.curHealth, InPlayer.maxHealth))
+                if (GameManager.UI.SetAbilityMax(InPlayer.curHealth, InPlayer.maxHealth))
                 {
                     SetOverFlowValue(InPlayer.curHealth, InPlayer.maxHealth);
                     _minValueNameText.text = "현재 체력\nMax";
                     return;
                 }
-                    InPlayer.curHealth += 2f;
-                    _minValueNameText.text = "현재 체력\n" +
-                        (int)InPlayer.curHealth + " + 2";
+                InPlayer.curHealth += 2f;
+                _minValueNameText.text = "현재 체력\n" +
+                    (int)InPlayer.curHealth + " + 2";
                 break;
             case AbilityType.Damage_Ability:
                 InPlayer.playerDamage += 1;
@@ -203,41 +191,41 @@ public class MenuUI : MonoBehaviour
                     InPlayer.playerDamage + " + 1";
                 break;
             case AbilityType.Speed_Ability:
-                if (SetAbilityMax(InPlayer.moveSpeed, InPlayer.moveMaxSpeed))
+                if (GameManager.UI.SetAbilityMax(InPlayer.moveSpeed, InPlayer.moveMaxSpeed))
                 {
                     SetOverFlowValue(InPlayer.moveSpeed, InPlayer.moveMaxSpeed);
                     _minValueNameText.text = "현재 속도\nMax";
                     return;
                 }
-                    InPlayer.moveSpeed += 0.5f;
-                    _minValueNameText.text = "현재 속도\n" +
-                        InPlayer.moveSpeed + " + 0.5";
+                InPlayer.moveSpeed += 0.5f;
+                _minValueNameText.text = "현재 속도\n" +
+                    InPlayer.moveSpeed + " + 0.5";
                 break;
             case AbilityType.Power_Ability:
-                if (SetAbilityMax(InPlayer.attackMinPower, InPlayer.attackMaxPower))
+                if (GameManager.UI.SetAbilityMax(InPlayer.attackMinPower, InPlayer.attackMaxPower))
                 {
                     SetOverFlowValue(InPlayer.attackMinPower, InPlayer.attackMaxPower);
                     _minValueNameText.text = "현재 사거리\nMax";
                     return;
                 }
-                    InPlayer.attackMinPower += 1f;
-                    _minValueNameText.text = "현재 사거리\n" +
-                        InPlayer.attackMinPower + " + 1";
+                InPlayer.attackMinPower += 1f;
+                _minValueNameText.text = "현재 사거리\n" +
+                    InPlayer.attackMinPower + " + 1";
                 break;
             case AbilityType.Breath_Ability:
 
-                if (SetAbilityMax(InPlayer.curBreath, InPlayer.maxBreath))
+                if (GameManager.UI.SetAbilityMax(InPlayer.curBreath, InPlayer.maxBreath))
                 {
                     SetOverFlowValue(InPlayer.curBreath, InPlayer.maxBreath);
                     _minValueNameText.text = "현재 잠수시간\nMax";
                     return;
                 }
-                    InPlayer.curBreath += 1f;
-                    _minValueNameText.text = "현재 잠수시간\n" +
-                        (int)InPlayer.curBreath + " + 1";
+                InPlayer.curBreath += 1f;
+                _minValueNameText.text = "현재 잠수시간\n" +
+                    (int)InPlayer.curBreath + " + 1";
                 break;
             case AbilityType.Storage_Ability:
-                if (SetAbilityMax(InPlayer.fishEatCount, InPlayer.fishItemMaxCount))
+                if (GameManager.UI.SetAbilityMax(InPlayer.fishEatCount, InPlayer.fishItemMaxCount))
                 {
                     SetOverFlowValue(InPlayer.fishEatCount, InPlayer.fishItemMaxCount);
                     _minValueNameText.text = "식사량\nMax";
@@ -261,7 +249,7 @@ public class MenuUI : MonoBehaviour
                 _maxValueNameText.text = "최대 체력\n" +
                     (int)InPlayer.maxHealth + " + 2";
 
-                if(_isMax == true)
+                if(GameManager.UI._isMaxValue == true)
                     _minValueNameText.text = "현재 체력\n" +
                         (int)InPlayer.curHealth + " + 2";
                 break;
@@ -281,7 +269,7 @@ public class MenuUI : MonoBehaviour
                 _maxValueNameText.text = "최대 속도\n" +
                     InPlayer.moveMaxSpeed + " + 0.5";
 
-                if (_isMax == true)
+                if (GameManager.UI._isMaxValue == true)
                     _minValueNameText.text = "현재 속도\n" +
                         InPlayer.moveSpeed + " + 0.5";
                 break;
@@ -290,7 +278,7 @@ public class MenuUI : MonoBehaviour
                 _maxValueNameText.text = "최대 사거리\n" +
                     InPlayer.attackMaxPower + " + 1";
 
-                if (_isMax == true)
+                if (GameManager.UI._isMaxValue == true)
                     _minValueNameText.text = "현재 사거리\n" +
                         InPlayer.attackMinPower + " + 1";
                 break;
@@ -299,7 +287,7 @@ public class MenuUI : MonoBehaviour
                 _maxValueNameText.text = "최대 잠수시간\n" +
                     (int)InPlayer.maxBreath + " + 1";
 
-                if (_isMax == true)
+                if (GameManager.UI._isMaxValue == true)
                     _minValueNameText.text = "현재 잠수시간\n" +
                         (int)InPlayer.curBreath + " + 1";
                 break;
@@ -313,25 +301,15 @@ public class MenuUI : MonoBehaviour
         UsePoint(InPlayer);
     }
 
-    private bool SetAbilityMax(float InMin, float InMax)
-    {
-        _isMax = false;
-
-        if (InMin >= InMax)
-            _isMax = true;
-
-        return _isMax;
-    }
-
     private void UsePoint(Player InPlayer)
     {
         --InPlayer.LvPoint;
         _levelText.text = "Lv. " + InPlayer.PlayerLv + " ( " + InPlayer.LvPoint + " )";
     }
 
-    private void SetOverFlowValue(float InMin, float InMax)
+    private void SetOverFlowValue(float InMinValue, float InMaxValue)
     {
-        InMin = InMax;
+        InMinValue = InMaxValue;
     }
 
     private const int Min = 1;

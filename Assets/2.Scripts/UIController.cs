@@ -3,10 +3,23 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+public enum AbilityType
+{
+    NULL,
+    Health_Ability,
+    Damage_Ability,
+    Speed_Ability,
+    Power_Ability,
+    Breath_Ability,
+    Storage_Ability,
+}
+
 public class UIController
 {
     public bool _isClick = false;
     public bool _isStart = true;
+
+    public bool _isMaxValue = false;
 
     public void OnEnable()
     {
@@ -37,5 +50,15 @@ public class UIController
         InPlayer.LvPoint++;
 
         return ++InPlayer.PlayerLv;
+    }
+
+    public bool SetAbilityMax(float InMin, float InMax)
+    {
+        _isMaxValue = false;
+
+        if (InMin >= InMax)
+            _isMaxValue = true;
+
+        return _isMaxValue;
     }
 }

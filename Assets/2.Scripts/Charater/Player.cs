@@ -24,9 +24,9 @@ public class Player : Character
     private bool _isBreath;
     private bool _isSwimming;
     private bool _isEat;
-    public bool isLv_up;
+    private bool _isCharging = false;
 
-    bool _isCharging = false;
+    public bool isLv_up;
 
     public float maxBreath = 0.0f;
     public float curBreath = 0.0f;
@@ -80,18 +80,6 @@ public class Player : Character
             LookAtMouse();
             Move();
         }
-    }
-    private IEnumerator EatDelay()
-    {
-        _isEat = true;
-           curExperience += 5;
-        if (fishItemCount < fishEatCount)
-            fishItemCount -= fishItemCount;
-        else
-            fishItemCount -= fishEatCount;
-        yield return new WaitForSeconds(1f);
-        // 먹는 모습 활성화 시간
-        _isEat = false;
     }
 
     private void FixedUpdate()
@@ -257,6 +245,19 @@ public class Player : Character
                 isDamage = false;
             }
         }
+    }
+
+    private IEnumerator EatDelay()
+    {
+        _isEat = true;
+        curExperience += 5;
+        if (fishItemCount < fishEatCount)
+            fishItemCount -= fishItemCount;
+        else
+            fishItemCount -= fishEatCount;
+        yield return new WaitForSeconds(1f);
+        // 먹는 모습 활성화 시간
+        _isEat = false;
     }
 
     private const string Horizontal = "Horizontal";

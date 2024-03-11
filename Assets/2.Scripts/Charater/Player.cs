@@ -26,6 +26,8 @@ public class Player : Character
     private bool _isEat;
     public bool isLv_up;
 
+    bool _isCharging = false;
+
     public float maxBreath = 0.0f;
     public float curBreath = 0.0f;
 
@@ -112,7 +114,7 @@ public class Player : Character
         moveSpeedY = rigid.velocity.y;
 
         rigid.gravityScale = 0.1f;
-        rigid.AddForce((_inputVector).normalized, ForceMode2D.Impulse);
+        rigid.AddForce(_inputVector.normalized, ForceMode2D.Impulse);
 
         if (Mathf.Abs(moveSpeedX) > MaxSpeed)
             rigid.velocity = new Vector2(Mathf.Sign(moveSpeedX) * MaxSpeed, moveSpeedY);
@@ -188,8 +190,6 @@ public class Player : Character
 
         attackPowerSlider.maxValue = attackMaxPower - attackMinPower;
 
-        bool _isCharging = false;
-
         if (Input.GetMouseButton(0))
             _isCharging = true;
 
@@ -215,6 +215,7 @@ public class Player : Character
 
             _attackPower = 0.0f;
             _chargingPower = 0.0f;
+            _isCharging = false;
         }
     }
 

@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class SpawnObject : MonoBehaviour
 {
+    [SerializeField]
+    private List<CharacterData> characterDatas;
+
     private long _mapSpawnConut = 0;
     private long _characterSpawnConut = 0;
     private long _weaponSpawnConut = 0;
@@ -33,12 +36,11 @@ public class SpawnObject : MonoBehaviour
         switch (InObjectType)
         {
             case ObjectType.Player:
-                GameObject playerObject = Instantiate(GetPrefabObject(Prefab_Player));
+                var playerObject = Instantiate(GetPrefabObject(Prefab_Player)).GetComponent<Player>();
 
-                Player player = playerObject.GetComponent<Player>();
-                GameManager.OBJECT.player = player;
+                GameManager.OBJECT.player = playerObject;
 
-                player.mySpawnNumber = 1;
+                playerObject.mySpawnNumber = 1;
 
                 _characterSpawnConut++;
                 break;
@@ -47,16 +49,16 @@ public class SpawnObject : MonoBehaviour
 
                 for (int i = 0; i < maxSize; i++)
                 {
-                    GameObject EnemyObject = Instantiate(GetPrefabObject(Prefab_Enemy), transform);
+                    var EnemyObject = Instantiate(GetPrefabObject(Prefab_Enemy), transform).GetComponent<Character>();
+                    EnemyObject.characterData = characterDatas[(int)InObjectType];
 
-                    Character character = EnemyObject.GetComponent<Character>();
-                    if (GameManager.OBJECT.SetCharacterInfo(character, InObjectType, _characterSpawnConut) == false)
+                    if (GameManager.OBJECT.SetCharacterInfo(EnemyObject, InObjectType, _characterSpawnConut) == false)
                     {
                         Debug.Log("Null");
                     }
 
                     _characterSpawnConut++;
-                    character.SetActiveObject(false);
+                    EnemyObject.SetActiveObject(false);
                 }
                 break;
             case ObjectType.Fish:
@@ -64,16 +66,16 @@ public class SpawnObject : MonoBehaviour
 
                 for (int i = 0; i < maxSize; i++)
                 {
-                    GameObject FishObject = Instantiate(GetPrefabObject(Prefab_Fish), transform);
+                    var FishObject = Instantiate(GetPrefabObject(Prefab_Fish), transform).GetComponent<Character>();
+                    FishObject.characterData = characterDatas[(int)InObjectType];
 
-                    Character character = FishObject.GetComponent<Character>();
-                    if (GameManager.OBJECT.SetCharacterInfo(character, InObjectType, _characterSpawnConut) == false)
+                    if (GameManager.OBJECT.SetCharacterInfo(FishObject, InObjectType, _characterSpawnConut) == false)
                     {
                         Debug.Log("Null");
                     }
 
                     _characterSpawnConut++;
-                    character.SetActiveObject(false);
+                    FishObject.SetActiveObject(false);
                 }
                 break;
             case ObjectType.Map:
@@ -81,10 +83,9 @@ public class SpawnObject : MonoBehaviour
 
                 for (int i = 0; i < maxSize; i++)
                 {
-                    GameObject MapObject = Instantiate(GetPrefabObject(Prefab_Map));
+                    var MapObject = Instantiate(GetPrefabObject(Prefab_Map)).GetComponent<Map>();
 
-                    Map map = MapObject.GetComponent<Map>();
-                    GameManager.OBJECT.mapDataList.Add(_mapSpawnConut, map);
+                    GameManager.OBJECT.mapDataList.Add(_mapSpawnConut, MapObject);
                     _mapSpawnConut++;
                 }
                 break;
@@ -93,18 +94,16 @@ public class SpawnObject : MonoBehaviour
 
                 for (int i = 0; i < maxSize; i++)
                 {
-                    GameObject AttackObject = Instantiate(GetPrefabObject(Prefab_EnemyWeapon),
-                        transform);
+                    var AttackObject = Instantiate(GetPrefabObject(Prefab_EnemyWeapon),
+                        transform).GetComponent<Weapon>();
 
-                    Weapon weapon = AttackObject.GetComponent<Weapon>();
-
-                    if (GameManager.OBJECT.SetWeaponInfo(weapon, InObjectType, _weaponSpawnConut) 
+                    if (GameManager.OBJECT.SetWeaponInfo(AttackObject, InObjectType, _weaponSpawnConut) 
                         == false)
                     {
                         Debug.Log("Null");
                     }
                     _weaponSpawnConut++;
-                    weapon.SetActiveObject(false);
+                    AttackObject.SetActiveObject(false);
                 }
                 break;
             case ObjectType.PlayerWeapon:
@@ -112,17 +111,16 @@ public class SpawnObject : MonoBehaviour
 
                 for (int i = 0; i < maxSize; i++)
                 {
-                    GameObject AttackObject = Instantiate(GetPrefabObject(Prefab_PlayerWeapon), transform);
+                    var AttackObject = Instantiate(GetPrefabObject(Prefab_PlayerWeapon),
+                        transform).GetComponent<Weapon>();
 
-                    Weapon weapon = AttackObject.GetComponent<Weapon>();
-
-                    if (GameManager.OBJECT.SetWeaponInfo(weapon, InObjectType, _weaponSpawnConut) == false)
+                    if (GameManager.OBJECT.SetWeaponInfo(AttackObject, InObjectType, _weaponSpawnConut) == false)
                     {
                         Debug.Log("Null");
                     }
                     _weaponSpawnConut++;
 
-                    weapon.SetActiveObject(false);
+                    AttackObject.SetActiveObject(false);
                 }
                 break;
         }

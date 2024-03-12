@@ -230,19 +230,25 @@ public class Player : Character
         if (!isDamage)
         {
             if (collision.gameObject.CompareTag(Enemy_Attack))
+            //if (!collision.gameObject.TryGetComponent<Weapon>(out var OutWeapon))
+            //    return;
             {
-                isDamage = true;
-                collision.gameObject.SetActive(false);
 
-                int Critical = Random.Range(1, 5);
+            //if (OutWeapon.key != ObjectType.EnemyWeapon)
+            //    return;
 
-                if(Critical == 4)
-                    curHealth = curHealth - (damage + enemyCriticalDamage);
-                else
-                    curHealth = curHealth - damage;
-                StartCoroutine(OnDamage(sprite));
+            isDamage = true;
+            collision.gameObject.SetActive(false);
 
-                isDamage = false;
+            int Critical = Random.Range(1, 5);
+
+            if (Critical == 4)
+                curHealth = curHealth - (damage + enemyCriticalDamage);
+            else
+                curHealth = curHealth - damage;
+            StartCoroutine(OnDamage(sprite));
+
+            isDamage = false;
             }
         }
     }

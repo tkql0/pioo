@@ -5,6 +5,9 @@ using UnityEngine.UI;
 
 public class Character : MonoBehaviour
 {
+    public CharacterData _characterData;
+    public CharacterData characterData { set { _characterData = value; } }
+
     public LayerMask targetMask;
     public Rigidbody2D rigid;
     public SpriteRenderer sprite;
@@ -30,6 +33,7 @@ public class Character : MonoBehaviour
 
     public bool isDie;
     public bool isDamage;
+    public bool isBattle;
 
     public virtual void Move()
     {

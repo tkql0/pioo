@@ -4,7 +4,7 @@ using UnityEngine;
 
 public enum ObjectType
 {
-    NULL,
+    //NULL,
     Player,
     Enemy,
     Fish,

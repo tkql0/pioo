@@ -16,13 +16,12 @@ public class EnemyCharacter : Character
     [SerializeField]
     private Slider _healthSlider;
 
-    [SerializeField]
-    private float _scanRange = 0.8f;
-
     private float _RandomBaitPosition;
 
     public int _weaponCurCount;
     private int _weaponMaxCount;
+
+    private Vector2 _battleSightRange;
 
     private Vector2 _scanPosition => _scanObject.transform.position;
 
@@ -37,20 +36,25 @@ public class EnemyCharacter : Character
 
     private void OnEnable()
     {
+        if (_characterData == null)
+            return;
+
+        _battleSightRange = new Vector2(_scanObject.transform.localScale.x * 3f,
+            _scanObject.transform.localScale.y * 1.5f);
+
         _weaponMaxCount = GetRandomCount(_Min_Weapon_Count, _Max_Weapon_Count);
         _weaponCurCount = _weaponMaxCount;
 
-        StartCoroutine(MoveDelay(_Min_DelayTime, _Max_DelayTime));
+        StartCoroutine(MoveDelay(_characterData.MinDelayTime, _characterData.MaxDelayTime));
         SetKey(ObjectType.Enemy);
 
-        maxHealth = 20;
         isDie = false;
         isDamage = false;
         SetColor(sprite, Color.white);
 
-        curHealth = maxHealth;
-        _healthSlider.maxValue = maxHealth;
-        _healthSlider.value = maxHealth;
+        curHealth = _characterData.MaxHp;
+        _healthSlider.maxValue = _characterData.MaxHp;
+        _healthSlider.value = _characterData.MaxHp;
 
         _RandomBaitPosition = Random.Range(-0.5f, -30f);
     }
@@ -70,7 +74,7 @@ public class EnemyCharacter : Character
 
     private void FixedUpdate()
     {
-        ObjectScan(_scanObject);
+        ObjectScan(_scanPosition);
     }
 
     private void HitTracking(Vector2 InTargetPosition)
@@ -85,6 +89,8 @@ public class EnemyCharacter : Character
         if ((collision.CompareTag(Player) ||
             collision.CompareTag(Player_Attack)) && isDie == false)
         {
+            isBattle = true;
+
             Vector2 _player = collision.transform.position;
 
             HitTracking(_player);
@@ -105,12 +111,20 @@ public class EnemyCharacter : Character
         }
     }
 
-    private void ObjectScan(GameObject InEnemyScan)
+    private void ObjectScan(Vector2 InEnemyScan)
     {
         coolTimeMax = 3f;
 
-        _inTarget = Physics2D.CircleCastAll(InEnemyScan.transform.position,
-            _scanRange, Vector2.zero, 0, targetMask);
+        if (isBattle)
+        {
+            _scanObject.transform.localScale = _battleSightRange;
+
+            _inTarget = Physics2D.CircleCastAll(InEnemyScan,
+            _characterData.SightRange + 2f, Vector2.zero, 0, targetMask);
+        }
+        else
+            _inTarget = Physics2D.CircleCastAll(InEnemyScan,
+            _characterData.SightRange, Vector2.zero, 0, targetMask);
 
         Transform target = GetNearest();
 
@@ -179,9 +193,6 @@ public class EnemyCharacter : Character
         }
         return target;
     }
-
-    private const float _Max_DelayTime = 6f;
-    private const float _Min_DelayTime = 1f;
 
     private const int _Max_Weapon_Count = 5;
     private const int _Min_Weapon_Count = 1;

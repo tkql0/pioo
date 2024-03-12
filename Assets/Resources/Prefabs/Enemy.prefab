@@ -320,7 +320,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 3
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.5176471}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -636,6 +636,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc97c5a868cae364e9b05484fe2703e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _characterData: {fileID: 0}
   targetMask:
     serializedVersion: 2
     m_Bits: 64
@@ -648,17 +649,20 @@ MonoBehaviour:
   weaponPower: 10
   weaponSpawnKey: -1
   damage: 5
+  playerDamage: 4
+  playerCriticalDamage: 3
+  enemyCriticalDamage: 2
   coolTimeMax: 0
   coolTime: 0
   maxHealth: 0
   curHealth: 0
   isDie: 0
   isDamage: 0
+  isBattle: 0
   _scanObject: {fileID: 3090974467343328569}
   _detection: {fileID: 2752018058316488110}
   _bait: {fileID: 3433156337306535733}
   _healthSlider: {fileID: 7431387396427753443}
-  _scanRange: 0.8
   _weaponCurCount: 0
 --- !u!1001 &165861333883718943
 PrefabInstance:

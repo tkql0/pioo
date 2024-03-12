@@ -8,22 +8,22 @@ public class FishCharacter : Character
     {
         rigid = GetComponent<Rigidbody2D>();
         sprite = GetComponent<SpriteRenderer>();
+
         targetSpawnNumber = 99;
+        characterObject = gameObject;
     }
 
     private void OnEnable()
     {
-        characterObject = gameObject;
-        key = ObjectType.Fish;
+        if (_characterData == null)
+            return;
 
-        StartCoroutine(MoveDelay(Min_DelayTime, Max_DelayTime));
+        SetKey(ObjectType.Fish);
+        StartCoroutine(MoveDelay(_characterData.MinDelayTime, _characterData.MaxDelayTime));
     }
 
     private void OnDestroy()
     {
         targetSpawnNumber = 99;
     }
-
-    private const float Max_DelayTime = 3f;
-    private const float Min_DelayTime = 1f;
 }

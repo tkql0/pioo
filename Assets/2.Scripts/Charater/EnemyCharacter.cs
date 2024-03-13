@@ -16,12 +16,11 @@ public class EnemyCharacter : Character
     [SerializeField]
     private Slider _healthSlider;
 
-    private float _RandomBaitPosition;
-
     public int _weaponCurCount;
     private int _weaponMaxCount;
 
     private Vector2 _battleSightRange;
+    private Vector2 _baitPosition;
 
     private Vector2 _scanPosition => _scanObject.transform.position;
 
@@ -39,7 +38,7 @@ public class EnemyCharacter : Character
         if (_characterData == null)
             return;
 
-        _battleSightRange = new Vector2(_scanObject.transform.localScale.x * 3f,
+        _battleSightRange = new Vector2(_scanObject.transform.localScale.x * 2f,
             _scanObject.transform.localScale.y * 1.5f);
 
         _weaponMaxCount = GetRandomCount(_Min_Weapon_Count, _Max_Weapon_Count);
@@ -56,7 +55,7 @@ public class EnemyCharacter : Character
         _healthSlider.maxValue = _characterData.MaxHp;
         _healthSlider.value = _characterData.MaxHp;
 
-        _RandomBaitPosition = Random.Range(-0.5f, -30f);
+        //_RandomBaitPosition = Random.Range(-0.5f, -30f);
     }
 
     private void OnDestroy()
@@ -120,7 +119,7 @@ public class EnemyCharacter : Character
             _scanObject.transform.localScale = _battleSightRange;
 
             _inTarget = Physics2D.CircleCastAll(InEnemyScan,
-            _characterData.SightRange + 2f, Vector2.zero, 0, targetMask);
+            _characterData.SightRange + 1f, Vector2.zero, 0, targetMask);
         }
         else
             _inTarget = Physics2D.CircleCastAll(InEnemyScan,

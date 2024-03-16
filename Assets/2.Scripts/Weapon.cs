@@ -10,6 +10,9 @@ public class Weapon : MonoBehaviour
     public long spawnNumberKey;
     public long mySpawnNumber;
 
+    public int damage;
+    public int criticalDamage;
+
     public Rigidbody2D rigid;
 
     private void OnEnable()
@@ -47,10 +50,15 @@ public class Weapon : MonoBehaviour
     {
         GameObject target = collision.gameObject;
 
-        if (target.CompareTag(Enemy) && key == ObjectType.PlayerWeapon)
+        if (TagCheck(target, Enemy) && key == ObjectType.PlayerWeapon)
             SetActiveObject(false);
-        else if (target.CompareTag(Player) && key == ObjectType.EnemyWeapon)
+        else if (TagCheck(target, Player) && key == ObjectType.EnemyWeapon)
             SetActiveObject(false);
+    }
+
+    private bool TagCheck(GameObject InTargetObject, string InTargetTag)
+    {
+        return InTargetObject.CompareTag(InTargetTag);
     }
 
     public void SetActiveObject(bool InIsActive)

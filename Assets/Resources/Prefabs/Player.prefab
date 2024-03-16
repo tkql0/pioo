@@ -176,6 +176,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 78509da7e246d8f4bbff982b1664a8dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _characterData: {fileID: 0}
   targetMask:
     serializedVersion: 2
     m_Bits: 128
@@ -193,13 +194,15 @@ MonoBehaviour:
   enemyCriticalDamage: 2
   coolTimeMax: 0
   coolTime: 0
-  maxHealth: 5
+  maxHealth: 20
   curHealth: 0
   isDie: 0
   isDamage: 0
+  isBattle: 0
   player: {fileID: 0}
   cam: {fileID: 0}
   attackPowerSlider: {fileID: 7512124684891448307}
+  inputVector: {x: 0, y: 0}
   moveSpeed: 0
   moveMaxSpeed: 0
   moveSpeedX: 0

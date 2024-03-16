@@ -32,5 +32,9 @@ public class CharacterData : ScriptableObject
     [SerializeField]
     private float _minDelayTime;
     public float MinDelayTime { get { return _minDelayTime; } }
+
+    [SerializeField]
+    private float _moveSpeed;
+    public float moveSpeed { get { return _moveSpeed; } }
 }
 

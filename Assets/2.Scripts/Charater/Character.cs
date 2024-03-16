@@ -35,6 +35,12 @@ public class Character : MonoBehaviour
     public bool isDamage;
     public bool isBattle;
 
+    public RaycastHit2D[] _inTarget;
+
+    public Vector2 _gravityPoint;
+
+    public float gravityMaxPointY = 0;
+
     public virtual void Move()
     {
         if (isActive == false)
@@ -51,6 +57,7 @@ public class Character : MonoBehaviour
         transform.localScale = InNextPostion <= 0 ? _leftPosition : _rightPosition;
         rigid.velocity = new Vector2(InNextPostion * InNextSpeed, rigid.velocity.y);
     }
+
     public IEnumerator MoveDelay(float InMinDelayTime, float InMaxDelayTime)
     {
         Move();

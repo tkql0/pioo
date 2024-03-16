@@ -12,7 +12,6 @@ public class Player : Character
     public Slider attackPowerSlider;
 
     private Vector2 _inputVector;
-    private Vector2 _gravityPoint;
 
     public float moveSpeed = 0.0f;
     public float moveMaxSpeed = 0.0f;
@@ -47,8 +46,6 @@ public class Player : Character
     private float _chargingPower = 0.0f;
     public float attackMinPower = 0.0f;
     public float attackMaxPower = 6.0f;
-
-    public float gravityMaxPointY = 0;
 
     public void OnEnable()
     {
@@ -219,37 +216,36 @@ public class Player : Character
 
     private void OnTriggerStay2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag(Fish))
+        if (collision.TryGetComponent<FishCharacter>(out var OutFish))
         {
             if (fishItemMaxCount < fishItemCount)
                 return;
+
             fishItemCount++;
-            collision.gameObject.SetActive(false);
+            OutFish.SetActiveObject(false);
         }
 
         if (!isDamage)
         {
-            if (collision.gameObject.CompareTag(Enemy_Attack))
-            //if (!collision.gameObject.TryGetComponent<Weapon>(out var OutWeapon))
-            //    return;
-            {
+            if (!collision.TryGetComponent<Weapon>(out var OutWeapon))
+                return;
 
-            //if (OutWeapon.key != ObjectType.EnemyWeapon)
-            //    return;
+            if (OutWeapon.key != ObjectType.EnemyWeapon)
+                return;
 
             isDamage = true;
             collision.gameObject.SetActive(false);
 
             int Critical = Random.Range(1, 5);
 
-            if (Critical == 4)
-                curHealth = curHealth - (damage + enemyCriticalDamage);
-            else
-                curHealth = curHealth - damage;
-            StartCoroutine(OnDamage(sprite));
+            isDamage = true;
 
-            isDamage = false;
-            }
+            if (Critical == 4)
+                curHealth -= OutWeapon.damage + OutWeapon.criticalDamage;
+            else
+                curHealth -= OutWeapon.damage;
+
+            StartCoroutine(OnDamage(sprite));
         }
     }
 

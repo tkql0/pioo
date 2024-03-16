@@ -8,11 +8,13 @@ public class EnemyCharacter : Character
     [SerializeField]
     private GameObject _scanObject;
     [SerializeField]
-    private GameObject _detection;
-    [SerializeField]
     private GameObject _bait;
 
-    private RaycastHit2D[] _inTarget;
+    [SerializeField]
+    private GameObject _detection;
+    [SerializeField]
+    private GameObject _reLoad;
+
     [SerializeField]
     private Slider _healthSlider;
 
@@ -85,28 +87,31 @@ public class EnemyCharacter : Character
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if ((collision.CompareTag(Player) ||
-            collision.CompareTag(Player_Attack)) && isDie == false)
+        if (collision.TryGetComponent<Player>(out var OutPlayer) || collision.CompareTag(Player_Attack))
+            Damage(OutPlayer.playerDamage, OutPlayer.playerCriticalDamage, OutPlayer.transform.position);
+    }
+
+    private void Damage(float InDamage, float InCriticalDamage, Vector2 player)
+    {
+        if (isDie == true)
+            return;
+
+        isBattle = true;
+
+        HitTracking(player);
+
+        if (isDamage == false)
         {
-            isBattle = true;
+            int Critical = Random.Range(1, 5);
 
-            Vector2 _player = collision.transform.position;
+            isDamage = true;
 
-            HitTracking(_player);
+            if (Critical == 4)
+                curHealth -= InDamage + InCriticalDamage;
+            else
+                curHealth -= InDamage;
 
-            if (isDamage == false)
-            {
-                int Critical = Random.Range(1, 5);
-
-                isDamage = true;
-
-                if (Critical == 4)
-                    curHealth -= (playerDamage + playerCriticalDamage);
-                else
-                    curHealth -= playerDamage;
-
-                StartCoroutine(OnDamage(sprite));
-            }
+            StartCoroutine(OnDamage(sprite));
         }
     }
 
@@ -125,21 +130,18 @@ public class EnemyCharacter : Character
             _inTarget = Physics2D.CircleCastAll(InEnemyScan,
             _characterData.SightRange, Vector2.zero, 0, targetMask);
 
-        Transform target = GetNearest();
-
         if (_inTarget.Length != 0)
         {
+            Transform target = GetNearest();
+
             coolTime += Time.deltaTime;
-            _detection.SetActive(true);
+            if(_reLoad.activeSelf == false)
+                _detection.SetActive(true);
+            else
+                _detection.SetActive(false);
 
             if (coolTimeMax < coolTime)
-            {
-                if (!target)
-                    return;
-
-                coolTime = 0f;
                 Attack(target.position);
-            }
         }
         else
             _detection.SetActive(false);
@@ -152,11 +154,20 @@ public class EnemyCharacter : Character
             StartCoroutine(ReLoad());
             return;
         }
+
+        coolTime = 0f;
         Vector2 dir = InTargetPosition - characterPosition;
         dir = dir.normalized;
 
         GameObject Attack = GameManager.SPAWN.GetObjectSpawn(characterPosition, weaponSpawnKey, ObjectType.EnemyWeapon);
-        Attack.GetComponent<Rigidbody2D>().velocity = dir * weaponPower;
+        Weapon weapon = Attack.GetComponent<Weapon>();
+
+        weapon.damage = _characterData.damage;
+        weapon.criticalDamage = _characterData.criticalDamage;
+        if (isBattle)
+            weapon.rigid.velocity = dir * (weaponPower * 1.5f);
+        else
+            weapon.rigid.velocity = dir * weaponPower;
         _weaponCurCount--;
     }
 
@@ -165,12 +176,11 @@ public class EnemyCharacter : Character
         coolTime = 2f;
 
         float reLoadTime = _weaponMaxCount * coolTime;
-        SetColor(sprite, Color.green);
+        _reLoad.SetActive(true);
 
         yield return new WaitForSeconds(reLoadTime);
         _weaponCurCount = _weaponMaxCount;
-        SetColor(sprite, Color.white);
-        // 색이 겹치면 금방 끝나니까 오브젝트로 표현해야겠다
+        _reLoad.SetActive(false);
     }
 
     private Transform GetNearest()

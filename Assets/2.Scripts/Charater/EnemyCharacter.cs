@@ -87,8 +87,10 @@ public class EnemyCharacter : Character
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.TryGetComponent<Player>(out var OutPlayer) || collision.CompareTag(Player_Attack))
+        if (collision.TryGetComponent<Player>(out var OutPlayer))
             Damage(OutPlayer.playerDamage, OutPlayer.playerCriticalDamage, OutPlayer.transform.position);
+        if (collision.TryGetComponent<Weapon>(out var OutWeapon) && collision.CompareTag(Player_Attack))
+            Damage(OutWeapon.damage, OutWeapon.criticalDamage, OutWeapon.transform.position);
     }
 
     private void Damage(float InDamage, float InCriticalDamage, Vector2 player)

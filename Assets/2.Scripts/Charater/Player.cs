@@ -196,7 +196,13 @@ public class Player : Character
 
             GameObject Attack = GameManager.SPAWN.GetObjectSpawn
                 (characterPosition, weaponSpawnKey, ObjectType.PlayerWeapon);
-            Attack.GetComponent<Rigidbody2D>().velocity = InDirection * _attackPower;
+            //Weapon weapon = Attack.GetComponent<Rigidbody2D>().velocity = InDirection * _attackPower;
+            Weapon weapon = Attack.GetComponent<Weapon>();
+
+            weapon.damage = playerDamage;
+            weapon.criticalDamage = playerCriticalDamage;
+
+            weapon.rigid.velocity = InDirection * _attackPower;
 
             _attackPower = 0.0f;
             _chargingPower = 0.0f;

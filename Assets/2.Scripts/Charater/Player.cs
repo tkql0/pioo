@@ -11,6 +11,9 @@ public class Player : Character
     public Camera cam;
     public Slider attackPowerSlider;
 
+    
+    private Animator _anim;
+
     private Vector2 _inputVector;
 
     public float moveSpeed = 0.0f;
@@ -55,6 +58,8 @@ public class Player : Character
 
         rigid = GetComponent<Rigidbody2D>();
         sprite = GetComponent<SpriteRenderer>();
+        _anim = GetComponent<Animator>();
+
         _gravityPoint = new Vector2(0, 0);
 
         curHealth = maxHealth;
@@ -111,6 +116,11 @@ public class Player : Character
     public override void Move()
     {
         _inputVector = new Vector2(Input.GetAxisRaw(Horizontal), Input.GetAxisRaw(Vertical));
+
+        if(_isBreath)
+        {
+            _anim.SetFloat("Speed", Mathf.Abs(_inputVector.x));
+        }
 
         if (_inputVector.x != 0)
             sprite.flipX = _inputVector.x > 0;

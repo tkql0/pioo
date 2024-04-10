@@ -10,6 +10,8 @@ public class EnemyCharacter : Character
     [SerializeField]
     private GameObject _bait;
 
+    private Vector2 _scanObjectBaseScale;
+
     [SerializeField]
     private GameObject _detection;
     [SerializeField]
@@ -33,12 +35,16 @@ public class EnemyCharacter : Character
 
         targetSpawnNumber = 99;
         characterObject = gameObject;
+        
+        _scanObjectBaseScale = _scanObject.transform.localScale;
     }
 
     private void OnEnable()
     {
         if (_characterData == null)
             return;
+
+        _scanObject.transform.localScale = _scanObjectBaseScale;
 
         _battleSightRange = new Vector2(_scanObject.transform.localScale.x * 2f,
             _scanObject.transform.localScale.y * 1.5f);

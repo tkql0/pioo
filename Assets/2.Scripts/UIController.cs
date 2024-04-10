@@ -28,7 +28,7 @@ public class UIController
 
     public void SetUIEnter(RectTransform InUI)
     {
-        InUI.anchoredPosition = Vector2.down * 35;
+        InUI.anchoredPosition = new Vector2(55, 60);
     }
 
     public void SetUIExit(RectTransform InUI)

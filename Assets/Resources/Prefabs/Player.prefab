@@ -116,7 +116,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 5
-  m_Sprite: {fileID: 21300000, guid: 1f3420e9f7420411a8aac27743b35e29, type: 3}
+  m_Sprite: {fileID: 1622706915, guid: 73b55cefb2a48ea4ba356ce9b6470724, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -199,10 +199,11 @@ MonoBehaviour:
   isDie: 0
   isDamage: 0
   isBattle: 0
+  _gravityPoint: {x: 0, y: 0}
+  gravityMaxPointY: 0
   player: {fileID: 0}
   cam: {fileID: 0}
   attackPowerSlider: {fileID: 7512124684891448307}
-  inputVector: {x: 0, y: 0}
   moveSpeed: 0
   moveMaxSpeed: 0
   moveSpeedX: 0
@@ -219,7 +220,6 @@ MonoBehaviour:
   fishEatCount: 1
   attackMinPower: 2
   attackMaxPower: 6
-  gravityMaxPointY: 0
 --- !u!253 &5942437967893040124
 BuoyancyEffector2D:
   m_ObjectHideFlags: 0

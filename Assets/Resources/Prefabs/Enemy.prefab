@@ -577,12 +577,12 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 4
-  m_Sprite: {fileID: 21300000, guid: 0ccc508108fa6ed4fa11b4a467d7f609, type: 3}
+  m_Sprite: {fileID: -477143087, guid: 0f073c0ec3e51f34f9c52e6fd7735f91, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_FlipX: 0
+  m_FlipX: 1
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 2}
+  m_Size: {x: 1.7, y: 0.7}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -660,6 +660,8 @@ MonoBehaviour:
   isDie: 0
   isDamage: 0
   isBattle: 0
+  _gravityPoint: {x: 0, y: 0}
+  gravityMaxPointY: 0
   _scanObject: {fileID: 3090974467343328569}
   _bait: {fileID: 3433156337306535733}
   _detection: {fileID: 2752018058316488110}

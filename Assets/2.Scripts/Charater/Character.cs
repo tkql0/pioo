@@ -10,7 +10,7 @@ public class Character : MonoBehaviour
 
     public LayerMask targetMask;
     public Rigidbody2D rigid;
-    public SpriteRenderer sprite;
+    public SpriteRenderer spriteRenderer;
 
     public ObjectType key;
     public long targetSpawnNumber;

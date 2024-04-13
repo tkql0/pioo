@@ -11,7 +11,8 @@ public class Player : Character
     public Camera cam;
     public Slider attackPowerSlider;
 
-    
+    private Vector2 _playerPosition;
+
     private Animator _anim;
 
     private Vector2 _inputVector;
@@ -21,12 +22,29 @@ public class Player : Character
     public float moveSpeedX = 0.0f;
     public float moveSpeedY = 0.0f;
 
-    private bool _isMove;
-    private bool _isJump;
-    private bool _isBreath;
     private bool _isSwimming;
+    private bool _isJump;
+    // 플레이어가 점프를 하는 구간
+    private bool _isBreath;
+    // 플레이어가 숨을 쉬는 구간
     private bool _isEat;
     private bool _isCharging = false;
+
+    public bool _isSwimmingTest;
+    // 버튼이 눌렸을때 Player는 position.y가 0을 넘지 못함
+    // 그리고 버튼을 누르고 있는 동안 중력이 0되고 공격을 하지 못함
+    // Position.y가 0이면 호흡게이지가 초기화됨
+
+    // 버튼을 누르지 않았을때 position.y가 0을 넘으면 rigid.velocity만큼 점프함
+    // Position.y가 0이상이려도 호흡게이지가 초기화되지 않고
+    // 줄어든 호흡 게이지만큼 공격 가능
+
+    // 해당 방법으로 만들면 실린더를 사용해서 어색하게 만들 필요없이
+    // 체력은 하트 호흡게이지는 물방울 모양으로 만들 수 있을거 같다 생각함
+    public bool _isMoveChangeTest;
+    // 버튼을 눌렀다면 Player의 속도가 최대 가속도 까지 늘어남
+
+    // 모바일은 키보드가 없기 때문에 기능이 간편해야 된다 생각함
 
     public bool isLv_up;
 
@@ -56,8 +74,10 @@ public class Player : Character
         characterObject = gameObject;
         key = ObjectType.Player;
 
+        _playerPosition = transform.position;
+
         rigid = GetComponent<Rigidbody2D>();
-        sprite = GetComponent<SpriteRenderer>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
         _anim = GetComponent<Animator>();
 
         _gravityPoint = new Vector2(0, 0);
@@ -68,7 +88,7 @@ public class Player : Character
         moveSpeed = 6f;
         moveMaxSpeed = 8f;
         isDie = false;
-        _isMove = false;
+        _isSwimming = false;
         _isJump = false;
         isDamage = false;
     }
@@ -80,7 +100,7 @@ public class Player : Character
             if(Input.GetKey(KeyCode.F) && fishItemCount > 0 && !_isEat)
                 StartCoroutine(EatDelay());
             LookAtMouse();
-            Move();
+            //Move();
         }
     }
 
@@ -89,7 +109,7 @@ public class Player : Character
         if (isDie == true)
             return;
 
-        if (_isSwimming)
+        if (_isMoveChangeTest)
             MoveSpeed(moveMaxSpeed);
         else
             MoveSpeed(moveSpeed);
@@ -97,7 +117,7 @@ public class Player : Character
 
     private void MoveSpeed(float MaxSpeed)
     {
-        if (!_isMove)
+        if (!_isSwimming)
             return;
 
         moveSpeedX = rigid.velocity.x;
@@ -113,34 +133,31 @@ public class Player : Character
             rigid.velocity = new Vector2(moveSpeedX, Mathf.Sign(moveSpeedY) * MaxSpeed);
     }
 
-    public override void Move()
+    public void PlayerMove(Vector2 InInputDirection)
     {
-        _inputVector = new Vector2(Input.GetAxisRaw(Horizontal), Input.GetAxisRaw(Vertical));
+        // 이동 함수가 조이스틱으로 이동
+        //_inputVector = new Vector2(Input.GetAxisRaw(Horizontal), Input.GetAxisRaw(Vertical));
+        _inputVector = InInputDirection;
 
-        if(_isBreath)
+        if (_isBreath)
         {
             _anim.SetFloat("Speed", Mathf.Abs(_inputVector.x));
         }
 
         if (_inputVector.x != 0)
-            sprite.flipX = _inputVector.x > 0;
+            spriteRenderer.flipX = _inputVector.x > 0;
 
         float gravityPointY = characterPosition.y - _gravityPoint.y;
 
         _isBreath = Mathf.Abs(gravityPointY) < 1 ? true : false;
-        _isMove = gravityPointY <= 0 ? true : false;
+        _isSwimming = gravityPointY <= 0 ? true : false;
 
         if (gravityMaxPointY < gravityPointY)
         {
             gravityMaxPointY = gravityPointY + 2;
         }
 
-        if (Input.GetKey(KeyCode.LeftShift) && !_isBreath)
-            _isSwimming = true;
-        else if(!Input.GetKey(KeyCode.LeftShift))
-            _isSwimming = false;
-
-        if (_isMove)
+        if (_isSwimming)
         {
             _isJump = false;
 
@@ -165,16 +182,24 @@ public class Player : Character
         if (curHealth < maxHealth)
             curHealth += Time.deltaTime;
 
-        if (!_isJump)
+        if (_isSwimmingTest)
         {
-            if (_isSwimming)
+            if (_playerPosition.y < 0)
+            {
+                _playerPosition.y = 0;
+            }
+            return;
+        }
+        // 상태가 수영중이라면 점프 불가
+        // 
+        else
+        {
+            if (!_isJump && _playerPosition.y < 0)
             {
                 rigid.gravityScale = gravityMaxPointY;
                 rigid.AddForce(Vector2.up * (moveSpeedY + _jumpPower), ForceMode2D.Impulse);
                 _isJump = true;
             }
-            else
-                player.transform.position = new Vector2(characterPosition.x, 0);
         }
     }
 
@@ -261,7 +286,7 @@ public class Player : Character
             else
                 curHealth -= OutWeapon.damage;
 
-            StartCoroutine(OnDamage(sprite));
+            StartCoroutine(OnDamage(spriteRenderer));
         }
     }
 

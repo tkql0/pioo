@@ -117,7 +117,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 5
-  m_Sprite: {fileID: 1622706915, guid: 73b55cefb2a48ea4ba356ce9b6470724, type: 3}
+  m_Sprite: {fileID: 936976491, guid: 2c696e10b34946e4686565ae6e10d862, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -182,7 +182,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   rigid: {fileID: 0}
-  sprite: {fileID: 0}
+  spriteRenderer: {fileID: 0}
   key: 0
   targetSpawnNumber: 0
   mySpawnNumber: 0
@@ -209,6 +209,7 @@ MonoBehaviour:
   moveMaxSpeed: 0
   moveSpeedX: 0
   moveSpeedY: 0
+  _isJump: 0
   isLv_up: 0
   maxBreath: 10
   curBreath: 0

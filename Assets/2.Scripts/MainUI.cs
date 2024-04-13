@@ -109,6 +109,26 @@ public class MainUI : MonoBehaviour
         _experienceText.text = "Lv. " + GameManager.UI.GetLevelUpStat(InPlayer);
     }
 
+    public void PlayerSwimmingDown()
+    {
+        GameManager.OBJECT.player._isSwimmingTest = true;
+    }
+
+    public void PlayerSwimmingUp()
+    {
+        GameManager.OBJECT.player._isSwimmingTest = false;
+    }
+
+    public void PlayerMoveChange()
+    {
+        Player player = GameManager.OBJECT.player;
+
+        if (player._isMoveChangeTest)
+            player._isMoveChangeTest = false;
+        else
+            player._isMoveChangeTest = true;
+    }
+
     private void SetGameStop() => Time.timeScale = 0;
     private void SetGameStart() => Time.timeScale = 1;
 }

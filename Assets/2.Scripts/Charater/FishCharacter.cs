@@ -14,7 +14,7 @@ public class FishCharacter : Character
     private void Awake()
     {
         rigid = GetComponent<Rigidbody2D>();
-        sprite = GetComponent<SpriteRenderer>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
 
         targetSpawnNumber = 99;
         characterObject = gameObject;

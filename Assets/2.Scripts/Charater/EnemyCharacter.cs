@@ -26,12 +26,15 @@ public class EnemyCharacter : Character
     private Vector2 _battleSightRange;
     private Vector2 _baitPosition;
 
+    [SerializeField]
+    private Sprite[] ObjectImg;
+
     private Vector2 _scanPosition => _scanObject.transform.position;
 
     private void Awake()
     {
         rigid = GetComponent<Rigidbody2D>();
-        sprite = GetComponent<SpriteRenderer>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
 
         targetSpawnNumber = 99;
         characterObject = gameObject;
@@ -57,7 +60,8 @@ public class EnemyCharacter : Character
 
         isDie = false;
         isDamage = false;
-        SetColor(sprite, Color.white);
+        SetColor(spriteRenderer, Color.white);
+        spriteRenderer.sprite = ObjectImg[0];
 
         curHealth = _characterData.MaxHp;
         _healthSlider.maxValue = _characterData.MaxHp;
@@ -119,7 +123,7 @@ public class EnemyCharacter : Character
             else
                 curHealth -= InDamage;
 
-            StartCoroutine(OnDamage(sprite));
+            StartCoroutine(OnDamage(spriteRenderer));
         }
     }
 
@@ -133,6 +137,8 @@ public class EnemyCharacter : Character
 
             _inTarget = Physics2D.CircleCastAll(InEnemyScan,
             _characterData.SightRange + 1f, Vector2.zero, 0, targetMask);
+            if(spriteRenderer.sprite != ObjectImg[2])
+                spriteRenderer.sprite = ObjectImg[1];
         }
         else
             _inTarget = Physics2D.CircleCastAll(InEnemyScan,
@@ -184,11 +190,15 @@ public class EnemyCharacter : Character
         coolTime = 2f;
 
         float reLoadTime = _weaponMaxCount * coolTime;
-        _reLoad.SetActive(true);
+        spriteRenderer.sprite = ObjectImg[2];
 
         yield return new WaitForSeconds(reLoadTime);
         _weaponCurCount = _weaponMaxCount;
-        _reLoad.SetActive(false);
+
+        if(isBattle)
+            spriteRenderer.sprite = ObjectImg[1];
+        else
+            spriteRenderer.sprite = ObjectImg[0];
     }
 
     private Transform GetNearest()

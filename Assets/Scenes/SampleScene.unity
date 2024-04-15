@@ -3154,8 +3154,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 641.0399, y: 96}
-  m_SizeDelta: {x: 66.76, y: 60.24}
+  m_AnchoredPosition: {x: 649.972, y: 102.699}
+  m_SizeDelta: {x: 84.624, y: 73.638}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1336520431
 MonoBehaviour:
@@ -3177,10 +3177,10 @@ MonoBehaviour:
         - m_Target: {fileID: 1483723388}
           m_TargetAssemblyTypeName: MainUI, Assembly-CSharp
           m_MethodName: PlayerSwimmingDown
-          m_Mode: 1
+          m_Mode: 2
           m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_ObjectArgument: {fileID: 1336520432}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.UI.Button, UnityEngine.UI
             m_IntArgument: 0
             m_FloatArgument: 0
             m_StringArgument: 
@@ -3193,10 +3193,10 @@ MonoBehaviour:
         - m_Target: {fileID: 1483723388}
           m_TargetAssemblyTypeName: MainUI, Assembly-CSharp
           m_MethodName: PlayerSwimmingUp
-          m_Mode: 1
+          m_Mode: 2
           m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_ObjectArgument: {fileID: 1336520432}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.UI.Button, UnityEngine.UI
             m_IntArgument: 0
             m_FloatArgument: 0
             m_StringArgument: 
@@ -4303,8 +4303,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 690.16, y: 177}
-  m_SizeDelta: {x: 66.76, y: 60.24}
+  m_AnchoredPosition: {x: 690.6141, y: 213.068}
+  m_SizeDelta: {x: 85.531, y: 78.104}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1724758017
 MonoBehaviour:
@@ -4353,10 +4353,10 @@ MonoBehaviour:
       - m_Target: {fileID: 1483723388}
         m_TargetAssemblyTypeName: MainUI, Assembly-CSharp
         m_MethodName: PlayerMoveChange
-        m_Mode: 1
+        m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_ObjectArgument: {fileID: 1724758017}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.UI.Button, UnityEngine.UI
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 

@@ -33,6 +33,8 @@ public class MainUI : MonoBehaviour
     [SerializeField]
     private RectTransform _menuUI;
 
+    private bool _isMoveChangeChoose = false;
+
     private void Update()
     {
         if (GameManager.UI._isStart || GameManager.OBJECT.player.isDie == true)
@@ -109,24 +111,44 @@ public class MainUI : MonoBehaviour
         _experienceText.text = "Lv. " + GameManager.UI.GetLevelUpStat(InPlayer);
     }
 
-    public void PlayerSwimmingDown()
+    public void PlayerSwimmingDown(Button InButton)
     {
-        GameManager.OBJECT.player._isSwimmingTest = true;
-    }
+        ColorBlock colorBlock = InButton.colors;
 
-    public void PlayerSwimmingUp()
-    {
+        colorBlock.normalColor = new Color(1, 0, 0, 1);
+        colorBlock.highlightedColor = colorBlock.normalColor;
+        colorBlock.pressedColor = colorBlock.normalColor;
+
         GameManager.OBJECT.player._isSwimmingTest = false;
+        InButton.colors = colorBlock;
     }
 
-    public void PlayerMoveChange()
+    public void PlayerSwimmingUp(Button InButton)
     {
-        Player player = GameManager.OBJECT.player;
+        ColorBlock colorBlock = InButton.colors;
 
-        if (player._isMoveChangeTest)
-            player._isMoveChangeTest = false;
-        else
-            player._isMoveChangeTest = true;
+        colorBlock.normalColor = Color.white;
+        colorBlock.highlightedColor = colorBlock.normalColor;
+        colorBlock.pressedColor = colorBlock.normalColor;
+
+        GameManager.OBJECT.player._isSwimmingTest = true;
+        InButton.colors = colorBlock;
+    }
+
+    public void PlayerMoveChange(Button InButton)
+    {
+        ColorBlock colorBlock = InButton.colors;
+
+        Player player = GameManager.OBJECT.player;
+        _isMoveChangeChoose = !_isMoveChangeChoose;
+
+        colorBlock.normalColor = _isMoveChangeChoose ? new Color(1, 0, 0, 1) : Color.white;
+        player._isMoveChangeTest = _isMoveChangeChoose ? true : false;
+
+        colorBlock.highlightedColor = colorBlock.normalColor;
+        colorBlock.selectedColor = colorBlock.normalColor;
+
+        InButton.colors = colorBlock;
     }
 
     private void SetGameStop() => Time.timeScale = 0;

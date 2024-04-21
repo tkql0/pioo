@@ -35,6 +35,8 @@ public class MainUI : MonoBehaviour
 
     private bool _isMoveChangeChoose = false;
 
+    private bool _isPlayerSwimmingChoose = false;
+
     private void Update()
     {
         if (GameManager.UI._isStart || GameManager.OBJECT.player.isDie == true)
@@ -127,11 +129,40 @@ public class MainUI : MonoBehaviour
     {
         ColorBlock colorBlock = InButton.colors;
 
+        if (!GameManager.OBJECT.player.isSwimming)
+        {
+            // 이미지를 넣거나 색을 바꾸는게 좋을듯
+
+            return;
+        }
+
         colorBlock.normalColor = Color.white;
         colorBlock.highlightedColor = colorBlock.normalColor;
         colorBlock.pressedColor = colorBlock.normalColor;
 
         GameManager.OBJECT.player._isSwimmingTest = true;
+        InButton.colors = colorBlock;
+    }
+
+    public void PlayerSwimming(Button InButton)
+    {
+        ColorBlock colorBlock = InButton.colors;
+
+        if (!GameManager.OBJECT.player.isSwimming)
+        { // 수영 중이 아닐 때 버튼이 눌리지 않게
+            // 이미지를 넣거나 색을 바꾸는게 좋을듯
+
+            return;
+        }
+
+        _isPlayerSwimmingChoose = !_isPlayerSwimmingChoose;
+
+        colorBlock.normalColor = _isPlayerSwimmingChoose ? new Color(1, 0, 0, 1):Color.white;
+
+        colorBlock.highlightedColor = colorBlock.normalColor;
+        colorBlock.selectedColor = colorBlock.normalColor;
+
+        GameManager.OBJECT.player._isSwimmingTest = _isPlayerSwimmingChoose ? false : true;
         InButton.colors = colorBlock;
     }
 

@@ -103,10 +103,9 @@ public class Player : Character
             // 버튼을 끌어다가 경험치 실린더로 끌어오면 오르는 걸로 바꾸고 싶어
             LookAtMouse();
 
-            _gravityPointY = characterPosition.y - _gravityPoint.y;
+            SwimmingPoint();
 
-            _isBreath = Mathf.Abs(_gravityPointY) < 1 ? true : false;
-            isSwimming = _gravityPointY <= 0 ? true : false;
+            Jump();
         }
     }
 
@@ -153,12 +152,8 @@ public class Player : Character
             spriteRenderer.flipX = _inputVector.x > 0;
         // Player의 방향 전환
 
-        if (_isBreath)
-            _anim.SetFloat("MoveUpSpeed", Mathf.Abs(_inputVector.x));
-        if(!_isBreath)
-            _anim.SetFloat("MoveDownSpeed", Mathf.Abs(_inputVector.x));
-
-        Jump();
+        _anim.SetBool("isRun", Mathf.Abs(_inputVector.x) > 0);
+        // 움직일 때 움직이는 애니메이션
 
         //if(_isJump)
         //{
@@ -227,6 +222,32 @@ public class Player : Character
         //        curHealth += Time.deltaTime;
         //    // 체력이 떨어져있다면 천천히 회복
         //}
+    }
+
+    public bool isBreathTest;
+
+    void SwimmingPoint()
+    {
+        // 수영할 수 있는 단꼐를 따로 나눠 놓자
+        _gravityPointY = characterPosition.y - _gravityPoint.y;
+        // 수면과 플레이어와의 거리
+
+        //bool isBreathTest;
+        // 점프를 하면 이것과 관계없이 숨을 쉴 수 있어
+
+        if(_isSwimmingTest)
+        {
+            // 수영 버튼이 눌려있지않다면
+            isBreathTest = Mathf.Abs(_gravityPointY) < 1 ? true : false;
+            // 수면와 플레이어의 거리가 절대값 1만큼 있다면 호흡 true
+        }
+        else
+        {
+            isBreathTest = false;
+        }
+
+        isSwimming = _gravityPointY <= 0 ? true : false;
+        _anim.SetBool("isDiving", isBreathTest);
     }
 
     private void Jump()

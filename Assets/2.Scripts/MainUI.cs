@@ -37,6 +37,15 @@ public class MainUI : MonoBehaviour
 
     private bool _isPlayerSwimmingChoose = false;
 
+    private Color damageColor;
+    private float damageTime;
+
+    private void Start()
+    {
+        damageColor = new Color(1f, 0f, 0f, 0.1f);
+        damageTime = 5f;
+    }
+
     private void Update()
     {
         if (GameManager.UI._isStart || GameManager.OBJECT.player.isDie == true)
@@ -45,6 +54,7 @@ public class MainUI : MonoBehaviour
         SetSliderDataUpdate(GameManager.OBJECT.player);
 
         LevelUp(GameManager.OBJECT.player);
+        Damage(GameManager.OBJECT.player);
     }
 
     private void SetSliderDataUpdate(Player InPlayer)
@@ -111,6 +121,23 @@ public class MainUI : MonoBehaviour
             return;
 
         _experienceText.text = "Lv. " + GameManager.UI.GetLevelUpStat(InPlayer);
+    }
+
+    [SerializeField]
+    private Image damageImage;
+
+    public void Damage(Player InPlayer)
+    {
+        if(InPlayer.isDamage)
+        {
+            damageImage.color = damageColor;
+        }
+        else
+        {
+            damageImage.color = Color.Lerp(damageImage.color, Color.clear, damageTime * Time.deltaTime);
+        }
+
+        InPlayer.isDamage = false;
     }
 
     public void PlayerSwimmingDown(Button InButton)

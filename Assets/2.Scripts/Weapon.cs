@@ -50,16 +50,35 @@ public class Weapon : MonoBehaviour
     {
         GameObject target = collision.gameObject;
 
-        if (TagCheck(target, Enemy) && key == ObjectType.PlayerWeapon)
+        if (collision.TryGetComponent<EnemyCharacter>(out var OutEnemy) && key == ObjectType.PlayerWeapon)
+        {
+
+
             SetActiveObject(false);
-        else if (TagCheck(target, Player) && key == ObjectType.EnemyWeapon)
+        }
+        else if (collision.TryGetComponent<Player>(out var OutPlayer) && key == ObjectType.EnemyWeapon)
+        {
+            if (OutPlayer.curHealth > 0)
+            {
+                // 생각하고 있는 컨셉이 플레이어가 보스 몬스터가 되고 마지막엔 꾸미기만 하는 방치형 게임인데
+                // 그러면 데미지에 무적을 안줘도 되려나 몬스터만 무적 주고
+                // 받는 데미지는 몬스터의 무기밖에 없고 한번 맞으면 없어지니까 괜찮을꺼같은데
+                int Critical = Random.Range(1, 5);
+
+                if (Critical == 4)
+                    OutPlayer.Damage(damage + criticalDamage);
+                else
+                    OutPlayer.Damage(damage);
+            }
+
             SetActiveObject(false);
+        }
     }
 
-    private bool TagCheck(GameObject InTargetObject, string InTargetTag)
-    {
-        return InTargetObject.CompareTag(InTargetTag);
-    }
+    //private bool TagCheck(GameObject InTargetObject, string InTargetTag)
+    //{
+    //    return InTargetObject.CompareTag(InTargetTag);
+    //}
 
     public void SetActiveObject(bool InIsActive)
     {

@@ -15,6 +15,8 @@ public class Player : Character
 
     private Vector2 _inputVector;
 
+    public Vector2 playerPosition;
+
     public float moveSpeed = 0.0f;
     public float moveMaxSpeed = 0.0f;
     public float moveSpeedX = 0.0f;
@@ -92,6 +94,8 @@ public class Player : Character
 
     private void Update()
     {
+        playerPosition = transform.position;
+
         if (_inputVector.magnitude == 0 && _isSwimmingTest)
             rigid.velocity = new Vector2(rigid.velocity.normalized.x * 0.5f,
                 rigid.velocity.normalized.y * 0.5f);
@@ -101,11 +105,29 @@ public class Player : Character
             if(Input.GetKey(KeyCode.F) && fishItemCount > 0 && !_isEat)
                 StartCoroutine(EatDelay());
             // 버튼을 끌어다가 경험치 실린더로 끌어오면 오르는 걸로 바꾸고 싶어
-            LookAtMouse();
 
             SwimmingPoint();
 
             Jump();
+
+            if (transform.position.y < -1)
+            {
+                if (curBreath > 0.0f)
+                    curBreath -= Time.deltaTime;
+                else
+                    curHealth -= Time.deltaTime;
+                //    // 호흡게이지가 0이상이라면 호흡게이지 감소
+                //    // 0 이하라면 체력 감소
+            }
+            else
+            {
+                if (_isSwimmingTest)
+                {
+                    curBreath = maxBreath;
+                }
+            }
+
+            LookAtMouse();
         }
     }
 
@@ -126,12 +148,9 @@ public class Player : Character
     {
         if (!isSwimming)
             return;
-        // Player가 물 바깥에서는 가속도만을 이동해 뛰어오를뿐
-        // 움직임을 주지 못하게 되어있음
 
         moveSpeedX = rigid.velocity.x;
         moveSpeedY = rigid.velocity.y;
-        // 움직임에 대한 가속도를 저장
 
         rigid.gravityScale = 0.2f;
         rigid.AddForce(_inputVector.normalized, ForceMode2D.Impulse);
@@ -146,19 +165,11 @@ public class Player : Character
     public void PlayerMove(Vector2 InInputDirection)
     {
         _inputVector = InInputDirection;
-        // Player의 움직임
 
         if (_inputVector.x != 0)
             spriteRenderer.flipX = _inputVector.x > 0;
-        // Player의 방향 전환
 
         _anim.SetBool("isRun", Mathf.Abs(_inputVector.x) > 0);
-        // 움직일 때 움직이는 애니메이션
-
-        //if(_isJump)
-        //{
-
-        //}
 
         //if (_isSwimmingTest && transform.position.y < 0)
         //{
@@ -237,7 +248,7 @@ public class Player : Character
 
         if(_isSwimmingTest)
         {
-            // 수영 버튼이 눌려있지않다면
+            // 수영 버튼이 눌려있다면
             isBreathTest = Mathf.Abs(_gravityPointY) < 1 ? true : false;
             // 수면와 플레이어의 거리가 절대값 1만큼 있다면 호흡 true
         }
@@ -329,7 +340,8 @@ public class Player : Character
             mousePos.y - transform.position.y);
         dir = dir.normalized;
 
-        Attack(dir);
+        if(!_isSwimmingTest)
+            Attack(dir);
     }
 
     private void OnTriggerStay2D(Collider2D collision)
@@ -343,28 +355,44 @@ public class Player : Character
             OutFish.SetActiveObject(false);
         }
 
-        if (!isDamage)
-        {
-            if (!collision.TryGetComponent<Weapon>(out var OutWeapon))
-                return;
+        //if (!isDamage)
+        //{
+        //    if (!collision.TryGetComponent<Weapon>(out var OutWeapon))
+        //        return;
 
-            if (OutWeapon.key != ObjectType.EnemyWeapon)
-                return;
+        //    if (OutWeapon.key != ObjectType.EnemyWeapon)
+        //        return;
 
-            isDamage = true;
-            collision.gameObject.SetActive(false);
+        //    isDamage = true;
+        //    collision.gameObject.SetActive(false);
 
-            int Critical = Random.Range(1, 5);
+        //    int Critical = Random.Range(1, 5);
 
-            isDamage = true;
+        //    if (Critical == 4)
+        //        curHealth -= OutWeapon.damage + OutWeapon.criticalDamage;
+        //    else
+        //        curHealth -= OutWeapon.damage;
+        //}
+        //// Weapon 스크립트에도 오브젝트 제거 코드가 있는데 여기에도 있네
+    }
 
-            if (Critical == 4)
-                curHealth -= OutWeapon.damage + OutWeapon.criticalDamage;
-            else
-                curHealth -= OutWeapon.damage;
+    public void Damage(int InDamage)
+    {
+        isDamage = true;
 
-            StartCoroutine(OnDamage(spriteRenderer));
-        }
+        curHealth -= InDamage;
+
+        if (curHealth <= 0 && !isDie)
+            Death();
+    }
+
+    private void Death()
+    {
+        isDie = true;
+
+        // 죽는 애니메이션
+        // 다른 게임들 해보니까 딱히 게임이 끝났다고 멈추지 않아도 될거같아
+        // 끝난 뒤에 남아있는 캐릭터들이 싸우고 있거나 움직이고 있는거 보고 있는 것도 재미있더라
     }
 
     private IEnumerator EatDelay()

@@ -88,9 +88,15 @@ public class EnemyCharacter : Character
         ObjectScan(_scanPosition);
     }
 
-    private void HitTracking(Vector2 InTargetPosition)
+    private IEnumerator HitTracking(Vector2 InTargetPosition)
     {
         float DirX = InTargetPosition.x - _scanPosition.x;
+
+        transform.localScale = DirX <= 0 ? _leftPosition : _rightPosition;
+
+        yield return new WaitForSeconds(1f);
+
+        DirX = InTargetPosition.x - _scanPosition.x;
 
         transform.localScale = DirX <= 0 ? _leftPosition : _rightPosition;
     }
@@ -174,14 +180,15 @@ public class EnemyCharacter : Character
         dir = dir.normalized;
 
         GameObject Attack = GameManager.SPAWN.GetObjectSpawn(characterPosition, weaponSpawnKey, ObjectType.EnemyWeapon);
-        Weapon weapon = Attack.GetComponent<Weapon>();
+        if (!Attack.TryGetComponent<Weapon>(out var OutWeapon))
+            return;
 
-        weapon.damage = _characterData.damage;
-        weapon.criticalDamage = _characterData.criticalDamage;
+        OutWeapon.damage = _characterData.damage;
+        OutWeapon.criticalDamage = _characterData.criticalDamage;
         if (isBattle)
-            weapon.rigid.velocity = dir * (weaponPower * 1.5f);
+            OutWeapon.rigid.velocity = dir * (weaponPower * 1.5f);
         else
-            weapon.rigid.velocity = dir * weaponPower;
+            OutWeapon.rigid.velocity = dir * weaponPower;
         _weaponCurCount--;
     }
 

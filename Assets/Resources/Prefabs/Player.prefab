@@ -205,10 +205,12 @@ MonoBehaviour:
   player: {fileID: 0}
   cam: {fileID: 0}
   attackPowerSlider: {fileID: 7512124684891448307}
+  playerPosition: {x: 0, y: 0}
   moveSpeed: 0
   moveMaxSpeed: 0
   moveSpeedX: 0
   moveSpeedY: 0
+  isSwimming: 0
   _isSwimmingTest: 0
   _isMoveChangeTest: 0
   isLv_up: 0
@@ -223,6 +225,7 @@ MonoBehaviour:
   fishEatCount: 1
   attackMinPower: 2
   attackMaxPower: 6
+  isBreathTest: 0
 --- !u!253 &5942437967893040124
 BuoyancyEffector2D:
   m_ObjectHideFlags: 0

@@ -96,6 +96,10 @@ public class Player : Character
     {
         playerPosition = transform.position;
 
+        playerPosition.y = Mathf.Clamp(playerPosition.y, -38f, 40f);
+
+        transform.position = playerPosition;
+
         if (_inputVector.magnitude == 0 && _isSwimmingTest)
             rigid.velocity = new Vector2(rigid.velocity.normalized.x * 0.5f,
                 rigid.velocity.normalized.y * 0.5f);
@@ -114,6 +118,9 @@ public class Player : Character
             {
                 if (curBreath > 0.0f)
                     curBreath -= Time.deltaTime;
+                // 조이스틱이 호흡량에 따라 제한이 될텐데
+                // 물속에 들어가자마자 줄어들면 아무것도 할 수가 없어
+                // 일정 시간마다 늘어나는 걸로 하자
                 else
                     curHealth -= Time.deltaTime;
                 //    // 호흡게이지가 0이상이라면 호흡게이지 감소
@@ -125,6 +132,9 @@ public class Player : Character
                 {
                     curBreath = maxBreath;
                 }
+
+                if(curHealth != maxHealth)
+                    curHealth += Time.deltaTime;
             }
 
             LookAtMouse();
@@ -152,7 +162,11 @@ public class Player : Character
         moveSpeedX = rigid.velocity.x;
         moveSpeedY = rigid.velocity.y;
 
-        rigid.gravityScale = 0.2f;
+        if(isBreathTest)
+            rigid.gravityScale = 0f;
+        else
+            rigid.gravityScale = 0.2f;
+
         rigid.AddForce(_inputVector.normalized, ForceMode2D.Impulse);
 
         if (Mathf.Abs(moveSpeedX) > MaxSpeed)
@@ -170,76 +184,13 @@ public class Player : Character
             spriteRenderer.flipX = _inputVector.x > 0;
 
         _anim.SetBool("isRun", Mathf.Abs(_inputVector.x) > 0);
-
-        //if (_isSwimmingTest && transform.position.y < 0)
-        //{
-        //    // 수영 버튼이 눌려있고 Player의 y좌표가 0미만이라면
-        //    rigid.gravityScale = 0f;
-        //    // 중력을 0으로 초기화
-
-        //    if(transform.position.y > 0)
-        //        transform.position = new Vector2(transform.position.x, 0);
-
-        //    if (curBreath > 0.0f)
-        //        curBreath -= Time.deltaTime;
-        //    else
-        //        curHealth -= Time.deltaTime;
-        //    // 호흡게이지가 0이상이라면 호흡게이지 감소
-        //    // 0 이하라면 체력 감소
-
-        //    _isJump = false;
-        //}
-        //else if (_isSwimmingTest && transform.position.y >= 0)
-        //{
-        //    // 수영 버튼이 눌려있고 Player의 y좌표가 0이상일때
-        //    if (_isJump)
-        //        return;
-
-        //    transform.position = new Vector2(transform.position.x, 0);
-        //    // 점프 중이 아니라면 Player의 y좌표를 0으로 고정
-
-        //    rigid.gravityScale = 0f;
-        //    // 중력을 0으로 초기화
-
-        //    curBreath = maxBreath;
-        //    // 감소한 호흡 게이지를 최대치로 회복
-
-        //    if (curHealth < maxHealth)
-        //        curHealth += Time.deltaTime;
-        //    // 체력이 떨어져있다면 천천히 회복
-        //}
-        //else if(!_isSwimmingTest && transform.position.y < 0)
-        //{
-        //    // 수영 버튼이 눌려있지 않을 때 Player의 y좌표가 0미만이라면
-        //    rigid.gravityScale = 0.1f;
-        //    // 중력을 0.1로 초기화
-
-        //    if (transform.position.y > 0)
-        //        transform.position = new Vector2(transform.position.x, 0);
-
-        //    if (curBreath > 0.0f)
-        //        curBreath -= Time.deltaTime;
-        //    else
-        //        curHealth -= Time.deltaTime;
-        //    // 호흡게이지가 0이상이라면 호흡게이지 감소
-        //    // 0 이하라면 체력 감소
-
-        //    _isJump = false;
-        //}
-        //if (_isJump && !_isSwimmingTest)
-        //{
-        //    // 만약 점프중이고 수영버튼이 눌려있지 않다면
-        //    if (curHealth < maxHealth)
-        //        curHealth += Time.deltaTime;
-        //    // 체력이 떨어져있다면 천천히 회복
-        //}
     }
 
     public bool isBreathTest;
 
     void SwimmingPoint()
     {
-        // 수영할 수 있는 단꼐를 따로 나눠 놓자
+        // 수영할 수 있는 단계를 따로 나눠 놓자
         _gravityPointY = characterPosition.y - _gravityPoint.y;
         // 수면과 플레이어와의 거리
 
@@ -286,6 +237,9 @@ public class Player : Character
                 {
                     rigid.AddForce(Vector2.up * moveSpeedY, ForceMode2D.Impulse);
                     _isJump = true;
+                    _anim.SetBool("isRun", true);
+                    _anim.SetBool("isDiving", false);
+                    // 점프 중일 때는 수영중인 애니메이션
                 }
             }
         }

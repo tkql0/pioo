@@ -67,6 +67,8 @@ public class EnemyCharacter : Character
         _healthSlider.maxValue = _characterData.MaxHp;
         _healthSlider.value = _characterData.MaxHp;
 
+        trackingCount = 0;
+
         //_RandomBaitPosition = Random.Range(-0.5f, -30f);
     }
 
@@ -88,17 +90,31 @@ public class EnemyCharacter : Character
         ObjectScan(_scanPosition);
     }
 
-    private IEnumerator HitTracking(Vector2 InTargetPosition)
+    private void HitTracking(Vector2 InTargetPosition)
     {
         float DirX = InTargetPosition.x - _scanPosition.x;
 
         transform.localScale = DirX <= 0 ? _leftPosition : _rightPosition;
+    }
 
-        yield return new WaitForSeconds(1f);
+    private IEnumerator ReTracking(Vector2 InTargetPosition)
+    {
+        HitTracking(InTargetPosition);
+        trackingCount++;
 
-        DirX = InTargetPosition.x - _scanPosition.x;
+        yield return new WaitForSeconds(5f);
 
-        transform.localScale = DirX <= 0 ? _leftPosition : _rightPosition;
+        StartCoroutine(ReTracking(InTargetPosition));
+        Debug.Log("재탐색");
+
+        if (trackingCount >= 10)
+        {
+            // 탐색을 계속하는 것보다 나눠서 하면 두리번거리는 모습 같아서 10번 둘러보고 초기화
+            trackingCount = 0;
+
+            StopCoroutine(ReTracking(InTargetPosition));
+        }
+
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -109,14 +125,18 @@ public class EnemyCharacter : Character
             Damage(OutWeapon.damage, OutWeapon.criticalDamage, OutWeapon.transform.position);
     }
 
+    private int trackingCount;
+
     private void Damage(float InDamage, float InCriticalDamage, Vector2 player)
     {
         if (isDie == true)
             return;
 
+        trackingCount = 0;
+
         isBattle = true;
 
-        HitTracking(player);
+        StartCoroutine(ReTracking(player));
 
         if (isDamage == false)
         {

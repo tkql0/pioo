@@ -1,51 +1,79 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class HP_UI : MonoBehaviour
 {
-    public int curHealth;
-    public int MaxHealth;
+    public GameObject healthPrefab;
 
-    public Image[] healths;
+    private List<HP_Image> healths = new List<HP_Image>();
 
-    public Sprite fullHealth;
-    // 2
-    public Sprite halfHealth;
-    // 1
-    public Sprite emptyHealth;
-    // 0
+    private void OnEnable()
+    {
+        GameManager.OBJECT.player.OnPlayerHP += DrawHealths;
+    }
 
-    // MaxHealth가 20을 넘기면 뒤에 X 1 을 붙이자
-    // curHealth가 20단위로 넘어가면 색을 바꾸자
+    private void OnDisable()
+    {
+        GameManager.OBJECT.player.OnPlayerHP -= DrawHealths;
+    }
 
     private void Update()
     {
-        if(curHealth > MaxHealth)
+        if(GameManager.UI.isHPUpdate)
         {
-            curHealth = MaxHealth;
+            DrawHealthUpdate();
+        }
+    }
+
+    private void DrawHealths()
+    {
+        for (int i = 0; i < healths.Count; i++)
+        {
+            int healthState = (int)Mathf.Clamp
+                (GameManager.OBJECT.player.curHealth - (i * 2), 0, 2);
+
+            healths[i].SetHealthImage((HealthImages)healthState);
+        }
+    }
+
+    public void DrawHealthUpdate()
+    {
+        ClearHealths();
+
+        float maxHealthRemainder = GameManager.OBJECT.player.maxHealth % 2;
+        // 최대 체력이 짝수인지 홀수인지 확인
+        int healthToMake = (int)((GameManager.OBJECT.player.maxHealth / 2) + maxHealthRemainder);
+
+        for(int i = 0; i < healthToMake; i++)
+        {
+            CreateEmptyHealths();
         }
 
-        for(int i = 0; i < healths.Length; i++)
-        {
-            if(i < curHealth)
-            {
-                healths[i].sprite = fullHealth;
-            }
-            else
-            {
-                healths[i].sprite = emptyHealth;
-            }
+        DrawHealths();
 
-            if(i < MaxHealth)
-            {
-                healths[i].enabled = true;
-            }
-            else
-            {
-                healths[i].enabled = false;
-            }
+        GameManager.UI.isHPUpdate = false;
+    }
+
+    public void CreateEmptyHealths()
+    {
+        GameObject newHealth = Instantiate(healthPrefab);
+        newHealth.transform.SetParent(transform);
+
+        if (!newHealth.TryGetComponent<HP_Image>(out var OutHP_Image))
+            return;
+
+        OutHP_Image.SetHealthImage(HealthImages.Empty);
+        healths.Add(OutHP_Image);
+    }
+
+    public void ClearHealths()
+    {
+        foreach(Transform OutChildTransform in transform)
+        {
+            Destroy(OutChildTransform.gameObject);
         }
+
+        healths = new List<HP_Image>();
     }
 }

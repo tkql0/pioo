@@ -92,6 +92,8 @@ public class MainUI : MonoBehaviour
         _experienceSlider.value = 0;
 
         _gameStartPanel.SetActive(false);
+
+        GameManager.UI.isHPUpdate = true;
     }
 
     public void OnStop()

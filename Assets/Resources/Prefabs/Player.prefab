@@ -196,7 +196,7 @@ MonoBehaviour:
   coolTimeMax: 0
   coolTime: 0
   maxHealth: 20
-  curHealth: 0
+  curHealth: 10
   isDie: 0
   isDamage: 0
   isBattle: 0

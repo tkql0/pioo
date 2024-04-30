@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System;
 
 public enum AbilityType
 {
@@ -18,6 +19,8 @@ public class UIController
 {
     public bool _isClick = false;
     public bool _isStart = true;
+
+    public bool isHPUpdate = false;
 
     public bool _isMaxValue = false;
 
@@ -49,6 +52,7 @@ public class UIController
         InPlayer.maxExperience += 5;
         InPlayer.LvPoint++;
         InPlayer.curHealth = InPlayer.maxHealth;
+        GameManager.UI.isHPUpdate = true;
 
         return ++InPlayer.PlayerLv;
     }

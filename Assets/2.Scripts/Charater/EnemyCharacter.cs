@@ -105,11 +105,10 @@ public class EnemyCharacter : Character
         yield return new WaitForSeconds(5f);
 
         StartCoroutine(ReTracking(InTargetPosition));
-        Debug.Log("재탐색");
+        //Debug.Log("재탐색");
 
         if (trackingCount >= 10)
         {
-            // 탐색을 계속하는 것보다 나눠서 하면 두리번거리는 모습 같아서 10번 둘러보고 초기화
             trackingCount = 0;
 
             StopCoroutine(ReTracking(InTargetPosition));

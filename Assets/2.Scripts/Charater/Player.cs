@@ -3,9 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using System;
 
 public class Player : Character
 {
+    public event Action OnPlayerHP;
+
     public GameObject player;
 
     public Camera cam;
@@ -68,6 +71,12 @@ public class Player : Character
 
     private float _gravityPointY = 0;
 
+    private float _recoveryTime = 0f;
+    private float _recoveryCoolTime = 2f;
+
+    private float _drownTime = 0f;
+    private float _drownCoolTime = 2f;
+
     public void OnEnable()
     {
         player = gameObject;
@@ -116,15 +125,23 @@ public class Player : Character
 
             if (transform.position.y < -1)
             {
-                if (curBreath > 0.0f)
-                    curBreath -= Time.deltaTime;
-                // 조이스틱이 호흡량에 따라 제한이 될텐데
-                // 물속에 들어가자마자 줄어들면 아무것도 할 수가 없어
-                // 일정 시간마다 늘어나는 걸로 하자
-                else
-                    curHealth -= Time.deltaTime;
-                //    // 호흡게이지가 0이상이라면 호흡게이지 감소
-                //    // 0 이하라면 체력 감소
+                _drownTime += Time.deltaTime;
+
+                if (_drownTime >= _drownCoolTime)
+                {
+                    if (curBreath > 0.0f)
+                        curBreath--;
+                    // 조이스틱이 호흡량에 따라 제한이 될텐데
+                    // 물속에 들어가자마자 줄어들면 아무것도 할 수가 없어
+                    // 일정 시간마다 늘어나는 걸로 하자
+                    else
+                        Damage(1);
+                    //    // 호흡게이지가 0이상이라면 호흡게이지 감소
+                    //    // 0 이하라면 체력 감소
+
+
+                    _drownTime = 0;
+                }
             }
             else
             {
@@ -133,8 +150,10 @@ public class Player : Character
                     curBreath = maxBreath;
                 }
 
-                if(curHealth != maxHealth)
-                    curHealth += Time.deltaTime;
+                _recoveryTime += Time.deltaTime;
+
+                if (curHealth < maxHealth && _recoveryTime >= _recoveryCoolTime)
+                    Recovery(1);
             }
 
             LookAtMouse();
@@ -308,26 +327,6 @@ public class Player : Character
             fishItemCount++;
             OutFish.SetActiveObject(false);
         }
-
-        //if (!isDamage)
-        //{
-        //    if (!collision.TryGetComponent<Weapon>(out var OutWeapon))
-        //        return;
-
-        //    if (OutWeapon.key != ObjectType.EnemyWeapon)
-        //        return;
-
-        //    isDamage = true;
-        //    collision.gameObject.SetActive(false);
-
-        //    int Critical = Random.Range(1, 5);
-
-        //    if (Critical == 4)
-        //        curHealth -= OutWeapon.damage + OutWeapon.criticalDamage;
-        //    else
-        //        curHealth -= OutWeapon.damage;
-        //}
-        //// Weapon 스크립트에도 오브젝트 제거 코드가 있는데 여기에도 있네
     }
 
     public void Damage(int InDamage)
@@ -335,9 +334,22 @@ public class Player : Character
         isDamage = true;
 
         curHealth -= InDamage;
+        OnPlayerHP?.Invoke();
 
         if (curHealth <= 0 && !isDie)
+        {
+            curHealth = 0;
+            Debug.Log("Die");
             Death();
+        }
+    }
+
+    public void Recovery(int InRecovery)
+    {
+        _recoveryTime = 0;
+
+        curHealth += InRecovery;
+        OnPlayerHP?.Invoke();
     }
 
     private void Death()

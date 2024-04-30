@@ -248,8 +248,9 @@ public class MenuUI : MonoBehaviour
                 InPlayer.maxHealth += 2f;
                 _maxValueNameText.text = "최대 체력\n" +
                     (int)InPlayer.maxHealth + " + 2";
+                GameManager.UI.isHPUpdate = true;
 
-                if(GameManager.UI._isMaxValue == true)
+                if (GameManager.UI._isMaxValue == true)
                     _minValueNameText.text = "현재 체력\n" +
                         (int)InPlayer.curHealth + " + 2";
                 break;

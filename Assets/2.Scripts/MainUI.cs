@@ -15,16 +15,16 @@ public class MainUI : MonoBehaviour
 
     [SerializeField]
     private Text _experienceText;
-    [SerializeField]
-    private Text _healthText;
+    //[SerializeField]
+    //private Text _healthText;
     [SerializeField]
     private Text _breathText;
 
     [SerializeField]
     private Text _fishCount;
 
-    [SerializeField]
-    private Slider _healthSlider;
+    //[SerializeField]
+    //private Slider _healthSlider;
     [SerializeField]
     private Slider _breathSlider;
     [SerializeField]
@@ -59,21 +59,24 @@ public class MainUI : MonoBehaviour
 
     private void SetSliderDataUpdate(Player InPlayer)
     {
-        if (_healthSlider.value <= 0)
-        {
-            _gameOverPanel.SetActive(true);
-            InPlayer.isDie = true;
-        }
+        //if (_healthSlider.value <= 0)
+        //{
+        //    _gameOverPanel.SetActive(true);
+        //    InPlayer.isDie = true;
+        //}
 
-        _healthText.text = (int)InPlayer.curHealth +
-            " / " + InPlayer.maxHealth;
+        if(InPlayer.isDie)
+            _gameOverPanel.SetActive(true);
+
+        //_healthText.text = (int)InPlayer.curHealth +
+        //    " / " + InPlayer.maxHealth;
         _breathText.text = (int)InPlayer.curBreath +
             " / " + InPlayer.maxBreath;
 
-        _fishCount.text = "Fish\n" + InPlayer.fishItemCount +
-            " / " + InPlayer.fishItemMaxCount;
+        _fishCount.text = "Fish\n" + InPlayer.digestionCount +
+            " / " + InPlayer.fishItemCount;
 
-        GameManager.UI.SetSliderUpdate(InPlayer.maxHealth, InPlayer.curHealth, _healthSlider);
+        //GameManager.UI.SetSliderUpdate(InPlayer.maxHealth, InPlayer.curHealth, _healthSlider);
         GameManager.UI.SetSliderUpdate(InPlayer.maxBreath, InPlayer.curBreath, _breathSlider);
         GameManager.UI.SetSliderUpdate(InPlayer.maxExperience, InPlayer.curExperience, _experienceSlider);
     }
@@ -87,7 +90,7 @@ public class MainUI : MonoBehaviour
         SetGameStart();
         GameManager.SPAWN.GameStartSpawnPosition();
 
-        _healthSlider.value = GameManager.OBJECT.player.maxHealth;
+        //_healthSlider.value = GameManager.OBJECT.player.maxHealth;
         _breathSlider.value = GameManager.OBJECT.player.maxBreath;
         _experienceSlider.value = 0;
 
@@ -100,6 +103,7 @@ public class MainUI : MonoBehaviour
     {
         if (!GameManager.UI._isClick)
         {
+            GameManager.OBJECT.player.ExperienceUp();
             GameManager.UI.SetUIEnter(_menuUI);
             SetGameStop();
             GameManager.UI._isClick = true;

@@ -77,3 +77,4 @@ public class HP_UI : MonoBehaviour
         healths = new List<HP_Image>();
     }
 }
+// 오브젝트를 지우는게 아니라 비활성화 시키고싳어

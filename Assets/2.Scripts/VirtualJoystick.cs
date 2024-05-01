@@ -65,4 +65,6 @@ public class VirtualJoystick : MonoBehaviour, IBeginDragHandler, IDragHandler, I
         isInput = false;
         GameManager.OBJECT.player.PlayerMove(Vector2.zero);
     }
+
+    // 조이스틱이 Player의 호흡게이지에 영향을 받았으면 좋겠어
 }

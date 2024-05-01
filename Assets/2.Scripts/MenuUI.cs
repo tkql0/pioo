@@ -61,8 +61,8 @@ public class MenuUI : MonoBehaviour
             " / " + (int)player.attackMaxPower;
         _breathText.text = "잠수 시간 : " + (int)player.curBreath +
             " / " + (int)player.maxBreath;
-        _fishStorageText.text = "식량 저장소 : " + player.fishItemMaxCount +
-            " / 사용량 : " + player.fishEatCount;
+        _fishStorageText.text = "물고기 저장소 공간 : " + player.fishItemMaxCount +
+            " / 사용량 : " + player.digestionMaxCount;
 
         _levelText.text = "Lv. " + player.PlayerLv + " ( " + player.LvPoint + " )";
 
@@ -149,7 +149,7 @@ public class MenuUI : MonoBehaviour
 
                 _abilityValueNameText.text = "저장소";
                 _minValueNameText.text = "사용량\n" +
-                    player.fishEatCount + " + 1";
+                    player.digestionMaxCount + " + 1";
                 _maxValueNameText.text = "저장공간\n" +
                     player.fishItemMaxCount + " + 1";
                 _explanationText.text = ".";
@@ -184,6 +184,7 @@ public class MenuUI : MonoBehaviour
                 InPlayer.curHealth += 2f;
                 _minValueNameText.text = "현재 체력\n" +
                     (int)InPlayer.curHealth + " + 2";
+                GameManager.UI.isHPUpdate = true;
                 break;
             case AbilityType.Damage_Ability:
                 InPlayer.playerDamage += 1;
@@ -227,13 +228,13 @@ public class MenuUI : MonoBehaviour
             case AbilityType.Storage_Ability:
                 if (GameManager.UI.SetAbilityMax(InPlayer.fishEatCount, InPlayer.fishItemMaxCount))
                 {
-                    SetOverFlowValue(InPlayer.fishEatCount, InPlayer.fishItemMaxCount);
+                    SetOverFlowValue(InPlayer.digestionMaxCount, InPlayer.fishItemMaxCount);
                     _minValueNameText.text = "식사량\nMax";
                     return;
                 }
-                InPlayer.fishEatCount += 1;
+                InPlayer.digestionMaxCount += 1;
                 _minValueNameText.text = "식사량\n" +
-                    InPlayer.fishEatCount + " + 1";
+                    InPlayer.digestionMaxCount + " + 1";
                 break;
         }
 
@@ -245,6 +246,11 @@ public class MenuUI : MonoBehaviour
         switch (abilityType)
         {
             case AbilityType.Health_Ability:
+                if (InPlayer.maxHealth >= 80)
+                {
+                    _maxValueNameText.text = "최대 체력\nMax";
+                    return;
+                }
                 InPlayer.maxHealth += 2f;
                 _maxValueNameText.text = "최대 체력\n" +
                     (int)InPlayer.maxHealth + " + 2";

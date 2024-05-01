@@ -31,6 +31,10 @@ public class EnemyCharacter : Character
 
     private Vector2 _scanPosition => _scanObject.transform.position;
 
+    public bool Angry;
+    // 플레이어가 먼저 공격하기 전엔 공격을 안하는 몬스터와
+    // 선제 공격을 하는 몬스터를 구분할 bool값
+
     private void Awake()
     {
         rigid = GetComponent<Rigidbody2D>();

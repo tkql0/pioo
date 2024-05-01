@@ -115,9 +115,10 @@ public class Player : Character
 
         if (isDie == false && GameManager.UI._isClick == false)
         {
-            if(Input.GetKey(KeyCode.F) && fishItemCount > 0 && !_isEat)
-                StartCoroutine(EatDelay());
-            // 버튼을 끌어다가 경험치 실린더로 끌어오면 오르는 걸로 바꾸고 싶어
+            //if(Input.GetKey(KeyCode.F) && fishItemCount > 0 && !_isEat)
+            //    StartCoroutine(EatDelay());
+            //// 버튼을 끌어다가 경험치 실린더로 끌어오면 오르는 걸로 바꾸고 싶어
+            Digestion();
 
             SwimmingPoint();
 
@@ -361,16 +362,60 @@ public class Player : Character
         // 끝난 뒤에 남아있는 캐릭터들이 싸우고 있거나 움직이고 있는거 보고 있는 것도 재미있더라
     }
 
-    private IEnumerator EatDelay()
+    //private IEnumerator EatDelay()
+    //{
+    //    _isEat = true;
+    //    curExperience += 5;
+    //    if (fishItemCount < fishEatCount)
+    //        fishItemCount -= fishItemCount;
+    //    else
+    //        fishItemCount -= fishEatCount;
+    //    yield return new WaitForSeconds(1f);
+    //    // 먹는 모습 활성화 시간
+    //    _isEat = false;
+    //}
+
+    float EatDelay = 10f;
+    float EatTime = 0f;
+
+    public int digestionCount = 0;
+    public int digestionMaxCount = 10;
+
+    void Digestion()
     {
-        _isEat = true;
-        curExperience += 5;
-        if (fishItemCount < fishEatCount)
-            fishItemCount -= fishItemCount;
-        else
-            fishItemCount -= fishEatCount;
-        yield return new WaitForSeconds(1f);
-        // 먹는 모습 활성화 시간
-        _isEat = false;
+        // a
+        if (fishItemCount <= 0 || digestionCount >= digestionMaxCount)
+        {
+            EatTime = 0f;
+            return;
+        }
+
+        // a(10) / b(10)
+        // a
+        // 갖고있는 경험치 아이템 // max변수를 만들어서 갖고있을 수 있는 경험치 아이템에 제한을 준다
+        // 이벤트 맵에서 랜덤한 수의 물고기 생성에 도움을 준다
+        // b
+        // 레벨업에 사용될 수 있는 경험치 아이템 // 몬스터의 공격으로도  드랍되지 않으며
+        // 메뉴 버튼을 통해 레벨 업에 사용되며 수면에 있을 때 a를 일정시간마다 소화한다
+        // 이것 또한 max변수의 제한을 갖고 있지만 이벤트 맵이 나타났을 때 계산에 포함되지 않는다
+
+        EatTime += Time.deltaTime;
+
+        if(EatTime >= EatDelay)
+        {
+            EatTime = 0f;
+            // b
+            digestionCount++;
+            fishItemCount--;
+        }
+
+        // 만약 이게 생각대로 되고 있다면 이미지를 시계모양이나 먹는 애니메이션 같은거 해도 되겠다
+    }
+
+    public void ExperienceUp()
+    {
+        curExperience += digestionCount * 5;
+
+        digestionCount = 0;
     }
 }

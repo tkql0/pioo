@@ -28,9 +28,9 @@ public class Player : Character
     public bool isSwimming;
     private bool _isJump;
     // 플레이어가 점프를 하는 구간
-    private bool _isBreath;
+    //private bool _isBreath;
     // 플레이어가 숨을 쉬는 구간
-    private bool _isEat;
+    //private bool _isEat;
     private bool _isCharging = false;
 
     public bool _isSwimmingTest;
@@ -61,8 +61,15 @@ public class Player : Character
     public int LvPoint = 50;
 
     public int fishItemCount = 0;
-    public int fishItemMaxCount = 10;
-    public int fishEatCount = 1;
+    public int fishItemMaxCount;
+    //public int fishEatCount = 1;
+
+
+    float DigestionDelay = 10f;
+    float DigestionTime = 0f;
+
+    public int digestionCount = 0;
+    public int digestionMaxCount;
 
     private float _attackPower = 0.0f;
     private float _chargingPower = 0.0f;
@@ -99,6 +106,9 @@ public class Player : Character
         _isJump = false;
         isDamage = false;
         _isSwimmingTest = true;
+
+        fishItemMaxCount = 5;
+        digestionMaxCount = 5;
     }
 
     private void Update()
@@ -322,7 +332,7 @@ public class Player : Character
     {
         if (collision.TryGetComponent<FishCharacter>(out var OutFish))
         {
-            if (fishItemMaxCount < fishItemCount)
+            if (fishItemMaxCount <= fishItemCount)
                 return;
 
             fishItemCount++;
@@ -375,18 +385,12 @@ public class Player : Character
     //    _isEat = false;
     //}
 
-    float EatDelay = 10f;
-    float EatTime = 0f;
-
-    public int digestionCount = 0;
-    public int digestionMaxCount = 10;
-
     void Digestion()
     {
         // a
         if (fishItemCount <= 0 || digestionCount >= digestionMaxCount)
         {
-            EatTime = 0f;
+            DigestionTime = 0f;
             return;
         }
 
@@ -399,11 +403,11 @@ public class Player : Character
         // 메뉴 버튼을 통해 레벨 업에 사용되며 수면에 있을 때 a를 일정시간마다 소화한다
         // 이것 또한 max변수의 제한을 갖고 있지만 이벤트 맵이 나타났을 때 계산에 포함되지 않는다
 
-        EatTime += Time.deltaTime;
+        DigestionTime += Time.deltaTime;
 
-        if(EatTime >= EatDelay)
+        if(DigestionTime >= DigestionDelay)
         {
-            EatTime = 0f;
+            DigestionTime = 0f;
             // b
             digestionCount++;
             fishItemCount--;
@@ -414,7 +418,10 @@ public class Player : Character
 
     public void ExperienceUp()
     {
-        curExperience += digestionCount * 5;
+        if(isBreathTest)
+            curExperience += digestionCount * 5;
+        else
+            curExperience += digestionCount * 3;
 
         digestionCount = 0;
     }

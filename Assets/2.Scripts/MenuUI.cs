@@ -226,7 +226,7 @@ public class MenuUI : MonoBehaviour
                     (int)InPlayer.curBreath + " + 1";
                 break;
             case AbilityType.Storage_Ability:
-                if (GameManager.UI.SetAbilityMax(InPlayer.fishEatCount, InPlayer.fishItemMaxCount))
+                if (GameManager.UI.SetAbilityMax(InPlayer.digestionMaxCount, InPlayer.fishItemMaxCount))
                 {
                     SetOverFlowValue(InPlayer.digestionMaxCount, InPlayer.fishItemMaxCount);
                     _minValueNameText.text = "�Ļ緮\nMax";

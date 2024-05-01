@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class MainUI : MonoBehaviour
 {
@@ -21,7 +22,7 @@ public class MainUI : MonoBehaviour
     private Text _breathText;
 
     [SerializeField]
-    private Text _fishCount;
+    private TextMeshProUGUI _fishCount;
 
     //[SerializeField]
     //private Slider _healthSlider;
@@ -73,8 +74,29 @@ public class MainUI : MonoBehaviour
         _breathText.text = (int)InPlayer.curBreath +
             " / " + InPlayer.maxBreath;
 
-        _fishCount.text = "Fish\n" + InPlayer.digestionCount +
-            " / " + InPlayer.fishItemCount;
+        bool digestionMax = InPlayer.digestionCount >= InPlayer.digestionMaxCount ? true : false;
+        bool fishItemMax = InPlayer.fishItemCount >= InPlayer.fishItemMaxCount ? true : false;
+
+        if (digestionMax && fishItemMax)
+        {
+            _fishCount.text = "Fish\n" + "Max(" + InPlayer.digestionCount + ")" +
+                " / " + "Max(" + InPlayer.fishItemCount + ")";
+        }
+        else if (!digestionMax && fishItemMax)
+        {
+            _fishCount.text = "Fish\n" + InPlayer.digestionCount +
+                " / " + "Max(" + InPlayer.fishItemCount + ")";
+        }
+        else if (digestionMax && !fishItemMax)
+        {
+            _fishCount.text = "Fish\n" + "Max(" + InPlayer.digestionCount + ")" +
+                " / " + InPlayer.fishItemCount;
+        }
+        else
+        {
+            _fishCount.text = "Fish\n" + InPlayer.digestionCount +
+                " / " + InPlayer.fishItemCount;
+        }
 
         //GameManager.UI.SetSliderUpdate(InPlayer.maxHealth, InPlayer.curHealth, _healthSlider);
         GameManager.UI.SetSliderUpdate(InPlayer.maxBreath, InPlayer.curBreath, _breathSlider);

@@ -41,7 +41,7 @@ public class MenuUI : MonoBehaviour
 
     private void Update()
     {
-        if (GameManager.UI._isClick == false)
+        if (GameManager.UI._isStatusUpdate == false)
             return;
 
         PlayerStat();
@@ -66,7 +66,7 @@ public class MenuUI : MonoBehaviour
 
         _levelText.text = "Lv. " + player.PlayerLv + " ( " + player.LvPoint + " )";
 
-        if (GameManager.UI._isClick == false)
+        if (GameManager.UI._isStatusUpdate == false)
             _detailMenuPanel.SetActive(false);
     }
 
@@ -246,7 +246,7 @@ public class MenuUI : MonoBehaviour
         switch (abilityType)
         {
             case AbilityType.Health_Ability:
-                if (InPlayer.maxHealth >= 80)
+                if (InPlayer.maxHealth >= 104)
                 {
                     _maxValueNameText.text = "최대 체력\nMax";
                     return;

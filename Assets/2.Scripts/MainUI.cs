@@ -32,7 +32,9 @@ public class MainUI : MonoBehaviour
     private Slider _experienceSlider;
 
     [SerializeField]
-    private RectTransform _menuUI;
+    private GameObject _menuUI;
+    [SerializeField]
+    private RectTransform _statusUI;
 
     private bool _isMoveChangeChoose = false;
 
@@ -120,25 +122,36 @@ public class MainUI : MonoBehaviour
 
         GameManager.UI.isHPUpdate = true;
     }
-
-    public void OnStop()
+    public void GameQuit()
     {
-        if (!GameManager.UI._isClick)
-        {
-            GameManager.OBJECT.player.ExperienceUp();
-            GameManager.UI.SetUIEnter(_menuUI);
-            SetGameStop();
-            GameManager.UI._isClick = true;
-        }
-        else
-        {
-            GameManager.UI.SetUIExit(_menuUI);
-            SetGameStart();
-            GameManager.UI._isClick = false;
-        }
+        Application.Quit();
+        // 빌드에서만 사용
     }
 
-    public void OnReStart()
+    public void GameStop()
+    {
+        GameManager.UI.SetUIExit(_statusUI);
+        _menuUI.SetActive(true);
+        GameManager.UI._isStatusUpdate = false;
+
+        SetGameStop();
+    }
+
+    public void GameStart()
+    {
+        _menuUI.SetActive(false);
+        SetGameStart();
+    }
+
+    public void StatusUIEnter()
+    {
+        GameManager.UI._isStatusUpdate = true;
+        GameManager.OBJECT.player.ExperienceUp();
+        GameManager.UI.SetUIEnter(_statusUI);
+        _menuUI.SetActive(false);
+    }
+
+    public void GameReStart()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }

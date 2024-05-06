@@ -16,7 +16,7 @@ public class VirtualJoystick : MonoBehaviour, IBeginDragHandler, IDragHandler, I
     private Canvas mainCanvas;
     private Vector2 inputDirection;
 
-    private bool isInput;
+    //private bool isInput;
 
     private void Awake()
     {
@@ -25,10 +25,10 @@ public class VirtualJoystick : MonoBehaviour, IBeginDragHandler, IDragHandler, I
 
     private void Update()
     {
-        if(isInput)
-        {
-            InputControlVector();
-        }
+        //if(isInput)
+        //{
+        //    InputControlVector();
+        //}
     }
 
     private void ControlJoystickLever(PointerEventData eventData)
@@ -42,15 +42,15 @@ public class VirtualJoystick : MonoBehaviour, IBeginDragHandler, IDragHandler, I
         inputDirection = inputVector / leverRange;
     }
 
-    private void InputControlVector()
-    { // 캐릭터에게 입력 벡터를 전달
-        GameManager.OBJECT.player.PlayerMove(inputDirection);
-    }
+    //private void InputControlVector()
+    //{ // 캐릭터에게 입력 벡터를 전달
+    //    GameManager.OBJECT.player.PlayerMove(inputDirection);
+    //}
 
     public void OnBeginDrag(PointerEventData eventData)
     {
         ControlJoystickLever(eventData);
-        isInput = true;
+        //isInput = true;
     }
     
     public void OnDrag(PointerEventData eventData)
@@ -62,8 +62,8 @@ public class VirtualJoystick : MonoBehaviour, IBeginDragHandler, IDragHandler, I
     public void OnEndDrag(PointerEventData eventData)
     {
         lever.anchoredPosition = Vector2.zero;
-        isInput = false;
-        GameManager.OBJECT.player.PlayerMove(Vector2.zero);
+        //isInput = false;
+        //GameManager.OBJECT.player.PlayerMove(Vector2.zero);
     }
 
     // 조이스틱이 Player의 호흡게이지에 영향을 받았으면 좋겠어

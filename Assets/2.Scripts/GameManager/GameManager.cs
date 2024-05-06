@@ -15,6 +15,8 @@ public class GameManager : MonoSingleTon<GameManager>
         SPAWN = new();
         Map = new();
         UI = new();
+
+        Application.targetFrameRate = 60;
     }
 
     private void OnEnable()

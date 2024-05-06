@@ -2,8 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.EventSystems;
+//using UnityEngine.EventSystems;
 using System;
+using UnityEngine.InputSystem;
 
 public class Player : Character
 {
@@ -16,7 +17,7 @@ public class Player : Character
 
     private Animator _anim;
 
-    private Vector2 _inputVector;
+    public Vector2 _inputVector;
 
     public Vector2 playerPosition;
 
@@ -84,6 +85,8 @@ public class Player : Character
     private float _drownTime = 0f;
     private float _drownCoolTime = 2f;
 
+    // 너무 많네 나중에 스크립트 나눠놔야겠다
+
     public void OnEnable()
     {
         player = gameObject;
@@ -123,11 +126,8 @@ public class Player : Character
             rigid.velocity = new Vector2(rigid.velocity.normalized.x * 0.5f,
                 rigid.velocity.normalized.y * 0.5f);
 
-        if (isDie == false && GameManager.UI._isClick == false)
+        if (isDie == false && GameManager.UI._isStatusUpdate == false)
         {
-            //if(Input.GetKey(KeyCode.F) && fishItemCount > 0 && !_isEat)
-            //    StartCoroutine(EatDelay());
-            //// 버튼을 끌어다가 경험치 실린더로 끌어오면 오르는 걸로 바꾸고 싶어
             Digestion();
 
             SwimmingPoint();
@@ -167,7 +167,7 @@ public class Player : Character
                     Recovery(1);
             }
 
-            LookAtMouse();
+            //LookAtMouse();
         }
     }
 
@@ -184,6 +184,16 @@ public class Player : Character
         // 최대 속도가 아니면 호흡게이지가 다는 속도는 0.7정도 최대 속도면 1
     }
 
+    void OnMove(InputValue InValue)
+    {
+        _inputVector = InValue.Get<Vector2>();
+        
+        if (_inputVector.x != 0)
+            spriteRenderer.flipX = _inputVector.x > 0;
+
+        _anim.SetBool("isRun", Mathf.Abs(_inputVector.x) > 0);
+    }
+
     private void MoveSpeed(float MaxSpeed)
     {
         if (!isSwimming)
@@ -197,23 +207,13 @@ public class Player : Character
         else
             rigid.gravityScale = 0.2f;
 
-        rigid.AddForce(_inputVector.normalized, ForceMode2D.Impulse);
+        rigid.AddForce(_inputVector, ForceMode2D.Impulse);
 
         if (Mathf.Abs(moveSpeedX) > MaxSpeed)
             rigid.velocity = new Vector2(Mathf.Sign(moveSpeedX) * MaxSpeed, moveSpeedY);
 
         if (Mathf.Abs(moveSpeedY) > MaxSpeed)
             rigid.velocity = new Vector2(moveSpeedX, Mathf.Sign(moveSpeedY) * MaxSpeed);
-    }
-
-    public void PlayerMove(Vector2 InInputDirection)
-    {
-        _inputVector = InInputDirection;
-
-        if (_inputVector.x != 0)
-            spriteRenderer.flipX = _inputVector.x > 0;
-
-        _anim.SetBool("isRun", Mathf.Abs(_inputVector.x) > 0);
     }
 
     public bool isBreathTest;
@@ -277,8 +277,8 @@ public class Player : Character
 
     private void Attack(Vector2 InDirection)
     {
-        if (EventSystem.current.IsPointerOverGameObject())
-            return;
+        //if (EventSystem.current.IsPointerOverGameObject())
+        //    return;
 
         attackPowerSlider.maxValue = attackMaxPower - attackMinPower;
 
@@ -319,13 +319,15 @@ public class Player : Character
 
     private void LookAtMouse()
     {
-        Vector2 mousePos = cam.ScreenToWorldPoint(Input.mousePosition);
+        Vector2 mousePos = cam.ScreenToWorldPoint(Mouse.current.position.ReadValue());
         Vector2 dir = new Vector2(mousePos.x - transform.position.x,
             mousePos.y - transform.position.y);
         dir = dir.normalized;
 
-        if(!_isSwimmingTest)
-            Attack(dir);
+        if (_isSwimmingTest)
+            return;
+
+        Attack(dir);
     }
 
     private void OnTriggerStay2D(Collider2D collision)

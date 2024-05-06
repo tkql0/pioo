@@ -66,4 +66,5 @@ public class HP_UI : MonoBehaviour
         OutHP_Image.SetHealthImage(HealthImages.Empty);
         healths.Add(OutHP_Image);
     }
+    // 올릴 수 있는 최대 체력이 max일때 레벨업으로 더 오르는 상황이면 하트를 늘리는 게 아니라 색을 바꿀까
 }

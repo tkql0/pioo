@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-//using UnityEngine.EventSystems;
+using UnityEngine.EventSystems;
 using System;
 using UnityEngine.InputSystem;
 
@@ -167,7 +167,7 @@ public class Player : Character
                     Recovery(1);
             }
 
-            //LookAtMouse();
+            LookAtMouse();
         }
     }
 
@@ -184,10 +184,20 @@ public class Player : Character
         // 최대 속도가 아니면 호흡게이지가 다는 속도는 0.7정도 최대 속도면 1
     }
 
-    void OnMove(InputValue InValue)
-    {
-        _inputVector = InValue.Get<Vector2>();
+    //void OnMove(InputValue InValue)
+    //{
+    //    _inputVector = InValue.Get<Vector2>();
         
+    //    if (_inputVector.x != 0)
+    //        spriteRenderer.flipX = _inputVector.x > 0;
+
+    //    _anim.SetBool("isRun", Mathf.Abs(_inputVector.x) > 0);
+    //}
+
+    public void PlayerMove(Vector2 InInputDirection)
+    {
+        _inputVector = InInputDirection;
+
         if (_inputVector.x != 0)
             spriteRenderer.flipX = _inputVector.x > 0;
 
@@ -207,7 +217,7 @@ public class Player : Character
         else
             rigid.gravityScale = 0.2f;
 
-        rigid.AddForce(_inputVector, ForceMode2D.Impulse);
+        rigid.AddForce(_inputVector.normalized, ForceMode2D.Impulse);
 
         if (Mathf.Abs(moveSpeedX) > MaxSpeed)
             rigid.velocity = new Vector2(Mathf.Sign(moveSpeedX) * MaxSpeed, moveSpeedY);
@@ -277,8 +287,8 @@ public class Player : Character
 
     private void Attack(Vector2 InDirection)
     {
-        //if (EventSystem.current.IsPointerOverGameObject())
-        //    return;
+        if (EventSystem.current.IsPointerOverGameObject())
+            return;
 
         attackPowerSlider.maxValue = attackMaxPower - attackMinPower;
 
@@ -303,13 +313,14 @@ public class Player : Character
 
             GameObject Attack = GameManager.SPAWN.GetObjectSpawn
                 (characterPosition, weaponSpawnKey, ObjectType.PlayerWeapon);
-            //Weapon weapon = Attack.GetComponent<Rigidbody2D>().velocity = InDirection * _attackPower;
-            Weapon weapon = Attack.GetComponent<Weapon>();
 
-            weapon.damage = playerDamage;
-            weapon.criticalDamage = playerCriticalDamage;
+            if (!Attack.TryGetComponent<Weapon>(out var OutWeapon))
+                return;
 
-            weapon.rigid.velocity = InDirection * _attackPower;
+            OutWeapon.damage = playerDamage;
+            OutWeapon.criticalDamage = playerCriticalDamage;
+
+            OutWeapon.rigid.velocity = InDirection * _attackPower;
 
             _attackPower = 0.0f;
             _chargingPower = 0.0f;
@@ -319,7 +330,7 @@ public class Player : Character
 
     private void LookAtMouse()
     {
-        Vector2 mousePos = cam.ScreenToWorldPoint(Mouse.current.position.ReadValue());
+        Vector2 mousePos = cam.ScreenToWorldPoint(Input.mousePosition);
         Vector2 dir = new Vector2(mousePos.x - transform.position.x,
             mousePos.y - transform.position.y);
         dir = dir.normalized;

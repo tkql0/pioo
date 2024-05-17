@@ -189,7 +189,7 @@ public class MainUI : MonoBehaviour
         colorBlock.highlightedColor = colorBlock.normalColor;
         colorBlock.pressedColor = colorBlock.normalColor;
 
-        GameManager.OBJECT.player._isSwimmingTest = false;
+        GameManager.OBJECT.player._isSwimmingJump = false;
         InButton.colors = colorBlock;
     }
 
@@ -208,7 +208,7 @@ public class MainUI : MonoBehaviour
         colorBlock.highlightedColor = colorBlock.normalColor;
         colorBlock.pressedColor = colorBlock.normalColor;
 
-        GameManager.OBJECT.player._isSwimmingTest = true;
+        GameManager.OBJECT.player._isSwimmingJump = true;
         InButton.colors = colorBlock;
     }
 
@@ -230,7 +230,7 @@ public class MainUI : MonoBehaviour
         colorBlock.highlightedColor = colorBlock.normalColor;
         colorBlock.selectedColor = colorBlock.normalColor;
 
-        GameManager.OBJECT.player._isSwimmingTest = _isPlayerSwimmingChoose ? false : true;
+        GameManager.OBJECT.player._isSwimmingJump = _isPlayerSwimmingChoose ? false : true;
         InButton.colors = colorBlock;
     }
 

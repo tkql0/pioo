@@ -77,17 +77,12 @@ public class Character : MonoBehaviour
         isDamage = false;
     }
 
-    public void Dead(float InCurHealth)
+    public void Dead()
     {
-        if (InCurHealth <= 0)
-        {
-            isDie = true;
+        isDie = true;
 
-            SetActiveObject(false);
-            return;
-        }
-        else
-            isDie = false;
+        SetActiveObject(false);
+        return;
     }
 
     public bool isActive => characterObject.activeSelf;

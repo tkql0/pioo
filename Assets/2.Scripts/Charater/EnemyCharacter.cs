@@ -85,8 +85,6 @@ public class EnemyCharacter : Character
     private void Update()
     {
         _healthSlider.value = curHealth;
-
-        Dead(curHealth);
     }
 
     private void FixedUpdate()
@@ -153,6 +151,20 @@ public class EnemyCharacter : Character
                 curHealth -= InDamage;
 
             StartCoroutine(OnDamage(spriteRenderer));
+        }
+
+        if (curHealth <= 0)
+        {
+            int RandomDropCount = Random.Range(1, 3);
+
+            Debug.Log(RandomDropCount);
+
+            for (int i = 0; i < RandomDropCount; i++)
+            {
+                GameManager.SPAWN.ItmeSpwan(characterObject.transform.position, ObjectType.Item_Fish);
+            }
+
+            Dead();
         }
     }
 

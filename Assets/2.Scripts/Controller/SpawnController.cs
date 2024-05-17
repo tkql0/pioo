@@ -18,6 +18,22 @@ public class SpawnController
         spawnObject.ObjectSpawnPool();
     }
 
+    public GameObject ItmeSpwan(Vector2 InTargetPosition, ObjectType InObjectType)
+    {
+        foreach (KeyValuePair<long, Item> outItemData in GameManager.OBJECT.itemDataList)
+        {
+            if (!GameManager.OBJECT.GetisActive(outItemData.Key, InObjectType))
+            {
+                GameManager.OBJECT.SetActive(outItemData.Key, InObjectType, true);
+
+                outItemData.Value.transform.position = InTargetPosition;
+
+                return outItemData.Value.itemObject;
+            }
+        }
+        return null;
+    }
+
     public void GameStartSpawnPosition()
     {
         int mapSpawnCount = Left_MapSpawn;

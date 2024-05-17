@@ -2401,6 +2401,7 @@ GameObject:
   - component: {fileID: 640805579}
   - component: {fileID: 640805581}
   - component: {fileID: 640805580}
+  - component: {fileID: 640805582}
   m_Layer: 5
   m_Name: Joy
   m_TagString: Untagged
@@ -2426,7 +2427,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 336.3, y: 340}
+  m_SizeDelta: {x: 340, y: 340}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &640805580
 MonoBehaviour:
@@ -2466,6 +2467,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 640805578}
   m_CullTransparentMesh: 1
+--- !u!114 &640805582
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 640805578}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 28fbd87db0c5ce549819a22289253d5c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  joyStickRect: {fileID: 3592278821563664893}
+  inputDirection: {x: 0, y: 0}
 --- !u!1 &669490479
 GameObject:
   m_ObjectHideFlags: 0
@@ -4693,7 +4708,8 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 1825873804}
   m_Father: {fileID: 1496391825}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -5248,6 +5264,7 @@ GameObject:
   - component: {fileID: 1590616521}
   - component: {fileID: 1590616523}
   - component: {fileID: 1590616522}
+  - component: {fileID: 1590616524}
   m_Layer: 5
   m_Name: JoyStickUI
   m_TagString: Untagged
@@ -5314,6 +5331,23 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1590616520}
   m_CullTransparentMesh: 1
+--- !u!114 &1590616524
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1590616520}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf886a46dd90cbe478c40813acb26738, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lever: {fileID: 3592278821563664893}
+  leverRange: 117.5
+  mainCanvas: {fileID: 1483723386}
+  inputDirection: {x: 0, y: 0}
+  BreathSlider: {fileID: 1825873804}
 --- !u!1 &1600961816
 GameObject:
   m_ObjectHideFlags: 0
@@ -5953,6 +5987,41 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1741892214}
   m_CullTransparentMesh: 1
+--- !u!1 &1825873803
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1825873804}
+  m_Layer: 5
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1825873804
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1825873803}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1458831566}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 150, y: -0}
+  m_SizeDelta: {x: 10, y: 10}
+  m_Pivot: {x: 0.5000023, y: 0.5}
 --- !u!1 &1844655662
 GameObject:
   m_ObjectHideFlags: 0
@@ -8080,7 +8149,6 @@ GameObject:
   - component: {fileID: 3592278821563664893}
   - component: {fileID: 3589443901770942845}
   - component: {fileID: 3698565329348564991}
-  - component: {fileID: 3698565329348564992}
   m_Layer: 5
   m_Name: Stick
   m_TagString: Untagged
@@ -8118,41 +8186,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &3698565329348564992
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3657995785220760865}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e9d677f1681015749b15c436eec6d880, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_MovementRange: 120
-  m_DynamicOriginRange: 100
-  m_ControlPath: <Joystick>/stick
-  m_Behaviour: 0
-  m_UseIsolatedInputActions: 0
-  m_PointerDownAction:
-    m_Name: 
-    m_Type: 0
-    m_ExpectedControlType: 
-    m_Id: 321f57f6-0eba-4e29-a5d5-61f9645f5873
-    m_Processors: 
-    m_Interactions: 
-    m_SingletonActionBindings: []
-    m_Flags: 0
-  m_PointerMoveAction:
-    m_Name: 
-    m_Type: 0
-    m_ExpectedControlType: 
-    m_Id: e20f6a5c-231b-4534-bd01-60890659520f
-    m_Processors: 
-    m_Interactions: 
-    m_SingletonActionBindings: []
-    m_Flags: 0
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

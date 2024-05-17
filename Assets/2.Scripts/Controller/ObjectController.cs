@@ -11,6 +11,7 @@ public enum ObjectType
     EnemyWeapon,
     PlayerWeapon,
     Map,
+    Item_Fish,
 }
 
 public enum ItemType
@@ -51,6 +52,12 @@ public class ObjectController
 
                 outWeaponData.SetActiveObject(InIsActive);
                 break;
+            case ObjectType.Item_Fish:
+                if (itemDataList.TryGetValue(InIndex, out var outItemData) == false)
+                    return;
+
+                outItemData.SetActiveObject(InIsActive);
+                break;
         }
     }
 
@@ -82,6 +89,15 @@ public class ObjectController
                 {
                     if (mapDataList.TryGetValue(InIndex, out var outMapData) == false)
                         return outMapData.isActive;
+                }
+                break;
+            case ObjectType.Item_Fish:
+                {
+                    if (itemDataList.TryGetValue(InIndex, out var outItemData) == false)
+                        return true;
+
+                    if (outItemData.key == InObjectType)
+                        return outItemData.isActive;
                 }
                 break;
         }

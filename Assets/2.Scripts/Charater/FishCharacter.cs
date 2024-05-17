@@ -11,6 +11,10 @@ public class FishCharacter : Character
 
     private Vector2 _scanPosition => _scanObject.transform.position;
 
+    private bool _isJump;
+
+    private float _ranMoveSpeed;
+
     private void Awake()
     {
         rigid = GetComponent<Rigidbody2D>();
@@ -25,9 +29,19 @@ public class FishCharacter : Character
         if (_characterData == null)
             return;
 
+        _ranMoveSpeed = 10f;
+
         SetKey(ObjectType.Fish);
         StartCoroutine(MoveDelay(_characterData.MinDelayTime, _characterData.MaxDelayTime));
+
+        _gravityPoint = new Vector2(0, 0);
     }
+
+    private void Update()
+    {
+        Jump();
+    }
+
     private void FixedUpdate()
     {
         ObjectScan();
@@ -37,6 +51,37 @@ public class FishCharacter : Character
     private void OnDestroy()
     {
         targetSpawnNumber = 99;
+    }
+
+    private void Jump()
+    {
+        float _gravityPointY = characterPosition.y - _gravityPoint.y;
+
+        bool isSwimming = _gravityPointY <= 0 ? true : false;
+
+        float moveSpeedY = rigid.velocity.y;
+
+        if (isSwimming)
+        {
+            rigid.gravityScale = 0f;
+            _isJump = false;
+        }
+        else
+        {
+            if (!_isJump)
+            {
+                rigid.gravityScale = 2f;
+                rigid.AddForce(Vector2.up * moveSpeedY, ForceMode2D.Impulse);
+                _isJump = true;
+            }
+        }
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.black;
+
+        Gizmos.DrawSphere(_scanObject.transform.position, _characterData.SightRange);
     }
 
     private void ObjectScan()
@@ -51,7 +96,7 @@ public class FishCharacter : Character
 
         player = _inTarget[0].transform.position;
 
-        Vector2 myPosition = transform.position;
+        //Vector2 myPosition = transform.position;
 
         Vector2 dir = _scanPosition - player;
         dir.Normalize();
@@ -62,7 +107,24 @@ public class FishCharacter : Character
             return;
         }
         _detection.SetActive(true);
-        transform.position += (Vector3)dir * _characterData.moveSpeed * Time.deltaTime;
+
+        int randomRanPosition = Random.Range(0, 3);
+
+        transform.localScale = dir.x <= 0 ? _leftPosition : _rightPosition;
+
+        switch (randomRanPosition)
+        {
+            case 0:
+                break;
+            case 1:
+                break;
+            case 2:
+                break;
+        }
+
+        transform.position += (Vector3)dir * _ranMoveSpeed * Time.deltaTime;
+
+        // Player에게서 도망칠때 이동 함수는 뒤로 미룰수 있으면 좋겠네
     }
 
     private void GravityPoint()

@@ -14,7 +14,10 @@ public class VirtualJoystick : MonoBehaviour , IBeginDragHandler, IDragHandler, 
 
     [SerializeField]
     private Canvas mainCanvas;
-    private Vector2 inputDirection;
+    public Vector2 inputDirection;
+
+    [SerializeField]
+    private RectTransform BreathSlider;
 
     private bool isInput;
 
@@ -39,11 +42,15 @@ public class VirtualJoystick : MonoBehaviour , IBeginDragHandler, IDragHandler, 
         var inputVector = inputPos.magnitude < leverRange ?
             inputPos : inputPos.normalized * leverRange;
         lever.anchoredPosition = inputVector;
+
         inputDirection = inputVector / leverRange;
+
+        // 수영 버튼을 눌렀을때 호흡량 아래로 움직일 수 있고
+        // 누르지 않았을떄는 호흡량 아래로 안내려가게 바꿔야지
     }
 
     private void InputControlVector()
-    { // 캐릭터에게 입력 벡터를 전달
+    {
         GameManager.OBJECT.player.PlayerMove(inputDirection);
     }
 
@@ -54,8 +61,7 @@ public class VirtualJoystick : MonoBehaviour , IBeginDragHandler, IDragHandler, 
     }
 
     public void OnDrag(PointerEventData eventData)
-    { // 오브젝트를 클릭해서 드래그 하는 도중에 들어오는 이벤트
-        // 클릭을 유지한 상태로 마우스를 멈추면 이벤트가 작동하지 않음
+    {
         ControlJoystickLever(eventData);
     }
 

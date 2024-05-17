@@ -29,12 +29,12 @@ public class Player : Character
     public bool isSwimming;
     private bool _isJump;
     // 플레이어가 점프를 하는 구간
-    //private bool _isBreath;
+    private bool _isBreath;
     // 플레이어가 숨을 쉬는 구간
     //private bool _isEat;
     private bool _isCharging = false;
 
-    public bool _isSwimmingTest;
+    public bool _isSwimmingJump;
     // 버튼이 눌렸을때 Player는 position.y가 0을 넘지 못함
     // 그리고 버튼을 누르고 있는 동안 중력이 0되고 공격을 하지 못함
     // Position.y가 0이면 호흡게이지가 초기화됨
@@ -66,7 +66,7 @@ public class Player : Character
     //public int fishEatCount = 1;
 
 
-    float DigestionDelay = 10f;
+    float DigestionDelay = 20f;
     float DigestionTime = 0f;
 
     public int digestionCount = 0;
@@ -108,7 +108,7 @@ public class Player : Character
         isSwimming = false;
         _isJump = false;
         isDamage = false;
-        _isSwimmingTest = true;
+        _isSwimmingJump = true;
 
         fishItemMaxCount = 5;
         digestionMaxCount = 5;
@@ -122,7 +122,7 @@ public class Player : Character
 
         transform.position = playerPosition;
 
-        if (_inputVector.magnitude == 0 && _isSwimmingTest)
+        if (_inputVector.magnitude == 0 && _isSwimmingJump)
             rigid.velocity = new Vector2(rigid.velocity.normalized.x * 0.5f,
                 rigid.velocity.normalized.y * 0.5f);
 
@@ -156,7 +156,7 @@ public class Player : Character
             }
             else
             {
-                if (_isSwimmingTest)
+                if (_isSwimmingJump)
                 {
                     curBreath = maxBreath;
                 }
@@ -184,16 +184,6 @@ public class Player : Character
         // 최대 속도가 아니면 호흡게이지가 다는 속도는 0.7정도 최대 속도면 1
     }
 
-    //void OnMove(InputValue InValue)
-    //{
-    //    _inputVector = InValue.Get<Vector2>();
-        
-    //    if (_inputVector.x != 0)
-    //        spriteRenderer.flipX = _inputVector.x > 0;
-
-    //    _anim.SetBool("isRun", Mathf.Abs(_inputVector.x) > 0);
-    //}
-
     public void PlayerMove(Vector2 InInputDirection)
     {
         _inputVector = InInputDirection;
@@ -204,6 +194,14 @@ public class Player : Character
         _anim.SetBool("isRun", Mathf.Abs(_inputVector.x) > 0);
     }
 
+    void OnMove(InputValue InValue)
+    {
+        _inputVector = InValue.Get<Vector2>();
+
+        if (_inputVector.x != 0)
+            spriteRenderer.flipX = _inputVector.x > 0;
+    }
+
     private void MoveSpeed(float MaxSpeed)
     {
         if (!isSwimming)
@@ -212,7 +210,7 @@ public class Player : Character
         moveSpeedX = rigid.velocity.x;
         moveSpeedY = rigid.velocity.y;
 
-        if(isBreathTest)
+        if(_isBreath)
             rigid.gravityScale = 0f;
         else
             rigid.gravityScale = 0.2f;
@@ -226,8 +224,6 @@ public class Player : Character
             rigid.velocity = new Vector2(moveSpeedX, Mathf.Sign(moveSpeedY) * MaxSpeed);
     }
 
-    public bool isBreathTest;
-
     void SwimmingPoint()
     {
         // 수영할 수 있는 단계를 따로 나눠 놓자
@@ -237,19 +233,19 @@ public class Player : Character
         //bool isBreathTest;
         // 점프를 하면 이것과 관계없이 숨을 쉴 수 있어
 
-        if(_isSwimmingTest)
+        if(_isSwimmingJump)
         {
             // 수영 버튼이 눌려있다면
-            isBreathTest = Mathf.Abs(_gravityPointY) < 1 ? true : false;
+            _isBreath = Mathf.Abs(_gravityPointY) < 1 ? true : false;
             // 수면와 플레이어의 거리가 절대값 1만큼 있다면 호흡 true
         }
         else
         {
-            isBreathTest = false;
+            _isBreath = false;
         }
 
         isSwimming = _gravityPointY <= 0 ? true : false;
-        _anim.SetBool("isDiving", isBreathTest);
+        _anim.SetBool("isDiving", _isBreath);
     }
 
     private void Jump()
@@ -263,7 +259,7 @@ public class Player : Character
         else
         {
             // Player의 Y좌표가 0을 넘었을 때
-            if (_isSwimmingTest)
+            if (_isSwimmingJump)
             { // 수영 버튼이 눌려있다면
                 transform.position = new Vector2(transform.position.x, 0);
                 // Player의 Y좌표를 0으로 고정
@@ -335,7 +331,7 @@ public class Player : Character
             mousePos.y - transform.position.y);
         dir = dir.normalized;
 
-        if (_isSwimmingTest)
+        if (_isSwimmingJump)
             return;
 
         Attack(dir);
@@ -359,6 +355,20 @@ public class Player : Character
 
         curHealth -= InDamage;
         OnPlayerHP?.Invoke();
+
+        if(fishItemCount >= 2)
+        {
+            int RandomDropCount = UnityEngine.Random.Range(1, 3);
+
+            Debug.Log(RandomDropCount);
+
+            for (int i = 0; i < RandomDropCount; i++)
+            {
+                GameManager.SPAWN.ItmeSpwan(playerPosition, ObjectType.Item_Fish);
+            }
+
+            fishItemCount -= RandomDropCount;
+        }
 
         if (curHealth <= 0 && !isDie)
         {
@@ -431,7 +441,7 @@ public class Player : Character
 
     public void ExperienceUp()
     {
-        if(isBreathTest)
+        if(_isBreath)
             curExperience += digestionCount * 5;
         else
             curExperience += digestionCount * 3;

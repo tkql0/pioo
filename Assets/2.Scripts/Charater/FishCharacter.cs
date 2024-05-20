@@ -112,6 +112,8 @@ public class FishCharacter : Character
 
         transform.localScale = dir.x <= 0 ? _leftPosition : _rightPosition;
 
+        // 도망중에는 탐색을 하지 못하게 바꾸자
+
         switch (randomRanPosition)
         {
             case 0:

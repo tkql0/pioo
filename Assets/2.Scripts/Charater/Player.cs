@@ -45,7 +45,7 @@ public class Player : Character
 
     // 해당 방법으로 만들면 실린더를 사용해서 어색하게 만들 필요없이
     // 체력은 하트 호흡게이지는 물방울 모양으로 만들 수 있을거 같다 생각함
-    public bool _isMoveChangeTest;
+    public bool _isRun;
     // 버튼을 눌렀다면 Player의 속도가 최대 가속도 까지 늘어남
 
     // 모바일은 키보드가 없기 때문에 기능이 간편해야 된다 생각함
@@ -176,7 +176,7 @@ public class Player : Character
         if (isDie == true)
             return;
         
-        if (_isMoveChangeTest)
+        if (_isRun)
             MoveSpeed(moveMaxSpeed);
         else
             MoveSpeed(moveSpeed);
@@ -369,6 +369,7 @@ public class Player : Character
 
             fishItemCount -= RandomDropCount;
         }
+        // 무기 공격에만 반응하기
 
         if (curHealth <= 0 && !isDie)
         {

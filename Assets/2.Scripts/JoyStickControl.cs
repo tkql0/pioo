@@ -15,17 +15,18 @@ public class JoyStickControl : MonoBehaviour, IPointerDownHandler, IDragHandler,
     //Transform Player;
     // 움직일 캐릭터
 
-    //public Slider slider;
+    public Slider slider;
 
-    Vector2 pos;
+    public Vector2 pos;
     // 움직일 방향
     float range;
     // 조이스틱이 움직일 범위
 
-    //bool touchFlag = false;
-    // 현재 조이스틱을 사용중인지 확인
+    float limitRange;
 
-    public Vector2 inputDirection;
+    Vector2 inputDirection;
+
+    bool _isTouch = false;
 
     void Start()
     {
@@ -39,17 +40,25 @@ public class JoyStickControl : MonoBehaviour, IPointerDownHandler, IDragHandler,
 
     void Update()
     {
-        
+        if (_isTouch)
+            InputControlVector();
+
+        LimitRange();
     }
 
     private void InputControlVector()
     {
-        //GameManager.OBJECT.player.PlayerMove(inputDirection);
+        GameManager.OBJECT.player.PlayerMove(inputDirection);
+    }
+
+    private void LimitRange()
+    {
+        limitRange = -range + range * 2 / slider.maxValue * (slider.maxValue - slider.value);
     }
 
     public void OnPointerDown(PointerEventData eventData)
     {
-
+        _isTouch = true;
     }
 
     public void OnDrag(PointerEventData eventData)
@@ -60,18 +69,19 @@ public class JoyStickControl : MonoBehaviour, IPointerDownHandler, IDragHandler,
             eventData.position.y - backGroundRect.position.y);
         pos = Vector2.ClampMagnitude(pos, range);
 
-        //pos.y = Mathf.Clamp(pos.y, slider.minValue, backGroundRect.rect.width * 0.5f);
-        // slider의 minValue를 조이스틱이 움직일 범위만큼 정해놓고 그 이하로 떨어지지않게
+        if(!GameManager.OBJECT.player._isRun)
+            pos.y = Mathf.Clamp(pos.y, limitRange, range);
 
         joyStickRect.localPosition = pos;
 
-        inputDirection = pos;
-
-
+        inputDirection = pos.normalized;
     }
 
     public void OnPointerUp(PointerEventData eventData)
     {
+        _isTouch = false;
+        joyStickRect.localPosition = Vector2.zero;
 
+        GameManager.OBJECT.player.PlayerMove(Vector2.zero);
     }
 }

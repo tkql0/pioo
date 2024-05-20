@@ -242,7 +242,7 @@ public class MainUI : MonoBehaviour
         _isMoveChangeChoose = !_isMoveChangeChoose;
 
         colorBlock.normalColor = _isMoveChangeChoose ? new Color(1, 0, 0, 1) : Color.white;
-        player._isMoveChangeTest = _isMoveChangeChoose ? true : false;
+        player._isRun = _isMoveChangeChoose ? true : false;
 
         colorBlock.highlightedColor = colorBlock.normalColor;
         colorBlock.selectedColor = colorBlock.normalColor;

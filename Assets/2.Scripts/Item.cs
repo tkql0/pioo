@@ -46,8 +46,13 @@ public class Item : MonoBehaviour
         Jump();
         // 조건을 달성할 경우 나올경우 점프
         // 자연 생성이면 처음부터 중력 0으로 변경
-    }
 
+        isDrop = true;
+
+        DropCoolTime();
+
+        Invoke("DropCoolTime", 2);
+    }
 
     private void OnDisable()
     {
@@ -82,6 +87,18 @@ public class Item : MonoBehaviour
         if (spawnTimeMax <= spawnTime)
             gameObject.SetActive(false);
         // 아이템마다 존재할 수 있는 시간을 두고 그 시간보다 더 오래 존재한다면 비화성화
+    }
+
+    public bool isDrop;
+
+    private void DropCoolTime()
+    {
+        isDrop = !isDrop;
+
+        if(isDrop)
+            sprite.color = new Color(1, 1, 1, 1);
+        else
+            sprite.color = new Color(1, 1, 1, 0.5f);
     }
 
     public bool isActive => itemObject.activeSelf;

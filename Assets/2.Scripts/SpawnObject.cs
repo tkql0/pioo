@@ -130,7 +130,7 @@ public class SpawnObject : MonoBehaviour
 
                 for (int i = 0; i < maxSize; i++)
                 {
-                    var itemFish = Instantiate(GetPrefabObject(Prefab_Drop_Fish).GetComponent<Item>());
+                    var itemFish = Instantiate(GetPrefabObject(Prefab_Drop_Fish). transform).GetComponent<Item>();
 
                     GameManager.OBJECT.itemDataList.Add(_itemSpawnConut, itemFish);
                     _itemSpawnConut++;

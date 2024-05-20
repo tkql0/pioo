@@ -48,12 +48,8 @@ public class Weapon : MonoBehaviour
 
     private void OnTriggerStay2D(Collider2D collision)
     {
-        GameObject target = collision.gameObject;
-
         if (collision.TryGetComponent<EnemyCharacter>(out var OutEnemy) && key == ObjectType.PlayerWeapon)
         {
-
-
             SetActiveObject(false);
         }
         else if (collision.TryGetComponent<Player>(out var OutPlayer) && key == ObjectType.EnemyWeapon)

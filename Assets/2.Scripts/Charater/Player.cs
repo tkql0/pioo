@@ -194,14 +194,6 @@ public class Player : Character
         _anim.SetBool("isRun", Mathf.Abs(_inputVector.x) > 0);
     }
 
-    void OnMove(InputValue InValue)
-    {
-        _inputVector = InValue.Get<Vector2>();
-
-        if (_inputVector.x != 0)
-            spriteRenderer.flipX = _inputVector.x > 0;
-    }
-
     private void MoveSpeed(float MaxSpeed)
     {
         if (!isSwimming)
@@ -346,6 +338,14 @@ public class Player : Character
 
             fishItemCount++;
             OutFish.SetActiveObject(false);
+        }
+        else if(collision.TryGetComponent<Item>(out var OutItem))
+        {
+            if (collision.tag != "Fish_exp" || !OutItem.isDrop)
+                return;
+
+            fishItemCount++;
+            OutItem.SetActiveObject(false);
         }
     }
 

@@ -23,6 +23,8 @@ public class UIController
 
     public bool _isMaxValue = false;
 
+    //public int abilityNumber;
+
     public void OnEnable()
     {
 
@@ -36,6 +38,11 @@ public class UIController
     public void SetUIExit(RectTransform InUI)
     {
         InUI.anchoredPosition = Vector2.up * 2000;
+    }
+
+    public void SetStatsUIEnter(RectTransform InUI)
+    {
+        InUI.anchoredPosition = Vector2.up * 40;
     }
 
     public void SetSliderUpdate(float InMaxValue, float InValue, Slider InSlider)
@@ -64,5 +71,35 @@ public class UIController
             _isMaxValue = true;
 
         return _isMaxValue;
+    }
+
+    public void AbilityButtonClick(int InAbilityNumber)
+    {
+        AbilityButtonNonClick(InAbilityNumber);
+
+        switch (InAbilityNumber)
+        {
+            case (int)AbilityType.Health_Ability:
+            case (int)AbilityType.Damage_Ability:
+            case (int)AbilityType.Speed_Ability:
+            case (int)AbilityType.Power_Ability:
+            case (int)AbilityType.Breath_Ability:
+            case (int)AbilityType.Storage_Ability:
+                if (abilityUI[InAbilityNumber].localPosition.y != 40)
+                    SetStatsUIEnter(abilityUI[InAbilityNumber]);
+                break;
+
+        }
+    }
+
+    public RectTransform[] abilityUI = new RectTransform[7];
+
+    public void AbilityButtonNonClick(int InAbilityNumber)
+    {
+        for(int i = 1; i < abilityUI.Length; i++)
+        {
+            if(i != InAbilityNumber)
+                SetUIExit(abilityUI[i]);
+        }
     }
 }

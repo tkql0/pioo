@@ -16,7 +16,7 @@ MonoBehaviour:
   _hp: 0
   _damage: 0
   _criticalDamage: 0
-  _sightRange: 3
+  _sightRange: 1
   _maxDelayTime: 3
   _minDelayTime: 1
   _moveSpeed: 2

@@ -67,7 +67,7 @@ public class Player : Character
 
 
     float DigestionDelay = 20f;
-    float DigestionTime = 0f;
+    public float DigestionTime = 0f;
 
     public int digestionCount = 0;
     public int digestionMaxCount;

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public enum AbilityType
 {
@@ -23,7 +24,7 @@ public class UIController
 
     public bool _isMaxValue = false;
 
-    //public int abilityNumber;
+    public int abilityNumber;
 
     public void OnEnable()
     {
@@ -33,16 +34,22 @@ public class UIController
     public void SetUIEnter(RectTransform InUI)
     {
         InUI.anchoredPosition = Vector2.zero;
+        if (!InUI.gameObject.activeSelf)
+            InUI.gameObject.SetActive(true);
     }
 
     public void SetUIExit(RectTransform InUI)
     {
         InUI.anchoredPosition = Vector2.up * 2000;
+
+        InUI.gameObject.SetActive(false);
     }
 
     public void SetStatsUIEnter(RectTransform InUI)
     {
         InUI.anchoredPosition = Vector2.up * 40;
+        if (!InUI.gameObject.activeSelf)
+            InUI.gameObject.SetActive(true);
     }
 
     public void SetSliderUpdate(float InMaxValue, float InValue, Slider InSlider)
@@ -77,6 +84,8 @@ public class UIController
     {
         AbilityButtonNonClick(InAbilityNumber);
 
+        abilityNumber = InAbilityNumber;
+
         switch (InAbilityNumber)
         {
             case (int)AbilityType.Health_Ability:
@@ -87,6 +96,11 @@ public class UIController
             case (int)AbilityType.Storage_Ability:
                 if (abilityUI[InAbilityNumber].localPosition.y != 40)
                     SetStatsUIEnter(abilityUI[InAbilityNumber]);
+
+                if(abilityUI[InAbilityNumber].TryGetComponent<StatButtonUI>(out var OutStatButton))
+                {
+                    OutStatButton.abilityID = InAbilityNumber;
+                }
                 break;
 
         }
@@ -98,8 +112,10 @@ public class UIController
     {
         for(int i = 1; i < abilityUI.Length; i++)
         {
-            if(i != InAbilityNumber)
+            if (i != InAbilityNumber)
+            {
                 SetUIExit(abilityUI[i]);
+            }
         }
     }
 }

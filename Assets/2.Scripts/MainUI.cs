@@ -149,6 +149,8 @@ public class MainUI : MonoBehaviour
         GameManager.OBJECT.player.ExperienceUp();
         GameManager.UI.SetUIEnter(_statusUI);
         _menuUI.SetActive(false);
+
+        GameManager.UI.AbilityButtonNonClick(0);
     }
 
     public void GameReStart()

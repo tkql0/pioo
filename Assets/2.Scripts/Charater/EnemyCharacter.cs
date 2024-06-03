@@ -122,13 +122,14 @@ public class EnemyCharacter : Character
     {
         if (collision.TryGetComponent<Player>(out var OutPlayer))
             Damage(OutPlayer.playerDamage, OutPlayer.playerCriticalDamage, OutPlayer.transform.position);
-        if (collision.TryGetComponent<Weapon>(out var OutWeapon) && collision.CompareTag(Player_Attack))
-            Damage(OutWeapon.damage, OutWeapon.criticalDamage, OutWeapon.transform.position);
+        else if (collision.TryGetComponent<Weapon>(out var OutWeapon) && collision.CompareTag(Player_Attack))
+            if (OutWeapon.key == ObjectType.PlayerWeapon)
+                Damage(OutWeapon.damage, OutWeapon.criticalDamage, OutWeapon.transform.position);
     }
 
     private int trackingCount;
 
-    private void Damage(float InDamage, float InCriticalDamage, Vector2 player)
+    private void Damage(float InDamage, float InCriticalDamage, Vector2 InTarget)
     {
         if (isDie == true)
             return;
@@ -137,7 +138,7 @@ public class EnemyCharacter : Character
 
         isBattle = true;
 
-        StartCoroutine(ReTracking(player));
+        StartCoroutine(ReTracking(InTarget));
 
         if (isDamage == false)
         {
@@ -157,7 +158,7 @@ public class EnemyCharacter : Character
         {
             int RandomDropCount = Random.Range(1, 3);
 
-            Debug.Log(RandomDropCount);
+            //Debug.Log(RandomDropCount);
 
             for (int i = 0; i < RandomDropCount; i++)
             {
@@ -166,6 +167,12 @@ public class EnemyCharacter : Character
 
             Dead();
         }
+
+        GameObject atttackEffect = GameManager.SPAWN.StackAttackEffectSpwan();
+        atttackEffect.SetActive(true);
+
+        atttackEffect.transform.position =
+            new Vector2(InTarget.x, InTarget.y);
     }
 
     private void ObjectScan(Vector2 InEnemyScan)

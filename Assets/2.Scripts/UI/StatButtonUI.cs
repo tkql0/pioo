@@ -51,21 +51,21 @@ public class StatButtonUI : MonoBehaviour
         StatUpdate();
     }
 
-    void StackFishUIObject()
+    private void StackUIPool(GameObject InUIObject, Transform InBackGround, Stack<GameObject> InStack)
     {
-        if(uiPoolList.Count <= 0)
+        if(InStack.Count <= 0)
         {
-            GameObject _fish = Instantiate(fish, backGroundRect);
+            GameObject uiObject = Instantiate(InUIObject, InBackGround);
 
-            _fish.SetActive(false);
+            uiObject.SetActive(false);
 
-            uiPoolList.Push(_fish);
+            InStack.Push(uiObject);
         }
     }
 
-    public void Spawn()
+    public void PointUISpawn()
     {
-        StackFishUIObject();
+        StackUIPool(fish, backGroundRect, uiPoolList);
 
         GameObject choiceUI = uiPoolList.Pop();
 
@@ -79,7 +79,8 @@ public class StatButtonUI : MonoBehaviour
         float randomPositionX = Random.Range(-300, 300);
         float randomPositionY = Random.Range(-250, 250);
 
-        choiceUI.transform.position = new Vector2(backGroundRect.position.x + randomPositionX, backGroundRect.position.y + randomPositionY);
+        choiceUI.transform.position = new Vector2(backGroundRect.position.x +
+            randomPositionX, backGroundRect.position.y + randomPositionY);
 
         // 이미지가 스킬 포인트를 넘지않게 바꾸기
         // 버튼을 누를때 스킬 최소치랑 최대치 숫자 바뀌게 하고
@@ -276,6 +277,8 @@ public class StatButtonUI : MonoBehaviour
 
                     InPlayer.LvPoint -= statPoint;
                     statPoint = 0;
+
+                    ResultPointUISpawn(min , minStat, minPoint);
                     break;
                 }
             case 4:
@@ -288,6 +291,8 @@ public class StatButtonUI : MonoBehaviour
 
                 InPlayer.LvPoint -= statPoint;
                 statPoint = 0;
+
+                ResultPointUISpawn(max, maxStat, maxPoint);
                 break;
         }
         // statPoint에 따라 뼈물고기 이미지 랜덤한 위치 활성화
@@ -305,5 +310,72 @@ public class StatButtonUI : MonoBehaviour
             DeSpawn();
 
         StatResult(InStatPoint, InResultText);
+    }
+
+    public GameObject statPointPrefab;
+
+    public Transform minStat;
+    public Transform maxStat;
+
+    private Stack<GameObject> statPointList = new Stack<GameObject>();
+
+    private Stack<GameObject> minPoint = new Stack<GameObject>();
+    private Stack<GameObject> maxPoint = new Stack<GameObject>();
+
+    public void ResultPointUISpawn(float InResulStatPoint, Transform InResulStatTransform, Stack<GameObject> InStatPointList)
+    {
+        ResultPointUIDeSpawn(InStatPointList);
+        // InStatPointList에 있던 UIObject들을 statPointList로 되돌려 초기화
+
+        float spawnNumber = InResulStatPoint / 5;
+
+        for (int i = 0; i <= (int)spawnNumber; i++)
+        {
+            StackUIPool(statPointPrefab, InResulStatTransform, statPointList);
+            // 스택이 비어있는지 확인 후
+
+            GameObject choiceUI = statPointList.Pop();
+            // 오브젝트 반환
+
+            if (!choiceUI.TryGetComponent<StatPointImage>(out var OutStatPoint))
+            {
+                Debug.Log("이미지 비어있음");
+
+                return;
+            }
+
+            if(spawnNumber > 0)
+                choiceUI.SetActive(true);
+
+            int max = 5;
+
+            OutStatPoint.SetStatPointImage((StatPointImages)max);
+
+            if (i == (int)spawnNumber)
+            {
+                int Remainder = (int)(InResulStatPoint % 5);
+
+                OutStatPoint.SetStatPointImage((StatPointImages)Remainder);
+            }
+
+            InStatPointList.Push(choiceUI);
+            // 활성화된 오브젝트 저장
+        }
+    }
+
+    public void ResultPointUIDeSpawn(Stack<GameObject> InStatPointList)
+    {
+        if (InStatPointList.Count == 0)
+            return;
+
+        int returnCount = InStatPointList.Count;
+
+        for(int i = 0; i < returnCount; i++)
+        {
+            GameObject returnObject = InStatPointList.Pop();
+
+            returnObject.SetActive(false);
+            statPointList.Push(returnObject);
+        }
     }
 }

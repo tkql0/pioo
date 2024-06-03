@@ -14,12 +14,6 @@ public enum ObjectType
     Item_Fish,
 }
 
-public enum ItemType
-{
-    NULL,
-    Item_Fish,
-}
-
 public class ObjectController
 {
     public Player player;

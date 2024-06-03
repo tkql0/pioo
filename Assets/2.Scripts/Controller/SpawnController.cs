@@ -6,6 +6,8 @@ public class SpawnController
 {
     public SpawnObject spawnObject = null;
 
+    public Stack<GameObject> attackEffectObject = new Stack<GameObject>();
+
     public void OnEnable()
     {
         var load = Resources.Load<SpawnObject>(_objectPoolPrefab);
@@ -16,6 +18,18 @@ public class SpawnController
         spawnObject = GameObject.Instantiate(load);
 
         spawnObject.ObjectSpawnPool();
+    }
+
+    public GameObject StackAttackEffectSpwan()
+    {
+        spawnObject.StackAttackEffectPool();
+
+        return attackEffectObject.Pop();
+    }
+
+    public void StackAttackEffectDeSpwan(GameObject InDeSpawnEffect)
+    {
+        attackEffectObject.Push(InDeSpawnEffect);
     }
 
     public GameObject ItmeSpwan(Vector2 InTargetPosition, ObjectType InObjectType)

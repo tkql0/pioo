@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using System;
-using UnityEngine.InputSystem;
+//using UnityEngine.InputSystem;
 
 public class Player : Character
 {
@@ -360,7 +360,7 @@ public class Player : Character
         {
             int RandomDropCount = UnityEngine.Random.Range(1, 3);
 
-            Debug.Log(RandomDropCount);
+            //Debug.Log(RandomDropCount);
 
             for (int i = 0; i < RandomDropCount; i++)
             {

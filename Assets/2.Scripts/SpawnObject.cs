@@ -164,6 +164,21 @@ public class SpawnObject : MonoBehaviour
     //    }
     //}
 
+    [SerializeField]
+    private GameObject AttackEffect;
+
+    public void StackAttackEffectPool()
+    {
+        if(GameManager.SPAWN.attackEffectObject.Count <= 0)
+        {
+            GameObject _attackEffect = Instantiate(AttackEffect, transform);
+
+            _attackEffect.SetActive(false);
+
+            GameManager.SPAWN.attackEffectObject.Push(_attackEffect);
+        }
+    }
+
     public GameObject GetPrefabObject(string InPrefabObject)
     {
         GameObject prefabObject = Resources.Load<GameObject>(InPrefabObject);

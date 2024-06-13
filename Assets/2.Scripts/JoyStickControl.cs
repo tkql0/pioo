@@ -32,7 +32,7 @@ public class JoyStickControl : MonoBehaviour, IPointerDownHandler, IDragHandler,
     {
         backGroundRect = gameObject.GetComponent<RectTransform>();
         // 클릭할 때 클릭한 곳 좌표의 보정을 위해 사용
-        range = backGroundRect.rect.width * 0.5f;
+        range = backGroundRect.rect.width * 0.35f;
         // 조이스틱이 움직일 범위를 백그라운드 크기의 반으로 설정(반지름)
         // 원하는 크기로 변경가능
         // 이러면 백그라운드가 없더라도 백그라운드 크기 만큼 조절 되겠네

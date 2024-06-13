@@ -27,6 +27,9 @@ public class StatPointImage : MonoBehaviour
     {
         switch (InImages)
         {
+            case StatPointImages.Empty:
+               gameObject.SetActive(false);
+                break;
             case StatPointImages.Stack1:
                 statPointImage.sprite = statPoint[1];
                 break;

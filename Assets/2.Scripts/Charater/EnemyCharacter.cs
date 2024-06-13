@@ -31,7 +31,7 @@ public class EnemyCharacter : Character
 
     private Vector2 _scanPosition => _scanObject.transform.position;
 
-    public bool Angry;
+    public bool isAngry;
     // 플레이어가 먼저 공격하기 전엔 공격을 안하는 몬스터와
     // 선제 공격을 하는 몬스터를 구분할 bool값
 
@@ -50,6 +50,11 @@ public class EnemyCharacter : Character
     {
         if (_characterData == null)
             return;
+
+        int angry = Random.Range(0, 2);
+        giftCount = Random.Range(0, 2);
+
+        isAngry = angry != 0 ? true : false;
 
         _scanObject.transform.localScale = _scanObjectBaseScale;
 
@@ -121,7 +126,8 @@ public class EnemyCharacter : Character
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.TryGetComponent<Player>(out var OutPlayer))
-            Damage(OutPlayer.playerDamage, OutPlayer.playerCriticalDamage, OutPlayer.transform.position);
+            if(isAngry)
+                Damage(OutPlayer.playerDamage, OutPlayer.playerCriticalDamage, OutPlayer.transform.position);
         else if (collision.TryGetComponent<Weapon>(out var OutWeapon) && collision.CompareTag(Player_Attack))
             if (OutWeapon.key == ObjectType.PlayerWeapon)
                 Damage(OutWeapon.damage, OutWeapon.criticalDamage, OutWeapon.transform.position);
@@ -137,6 +143,10 @@ public class EnemyCharacter : Character
         trackingCount = 0;
 
         isBattle = true;
+        // 전투모드 bool값
+
+        isAngry = true;
+        // 선제모드 bool값
 
         StartCoroutine(ReTracking(InTarget));
 
@@ -175,6 +185,8 @@ public class EnemyCharacter : Character
             new Vector2(InTarget.x, InTarget.y);
     }
 
+    int giftCount;
+
     private void ObjectScan(Vector2 InEnemyScan)
     {
         coolTimeMax = 3f;
@@ -211,6 +223,20 @@ public class EnemyCharacter : Character
 
     private void Attack(Vector2 InTargetPosition)
     {
+        if (!isAngry)
+        {
+            int RandomDropCount = Random.Range(0, giftCount);
+
+            for (int i = 0; i < RandomDropCount; i++)
+            {
+                GameManager.SPAWN.ItmeSpwan(characterObject.transform.position, ObjectType.Item_Fish);
+            }
+
+            giftCount = 0;
+
+            return;
+        }
+
         if (_weaponCurCount == 0)
         {
             StartCoroutine(ReLoad());

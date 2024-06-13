@@ -24,4 +24,6 @@ public class CameraResolution : MonoBehaviour
         }
         camera.rect = rect;
     }
+
+    void OnPreCull() => GL.Clear(true, true, Color.black);
 }

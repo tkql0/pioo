@@ -28,27 +28,11 @@ public class Player : Character
 
     public bool isSwimming;
     private bool _isJump;
-    // 플레이어가 점프를 하는 구간
     private bool _isBreath;
-    // 플레이어가 숨을 쉬는 구간
-    //private bool _isEat;
     private bool _isCharging = false;
 
     public bool _isSwimmingJump;
-    // 버튼이 눌렸을때 Player는 position.y가 0을 넘지 못함
-    // 그리고 버튼을 누르고 있는 동안 중력이 0되고 공격을 하지 못함
-    // Position.y가 0이면 호흡게이지가 초기화됨
-
-    // 버튼을 누르지 않았을때 position.y가 0을 넘으면 rigid.velocity만큼 점프함
-    // Position.y가 0이상이려도 호흡게이지가 초기화되지 않고
-    // 줄어든 호흡 게이지만큼 공격 가능
-
-    // 해당 방법으로 만들면 실린더를 사용해서 어색하게 만들 필요없이
-    // 체력은 하트 호흡게이지는 물방울 모양으로 만들 수 있을거 같다 생각함
     public bool _isRun;
-    // 버튼을 눌렀다면 Player의 속도가 최대 가속도 까지 늘어남
-
-    // 모바일은 키보드가 없기 때문에 기능이 간편해야 된다 생각함
 
     public bool isLv_up;
 
@@ -63,8 +47,6 @@ public class Player : Character
 
     public int fishItemCount = 0;
     public int fishItemMaxCount;
-    //public int fishEatCount = 1;
-
 
     float DigestionDelay = 20f;
     public float DigestionTime = 0f;
@@ -84,8 +66,6 @@ public class Player : Character
 
     private float _drownTime = 0f;
     private float _drownCoolTime = 2f;
-
-    // 너무 많네 나중에 스크립트 나눠놔야겠다
 
     public void OnEnable()
     {
@@ -116,6 +96,9 @@ public class Player : Character
 
     private void Update()
     {
+        if (GameManager.UI._isStart)
+            return;
+
         playerPosition = transform.position;
 
         playerPosition.y = Mathf.Clamp(playerPosition.y, -38f, 40f);
@@ -353,12 +336,9 @@ public class Player : Character
     {
         isDamage = true;
 
-        curHealth -= InDamage;
-        OnPlayerHP?.Invoke();
-
         if(fishItemCount >= 2)
-        {
-            int RandomDropCount = UnityEngine.Random.Range(1, 3);
+        { // 수중에 물고기가 있다면 먼저 드랍되고
+            int RandomDropCount = UnityEngine.Random.Range(0, 3);
 
             //Debug.Log(RandomDropCount);
 
@@ -369,7 +349,11 @@ public class Player : Character
 
             fishItemCount -= RandomDropCount;
         }
-        // 무기 공격에만 반응하기
+        else
+        { // 없다면 데미지를 입음
+            curHealth -= InDamage;
+            OnPlayerHP?.Invoke();
+        }
 
         if (curHealth <= 0 && !isDie)
         {
